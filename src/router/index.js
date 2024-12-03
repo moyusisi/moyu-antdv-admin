@@ -5,7 +5,7 @@ import whiteListRouters from './whiteList'
 export const constantRoutes = [
   {
     path: '',
-    // component: () => import('@/view/hello/HelloWorld.vue'),
+    component: () => import('@/views/hello/HelloWorld.vue'),
     hidden: true
   }
 ]
