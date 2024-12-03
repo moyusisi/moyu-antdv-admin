@@ -1,15 +1,25 @@
 {
-  "name": "vue",
+  "name": "moyu-antdv-admin",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "基于Antdv4+Vue3+Vite6.0",
+  "author": "moyusisi",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "serve": "vite --host 0.0.0.0",
+    "dev": "vite --mode dev --host 0.0.0.0",
+    "preview": "vite preview",
+    "build": "vite build --mode prod",
+    "prod": "vite  --mode prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moyusisi/moyu-antdv-admin.git"
   },
   "dependencies": {
     "ant-design-vue": "^4.2.6",
+    "axios": "^1.7.8",
+    "nprogress": "^0.2.0",
     "pinia": "^2.2.8",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -17,5 +27,8 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "vite": "^6.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
