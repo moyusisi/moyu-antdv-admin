@@ -1,7 +1,9 @@
+import { RouteRecordRaw } from "vue-router";
+
 /**
  * 路由白名单
  */
-const constRouters = [
+const constRouters: RouteRecordRaw[] = [
   {
     path: '/findpwd'
   },
