@@ -16,7 +16,12 @@ export default defineConfig(({ mode }): UserConfig => {
       alias
     },
     server: {
+      // 允许IP访问
+      host: "0.0.0.0",
+      // 应用端口 (默认:3000)
       port: Number(env.VITE_PORT),
+      // 运行是否自动打开浏览器
+      open: true,
       proxy: {
         '/api': {
           target: env.VITE_API_BASEURL,
