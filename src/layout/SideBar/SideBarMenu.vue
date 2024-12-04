@@ -17,7 +17,7 @@
       <template v-if="menu.meta.icon">
         <component :is="menu.meta.icon"/>
       </template>
-      <SideBarMenu :nav-menus="menu.children"/>
+      <SideBarMenu :menu-list="menu.children"/>
     </a-sub-menu>
   </template>
 </template>
