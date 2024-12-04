@@ -22,7 +22,7 @@ const DEFAULT_CONFIG = {
   REQUEST_CACHE: false,
 
   // 布局 经典：classical，顶栏菜单：top
-  MOYU_LAYOUT: 'classical',
+  MOYU_LAYOUT: 'classic',
 
   // 是否开启多标签
   MOYU_LAYOUT_TAGS_OPEN: true,

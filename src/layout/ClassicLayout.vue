@@ -1,16 +1,7 @@
 <template>
   <a-layout>
     <!--  左侧侧边栏  -->
-    <side-bar>
-
-    </side-bar>
-    <a-layout-sider
-        :collapsed="menuCollapse"
-        :trigger="null"
-        collapsible
-        width="210"
-    >
-    </a-layout-sider>
+    <Sidebar/>
     <!-- 右侧布局 -->
     <a-layout>
     </a-layout>
@@ -18,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+import Sidebar from "@/layout/SideBar/index.vue";
 
 const props = defineProps({
   layout: { type: String }, // 布局信息
@@ -38,9 +30,6 @@ const onSelect = (obj) => {
 const onOpenChange = (keys) => {
   emit('onOpenChange', keys)
 }
-// const menuCollapseClick = () => {
-//   emit('menuCollapseClick')
-// }
 </script>
 
 <style scoped>

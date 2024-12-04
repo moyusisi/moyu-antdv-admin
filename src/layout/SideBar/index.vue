@@ -1,30 +1,12 @@
 <!-- 侧边栏 -->
 <template>
-  <a-layout-sider
-      :collapsed="menuCollapse"
-      :trigger="null"
-      collapsible
-      width="210"
-  >
-    <header id="snowyHeaderLogo" class="snowy-header-logo">
-      <div class="snowy-header-left">
-        <div class="logo-bar">
-          <img class="logo" :src="sysBaseConfig.SYS_BASE_CONFIG" />
-          <span>{{ sysBaseConfig.SYS_BASE_CONFIG }}</span>
-        </div>
-      </div>
-    </header>
-    <div :class="menuCollapse ? 'admin-ui-side isCollapse' : 'admin-ui-side'">
+  <a-layout-sider :collapsed="sidebarCollapse" :trigger="null" collapsible width="210">
+    <!-- 侧边栏logo区 -->
+    <SidebarLogo v-if="sidebarLogo" :collapse="sidebarCollapse"/>
+    <!-- 侧边栏menu区   -->
+    <div :class="sidebarCollapse ? 'admin-ui-side isCollapse' : 'admin-ui-side'">
       <div class="admin-ui-side-scroll">
-        <a-menu
-            v-bind:openKeys="openKeys"
-            v-bind:selectedKeys="selectedKeys"
-            mode="inline"
-            @select="onSelect"
-            @openChange="onOpenChange"
-        >
-          <SideBarMenu :menu-list="menuList" />
-        </a-menu>
+        <SideBarMenu :menu-list="[]"/>
       </div>
     </div>
   </a-layout-sider>
@@ -32,14 +14,19 @@
 
 <script setup lang="ts">
 
-import SideBarMenu from "@/layout/SideBar/SideBarMenu.vue";
+import { computed } from "vue"
+import SideBarMenu from "@/layout/SideBar/SideBarMenu.vue"
+import { useSettingsStore } from "@/store/settings.ts"
+
+const settingsStore = useSettingsStore();
+
+const sidebarLogo = computed(() => settingsStore.sidebarLogo);
+const sidebarCollapse = computed(() => settingsStore.sidebarCollapse);
+
 
 const props = defineProps({
-  menuCollapse: { type: Boolean }, // 菜单是否折叠
-  sysBaseConfig: { type: Object },
   openKeys: { type: Array },
   selectedKeys: { type: Array },
-  menuList: { type: Array }, // 菜单
 })
 
 const emit = defineEmits(['onSelect', 'onOpenChange', 'switchModule', 'menuCollapseClick'])

@@ -17,8 +17,6 @@ export const useSettingsStore
   const themeColor = ref(defaultSettings.themeColor)
   // 布局大小
   const themeSize = ref(defaultSettings.themeSize)
-  // 是否显示设置
-  const showSettings = ref(defaultSettings.showSettings)
   // 多标签栏
   const tagsView = ref(defaultSettings.tagsView)
   // 是否展示面包屑
@@ -49,9 +47,6 @@ export const useSettingsStore
 
   const toggle = (key) => {
     switch (key) {
-      case 'showSettings':
-        showSettings.value = !showSettings.value
-        break
       case 'tagsView':
         tagsView.value = !tagsView.value
         break
@@ -76,7 +71,6 @@ export const useSettingsStore
     theme,
     themeColor,
     themeSize,
-    showSettings,
     tagsView,
     breadcrumb,
     sidebarLogo,
