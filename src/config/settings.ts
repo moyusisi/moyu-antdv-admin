@@ -2,20 +2,32 @@
  * 系统默认配置
  */
 const defaultSettings: AppSettings = {
-  title: "moyu-antdv-admin",  // 标题
+  /** 系统标题 */
+  title: "moyu-antdv-admin",
+  /** 系统版本 */
   version: "1.0.0",
+  /** 是否显示设置 */
   showSettings: true,
+  /** 是否固定头部 */
+  fixedHeader: false,
+  /** 是否显示多标签导航 */
   tagsView: true,
-  fixedHeader: false,  // 固定 Header
-  sidebarLogo: true,   // 侧边栏logo
-  layout: "classic",   // 整体布局方式 ['classic', 'topmenu'] 两种布局
+  /** 是否开启面包屑 */
+  breadcrumb: false,
+  /** 是否显示侧边栏Logo */
+  sidebarLogo: true,
+  /** 是否折叠侧边栏 */
+  sidebarCollapse: false,
+  /** 导航栏布局(classic|top|mix) */
+  layout: "classic",
+  /** 主题模式(dark|light) */
   theme: "light",
-  size: "default",
-  language: "zh-cn",
-  themeColor: "#409EFF",    // 默认主题色, 如果修改颜色不生效，请清理 localStorage
-  watermarkEnabled: false,  // 水印
-  watermarkContent: "moyusisi",
+  /** 主题颜色 */
+  themeColor: "#409EFF",
+  /** 布局大小(default |large |small) */
+  themeSize: "default",
+  /** 是否开启水印 */
+  watermark: false
+}
 
-};
-
-export default defaultSettings;
+export default defaultSettings

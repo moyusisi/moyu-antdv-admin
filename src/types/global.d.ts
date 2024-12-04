@@ -53,22 +53,22 @@ declare global {
     fixedHeader: boolean;
     /** 是否显示多标签导航 */
     tagsView: boolean;
+    /** 是否开启面包屑 */
+    breadcrumb: boolean,
     /** 是否显示侧边栏Logo */
     sidebarLogo: boolean;
-    /** 导航栏布局(left|top|mix) */
+    /** 是否折叠侧边栏 */
+    sidebarCollapse: boolean;
+    /** 导航栏布局(classic|top|mix) */
     layout: string;
-    /** 主题颜色 */
-    themeColor: string;
     /** 主题模式(dark|light) */
     theme: string;
+    /** 主题颜色 */
+    themeColor: string;
     /** 布局大小(default |large |small) */
-    size: string;
-    /** 语言( zh-cn| en) */
-    language: string;
+    themeSize: string;
     /** 是否开启水印 */
-    watermarkEnabled: boolean;
-    /** 水印内容 */
-    watermarkContent: string;
+    watermark: boolean;
   }
 
   /**
