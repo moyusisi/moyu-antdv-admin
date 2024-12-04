@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider theme="{{''}}">
+  <a-config-provider>
     <a-app id="app" class="app">
       <router-view />
     </a-app>
