@@ -6,8 +6,7 @@
   </a-config-provider>
 </template>
 
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
+<script setup lang="ts">
 </script>
 
 <style scoped>
