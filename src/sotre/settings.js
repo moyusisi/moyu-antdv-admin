@@ -3,12 +3,10 @@ import { defineStore } from "pinia"
 import config from "@/config"
 
 
-export const useGlobalStore
-  = defineStore('global', () => {
+export const useSettingsStore
+  = defineStore('settings', () => {
 
   // 定义state
-  // 用户信息
-  const userInfo = ref({})
   // 移动端布局
   const isMobile = ref(false)
   // 布局
@@ -37,9 +35,6 @@ export const useGlobalStore
   const sysBaseConfig = ref(config.SYS_BASE_CONFIG)
 
   // 定义action
-  const setUserInfo = (key) => {
-    userInfo.value = key
-  }
   const setIsMobile = (key) => {
     isMobile.value = key
   }
@@ -85,7 +80,6 @@ export const useGlobalStore
   }
 
   return {
-    userInfo,
     isMobile,
     layout,
     layoutTagsOpen,
@@ -100,7 +94,6 @@ export const useGlobalStore
     formStyle,
     sysBaseConfig,
 
-    setUserInfo,
     toggleConfig,
     setIsMobile,
     setLayout,
