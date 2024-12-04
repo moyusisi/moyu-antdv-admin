@@ -83,6 +83,7 @@ export const useGlobalStore
   const setSysBaseConfig = (key) => {
     sysBaseConfig.value = key
   }
+
   return {
     userInfo,
     isMobile,
@@ -100,11 +101,11 @@ export const useGlobalStore
     sysBaseConfig,
 
     setUserInfo,
+    toggleConfig,
     setIsMobile,
     setLayout,
     setTheme,
     setThemeColor,
-    toggleConfig,
     setFormStyle,
     setSysBaseConfig
   }
