@@ -1,11 +1,11 @@
 <!-- 侧边栏菜单 -->
 <template>
-  <div v-if="menus.length <= 0" class="xn-pd20">
+  <div v-if="menuList.length <= 0" class="xn-pd20">
     <a-alert message="无任何菜单" type="info" :closable="false"/>
   </div>
-  <template v-for="menu in menus" :key="menu">
+  <template v-for="menu in menuList" :key="menu">
     <!-- 没有子菜单 -->
-    <a-menu-item v-if="!hasChildren(menu) & !isHidden(menu)" :key="menu.path">
+    <a-menu-item v-if="!hasChildren(menu) && !isHidden(menu)" :key="menu.path">
       <template v-if="menu.meta.icon">
         <component :is="menu.meta.icon"/>
       </template>
@@ -13,7 +13,7 @@
       <a v-else>{{ menu.meta.title }}</a>
     </a-menu-item>
     <!-- 有子菜单 -->
-    <a-sub-menu v-else-if="!isHidden(menu)" :key="menu.path" :title="menu.meta.title">
+    <a-sub-menu v-else-if="!isHidden(menu)" :title="menu.meta.title">
       <template v-if="menu.meta.icon">
         <component :is="menu.meta.icon"/>
       </template>
@@ -25,10 +25,11 @@
 <script setup lang="ts">
 
 const props = defineProps({
-  menus: {
-    type: Array,
-    default: () => []
-  }
+  menuList: {
+    type: Array<any>,
+    default: () => [],
+    required: true
+  },
 })
 
 // 是否有子元素
