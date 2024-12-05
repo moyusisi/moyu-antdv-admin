@@ -34,10 +34,10 @@ export const constantRoutes: RouteRecordRaw[] = [
     path: '/layout',
     name: 'ClassicLayout',
     component: ClassicLayout,
-    redirect: '/hello',
+    redirect: '/layout/hello',
     children: [
       {
-        path: '/hello',
+        path: 'hello',
         component: () => import('@/views/hello/HelloWorld.vue'),
         name: 'Hello',
         meta: {
