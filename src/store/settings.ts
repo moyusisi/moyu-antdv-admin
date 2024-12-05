@@ -4,7 +4,7 @@ import defaultSettings from "@/config/settings.ts";
 
 
 export const useSettingsStore
-  = defineStore('settings', () => {
+  = defineStore('settingsStore', () => {
 
   // 定义state
   // 移动端布局

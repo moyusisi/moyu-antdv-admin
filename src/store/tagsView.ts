@@ -1,9 +1,13 @@
 import { ref } from "vue"
 import { defineStore } from "pinia"
-import config from "@/config"
 
 
 export const useTagsViewStore
-  = defineStore('tagsView', () => {
+  = defineStore('tagsViewStore', () => {
+
+  // 定义state
+  const userInfo = ref(null)
+
+  // 定义action
 
 })

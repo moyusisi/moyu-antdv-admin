@@ -3,7 +3,7 @@ import { defineStore } from "pinia"
 
 
 export const useUserStore
-  = defineStore('user', () => {
+  = defineStore('userStore', () => {
 
   // 定义state
   const userInfo = ref({
