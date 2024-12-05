@@ -23,25 +23,6 @@ const settingsStore = useSettingsStore();
 const sidebarLogo = computed(() => settingsStore.sidebarLogo);
 const sidebarCollapse = computed(() => settingsStore.sidebarCollapse);
 
-
-const props = defineProps({
-  openKeys: { type: Array },
-  selectedKeys: { type: Array },
-})
-
-const emit = defineEmits(['onSelect', 'onOpenChange', 'switchModule', 'menuCollapseClick'])
-const onSelect = (obj) => {
-  emit('onSelect', obj)
-}
-const onOpenChange = (keys) => {
-  emit('onOpenChange', keys)
-}
-const switchModule = (id) => {
-  emit('switchModule', id)
-}
-const menuCollapseClick = () => {
-  emit('menuCollapseClick')
-}
 </script>
 
 <style scoped>
