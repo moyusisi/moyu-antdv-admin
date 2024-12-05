@@ -14,6 +14,7 @@ export const useMenuStore
   // 加载菜单
   const loadMenu = () => {
     routes.value = constantRoutes
+    console.log('loadMenu')
   }
 
   return {

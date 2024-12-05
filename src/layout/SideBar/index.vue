@@ -13,8 +13,7 @@
 </template>
 
 <script setup lang="ts">
-
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import SideBarMenu from '@/layout/SideBar/SideBarMenu.vue'
 import { useSettingsStore } from '@/store/settings.ts'
 import { useMenuStore } from '@/store/menu.ts'
@@ -25,6 +24,11 @@ const menuStore = useMenuStore();
 const sidebarLogo = computed(() => settingsStore.sidebarLogo);
 const sidebarCollapse = computed(() => settingsStore.sidebarCollapse);
 const menuList = computed(() => menuStore.routes);
+
+onMounted(() => {
+  console.log("SideBar onMounted")
+  menuStore.loadMenu()
+})
 
 </script>
 

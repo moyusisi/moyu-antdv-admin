@@ -1,43 +1,51 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import whiteListRouters from './whiteList.ts'
-import ClassicLayout from '@/layout/ClassicLayout.vue';
+import ClassicLayout from '@/layout/ClassicLayout.vue'
 
 // 公共路由
 export const constantRoutes: RouteRecordRaw[] = [
   {
-    path: '',
-    name: 'Home',
-    component: () => import('@/views/hello/Test.vue'),
-    redirect: '/home',
-    meta: {
-      title: '首页'
-    },
-    children: []
-  },
-  {
     path: '/test',
     component: () => import('@/views/hello/Test.vue'),
-  },
-  {
-    path: '/index',
-    component: () => import('@/views/hello/HelloWorld.vue'),
     meta: { hidden: true }
+  },
+
+  {
+    path: '/',
+    name: '/',
+    component: ClassicLayout,
+    redirect: '/home',
+    children: [
+      {
+        path: 'home',
+        component: () => import('@/views/hello/HelloWorld.vue'),
+        name: 'Home',
+        meta: {
+          title: 'Home',
+          icon: 'homepage',
+          affix: true,
+          keepAlive: true,
+          alwaysShow: false
+        }
+      }
+    ]
   },
   {
     path: '/layout',
     name: 'ClassicLayout',
     component: ClassicLayout,
+    redirect: '/hello',
     children: [
       {
-        path: "/hello",
+        path: '/hello',
         component: () => import('@/views/hello/HelloWorld.vue'),
-        name: "Hello",
+        name: 'Hello',
         meta: {
-          title: "Hello",
-          icon: "homepage",
+          title: 'Hello',
+          icon: 'homepage',
           affix: true,
           keepAlive: true,
-          alwaysShow: false,
+          alwaysShow: false
         }
       }
     ]

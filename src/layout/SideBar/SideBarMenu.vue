@@ -53,7 +53,7 @@ const hasChildren = (item) => {
 
 // 是否隐藏
 const isHidden = (item) => {
-  if (item.meta.hidden === true) {
+  if (item.meta && item.meta.hidden === true) {
     return true
   }
   // 为空跟false，都会显示
