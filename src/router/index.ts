@@ -5,6 +5,16 @@ import ClassicLayout from '@/layout/ClassicLayout.vue';
 // 公共路由
 export const constantRoutes: RouteRecordRaw[] = [
   {
+    path: '',
+    name: 'Home',
+    component: () => import('@/views/hello/Test.vue'),
+    redirect: '/home',
+    meta: {
+      title: '首页'
+    },
+    children: []
+  },
+  {
     path: '/test',
     component: () => import('@/views/hello/Test.vue'),
   },
