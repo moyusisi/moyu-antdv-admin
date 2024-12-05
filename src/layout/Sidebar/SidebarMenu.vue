@@ -18,7 +18,7 @@
         <template v-if="menu.meta.icon">
           <component :is="menu.meta.icon"/>
         </template>
-        <SideBarMenu :menu-list="menu.children"/>
+        <SidebarMenu :menu-list="menu.children"/>
       </a-sub-menu>
     </template>
   </a-menu>
@@ -26,7 +26,6 @@
 </template>
 
 <script setup lang="ts">
-import SideBarMenu from "@/layout/SideBar/SideBarMenu.vue"
 
 const props = defineProps({
   openKeys: { type: Array, default: () => [] },

@@ -18,6 +18,7 @@ import { ref } from "vue";
 import defaultSettings from "@/config/settings.ts";
 import { useSettingsStore } from "@/store/settings.ts";
 
+const logo = ref(new URL(`@/assets/vue.svg`, import.meta.url).href);
 const settingsStore = useSettingsStore();
 
 defineProps({
@@ -27,39 +28,8 @@ defineProps({
   },
 });
 
-const logo = ref(new URL(`@/assets/logo.png`, import.meta.url).href);
 </script>
 
-<style lang="scss" scoped>
-.logo-container {
-  width: 100%;
-  height: $navbar-height;
-  background-color: $sidebar-logo-background;
+<style lang="css" scoped>
 
-  .logo-image {
-    width: 20px;
-    height: 20px;
-  }
-
-  .logo-title {
-    flex-shrink: 0; /* 防止容器在空间不足时缩小 */
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-  }
-}
-
-.layout-top,
-.layout-mix {
-  .logo-container {
-    width: $sidebar-width;
-  }
-
-  &.hideSidebar {
-    .logo-container {
-      width: $sidebar-width-collapsed;
-    }
-  }
-}
 </style>
