@@ -42,7 +42,7 @@ export default defineConfig(({ mode }): UserConfig => {
       viteMockServe({
         // 模拟数据的配置
         mockPath: 'mock',
-        enable: true,
+        enable: mode === 'dev',
       }),
       viteCompression(),
       vueSetupExtend(),
