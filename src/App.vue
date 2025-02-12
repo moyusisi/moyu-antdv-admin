@@ -11,9 +11,8 @@
 
 <style scoped>
 .app {
-  /* overflow: hidden; */
   overflow: auto;
   border: none;
-  /* background: #F6F7F8; */
+  background: #F6F7F8;
 }
 </style>

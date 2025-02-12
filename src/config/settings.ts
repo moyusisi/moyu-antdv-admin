@@ -7,7 +7,7 @@ const defaultSettings = {
   // 默认logo
   logo: '/img/logo.png',
   // 版本
-  version: "v3.2.0",
+  version: "v1.1.0",
   // 版权
   copyright: 'MY ©2025 Created by my',
   // 语言
