@@ -32,7 +32,7 @@ export default defineConfig(({ mode }): UserConfig => {
           target: env.VITE_API_BASEURL,
           ws: false,
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, '')
+          // rewrite: (path) => path.replace(/^\/api/, '')
         }
       }
     },
