@@ -17,10 +17,10 @@
 					</div>
 					<a-tabs v-model:activeKey="activeKey">
 						<a-tab-pane key="userAccount" tab="账号密码">
-							<a-form ref="loginForm" :model="loginFormData">
+							<a-form ref="loginForm" :model="formData">
 								<a-form-item name="account">
 									<a-input
-										v-model:value="loginFormData.account"
+										v-model:value="formData.account"
 										placeholder="请输入账号"
 										size="large"
 										@keyup.enter="login"
@@ -32,7 +32,7 @@
 								</a-form-item>
 								<a-form-item name="password">
 									<a-input-password
-										v-model:value="loginFormData.password"
+										v-model:value="formData.password"
 										placeholder="请输入密码"
 										size="large"
 										autocomplete="off"
@@ -59,12 +59,14 @@
 <script setup>
 	import loginApi from '@/api/auth/loginApi'
 	import settings from '@/config/settings'
+  import { useUserStore } from "@/store"
   import { message } from "ant-design-vue";
 
+  const userStore = useUserStore()
 	const activeKey = ref('userAccount')
 	const loading = ref(false)
 
-	const loginFormData = ref({
+	const formData = ref({
 		account: 'superAdmin',
 		password: '123456',
 		validCode: '',
@@ -78,20 +80,17 @@
 		loginForm.value.validate().then(async () => {
 				loading.value = true
 				const loginData = {
-					account: loginFormData.account,
-					password: loginFormData.password,
-					validCode: loginFormData.validCode,
-					validCodeReqNo: loginFormData.validCodeReqNo
+					account: formData.account,
+					password: formData.password,
+					validCode: formData.validCode,
+					validCodeReqNo: formData.validCodeReqNo
 				}
 				// 获取token
 				try {
 					const res = await loginApi.login(loginData)
-					localStorage.set('TOKEN', res.data)
+					localStorage.setItem('TOKEN', res.data)
           // 初始化用户信息
-          // await userStore().initUserInfo()
-          // 初始化菜单信息
-          // await menuStore.initModuleMenu()
-
+          await userStore().initUserInfo()
           message.success('登录成功')
           await router.replace({ path: "/" })
 				} catch (err) {
