@@ -1,6 +1,7 @@
 # moyu-antdv-admin
 
-基于 Vue3 + Vite6 + Pinia + Ant Design Vue 4 等技术栈构建的管理后台前端模板
+`moyu-adntdv-admin`是一个使用antdv组件的前端管理系统。
+使用前端技术栈有 Vue3 + Vite6 + TypeScript5 + Vue Router + Pinia + Ant Design Vue 4 等
 
 ## 启动项目
 
