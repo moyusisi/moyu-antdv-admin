@@ -1,5 +1,10 @@
 import { defineConfig, loadEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import VueJSX from '@vitejs/plugin-vue-jsx'
+import AutoImport from 'unplugin-auto-import/vite'
+import vueSetupExtend from 'vite-plugin-vue-setup-extend'
+import viteCompression from 'vite-plugin-compression'
+import { viteMockServe } from "vite-plugin-mock"
 import { resolve } from 'path'
 
 export const r = (...args) => resolve(__dirname, '.', ...args)
@@ -32,7 +37,22 @@ export default defineConfig(({ mode }): UserConfig => {
       }
     },
     plugins: [
-      vue()
+      vue(),
+      viteMockServe({
+        // 模拟数据的配置
+        mockPath: 'mock',
+        enable: true,
+      }),
+      viteCompression(),
+      vueSetupExtend(),
+      VueJSX(),
+      // 自动导入参考： https://github.com/sxzz/element-plus-best-practices/blob/main/vite.config.ts
+      AutoImport({
+        // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
+        imports: ["vue", "vue-router", "pinia", "@vueuse/core", "vue-i18n"],
+        // 配置文件生成位置(false:关闭自动生成)
+        dts: "src/types/auto-imports.d.ts",
+      })
     ]
   }
 })
