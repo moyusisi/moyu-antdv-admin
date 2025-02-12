@@ -6,7 +6,7 @@ import App from './App.vue'
 
 // style
 import 'ant-design-vue/dist/reset.css'
-import '@/style/index.css'
+import '@/style/style.css'
 
 const app = createApp(App);
 app.use(createPinia())
