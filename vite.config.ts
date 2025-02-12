@@ -30,6 +30,7 @@ export default defineConfig(({ mode }): UserConfig => {
       proxy: {
         '/api': {
           target: env.VITE_API_BASEURL,
+          // target: 'http://127.0.0.1:8080',
           ws: false,
           changeOrigin: true,
           // rewrite: (path) => path.replace(/^\/api/, '')
