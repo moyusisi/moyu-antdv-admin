@@ -59,8 +59,10 @@
 <script setup>
 	import loginApi from '@/api/auth/loginApi'
 	import settings from '@/config/settings'
+  import router from "@/router"
   import { useUserStore } from "@/store"
-  import { message } from "ant-design-vue";
+
+  import { message } from "ant-design-vue"
 
   const userStore = useUserStore()
 	const activeKey = ref('userAccount')
@@ -90,7 +92,7 @@
 					const res = await loginApi.login(loginData)
 					localStorage.setItem('TOKEN', res.data)
           // 初始化用户信息
-          await userStore().initUserInfo()
+          await userStore.initUserInfo()
           message.success('登录成功')
           await router.replace({ path: "/" })
 				} catch (err) {
