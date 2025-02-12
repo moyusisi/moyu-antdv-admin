@@ -70,7 +70,7 @@
 
 	const formData = ref({
 		account: 'superAdmin',
-		password: '123456',
+		password: 'qwer@123!',
 		validCode: '',
 		validCodeReqNo: '',
 		autologin: false
