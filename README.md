@@ -1,6 +1,6 @@
 # moyu-antdv-admin
 
-`moyu-adntdv-admin`是一个使用antdv组件的前端管理系统。
+`moyu-adntdv-admin`是一个使用antdv组件的前端管理系统。 
 使用前端技术栈有 Vue3 + Vite6 + TypeScript5 + Vue Router + Pinia + Ant Design Vue 4 等
 
 ## 启动项目
@@ -26,7 +26,7 @@ npm run dev
 
 ```bash
 # 安装npm-check-updates
-npm install -g npm-check-updates
+npm install -g npm-check-updates --registry=https://registry.npmmirror.com
 
 # 检查更新
 ncu --registry=https://registry.npmmirror.com
