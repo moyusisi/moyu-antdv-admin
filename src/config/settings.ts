@@ -31,10 +31,6 @@ const defaultSettings = {
 
   // 接口地址
   API_URL: import.meta.env.VITE_API_BASEURL,
-  // 请求超时
-  TIMEOUT: 60000,
-  // TokenName // Authorization
-  TOKEN_NAME: 'Authorization',
   // Token前缀，注意最后有个空格，如不需要需设置空字符串 // Bearer
   TOKEN_PREFIX: 'Bearer ',
 
