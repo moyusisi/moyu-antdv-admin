@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import whiteListRouters from './whiteList.ts'
 import ClassicLayout from '@/layout/ClassicLayout.vue'
 
 // 公共路由
@@ -53,7 +52,7 @@ export const constantRoutes: RouteRecordRaw[] = [
 ]
 
 
-const routes = [...constantRoutes, ...whiteListRouters]
+const routes = [...constantRoutes]
 
 const router = createRouter({
   history: createWebHistory(),
