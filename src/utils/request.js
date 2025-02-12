@@ -1,5 +1,5 @@
 // 统一的请求发送
-import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import { Modal, message } from 'ant-design-vue'
 import settings from '@/config/settings'
 

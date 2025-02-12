@@ -139,7 +139,7 @@ export default [
           "component": "",
           "meta": {
             "icon": "appstore-add-outlined",
-            "title": "系统功能",
+            "title": "系统功能Mock",
             "type": 1
           },
           "children": [

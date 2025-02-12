@@ -14,6 +14,17 @@ const routes = [
 		path: '/404',
 		component: () => import('@/views/other/404.vue'),
 		meta: { hidden: true }
+	},
+	{
+		path: '/login',
+		name: 'Login',
+		component: () => import('@/views/auth/login/login.vue'),
+		meta: { title: '登录', hidden: true }
+	},
+	{
+		path: '/404',
+		component: () => import('@/views/other/404.vue'),
+		meta: { hidden: true }
 	}
 ]
 
