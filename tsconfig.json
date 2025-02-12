@@ -1,10 +1,14 @@
+// TypeScript配置详解：https://blog.csdn.net/mengran_code/article/details/142187042
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+    // 编译生成的目标版本代码
     "target": "esnext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
+    // 指定我们需要用到的库，也可以不配置，直接根据 target 来获取
     "lib": ["esnext", "DOM", "DOM.Iterable"],
+    "useDefineForClassFields": true,
+    // 生成代码使用的模块化
+    "module": "ESNext",
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
 
     /* Bundler mode */
@@ -13,6 +17,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
+    // jsx 的处理方式(保留原有的jsx格式)
     "jsx": "preserve",
 
     /* Linting */
@@ -30,7 +35,9 @@
 
     "allowJs": true,
     "checkJs": false,
+    // 文件路径在解析时的基本url
     "baseUrl": ".",
+    // 路径的映射设置，类似于webpack中的 alias
     "paths": {
       "@/*": ["src/*"]
     },
@@ -40,7 +47,7 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
   },
-
+  // 指定编译时包含的文件
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
@@ -49,5 +56,6 @@
     "mock/**/*.ts",
     "vite.config.ts"
   ],
+  // 指定编译时应跳过的文件
   "exclude": ["node_modules", "dist", "**/*.js"]
 }
