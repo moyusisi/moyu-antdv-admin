@@ -1,33 +1,43 @@
 /**
  * 系统默认配置
  */
-const defaultSettings: AppSettings = {
-  /** 系统标题 */
-  title: "moyu-antdv-admin",
-  /** 系统版本 */
-  version: "1.0.0",
-  /** 是否显示设置 */
-  showSettings: true,
-  /** 是否固定头部 */
-  fixedHeader: false,
-  /** 是否显示多标签导航 */
-  tagsView: true,
-  /** 是否开启面包屑 */
-  breadcrumb: false,
-  /** 是否显示侧边栏Logo */
-  sidebarLogo: true,
-  /** 是否折叠侧边栏 */
-  sidebarCollapse: false,
-  /** 导航栏布局(classic|top|mix) */
-  layout: "classic",
-  /** 主题模式(dark|light) */
+const defaultSettings = {
+  // 默认站点名称
+  title: "moyuAdmin",
+  // 默认logo
+  logo: '/img/logo.png',
+  // 版本
+  version: "v3.2.0",
+  // 版权
+  copyright: 'MY ©2025 Created by my',
+  // 语言
+  lang: 'zh-cn',
+  // 默认主题: light | dark
   theme: "light",
-  /** 主题颜色 */
-  themeColor: "#409EFF",
-  /** 布局大小(default |large |small) */
-  themeSize: "default",
-  /** 是否开启水印 */
-  watermark: false
+  // 默认主题色
+  themeColor: "#1677FF",
+  // 菜单是否折叠
+  menuCollapsed: false,
+  // 侧边菜单是否排他展开
+  sideUniqueOpen: true,
+  // 是否展开模块坞
+  moduleUnfold: true,
+  // 是否展示面包屑
+  breadcrumbView: false,
+  // 是否展示多标签页
+  tagsView: false,
+  // 是否启用水印
+  watermarkEnabled: false,
+
+  // 接口地址
+  API_URL: import.meta.env.VITE_API_BASEURL,
+  // 请求超时
+  TIMEOUT: 60000,
+  // TokenName // Authorization
+  TOKEN_NAME: 'Authorization',
+  // Token前缀，注意最后有个空格，如不需要需设置空字符串 // Bearer
+  TOKEN_PREFIX: 'Bearer ',
+
 }
 
 export default defaultSettings
