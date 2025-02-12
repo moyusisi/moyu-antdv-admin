@@ -12,7 +12,7 @@ const service = axios.create({
 
 // HTTP request 拦截器
 service.interceptors.request.use(
-	(config: InternalAxiosRequestConfig) => {
+	(config) => {
 		// header中携带token
 		const token = localStorage.getItem("TOKEN");
 		if (token) {
@@ -26,14 +26,14 @@ service.interceptors.request.use(
 		console.log('请求URL:', config.url)
 		return config
 	},
-	(error: any) => {
+	(error) => {
 		return Promise.reject(error)
 	}
 )
 
 // HTTP response 拦截器
 service.interceptors.response.use(
-	(response: AxiosResponse) => {
+	(response) => {
 		// 响应数据为二进制流，直接返回
 		// if (response.request.responseType === 'blob') {
 		if (response.data instanceof ArrayBuffer) {
@@ -57,7 +57,7 @@ service.interceptors.response.use(
 		message.error(res.message || "系统响应错误")
 		return Promise.reject(res)
 	},
-	(error: any) => {
+	(error) => {
 		console.error('系统错误', error)
 		message.error('系统错误')
 		return Promise.reject(error.message);
