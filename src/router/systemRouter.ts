@@ -1,3 +1,4 @@
+import Layout from '@/layout/index.vue'
 
 /**
  * 静态路由
@@ -6,6 +7,21 @@
 const routes = [
 	{
 		path: '/',
+		name: 'layout',
+		component: Layout,
+		redirect: '/index',
+		meta: { title: '首页', hidden: false, alwaysShow: true, icon: 'home-outlined' },
+		children: [
+			{
+				path: '/index',
+				name: 'Index',
+				component: () => import('@/views/hello/HelloWorld.vue'),
+				meta: { title: '系统首页', icon: 'home-outlined' }
+			}
+		]
+	},
+	{
+		path: '/hello',
 		name: 'Hello',
 		component: () => import('@/views/hello/HelloWorld.vue'),
 		meta: { title: "Hello", hidden: true }

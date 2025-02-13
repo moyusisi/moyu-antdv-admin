@@ -47,6 +47,8 @@
     "vite": "^6.1.0",
     "vue-tsc": "^2.2.0",
 
+    "antd-less-to-css-variable": "1.0.5",
+    "less": "4.2.2",
     "mockjs": "^1.1.0",
     "unplugin-auto-import": "19.0.0",
     "unplugin-vue-components": "28.0.0",
