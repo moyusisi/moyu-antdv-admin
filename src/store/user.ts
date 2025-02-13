@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import userCenterApi from '@/api/sys/userCenterApi'
+import { UserInfo } from "@/api/sys/types.ts";
 
 export const useUserStore = defineStore('userStore', () => {
 	// 定义state
 	// 用户信息
-	const userInfo = ref({});
+	const userInfo = ref<UserInfo>({});
 
 	// 定义action
 	// 初始化用户信息
