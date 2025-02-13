@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import '@/utils/objects'
 
 export const useSearchStore = defineStore('search', () => {
 	// 定义state
