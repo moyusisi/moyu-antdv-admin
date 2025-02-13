@@ -64,7 +64,7 @@ export const useMenuStore = defineStore('menuStore', () => {
 	 */
 	const initModuleMenu = async () => {
 		// 优先获取本地数据
-		const menu = localStorage.getItem('MENU') || ''
+		const menu = localStorage.getItem('MENU')
 		let localMenu = JSON.parse(menu)
 		if (!localMenu) {
 			// 若本地无数据则api获取，然后保存到本地
