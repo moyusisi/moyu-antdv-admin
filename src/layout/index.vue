@@ -6,7 +6,7 @@
     <!-- 右侧布局 -->
     <a-layout>
       <!-- 最上方导航 -->
-<!--      <NavBar />-->
+      <NavBar />
       <!-- 面包屑 -->
       <!--			<Breadcrumb />-->
       <!-- 多标签 -->
@@ -24,7 +24,7 @@
 import { notification, Button } from 'ant-design-vue'
 import { getLocalHash, checkHash } from '@/utils/version'
 import SideBar from "@/layout/components/SideBar/index.vue"
-// import NavBar from "@/layout/components/NavBar/index.vue";
+import NavBar from "@/layout/components/NavBar/index.vue"
 // import Tags from "@/layout/components/tags.vue";
 import AppMain from "@/layout/components/AppMain/index.vue";
 
