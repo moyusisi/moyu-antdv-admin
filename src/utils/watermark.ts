@@ -75,6 +75,6 @@ export const watermark = {
 // 使用方法
 // import { watermark } from '@/utils/watermark'
 // 添加水印
-// watermark.set('Snowy','xiaonuo.vip')
+// watermark.set('xxx','xxx.com')
 // 移除水印,传 null 移除水印
 // watermark.close()
