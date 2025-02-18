@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider>
+  <a-config-provider :theme="{token: { borderRadius: 2 }}">
     <a-app id="app" class="app">
       <router-view />
     </a-app>
