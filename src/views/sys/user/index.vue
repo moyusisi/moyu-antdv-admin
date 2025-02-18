@@ -43,14 +43,6 @@
 					<template #operator>
 						<a-space>
 							<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(searchFormData.orgCode)">新增用户</a-button>
-							<a-button @click="ImpExpRef.onOpen()">
-								<template #icon><import-outlined /></template>
-								<span>{{ $t('common.imports') }}</span>
-							</a-button>
-							<a-button @click="exportBatchUserVerify">
-								<template #icon><export-outlined /></template>
-								{{ $t('user.batchExportButton') }}
-							</a-button>
 							<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteUser" />
 						</a-space>
 					</template>
@@ -83,70 +75,23 @@
 								</a-tooltip>
 								<a-divider type="vertical" />
 							</a-space>
-							<a-dropdown>
-								<a class="ant-dropdown-link">
-									{{ $t('common.more') }}
-									<DownOutlined />
-								</a>
-								<template #overlay>
-									<a-menu>
-										<a-menu-item>
-											<a-popconfirm
-												:title="$t('user.popconfirmResatUserPwd')"
-												placement="topRight"
-												@confirm="resetPassword(record)"
-											>
-												<a>{{ $t('user.resetPassword') }}</a>
-											</a-popconfirm>
-										</a-menu-item>
-										<a-menu-item>
-											<a @click="selectRole(record)">{{ $t('user.grantRole') }}</a>
-										</a-menu-item>
-										<a-menu-item>
-											<a @click="grantResourceFormRef.onOpen(record)">{{ $t('user.grantResource') }}</a>
-										</a-menu-item>
-										<a-menu-item>
-											<a @click="grantPermissionFormRef.onOpen(record)">{{ $t('user.grantPermission') }}</a>
-										</a-menu-item>
-										<a-menu-item>
-											<a @click="exportUserInfo(record)">{{ $t('user.exportUserInfo') }}</a>
-										</a-menu-item>
-									</a-menu>
-								</template>
-							</a-dropdown>
 						</template>
 					</template>
 				</STable>
 			</a-card>
 		</a-col>
 	</a-row>
-	<xn-role-selector
-		ref="RoleSelectorPlusRef"
-		:org-tree-api="selectorApiFunction.orgTreeApi"
-		:role-page-api="selectorApiFunction.rolePageApi"
-		:add-show="false"
-		:show="false"
-		:role-global="true"
-		@onBack="roleBack"
-	/>
-	<ImpExp ref="ImpExpRef" />
-	<grantResourceForm ref="grantResourceFormRef" @successful="tableRef.refresh()" />
-	<grantPermissionForm ref="grantPermissionFormRef" @successful="tableRef.refresh()" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />
 	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />
 </template>
 
 <script setup>
 	import userApi from '@/api/sys/userApi'
-	import orgApi from '@/api/sys/orgApi'
 
 	import { h } from "vue";
 	import { message, Empty } from 'ant-design-vue'
 	import { SearchOutlined, RedoOutlined, PlusOutlined } from "@ant-design/icons-vue";
 	import downloadUtil from '@/utils/downloadUtil'
-	import ImpExp from './impExp.vue'
-	import GrantResourceForm from './grantResourceForm.vue'
-	import GrantPermissionForm from './grantPermissionForm.vue'
 	import AddForm from './addForm.vue'
 	import EditForm from "./editForm.vue"
 	import OrgTree from "../components/orgTree.vue";

@@ -82,7 +82,8 @@
 	import AddForm from "@/views/sys/resource/module/addForm.vue";
 	import EditForm from "@/views/sys/resource/module/editForm.vue";
 	import { message } from "ant-design-vue";
-	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
+  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
+  import STable from "@/components/STable/index.vue"
 
 	// menuType=1标识模块
 	const searchFormData = ref({ menuType: 1 })
