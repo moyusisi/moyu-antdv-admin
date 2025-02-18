@@ -22,7 +22,7 @@
 		</a-form>
 	</a-card>
 	<a-card size="small">
-		<s-table
+		<STable
 			ref="tableRef"
 			:columns="columns"
 			:data="loadData"
@@ -69,7 +69,7 @@
 					</a-space>
 				</template>
 			</template>
-		</s-table>
+		</STable>
 	</a-card>
 	<AddForm ref="addFormRef" @successful="tableRef.refresh(true)" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh(true)" />

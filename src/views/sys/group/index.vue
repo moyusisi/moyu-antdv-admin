@@ -29,7 +29,7 @@
 				</a-form>
 			</a-card>
 			<a-card size="small">
-				<s-table
+				<STable
 					ref="tableRef"
 					:columns="columns"
 					:data="loadTableData"
@@ -81,7 +81,7 @@
 							</a-space>
 						</template>
 					</template>
-				</s-table>
+				</STable>
 			</a-card>
 		</a-col>
 	</a-row>
@@ -102,7 +102,8 @@
 	import GroupRole from './groupRole.vue'
 	import GroupUser from './groupUser.vue'
 	import OrgTree from "../components/orgTree.vue"
-	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
+	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
+  import STable from "@/components/STable/index.vue"
 
 	const columns = [
 		{

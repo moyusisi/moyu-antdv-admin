@@ -11,7 +11,7 @@
 	</a-card>
 	<!-- 内容区域 -->
 	<a-card size="small">
-		<s-table
+		<STable
 			ref="tableRef"
 			:columns="columns"
 			:data="loadData"
@@ -80,7 +80,7 @@
 					</a-space>
 				</template>
 			</template>
-		</s-table>
+		</STable>
 	</a-card>
 	<AddForm ref="addFormRef" @successful="handleSuccess" />
 	<EditForm ref="editFormRef" @successful="handleSuccess" />
@@ -91,11 +91,12 @@
 
 	import { h } from 'vue'
 	import { PlusOutlined } from '@ant-design/icons-vue'
-	import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
 	import AddForm from './addForm.vue'
 	import EditForm from './editForm.vue'
 	import { useMenuStore } from '@/store/menu'
 	import { message } from "ant-design-vue";
+  import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
+  import STable from "@/components/STable/index.vue"
 
 	const queryForm = ref({})
 	const tableRef = ref()

@@ -9,7 +9,7 @@
 		</a-col>
 		<a-col :span="20">
 			<div class="xn-mt-16">
-				<s-table ref="tableRef" :columns="columns" :data="loadData" bordered :row-key="(record) => record.id">
+				<STable ref="tableRef" :columns="columns" :data="loadData" bordered :row-key="(record) => record.id">
 					<template #bodyCell="{ column, record }">
 						<template v-if="column.dataIndex === 'subject'">
 							<ellipsis :length="40" tooltip>
@@ -26,7 +26,7 @@
 							</a-space>
 						</template>
 					</template>
-				</s-table>
+				</STable>
 			</div>
 		</a-col>
 		<detail ref="detailRef" @refresh="refresh" />
@@ -36,11 +36,10 @@
 <script setup name="userMessage">
 	import Detail from './userMessage/detail.vue'
 	import userCenterApi from '@/api/sys/userCenterApi'
-	import tool from '@/utils/tool'
 	import { nextTick } from 'vue'
+  import STable from "@/components/STable/index.vue"
 
-	const messageCategoryList = tool.dictList('MESSAGE_CATEGORY')
-	const selectedKeys = ref(new Array(messageCategoryList[0].value))
+	const selectedKeys = ref([])
 	const tableRef = ref()
 	const detailRef = ref()
 	const columns = [

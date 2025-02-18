@@ -9,7 +9,7 @@
 				<span>{{ formData.content }}</span>
 			</a-form-item>
 			<a-form-item label="查收情况：" name="receiveInfoList">
-				<s-table
+				<STable
 					ref="tableRef"
 					:columns="columns"
 					:data="loadData"
@@ -24,7 +24,7 @@
 							<span v-else class="xn-color-ff4d4f">未读</span>
 						</template>
 					</template>
-				</s-table>
+				</STable>
 			</a-form-item>
 		</a-form>
 	</xn-form-container>
@@ -32,6 +32,8 @@
 
 <script setup name="messageDetail">
 	import userCenterApi from '@/api/sys/userCenterApi'
+  import STable from "@/components/STable/index.vue"
+
 	const emits = defineEmits(['refresh'])
 	const receiveInfoList = ref([])
 

@@ -22,7 +22,7 @@
 		</a-form>
 	</a-card>
 	<a-card size="small">
-		<s-table
+		<STable
 			ref="tableRef"
 			:columns="columns"
 			:data="loadData"
@@ -84,7 +84,7 @@
 <!--					</a-dropdown>-->
 				</template>
 			</template>
-		</s-table>
+		</STable>
 	</a-card>
 	<grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
 	<grantResourceForm ref="grantResourceFormRef" @successful="tableRef.refresh()" />
