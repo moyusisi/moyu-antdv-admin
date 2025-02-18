@@ -82,10 +82,10 @@
 		loginForm.value.validate().then(async () => {
 				loading.value = true
 				const loginData = {
-					account: formData.account,
-					password: formData.password,
-					validCode: formData.validCode,
-					validCodeReqNo: formData.validCodeReqNo
+					account: formData.value.account,
+					password: formData.value.password,
+					validCode: formData.value.validCode,
+					validCodeReqNo: formData.value.validCodeReqNo
 				}
 				// 获取token
 				try {
