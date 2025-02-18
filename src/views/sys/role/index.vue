@@ -60,47 +60,14 @@
 							</a-popconfirm>
 						</a-tooltip>
 					</a-space>
-<!--					<a-dropdown>-->
-<!--						<a class="ant-dropdown-link">-->
-<!--							授权-->
-<!--							<DownOutlined />-->
-<!--						</a>-->
-<!--						<template #overlay>-->
-<!--							<a-menu>-->
-<!--								<a-menu-item>-->
-<!--									<a @click="grantResourceFormRef.onOpen(record)">授权资源</a>-->
-<!--								</a-menu-item>-->
-<!--								<a-menu-item>-->
-<!--									<a @click="grantMobileResourceFormRef.onOpen(record)">授权移动端资源</a>-->
-<!--								</a-menu-item>-->
-<!--								<a-menu-item>-->
-<!--									<a @click="grantPermissionFormRef.onOpen(record)">授权权限</a>-->
-<!--								</a-menu-item>-->
-<!--								<a-menu-item>-->
-<!--									<a @click="openRoleUserSelector(record)">授权用户</a>-->
-<!--								</a-menu-item>-->
-<!--							</a-menu>-->
-<!--						</template>-->
-<!--					</a-dropdown>-->
 				</template>
 			</template>
 		</STable>
 	</a-card>
 	<grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-	<grantResourceForm ref="grantResourceFormRef" @successful="tableRef.refresh()" />
-	<grantMobileResourceForm ref="grantMobileResourceFormRef" @successful="tableRef.refresh()" />
-	<grantPermissionForm ref="grantPermissionFormRef" @successful="tableRef.refresh()" />
 	<Form ref="formRef" @successful="tableRef.refresh()" />
 	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />
-	<xn-user-selector
-		ref="userSelectorPlusRef"
-		:org-tree-api="selectorApiFunction.orgTreeApi"
-		:user-page-api="selectorApiFunction.userPageApi"
-		data-type="object"
-		:user-show="false"
-		@onBack="userCallBack"
-	/>
 </template>
 
 <script setup>
@@ -108,15 +75,12 @@
 
 	import { h } from "vue"
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-	import GrantResourceForm from './grantResourceForm.vue'
-	import GrantMobileResourceForm from './grantMobileResourceForm.vue'
-	import GrantPermissionForm from './grantPermissionForm.vue'
-	import Form from './form.vue'
 	import AddForm from "./addForm.vue";
 	import EditForm from "./editForm.vue";
 	import GrantMenuForm from "./grantMenuForm.vue";
 	import { message } from "ant-design-vue";
-	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
+  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
+  import STable from "@/components/STable/index.vue"
 
 	const columns = [
 		{
