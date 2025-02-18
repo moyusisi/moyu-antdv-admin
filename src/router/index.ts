@@ -8,7 +8,9 @@ const routes = [...systemRouter]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes: routes as RouteRecordRaw[]
+  routes: routes as RouteRecordRaw[],
+  // 刷新时，滚动条位置还原
+  scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 
 // 白名单路由

@@ -6,7 +6,6 @@
 		collapsible
 		:theme="sideTheme"
 		width="210"
-    style="height: 100vh; overflow-y: auto"
 	>
 		<!-- 左侧菜单上方标题LOGO区域 -->
 		<header class="header-logo">

@@ -7,10 +7,8 @@
     <a-layout>
       <!-- 最上方导航 -->
       <NavBar />
-      <!-- 面包屑 -->
-      <!--			<Breadcrumb />-->
       <!-- 多标签 -->
-<!--      <Tags />-->
+      <!-- <Tags /> -->
       <!-- 主要内容区域 -->
       <a-layout-content class="main-content-wrapper">
         <AppMain/>
