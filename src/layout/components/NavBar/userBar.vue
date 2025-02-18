@@ -6,8 +6,11 @@
 		</div>
 		<a-dropdown class="user panel-item">
 			<div class="user-avatar">
-				<a-avatar :src="userInfo ? userInfo.avatar : undefined" />
-				<label>{{ userName }}</label>
+<!--        <a-avatar :src="userInfo ? userInfo.avatar : undefined" />-->
+        <a-avatar>
+          <template #icon><UserOutlined /></template>
+        </a-avatar>
+				<label>{{ userInfo.name }}</label>
 			</div>
 			<template #overlay>
 				<a-menu>

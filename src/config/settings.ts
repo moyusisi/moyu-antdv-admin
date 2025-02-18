@@ -5,7 +5,7 @@ const defaultSettings = {
   // 默认站点名称
   title: "moyuAdmin",
   // 默认logo
-  logo: '/img/logo.png',
+  logo: '/img/logo.svg',
   // 版本
   version: "v1.1.0",
   // 版权
