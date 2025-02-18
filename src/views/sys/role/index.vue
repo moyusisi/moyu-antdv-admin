@@ -65,7 +65,6 @@
 		</STable>
 	</a-card>
 	<grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-	<Form ref="formRef" @successful="tableRef.refresh()" />
 	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />
 </template>

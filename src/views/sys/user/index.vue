@@ -91,7 +91,6 @@
 	import { h } from "vue";
 	import { message, Empty } from 'ant-design-vue'
 	import { SearchOutlined, RedoOutlined, PlusOutlined } from "@ant-design/icons-vue";
-	import downloadUtil from '@/utils/downloadUtil'
 	import AddForm from './addForm.vue'
 	import EditForm from "./editForm.vue"
 	import OrgTree from "../components/orgTree.vue";
@@ -242,10 +241,7 @@
 	}
 	// 批量导出
 	const exportBatchUser = (params) => {
-		userApi.userExport(params).then((res) => {
-			downloadUtil.resultDownload(res)
-			tableRef.value.clearSelected()
-		})
+
 	}
 	// 打开角色选择器
 	const selectRole = (record) => {
@@ -284,7 +280,7 @@
 			id: record.id
 		}
 		userApi.userExportUserInfo(params).then((res) => {
-			downloadUtil.resultDownload(res)
+
 		})
 	}
 	// 传递设计器需要的API
