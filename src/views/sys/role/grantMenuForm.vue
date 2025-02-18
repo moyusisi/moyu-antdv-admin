@@ -73,11 +73,13 @@
 <script setup>
 	import roleApi from '@/api/sys/roleApi'
 	import { useMenuStore } from '@/store/menu'
-	import { userStore } from '@/store/user'
+	import { useUserStore } from '@/store/user'
 	import { useSettingsStore } from "@/store";
 	import { message } from "ant-design-vue";
 
-	const settingsStore = useSettingsStore()
+  const settingsStore = useSettingsStore()
+  const userStore = useUserStore()
+  const menuStore = useMenuStore()
 
 	const visible = ref(false)
 	const spinningLoading = ref(false)
@@ -249,9 +251,8 @@
 	}
 	// 刷新缓存
 	const refreshCache = () => {
-		const menuStore = useMenuStore()
 		menuStore.refreshModuleMenu()
-		userStore().refreshUserLoginUserInfo()
+		userStore.refreshUserLoginUserInfo()
 	}
 	// 调用这个函数将子组件的一些数据和方法暴露出去
 	defineExpose({
