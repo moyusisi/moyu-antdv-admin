@@ -94,7 +94,7 @@
           // 初始化用户信息
           await userStore.initUserInfo()
           message.success('登录成功')
-          await router.replace({ path: "/" })
+          await router.push({ path: "/" })
 				} catch (err) {
 					loading.value = false
 				}
