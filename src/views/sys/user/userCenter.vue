@@ -49,9 +49,6 @@
 				<p v-if="noTitleKey === 'accountBind'">
 					<accountBind />
 				</p>
-				<p v-if="noTitleKey === 'shortcutSetting'">
-					<shortcutSetting />
-				</p>
 				<p v-if="noTitleKey === 'userMessage'">
 					<userMessage />
 				</p>
@@ -68,7 +65,6 @@
 	import accountBasic from './userTab/accountBasic.vue'
 	import CropUpload from '@/components/CropUpload/index.vue'
 	import organizationChart from './userTab/organizationChart.vue'
-	import shortcutSetting from './userTab/shortcutSetting.vue'
 	import accountBind from './userTab/accountBind.vue'
 	import userMessage from './userTab/userMessage.vue'
 
@@ -105,10 +101,6 @@
 		{
 			key: 'accountBind',
 			tab: '账号相关'
-		},
-		{
-			key: 'shortcutSetting',
-			tab: '快捷方式'
 		},
 		{
 			key: 'userMessage',
