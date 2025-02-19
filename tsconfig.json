@@ -29,7 +29,7 @@
     // 是否检查未使用的本地变量
     "noUnusedLocals": false,
     // 是否检查未使用的参数
-    "noUnusedParameters": true,
+    "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
     // 配置项用于禁用自动包含任何库文件。如果设置了此选项，lib 配置将被忽略。
