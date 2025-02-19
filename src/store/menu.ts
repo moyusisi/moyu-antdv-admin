@@ -10,7 +10,10 @@ const modules = import.meta.glob([
 	'!/src/views/auth/findPwd/**.vue',
 	'!/src/views/auth/login/**.vue'
 ])
+// 菜单布局
 const Layout = () => import("@/layout/index.vue")
+// 空布局。多层目录嵌套时需要使用
+const Empty = () => import("@/layout/empty.vue")
 
 // 过滤异步路由
 const filterAsyncRoutes = (menus) => {
@@ -42,7 +45,7 @@ const loadComponent = (component) => {
 	} else {
 		item = modules[`/src/views/${component}.vue`]
 			|| modules[`/src/views/${component}/index.vue`]
-			|| import(`/src/views/other/empty.vue`)
+			|| Empty
 	}
 	return item
 }
