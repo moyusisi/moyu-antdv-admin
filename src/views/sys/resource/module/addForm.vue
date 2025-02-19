@@ -12,22 +12,22 @@
 			<a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
 		</template>
 		<a-form ref="formRef" :model="formData" layout="vertical">
-			<a-form-item label="模块名称" name="name" :rules="[required('请输入模块名称')]">
-				<a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear />
-			</a-form-item>
+      <a-form-item label="模块名称" name="name" :rules="[required('请输入模块名称')]">
+        <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear/>
+      </a-form-item>
 			<a-form-item label="唯一编码" name="code" tooltip="不可更改！不填将会自动生成">
 				<a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" allow-clear />
 			</a-form-item>
       <a-form-item label="路径地址" name="link" tooltip="以反斜杠'/'开头">
         <a-input v-model:value="formData.path" placeholder="请输入模块路径地址" allow-clear />
       </a-form-item>
-			<a-form-item label="模块主页" name="link" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
-				<a-input v-model:value="formData.link" placeholder="请输入模块主页地址" allow-clear />
-			</a-form-item>
-			<a-form-item label="图标" name="icon">
-				<a-input v-model:value="formData.icon" placeholder="请选择图标" style="width: calc(100% - 70px)" allow-clear disabled />
-				<a-button type="primary" @click="iconSelectorRef.showIconModal(formData.icon)">选择</a-button>
-			</a-form-item>
+      <a-form-item label="模块主页" name="link" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
+        <a-input v-model:value="formData.link" placeholder="请输入模块主页地址" allow-clear />
+      </a-form-item>
+      <a-form-item label="图标" name="icon">
+        <a-input v-model:value="formData.icon" placeholder="请选择图标" style="width: calc(100% - 70px)" allow-clear disabled />
+        <a-button type="primary" @click="iconSelectorRef.showIconModal(formData.icon)">选择</a-button>
+      </a-form-item>
 			<!-- 使用状态 -->
 			<a-form-item label="使用状态" name="status" :rules="[required('请选择使用状态')]">
 				<a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions"/>
