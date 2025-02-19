@@ -72,6 +72,15 @@
 							<a-input v-model:value="formData.path" placeholder="请输入链接地址" allow-clear />
 						</a-form-item>
 					</a-col>
+          <!-- 目录:组件地址 -->
+          <a-col :span="12" v-if="formData.menuType === 2">
+            <a-form-item label="目录组件" name="component" tooltip="最外层目录选Layout">
+              <a-select v-model:value="formData.component" allowClear>
+                <a-select-option value="Layout">Layout</a-select-option>
+                <a-select-option value="Empty">Empty</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
 					<!-- 菜单:组件地址 -->
 					<a-col :span="12" v-if="formData.menuType === 3">
 						<a-form-item label="组件地址" name="component" tooltip="前端组件(不带.vue)" :rules="[required('请输入组件地址')]">
