@@ -18,8 +18,11 @@
 			<a-form-item label="唯一编码" name="code">
 				<a-input v-model:value="formData.code" disabled />
 			</a-form-item>
+      <a-form-item label="路径地址" name="link" tooltip="以反斜杠'/'开头">
+        <a-input v-model:value="formData.path" placeholder="请输入模块路径地址" allow-clear />
+      </a-form-item>
 			<a-form-item label="模块主页" name="link" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
-				<a-input v-model:value="formData.link" placeholder="请输入模块主页地址" />
+				<a-input v-model:value="formData.link" placeholder="请输入模块主页地址" allow-clear />
 			</a-form-item>
 			<a-form-item label="图标" name="icon">
 				<a-input v-model:value="formData.icon" placeholder="请选择图标" style="width: calc(100% - 70px)" allow-clear disabled />

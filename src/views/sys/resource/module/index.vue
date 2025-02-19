@@ -48,6 +48,9 @@
 				<template v-if="column.dataIndex === 'code'">
 					<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
 				</template>
+        <template v-if="column.dataIndex === 'path'">
+          <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
+        </template>
 				<template v-if="column.dataIndex === 'link'">
 					<a-tag v-if="record.link" :bordered="false">{{ record.link }}</a-tag>
 				</template>
@@ -109,6 +112,11 @@
 			dataIndex: 'code',
 			width: 100
 		},
+    {
+      title: '路径地址',
+      dataIndex: 'path',
+      width: 100
+    },
 		{
 			title: '模块主页',
 			dataIndex: 'link',
