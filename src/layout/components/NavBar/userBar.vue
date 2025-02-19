@@ -18,10 +18,6 @@
 						<UserOutlined class="xn-mr8" />
 						<span>个人中心</span>
 					</a-menu-item>
-					<a-menu-item key="clearCache" @click="handleUser('clearCache')">
-						<loading3-quarters-outlined class="xn-mr8" />
-						<span>清理缓存</span>
-					</a-menu-item>
 					<a-menu-divider />
 					<a-menu-item key="outLogin" @click="handleUser('outLogin')">
 						<export-outlined class="xn-mr8" />
@@ -65,25 +61,6 @@
 	const handleUser = (key) => {
 		if (key === 'uc') {
 			router.push({ path: '/userCenter' })
-		}
-		if (key === 'clearCache') {
-			Modal.confirm({
-				title: '提示',
-				content: '确认清理所有缓存？',
-				icon: createVNode(ExclamationCircleOutlined),
-				maskClosable: false,
-				okText: '确定',
-				cancelText: '取消',
-				onOk() {
-					message.loading('正在清理中...', 1)
-          localStorage.clear()
-					setTimeout(() => {
-						router.replace({ path: '/login' })
-						location.reload()
-					}, 100)
-				},
-				onCancel() {}
-			})
 		}
 		if (key === 'outLogin') {
 			Modal.confirm({

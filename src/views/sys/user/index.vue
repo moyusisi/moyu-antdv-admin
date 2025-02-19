@@ -172,12 +172,7 @@
 	const searchFormRef = ref()
 	const searchFormData = ref({})
 
-	const RoleSelectorPlusRef = ref()
-	const selectedRecord = ref({})
 	const loading = ref(false)
-	const ImpExpRef = ref()
-	const grantResourceFormRef = ref()
-	const grantPermissionFormRef = ref()
 
 	// 表格查询 返回 Promise 对象
 	const loadTableData = (parameter) => {
@@ -215,86 +210,17 @@
 			tableRef.value.clearRefreshSelected()
 		})
 	}
-	// 批量导出校验并加参数
-	const exportBatchUserVerify = () => {
-		if ((selectedRowKeys.value.length < 1) & !searchFormData.value.searchKey & !searchFormData.value.userStatus) {
-			message.warning('请输入查询条件或勾选要导出的信息')
-		}
-		if (selectedRowKeys.value.length > 0) {
-			const params = {
-				userIds: selectedRowKeys.value
-					.map((m) => {
-						return m
-					})
-					.join()
-			}
-			exportBatchUser(params)
-			return
-		}
-		if (searchFormData.value.searchKey || searchFormData.value.userStatus) {
-			const params = {
-				searchKey: searchFormData.value.searchKey,
-				userStatus: searchFormData.value.userStatus
-			}
-			exportBatchUser(params)
-		}
-	}
 	// 批量导出
 	const exportBatchUser = (params) => {
 
 	}
-	// 打开角色选择器
-	const selectRole = (record) => {
-		selectedRecord.value = record
-		// 查询到已有角色，并转为ids的格式，给角色选择器
-		const param = {
-			id: record.id
-		}
-		userApi.userOwnRole(param).then((data) => {
-			RoleSelectorPlusRef.value.showModel(data)
-		})
-	}
-	// 角色选择回调
-	const roleBack = (value) => {
-		let params = {
-			id: selectedRecord.value.id,
-			roleIdList: []
-		}
-		if (value.length > 0) {
-			value.forEach((item) => {
-				params.roleIdList.push(item)
-			})
-		}
-		userApi.grantRole(params).then(() => {})
-	}
+
 	// 重置用户密码
 	const resetPassword = (record) => {
 		let data = { ids: [record.id] }
 		userApi.resetPassword(data).then((res) => {
 			message.success(res.message)
 		})
-	}
-	// 导出用户信息
-	const exportUserInfo = (record) => {
-		const params = {
-			id: record.id
-		}
-		userApi.userExportUserInfo(params).then((res) => {
-
-		})
-	}
-	// 传递设计器需要的API
-	const selectorApiFunction = {
-		orgTreeApi: (param) => {
-			return userApi.userOrgTreeSelector(param).then((data) => {
-				return Promise.resolve(data)
-			})
-		},
-		rolePageApi: (param) => {
-			return userApi.userRoleSelector(param).then((data) => {
-				return Promise.resolve(data)
-			})
-		}
 	}
 </script>
 
