@@ -10,13 +10,13 @@ const routes = [
 		name: 'layout',
 		component: Layout,
 		redirect: '/index',
-		meta: { title: '首页', hidden: false, alwaysShow: true, icon: 'home-outlined' },
+		meta: { title: '系统菜单', hidden: false, alwaysShow: false, icon: 'home-outlined' },
 		children: [
 			{
 				path: '/index',
 				name: 'Index',
-				component: () => import('@/views/hello/HelloWorld.vue'),
-				meta: { title: '系统首页', icon: 'home-outlined' }
+				component: () => import('@/views/home/index.vue'),
+				meta: { title: '首页', icon: 'home-outlined' }
 			}
 		]
 	},
