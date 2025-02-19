@@ -21,17 +21,6 @@ const routes = [
 		]
 	},
 	{
-		path: '/hello',
-		name: 'Hello',
-		component: () => import('@/views/hello/HelloWorld.vue'),
-		meta: { title: "Hello", hidden: true }
-	},
-	{
-		path: '/404',
-		component: () => import('@/views/other/404.vue'),
-		meta: { hidden: true }
-	},
-	{
 		path: '/login',
 		name: 'Login',
 		component: () => import('@/views/auth/login/login.vue'),
@@ -40,7 +29,7 @@ const routes = [
 	{
 		path: '/404',
 		component: () => import('@/views/other/404.vue'),
-		meta: { hidden: true }
+		meta: { title: '404', hidden: true }
 	}
 ]
 
