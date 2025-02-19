@@ -23,7 +23,7 @@ const defaultSettings = {
   // 是否展开模块坞
   moduleUnfold: true,
   // 是否展示面包屑
-  breadcrumbView: false,
+  breadcrumbView: true,
   // 是否展示多标签页
   tagsView: false,
   // 是否启用水印

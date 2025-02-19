@@ -11,14 +11,14 @@
 
 <script setup lang="ts">
   import { useUserStore, useSettingsStore } from '@/store'
+  import i18n from "@/locale"
 
   const userStore = useUserStore()
   const settingsStore = useSettingsStore()
 
   // 本地语言
-  const locale = computed(() => {
-    return settingsStore.lang
-  })
+  const locale = i18n.global.messages.value[i18n.global.locale.value].lang
+
   // 获取用户信息
   const userInfo = computed(() => {
     return userStore.userInfo
