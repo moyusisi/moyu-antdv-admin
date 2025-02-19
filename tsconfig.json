@@ -26,7 +26,9 @@
     "strict": true,
     // 是否为为具有隐含"any"类型的表达式和声明启用错误报告
     "noImplicitAny": false,
-    "noUnusedLocals": true,
+    // 是否检查未使用的本地变量
+    "noUnusedLocals": false,
+    // 是否检查未使用的参数
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
