@@ -36,13 +36,13 @@ const filterAsyncRoutes = (menus) => {
 
 // 加载组件
 const loadComponent = (component) => {
-	let item = null;
+	let item;
 	if (component?.toString() === "Layout") {
 		item = Layout
 	} else {
 		item = modules[`/src/views/${component}.vue`]
 			|| modules[`/src/views/${component}/index.vue`]
-			|| import(`/src/views/other/empty.vue`)
+			|| import(`/src/views/other/404.vue`)
 	}
 	return item
 }
