@@ -27,25 +27,22 @@ const filterAsyncRoutes = (menus) => {
 			meta: menu.meta ? menu.meta : {},
 			redirect: menu.redirect,
 			children: menu.children ? filterAsyncRoutes(menu.children) : null,
-			component: loadComponent(menu.component)
+			component: loadComponent(menu)
 		}
-		// 仅目录及菜单生成路由
-		// if(menu.meta.type !== 5) {
-		// }
 		asyncRoutes.push(route);
 	});
 	return asyncRoutes;
 }
 
 // 加载组件
-const loadComponent = (component) => {
-	let item = null;
+const loadComponent = (menu) => {
+	// 菜单类型（字典 1模块 2目录 3菜单 4按钮 5外链）
+	let item = Empty;
+	const component = menu.component
 	if (component?.toString() === "Layout") {
 		item = Layout
 	} else {
-		item = modules[`/src/views/${component}.vue`]
-			|| modules[`/src/views/${component}/index.vue`]
-			|| Empty
+		item = modules[`/src/views/${component}.vue`] || modules[`/src/views/${component}/index.vue`] || Empty
 	}
 	return item
 }
