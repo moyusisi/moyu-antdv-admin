@@ -6,7 +6,7 @@ import service from '@/utils/request'
 export default {
 	// 获取登陆用户的信息
 	loginUserInfo(data) {
-		return service.postJson('/api/sys/userCenter/me', data)
+		return service.postJson('/api/sys/userCenter/userInfo', data)
 	},
 	// 获取登陆用户的菜单树
 	loginUserMenu(data) {

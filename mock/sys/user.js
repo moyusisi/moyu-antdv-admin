@@ -12,7 +12,7 @@ export default [
   },
   // 用户信息
   {
-    url: '/api/sys/userCenter/me',
+    url: '/api/sys/userCenter/userInfo',
     method: 'post',
     response: {
       "code": 0,
