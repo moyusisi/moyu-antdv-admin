@@ -169,11 +169,13 @@
 	}
 	// 关闭抽屉
 	const onClose = () => {
+    refreshCache()
 		// 将这些缓存的给清空
 		moduleId.value = ''
 		moduleDataList.value = []
 		tableData.value = []
 		visible.value = false
+    emit('successful')
 	}
 	// 获取有权限的菜单列表(初始化选中菜单时用)
 	const getCheckedMenuList = (recordList) => {
@@ -242,9 +244,6 @@
 		submitLoading.value = true
 		roleApi.roleGrantMenu(param).then((res) => {
 			message.success(res.message)
-			onClose()
-			emit('successful')
-			refreshCache()
 		}).finally(() => {
 			submitLoading.value = false
 		})
