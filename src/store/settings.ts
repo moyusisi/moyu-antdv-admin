@@ -5,6 +5,8 @@ import config from '@/config/settings';
 export const useSettingsStore = defineStore('settings', () => {
 	// 是否显示设置
 	const title = ref(config.title);
+	// 语言
+	const lang = ref(config.lang);
 	// 菜单是否折叠
 	const menuCollapsed = ref(config.menuCollapsed);
 	// 侧边栏菜单是否排他展开
@@ -47,6 +49,7 @@ export const useSettingsStore = defineStore('settings', () => {
 
 	return {
 		title,
+		lang,
 		menuCollapsed,
 		sideUniqueOpen,
 		breadcrumbView,

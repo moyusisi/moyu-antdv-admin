@@ -1,5 +1,5 @@
 <template>
-  <a-config-provider :theme="{token: { borderRadius: 2 }}">
+  <a-config-provider :locale="locale" :theme="{token: { borderRadius: 2 }}">
     <a-app id="app" class="app">
       <a-watermark :content="watermarkEnabled && userInfo ? [userInfo.name, userInfo.account] : undefined"
                    class="admin-ui-main">
@@ -11,9 +11,14 @@
 
 <script setup lang="ts">
   import { useUserStore, useSettingsStore } from '@/store'
+
   const userStore = useUserStore()
   const settingsStore = useSettingsStore()
 
+  // 本地语言
+  const locale = computed(() => {
+    return settingsStore.lang
+  })
   // 获取用户信息
   const userInfo = computed(() => {
     return userStore.userInfo
