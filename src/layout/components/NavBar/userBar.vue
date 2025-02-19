@@ -14,19 +14,14 @@
 			</div>
 			<template #overlay>
 				<a-menu>
-					<a-menu-item key="uc" @click="handleUser('uc')">
-						<UserOutlined class="xn-mr8" />
-						<span>个人中心</span>
-					</a-menu-item>
-					<a-menu-divider />
 					<a-menu-item key="outLogin" @click="handleUser('outLogin')">
-						<export-outlined class="xn-mr8" />
+						<export-outlined class="mr8" />
 						<span>退出登录</span>
 					</a-menu-item>
 				</a-menu>
 			</template>
 		</a-dropdown>
-		<div v-if="setDrawer === 'true'" class="setting panel-item" @click="openSetting">
+		<div class="setting panel-item" @click="openSetting">
 			<layout-outlined />
 		</div>
 	</div>
@@ -49,7 +44,6 @@
 	import { useUserStore } from '@/store'
 
 	const settingDialog = ref(false)
-	const setDrawer = ref(import.meta.env.VITE_SET_DRAWER)
 	const userStore = useUserStore()
 	const isMobile = ref(false)
 	const userInfo = computed(() => {
@@ -126,4 +120,7 @@
 	.setting {
 		margin-right: 10px;
 	}
+  .mr8 {
+    margin-right: 8px;
+  }
 </style>
