@@ -63,11 +63,12 @@
 					<a-space>
 						<a-tooltip v-if="node.menuType === 2" title="添加菜单">
 							<a style="color:#53C61D;" @click="addFormRef.onOpen(moduleId, 3, node.code)"><PlusSquareOutlined /></a>
+              <a-divider type="vertical" />
 						</a-tooltip>
 						<a-tooltip v-else-if="node.menuType === 3" title="添加按钮">
 							<a style="color:#53C61D;" @click="addFormRef.onOpen(moduleId, 4, node.code)"><PlusSquareOutlined /></a>
+              <a-divider type="vertical" />
 						</a-tooltip>
-						<a-divider type="vertical" />
 						<a-tooltip title="编辑">
 							<a @click="editFormRef.onOpen(node, moduleId)"><FormOutlined /></a>
 						</a-tooltip>
