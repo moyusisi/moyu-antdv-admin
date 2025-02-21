@@ -15,16 +15,7 @@
 		<a-row :gutter="8">
 			<!-- 左侧组织树 -->
 			<a-col :span="5">
-				<a-card size="small" :loading="cardLoading" :bodyStyle="{paddingLeft:'5px', paddingRight:'5px'}">
-					<a-tree
-						v-if="treeData.length > 0"
-						v-model:expandedKeys="defaultExpandedKeys"
-						:tree-data="treeData"
-						:field-names="treeFieldNames"
-						@select="treeSelect"
-					/>
-					<a-empty v-else :image="Empty.PRESENTED_IMAGE_SIMPLE" />
-				</a-card>
+        <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
 			</a-col>
 			<a-col :span="19">
 				<a-card size="small">
@@ -82,13 +73,14 @@
 </template>
 
 <script setup>
-	import groupApi from '@/api/sys/groupApi'
+  import roleApi from '@/api/sys/roleApi'
 
 	import { useSettingsStore } from "@/store";
 	import { Empty, message } from "ant-design-vue";
 	import { h } from "vue";
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
 	import userApi from "@/api/sys/userApi"
+  import OrgTree from "@/views/sys/components/orgTree.vue";
 
 	const settingsStore = useSettingsStore()
 
@@ -144,16 +136,11 @@
 
 	// 默认是关闭状态
 	const visible = ref(false)
-	const group = ref()
+	const role = ref()
 	const title = ref()
 	const emit = defineEmits({ successful: null })
-	// 节点树
-	const treeData = ref([])
-	// 默认展开的节点(顶级)
-	const defaultExpandedKeys = ref([])
-	// 替换treeNode 中 children,title,key
-	const treeFieldNames = { children: 'children', title: 'name', key: 'code' }
-	const cardLoading = ref(false)
+  // 定义treeRef
+  const treeRef = ref()
 	// 表单数据
 	const searchFormRef = ref()
 	const searchFormData = ref({})
@@ -196,11 +183,9 @@
 	})
 
 	// 打开抽屉
-	const onOpen = (record, tree) => {
-		treeData.value = tree
-		defaultExpandedKeys.value = [tree[0]?.code]
-		group.value = record;
-		title.value = group.value.name + "-添加用户"
+	const onOpen = (record) => {
+		role.value = record;
+		title.value = role.value.name + "-授权用户"
 		// 加载数据
 		loadTableData()
 		visible.value = true
@@ -209,15 +194,15 @@
 	const onClose = () => {
 		visible.value = false
 	}
-	// 点击树查询
-	const treeSelect = (selectedKeys) => {
-		if (selectedKeys.length > 0) {
-			searchFormData.value.orgCode = selectedKeys.toString()
-		} else {
-			delete searchFormData.value.orgCode
-		}
-		loadTableData()
-	}
+  // 点击树查询
+  const treeSelect = (selectedKeys) => {
+    if (selectedKeys.length > 0) {
+      searchFormData.value.orgCode = selectedKeys.toString()
+    } else {
+      delete searchFormData.value.orgCode
+    }
+    loadTableData()
+  }
 	// 表格查询
 	const loadTableData = async () => {
 		selectedRowKeys.value = []
@@ -246,8 +231,8 @@
 			message.warning('请选择一条或多条数据')
 			return
 		}
-		let data = { code: group.value.code, codeSet: selectedRowKeys.value }
-		groupApi.groupAddUser(data).then((res) => {
+		let data = { code: role.value.code, codeSet: selectedRowKeys.value }
+    roleApi.userGrantRole(data).then((res) => {
 			message.success(res.message)
 			emit('successful')
 			// 添加之后重新加载数据

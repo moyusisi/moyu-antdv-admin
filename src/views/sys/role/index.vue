@@ -85,7 +85,7 @@
 	import { message } from "ant-design-vue";
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
-  import RoleUser from "@/views/sys/role/roleUser.vue";
+  import RoleUser from "./roleUser.vue";
 
 	const columns = [
 		{
@@ -158,18 +158,12 @@
 	const formRef = ref()
 	const addFormRef = ref()
 	const editFormRef = ref()
-  const roleUserRef = ref()
   const module = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const grantMenuFormRef = ref()
-	const grantResourceFormRef = ref()
-	const grantMobileResourceFormRef = ref()
-	const grantPermissionFormRef = ref()
-	const userSelectorPlusRef = ref()
+  const roleUserRef = ref()
 	const searchFormRef = ref()
 	const searchFormData = ref({})
-	// 记录数据
-	const recordCacheData = ref({})
 
 	// 表格查询 返回 Promise 对象
 	const loadData = (parameter) => {
