@@ -36,5 +36,8 @@ export default {
 	roleGrantMenu(data) {
 		return service.postJson('/api/sys/role/grantMenu', data)
 	},
-
+	// 角色用户列表
+	roleUserList(data) {
+		return service.postJson('/api/sys/role/userList', data)
+	},
 }

@@ -49,6 +49,10 @@
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
 						<a @click="grantMenuFormRef.onOpen(record)">授权</a>
+            <a-divider type="vertical" />
+            <a-tooltip title="用户透视">
+              <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UsergroupAddOutlined /></a>
+            </a-tooltip>
 						<a-divider type="vertical" />
 						<a-tooltip title="编辑">
 							<a @click="editFormRef.onOpen(record)"><FormOutlined /></a>
@@ -67,6 +71,7 @@
 	<grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
 	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />
+  <RoleUser ref="roleUserRef" />
 </template>
 
 <script setup>
@@ -80,6 +85,7 @@
 	import { message } from "ant-design-vue";
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
+  import RoleUser from "@/views/sys/role/roleUser.vue";
 
 	const columns = [
 		{
@@ -152,7 +158,8 @@
 	const formRef = ref()
 	const addFormRef = ref()
 	const editFormRef = ref()
-	const module = ref()
+  const roleUserRef = ref()
+  const module = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const grantMenuFormRef = ref()
 	const grantResourceFormRef = ref()
@@ -191,39 +198,6 @@
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})
-	}
-	// 打开用户选择器
-	const openRoleUserSelector = (record) => {
-		// 打开人员选择器的时候，缓存一个记录数据
-		recordCacheData.value = record
-		// 查询接口，查到这个角色是多少个用户都有它
-		const param = {
-			id: record.id
-		}
-		roleApi.roleOwnUser(param).then((data) => {
-			userSelectorPlusRef.value.showUserPlusModal(data)
-		})
-	}
-	// 人员选择器回调
-	const userCallBack = (value) => {
-		const param = {
-			id: recordCacheData.value.id,
-			grantInfoList: value
-		}
-		roleApi.roleGrantUser(param).then(() => {})
-	}
-	// 传递设计器需要的API
-	const selectorApiFunction = {
-		orgTreeApi: (param) => {
-			return roleApi.roleOrgTreeSelector(param).then((data) => {
-				return Promise.resolve(data)
-			})
-		},
-		userPageApi: (param) => {
-			return roleApi.roleUserSelector(param).then((data) => {
-				return Promise.resolve(data)
-			})
-		}
 	}
 </script>
 
