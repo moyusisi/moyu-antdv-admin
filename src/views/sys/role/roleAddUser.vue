@@ -18,6 +18,7 @@
         <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
 			</a-col>
 			<a-col :span="19">
+        <a-alert message="全局授权的用户，仅有对应的功能权限，无任何数据权限。" type="error" />
 				<a-card size="small">
 					<a-form ref="searchFormRef" :model="searchFormData">
 						<a-row :gutter="16">
@@ -124,13 +125,6 @@
 			dataIndex: 'status',
 			align: 'center',
 			width: 80
-		},
-		{
-			title: '操作',
-			dataIndex: 'action',
-			align: 'center',
-			resizable: true,
-			width: 200
 		}
 	]
 
