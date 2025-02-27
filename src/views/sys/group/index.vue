@@ -106,7 +106,7 @@
 
 	const columns = [
 		{
-			title: '角色组名称',
+			title: '分组名称',
 			dataIndex: 'name',
 			resizable: true,
 			width: 200
@@ -117,18 +117,6 @@
 			resizable: true,
 			width: 200,
 			ellipsis: true
-		},
-		{
-			title: '分组类型',
-			dataIndex: 'groupType',
-			align: 'center',
-			width: 80
-		},
-		{
-			title: '状态',
-			dataIndex: 'status',
-			align: 'center',
-			width: 80
 		},
 		{
 			title: '创建时间',
