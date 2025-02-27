@@ -62,7 +62,7 @@
 						</template>
 						<template v-if="column.dataIndex === 'action'">
 							<a-space>
-								<a-tooltip title="分配用户">
+								<a-tooltip title="授权用户">
 									<a style="color:#53C61D;" @click="scopeUserRef.onOpen(record, treeRef.treeData)"><UsergroupAddOutlined /></a>
 								</a-tooltip>
 								<a-divider type="vertical" />
