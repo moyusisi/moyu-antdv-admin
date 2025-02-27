@@ -42,18 +42,19 @@
 					<template #operator class="table-operator">
 						<a-space>
 							<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(searchFormData.orgCode, treeRef.treeData)">新增</a-button>
-							<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteGroup" />
+							<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteScope" />
 						</a-space>
 					</template>
 					<template #bodyCell="{ column, record }">
 						<template v-if="column.dataIndex === 'code'">
 							<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
 						</template>
-						<template v-if="column.dataIndex === 'groupType'">
-							<!-- 岗位类型(字典 1特有 2通用 3自建) -->
-							<a-tag v-if="record.groupType === 1" color="cyan">特有</a-tag>
-							<a-tag v-if="record.groupType === 2" color="blue">通用</a-tag>
-							<a-tag v-if="record.groupType === 3" color="purple">自建</a-tag>
+						<template v-if="column.dataIndex === 'scopeType'">
+							<!-- 数据范围(字典 0无限制 1本人数据 2本机构 3本机构及以下 4自定义) -->
+							<a-tag v-if="record.scopeType === 1" color="cyan">本人数据</a-tag>
+							<a-tag v-if="record.scopeType === 2" color="cyan">本机构</a-tag>
+              <a-tag v-if="record.scopeType === 3" color="blue">本机构及以下</a-tag>
+              <a-tag v-if="record.scopeType === 4" color="purple">自定义</a-tag>
 						</template>
 						<template v-if="column.dataIndex === 'status'">
 							<a-tag v-if="record.status === 0" color="green">正常</a-tag>
@@ -61,12 +62,8 @@
 						</template>
 						<template v-if="column.dataIndex === 'action'">
 							<a-space>
-								<a-tooltip title="分配角色">
-									<a style="color:#1980FF;" @click="groupRoleRef.onOpen(record)"><DeploymentUnitOutlined /></a>
-								</a-tooltip>
-								<a-divider type="vertical" />
 								<a-tooltip title="分配用户">
-									<a style="color:#53C61D;" @click="groupUserRef.onOpen(record, treeRef.treeData)"><UsergroupAddOutlined /></a>
+									<a style="color:#53C61D;" @click="scopeUserRef.onOpen(record, treeRef.treeData)"><UsergroupAddOutlined /></a>
 								</a-tooltip>
 								<a-divider type="vertical" />
 								<a-tooltip title="编辑">
@@ -74,7 +71,7 @@
 								</a-tooltip>
 								<a-divider type="vertical" />
 								<a-tooltip title="删除">
-									<a-popconfirm title="确定要删除吗？" @confirm="deleteGroup(record)">
+									<a-popconfirm title="确定要删除吗？" @confirm="deleteScope(record)">
 										<a style="color:#FF4D4F;"><DeleteOutlined/></a>
 									</a-popconfirm>
 								</a-tooltip>
@@ -87,19 +84,17 @@
 	</a-row>
 	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />
 	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />
-	<GroupRole ref="groupRoleRef" @successful="handleSuccess()" />
-	<GroupUser ref="groupUserRef" @successful="handleSuccess()" />
+	<ScopeUser ref="scopeUserRef" @successful="handleSuccess()" />
 </template>
 
 <script setup>
-	import groupApi from '@/api/sys/groupApi'
+  import scopeApi from '@/api/sys/scopeApi'
 	import { onMounted, h } from "vue";
 	import { message } from 'ant-design-vue'
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
 	import AddForm from './addForm.vue'
 	import EditForm from './editForm.vue'
-	import GroupRole from './groupRole.vue'
-	import GroupUser from './groupUser.vue'
+	import ScopeUser from './scopeUser.vue'
 	import OrgTree from "../components/orgTree.vue"
 	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
@@ -119,6 +114,12 @@
 			ellipsis: true
 		},
     {
+      title: '数据范围',
+      dataIndex: 'scopeType',
+      align: 'center',
+      width: 80
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       align: 'center',
@@ -134,7 +135,7 @@
 			title: '操作',
 			dataIndex: 'action',
 			align: 'center',
-			width: 200,
+			width: 150,
 		}
 	]
 	const selectedRowKeys = ref([])
@@ -162,8 +163,7 @@
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const addFormRef = ref()
 	const editFormRef = ref()
-	const groupUserRef = ref()
-	const groupRoleRef = ref()
+	const scopeUserRef = ref()
 	const searchFormRef = ref()
 	const searchFormData = ref({})
 
@@ -172,7 +172,7 @@
 
 	// 表格查询 返回 Promise 对象
 	const loadTableData = (parameter) => {
-		return groupApi.groupPage(Object.assign(parameter, searchFormData.value)).then((res) => {
+		return scopeApi.scopePage(Object.assign(parameter, searchFormData.value)).then((res) => {
 			return res.data
 		})
 	}
@@ -192,17 +192,17 @@
 		tableRef.value.refresh(true)
 	}
 	// 单个删除
-	const deleteGroup = (record) => {
+	const deleteScope = (record) => {
 		let data = { codes: [record.code] }
-		groupApi.deleteGroup(data).then((res) => {
+		scopeApi.deleteScope(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
 	}
 	// 批量删除
-	const batchDeleteGroup = (params) => {
+	const batchDeleteScope = (params) => {
 		let data = { codes: selectedRowKeys.value }
-		groupApi.deleteGroup(data).then((res) => {
+    scopeApi.deleteScope(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})
