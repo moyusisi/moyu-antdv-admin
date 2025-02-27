@@ -129,7 +129,7 @@
 			title: '创建时间',
 			dataIndex: 'createTime',
 			align: 'center',
-			width: 140
+			width: 160
 		},
 		{
 			title: '操作',
