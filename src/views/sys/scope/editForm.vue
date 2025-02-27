@@ -16,7 +16,7 @@
 				<a-row :gutter="24">
 					<a-col :span="12">
             <a-form-item label="数据范围名称：" name="name" :rules="[required('请输入名称')]">
-              <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear />
+              <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
             </a-form-item>
 					</a-col>
 					<a-col :span="12">
@@ -40,14 +40,16 @@
 							/>
 						</a-form-item>
 					</a-col>
-          <a-form-item label="数据范围类型：" name="scopeType" :rules="[required('请选择数据范围')]">
-            <a-radio-group v-model:value="formData.scopeType" button-style="solid">
-              <!-- 数据范围(字典 2本机构 3本机构及以下 4自定义) -->
-              <a-radio-button :value="2">仅本机构</a-radio-button>
-              <a-radio-button :value="3">本机构及以下</a-radio-button>
-              <a-radio-button :value="4">自定义</a-radio-button>
-            </a-radio-group>
-          </a-form-item>
+          <a-col :span="12">
+            <a-form-item label="数据范围类型：" name="scopeType" :rules="[required('请选择数据范围')]">
+              <a-radio-group v-model:value="formData.scopeType" button-style="solid">
+                <!-- 数据范围(字典 2本机构 3本机构及以下 4自定义) -->
+                <a-radio-button :value="2">仅本机构</a-radio-button>
+                <a-radio-button :value="3">本机构及以下</a-radio-button>
+                <a-radio-button :value="4">自定义</a-radio-button>
+              </a-radio-group>
+            </a-form-item>
+          </a-col>
 					<!-- 使用状态 -->
 					<a-col :span="12">
 						<a-form-item label="使用状态:" name="status" :rules="[required('请选择使用状态')]">
