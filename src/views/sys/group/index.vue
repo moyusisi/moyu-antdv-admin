@@ -33,7 +33,7 @@
 					ref="tableRef"
 					:columns="columns"
 					:data="loadTableData"
-					:scroll="{ x: 1000 }"
+          :scroll="{ x: true }"
 					bordered
 					:row-key="(record) => record.code"
 					:tool-config="toolConfig"

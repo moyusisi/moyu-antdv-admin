@@ -33,7 +33,7 @@
 					ref="tableRef"
 					:columns="columns"
 					:data="loadTableData"
-					:scroll="{ x: 1200 }"
+					:scroll="{ x: true }"
 					bordered
 					:alert="options.alert.show"
 					:row-key="(record) => record.id"

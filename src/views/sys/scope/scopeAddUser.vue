@@ -265,8 +265,4 @@
 	.ant-form-item {
 		margin-bottom: 10px !important;
 	}
-	.selectorTree {
-		max-height: 600px;
-		overflow: auto;
-	}
 </style>
