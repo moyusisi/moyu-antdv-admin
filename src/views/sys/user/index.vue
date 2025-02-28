@@ -73,7 +73,6 @@
 									<a style="color:darkorange;"><LockOutlined/></a>
 								  </a-popconfirm>
 								</a-tooltip>
-								<a-divider type="vertical" />
 							</a-space>
 						</template>
 					</template>
