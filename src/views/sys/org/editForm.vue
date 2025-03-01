@@ -5,7 +5,8 @@
 		:width="drawerWidth"
 		:closable="false"
 		:footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
-		@close="onClose"
+    :destroy-on-close="true"
+    @close="onClose"
 	>
 		<template #extra>
 			<a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>

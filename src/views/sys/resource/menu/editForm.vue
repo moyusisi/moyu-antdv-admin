@@ -4,9 +4,9 @@
 		title="编辑菜单"
 		:width="drawerWidth"
 		:closable="false"
-    :destroyOnClose="true"
 		:footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
-		@close="onClose"
+    :destroy-on-close="true"
+    @close="onClose"
 	>
 		<template #extra>
 			<a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
