@@ -1,14 +1,16 @@
 <template>
   <!-- 上方模块选择 -->
 	<a-card size="small">
-		<a-form ref="queryForm" :model="queryFormData">
+		<a-form ref="queryFormRef" :model="queryFormData">
 			<a-row :gutter="24">
-        <a-col :span="8">
+        <a-col :span="6">
           <a-form-item name="module" label="所属模块">
-            <a-select v-model:value="queryFormData.module" placeholder="请选择模块" :options="moduleOptions" allowClear />
+            <a-select v-model:value="queryFormData.module" @change="onModuleChange" placeholder="请选择模块">
+              <a-select-option v-for="item in moduleList" :key="item.code" :value="item.code">{{item.name}}</a-select-option>
+            </a-select>
           </a-form-item>
         </a-col>
-				<a-col :span="8">
+				<a-col :span="6">
 					<a-form-item name="searchKey" label="名称关键词">
 						<a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
 					</a-form-item>
@@ -36,7 +38,7 @@
     >
       <template #operator>
         <a-space>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增菜单</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增按钮</a-button>
           <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchButton" />
         </a-space>
       </template>
@@ -88,7 +90,7 @@
 	const queryFormData = ref({ menuType: 4 })
 	const addFormRef = ref()
 	const editFormRef = ref()
-	const queryForm = ref()
+	const queryFormRef = ref()
   const moduleId = ref()
   const module = ref()
   const moduleList = ref([])
@@ -118,11 +120,16 @@
       width: 150
     },
     {
-      title: '排序',
-      dataIndex: 'sortNum',
-      sorter: true,
+      title: '变更人',
+      dataIndex: 'updateUser',
       align: 'center',
-      width: 80
+      width: 160
+    },
+    {
+      title: '变更时间',
+      dataIndex: 'updateTime',
+      align: 'center',
+      width: 160
     },
     {
       title: '操作',
@@ -133,11 +140,6 @@
   ]
 
 	let selectedRowKeys = ref([])
-	// 模块下拉选项
-	const moduleOptions = [
-		{ label: "正常", value: 0 },
-		{ label: "已停用", value: 1 }
-	]
 	// 列表选择配置
 	const options = {
 		alert: {
@@ -153,23 +155,33 @@
 		}
 	}
 
-  const loadModuleData = async () => {
-    // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-    const res = await menuApi.moduleList()
-    moduleList.value = res.data
-    module.value = res.data.length > 0 ? res.data[0] : null
-    moduleId.value = module.value.code
-    queryForm.value.module = moduleId.value
+  const loadData = async (parameter) => {
+    if (!moduleId.value) {
+      // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
+      const moduleRes = await menuApi.moduleList()
+      moduleList.value = moduleRes.data
+      module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
+      moduleId.value = module.value.code
+      queryFormData.value.module = moduleId.value
+      return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
+        return res.data
+      })
+    } else {
+      return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
+        return res.data
+      })
+    }
   }
 
-	const loadData = (parameter) => {
-		return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
-			return res.data
-		})
-	}
+  // 模块选择发生变更
+  const onModuleChange = (value) => {
+    queryFormData.value.module = value
+    tableRef.value.refresh(true)
+  }
+
 	// 重置
 	const reset = () => {
-		queryForm.value.resetFields()
+		queryFormRef.value.resetFields()
 		tableRef.value.refresh(true)
 	}
 	// 删除
