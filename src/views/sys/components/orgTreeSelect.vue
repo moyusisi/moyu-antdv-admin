@@ -38,7 +38,6 @@ const props = defineProps({
 const emit = defineEmits(['onChange'])
 // 树节点被选中时调用(https://antdv.com/components/tree-select-cn#api)
 const onChange = (value, label, extra) => {
-  console.log(value)
   // 传递被选中的节点key
   emit('onChange', value, label, extra)
 }

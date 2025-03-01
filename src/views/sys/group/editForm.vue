@@ -88,14 +88,14 @@
 	})
 
 	// 打开抽屉
-	const onOpen = (record, tree) => {
-		visible.value = true
+	const onOpen = async (group, tree) => {
 		// 获取组织信息
-		groupApi.groupDetail({ code: record.code }).then((res) => {
-			formData.value = res.data
-		})
+		let res = await groupApi.groupDetail({ code: group.code })
+    formData.value = res.data
     // 组织树赋值并展开顶级节点
     treeData.value = tree
+    // 数据就绪之后显示
+    visible.value = true
 	}
 	// 关闭抽屉
 	const onClose = () => {

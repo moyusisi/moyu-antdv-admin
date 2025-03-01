@@ -159,14 +159,15 @@ const drawerWidth = computed(() => {
 })
 
 // 打开抽屉
-const onOpen = (record, tree) => {
+const onOpen = async (record, tree) => {
 	visible.value = true
 	// 获取用户信息
-	userApi.userDetail({ account: record.account }).then((res) => {
-		formData.value = res.data
-	})
+  const res = await userApi.userDetail({ account: record.account })
+  formData.value = res.data
   // 组织树赋值并展开顶级节点
   treeData.value = tree
+  // 数据就绪之后显示
+  visible.value = true
 }
 // 关闭抽屉
 const onClose = () => {

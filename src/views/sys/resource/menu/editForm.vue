@@ -4,6 +4,7 @@
 		title="编辑菜单"
 		:width="drawerWidth"
 		:closable="false"
+    :destroyOnClose="true"
 		:footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
 		@close="onClose"
 	>
@@ -135,20 +136,19 @@
 	})
 
 	// 打开抽屉
-	const onOpen = (node, moduleCode) => {
-		visible.value = true
+	const onOpen = async (node, moduleCode) => {
 		// 获取菜单信息
-		menuApi.menuDetail({ code: node.code }).then((res) => {
-			formData.value = res.data
-		})
+    const res = await menuApi.menuDetail({ code: node.code })
+    formData.value = res.data
 		// 获取菜单树并加入顶级节点
-		menuApi.menuTreeSelector({ module: moduleCode }).then((res) => {
-			treeData.value = [{
-				code: moduleCode,
-				name: '顶级',
-				children: res.data
-			}]
-		})
+    const moduleRes = await menuApi.menuTreeSelector({ module: moduleCode })
+    treeData.value = [{
+      code: moduleCode,
+      name: '顶级',
+      children: moduleRes.data
+    }]
+    // 数据就绪之后显示
+    visible.value = true
 	}
 	// 关闭抽屉
 	const onClose = () => {
