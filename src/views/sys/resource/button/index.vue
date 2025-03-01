@@ -120,10 +120,11 @@
       width: 150
     },
     {
-      title: '变更人',
-      dataIndex: 'updateUser',
+      title: '排序',
+      dataIndex: 'sortNum',
+      sorter: true,
       align: 'center',
-      width: 160
+      width: 80
     },
     {
       title: '变更时间',
