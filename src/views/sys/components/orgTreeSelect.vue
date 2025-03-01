@@ -4,7 +4,7 @@
       v-model:value="selectValue"
       v-model:treeExpandedKeys="defaultExpandedKeys"
       :dropdown-style="{ maxHeight: '500px', overflow: 'auto' }"
-      placeholder="请选择上级组织"
+      placeholder="请选择"
       allow-clear
       :tree-data="props.treeData"
       :field-names="{ children: 'children', label: 'name', value: 'code' }"

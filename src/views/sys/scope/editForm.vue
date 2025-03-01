@@ -1,7 +1,7 @@
 <template>
 	<a-drawer
 		:open="visible"
-		title="编辑数据范围分组"
+		title="编辑数据权限组"
 		:width="drawerWidth"
 		:closable="false"
 		:footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
@@ -15,7 +15,7 @@
 			<a-card title="基本信息">
 				<a-row :gutter="24">
 					<a-col :span="12">
-            <a-form-item label="数据范围名称：" name="name" :rules="[required('请输入名称')]">
+            <a-form-item label="数据权限组：" name="name" :rules="[required('请输入名称')]">
               <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
             </a-form-item>
 					</a-col>
@@ -25,12 +25,12 @@
 						</a-form-item>
 					</a-col>
 					<a-col :span="12">
-						<a-form-item label="直属组织：" name="orgCode" :rules="[required('请选择直属组织')]">
+            <a-form-item label="直属机构：" name="orgCode" :rules="[required('请选择直属机构')]">
               <OrgTreeSelect :tree-data="treeData" :defaultValue="formData.orgCode" @onChange="parentChange"/>
             </a-form-item>
 					</a-col>
           <a-col :span="12">
-            <a-form-item label="数据范围类型：" name="scopeType" :rules="[required('请选择数据范围')]">
+            <a-form-item label="数据范围：" name="scopeType" :rules="[required('请选择数据范围')]">
               <a-radio-group v-model:value="formData.scopeType" button-style="solid">
                 <!-- 数据范围(字典 2本机构 3本机构及以下 4自定义) -->
                 <a-radio-button :value="2">仅本机构</a-radio-button>
@@ -45,6 +45,11 @@
 							<a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions" />
 						</a-form-item>
 					</a-col>
+          <a-col :span="12" v-if="formData.scopeType === 4">
+            <a-form-item label="自定义范围：" name="orgCode">
+              <OrgTreeSelect :tree-data="treeData" :defaultValue="formData.scopeList" multiSelect @onChange="scopeChange"/>
+            </a-form-item>
+          </a-col>
 					<a-col :span="12">
 						<a-form-item label="排序:" name="sortNum" :rules="[required('请填写排序值')]">
 							<a-input-number class="wd" v-model:value="formData.sortNum" :max="100" />
@@ -94,6 +99,9 @@
 		// 获取组织信息
     const res = await scopeApi.scopeDetail({ code: scope.code });
     formData.value = res.data
+    if(res.data.scopeSet) {
+      formData.value.scopeList = res.data.scopeSet.split(',')
+    }
     // 组织树赋值并展开顶级节点
     treeData.value = tree
     // 数据就绪之后显示
@@ -108,7 +116,10 @@
 	const parentChange = (value) => {
 		formData.value.orgCode = value
 	}
-
+  // 自定义数据范围变更
+  const scopeChange = (value) => {
+    formData.value.scopeList = value
+  }
 	// 验证并提交数据
 	const onSubmit = () => {
 		formRef.value.validate().then(() => {
