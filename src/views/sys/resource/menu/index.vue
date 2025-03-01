@@ -25,7 +25,7 @@
 		>
 			<template #operator>
 				<a-space>
-					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增菜单</a-button>
+					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module, 2, module.code)">新增菜单</a-button>
 					<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteMenu" />
 				</a-space>
 			</template>
