@@ -1,15 +1,16 @@
 <template>
+  <!-- 上方模块选择 -->
 	<a-card size="small">
-		<a-form ref="searchFormRef" :model="searchFormData">
+		<a-form ref="queryForm" :model="queryFormData">
 			<a-row :gutter="24">
+        <a-col :span="8">
+          <a-form-item name="module" label="所属模块">
+            <a-select v-model:value="queryFormData.module" placeholder="请选择模块" :options="moduleOptions" allowClear />
+          </a-form-item>
+        </a-col>
 				<a-col :span="8">
 					<a-form-item name="searchKey" label="名称关键词">
-						<a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
-					</a-form-item>
-				</a-col>
-				<a-col :span="6">
-					<a-form-item name="status" label="使用状态">
-						<a-select v-model:value="searchFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
+						<a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
 					</a-form-item>
 				</a-col>
 				<a-col :span="8">
@@ -22,58 +23,53 @@
 		</a-form>
 	</a-card>
 	<a-card size="small">
-		<STable
-			ref="tableRef"
-			:columns="columns"
-			:data="loadData"
-			:alert="options.alert.show"
-			bordered
-			:row-key="(record) => record.id"
-			:tool-config="toolConfig"
-			:row-selection="options.rowSelection"
-		>
-			<template #operator>
-				<a-space>
-					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen()">新增模块</a-button>
-					<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchModule" />
-				</a-space>
-			</template>
-			<template #bodyCell="{ column, record }">
-				<template v-if="column.dataIndex === 'icon'">
-					<span v-if="record.icon && record.icon !== '#'" >
-						<component :is="record.icon"/>
-					</span>
-					<span v-else />
-				</template>
-				<template v-if="column.dataIndex === 'code'">
-					<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
-				</template>
+    <STable
+        ref="tableRef"
+        :columns="columns"
+        :data="loadData"
+        :alert="options.alert.show"
+        bordered
+        :row-key="(record) => record.id"
+        :tool-config="toolConfig"
+        :row-selection="options.rowSelection"
+        :scroll="{ x: 'max-content' }"
+    >
+      <template #operator>
+        <a-space>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增菜单</a-button>
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchButton" />
+        </a-space>
+      </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.dataIndex === 'menuType'">
+          <a-tag v-if="record.menuType === 1" color="orange">模块</a-tag>
+          <a-tag v-if="record.menuType === 2" color="cyan">目录</a-tag>
+          <a-tag v-if="record.menuType === 3" color="blue">菜单</a-tag>
+          <a-tag v-if="record.menuType === 4" color="purple">按钮</a-tag>
+          <a-tag v-if="record.menuType === 5" color="green">链接</a-tag>
+        </template>
         <template v-if="column.dataIndex === 'path'">
           <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
         </template>
-				<template v-if="column.dataIndex === 'link'">
-					<a-tag v-if="record.link" :bordered="false">{{ record.link }}</a-tag>
-				</template>
-				<template v-if="column.dataIndex === 'status'">
-					<a-tag v-if="record.status === 0" color="green">正常</a-tag>
-					<a-tag v-else>已停用</a-tag>
-				</template>
-				<template v-if="column.dataIndex === 'action'">
-					<a-space>
-						<a-tooltip title="编辑">
-							<a @click="editFormRef.onOpen(record)"><FormOutlined /></a>
-						</a-tooltip>
-						<a-divider type="vertical" />
-						<a-tooltip title="删除">
-							<a-popconfirm title="确定要删除吗？" @confirm="deleteModule(record)">
-								<a style="color:#FF4D4F;"><DeleteOutlined/></a>
-							</a-popconfirm>
-						</a-tooltip>
-					</a-space>
-				</template>
-			</template>
-		</STable>
-	</a-card>
+        <template v-if="column.dataIndex === 'permission'">
+          <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
+        </template>
+        <template v-if="column.dataIndex === 'action'">
+          <a-space>
+            <a-tooltip title="编辑">
+              <a @click="editFormRef.onOpen(record, module)"><FormOutlined /></a>
+            </a-tooltip>
+            <a-divider type="vertical" />
+            <a-tooltip title="删除">
+              <a-popconfirm title="确定要删除吗？" @confirm="deleteButton(record)">
+                <a style="color:#FF4D4F;"><DeleteOutlined/></a>
+              </a-popconfirm>
+            </a-tooltip>
+          </a-space>
+        </template>
+      </template>
+    </STable>
+  </a-card>
 	<AddForm ref="addFormRef" @successful="tableRef.refresh(true)" />
 	<EditForm ref="editFormRef" @successful="tableRef.refresh(true)" />
 </template>
@@ -88,11 +84,14 @@
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
-	// menuType=1标识模块
-	const searchFormData = ref({ menuType: 1 })
+	// menuType=4表示按钮
+	const queryFormData = ref({ menuType: 4 })
 	const addFormRef = ref()
 	const editFormRef = ref()
-	const searchFormRef = ref()
+	const queryForm = ref()
+  const moduleId = ref()
+  const module = ref()
+  const moduleList = ref([])
 	const tableRef = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
   const columns = [
@@ -134,8 +133,8 @@
   ]
 
 	let selectedRowKeys = ref([])
-	// 使用状态options（0正常 1停用）
-	const statusOptions = [
+	// 模块下拉选项
+	const moduleOptions = [
 		{ label: "正常", value: 0 },
 		{ label: "已停用", value: 1 }
 	]
@@ -153,18 +152,28 @@
 			}
 		}
 	}
+
+  const loadModuleData = async () => {
+    // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
+    const res = await menuApi.moduleList()
+    moduleList.value = res.data
+    module.value = res.data.length > 0 ? res.data[0] : null
+    moduleId.value = module.value.code
+    queryForm.value.module = moduleId.value
+  }
+
 	const loadData = (parameter) => {
-		return menuApi.menuPage(Object.assign(parameter, searchFormData.value)).then((res) => {
+		return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
 			return res.data
 		})
 	}
 	// 重置
 	const reset = () => {
-		searchFormRef.value.resetFields()
+		queryForm.value.resetFields()
 		tableRef.value.refresh(true)
 	}
 	// 删除
-	const deleteModule = (record) => {
+	const deleteButton = (record) => {
 		let data = { ids: [record.id] }
 		menuApi.deleteMenu(data).then((res) => {
 			message.success(res.message)
@@ -172,7 +181,7 @@
 		})
 	}
 	// 批量删除
-	const deleteBatchModule = (params) => {
+	const deleteBatchButton = (params) => {
 		let data = { ids: selectedRowKeys.value }
 		menuApi.deleteMenu(data).then((res) => {
 			message.success(res.message)
