@@ -147,7 +147,7 @@
 		visible.value = true
 		// 模块赋值
 		moduleId.value = moduleCode
-		// 若指定了menuType则赋值
+		// 若指定了menuType则赋值  1模块 2目录 3菜单 4按钮 5外链
 		if (menuType) {
 			formData.value.menuType = menuType
 		}
