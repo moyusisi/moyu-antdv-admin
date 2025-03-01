@@ -177,31 +177,20 @@
 			}
 		}
 	}
-	const loadData = (parameter) => {
+	const loadData = async (parameter) => {
 		if (!moduleId.value) {
 			// 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-			return menuApi.moduleList().then((res) => {
-				moduleList.value = res.data
-        module.value = res.data.length > 0 ? res.data[0] : null
-        moduleId.value = module.value.code
-				queryForm.value.module = moduleId.value
-				return menuApi.menuTree(Object.assign(parameter, queryForm.value)).then((res) => {
-					if (res.data) {
-						return res.data
-					} else {
-						return []
-					}
-				})
-			})
+			const res = await menuApi.moduleList()
+      moduleList.value = res.data
+      module.value = res.data.length > 0 ? res.data[0] : null
+      moduleId.value = module.value.code
+      queryForm.value.module = moduleId.value
+      const treeRes = await menuApi.menuTree(Object.assign(parameter, queryForm.value))
+      return treeRes.data ? treeRes.data : []
 		} else {
 			// menuTree获取到的data中的id和parentId均为code
-			return menuApi.menuTree(Object.assign(parameter, queryForm.value)).then((res) => {
-				if (res.data) {
-					return res.data
-				} else {
-					return []
-				}
-			})
+      const treeRes = await menuApi.menuTree(Object.assign(parameter, queryForm.value))
+      return treeRes.data ? treeRes.data : []
 		}
 	}
 	// 切换应用标签查询菜单列表
