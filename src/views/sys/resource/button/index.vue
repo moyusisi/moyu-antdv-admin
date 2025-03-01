@@ -5,7 +5,7 @@
 			<a-row :gutter="24">
         <a-col :span="6">
           <a-form-item name="module" label="所属模块">
-            <a-select v-model:value="queryFormData.module" @change="onModuleChange" placeholder="请选择模块">
+            <a-select v-model:value="moduleId" @change="onModuleChange" placeholder="请选择模块">
               <a-select-option v-for="item in moduleList" :key="item.code" :value="item.code">{{item.name}}</a-select-option>
             </a-select>
           </a-form-item>
@@ -177,6 +177,7 @@
   // 模块选择发生变更
   const onModuleChange = (value) => {
     queryFormData.value.module = value
+    module.value = moduleList.value.find((e) => e.code === value)
     tableRef.value.refresh(true)
   }
 
