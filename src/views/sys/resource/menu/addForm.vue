@@ -143,10 +143,10 @@
 	})
 
 	// 打开抽屉(新增时无data)
-	const onOpen = (moduleCode, menuType, parentCode) => {
+	const onOpen = (module, menuType, parentCode) => {
 		visible.value = true
 		// 模块赋值
-		moduleId.value = moduleCode
+		moduleId.value = module.code
 		// 若指定了menuType则赋值  1模块 2目录 3菜单 4按钮 5外链
 		if (menuType) {
 			formData.value.menuType = menuType
@@ -156,11 +156,11 @@
 			formData.value.parentCode = parentCode
 		}
 		// 获取菜单树并加入顶级节点
-		menuApi.menuTreeSelector({ module: moduleCode }).then((res) => {
+		menuApi.menuTreeSelector({ module: module.code }).then((res) => {
 			treeData.value = [
 				{
-					code: moduleCode,
-					name: '顶级',
+					code: module.code,
+					name: module.name,
 					children: res.data
 				}
 			]
