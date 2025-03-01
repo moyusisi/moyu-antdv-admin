@@ -38,7 +38,6 @@
 								allow-clear
 								:tree-data="treeData"
 								:field-names="{ children: 'children', label: 'name', value: 'code' }"
-								selectable="false"
 								tree-line
 								@change="parentChange"
 							/>
