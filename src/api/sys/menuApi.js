@@ -6,42 +6,42 @@ import service from '@/utils/request'
 export default {
 	// 查询菜单列表
 	menuList(data) {
-		return service.postJson('/api/sys/menu/list', data)
+		return service.postJson('/api/sys/resource/list', data)
 	},
 	// 查询模块列表(resourceType=1)
 	moduleList(data) {
-		return service.postJson('/api/sys/menu/list', { "resourceType": 1 })
+		return service.postJson('/api/sys/resource/list', { "resourceType": 1 })
 	},
 	// 分页查询资源列表(模块、按钮列表)
 	menuPage(data) {
-		return service.postJson('/api/sys/menu/page', data)
+		return service.postJson('/api/sys/resource/page', data)
 	},
 	// 获取菜单树
 	menuTree(data) {
-		return service.postJson('/api/sys/menu/tree', data)
+		return service.postJson('/api/sys/resource/tree', data)
 	},
 	// 获取菜单详情
 	menuDetail(data) {
-		return service.postJson('/api/sys/menu/detail', data)
+		return service.postJson('/api/sys/resource/detail', data)
 	},
 	// 新增菜单
 	addMenu(data) {
-		return service.postJson('/api/sys/menu/add', data)
+		return service.postJson('/api/sys/resource/add', data)
 	},
 	// 删除菜单，通过ids删除，不会集联删除
 	deleteMenu(data) {
-		return service.postJson('/api/sys/menu/delete', data)
+		return service.postJson('/api/sys/resource/delete', data)
 	},
 	// 删除菜单，通过codes删除，会集联删除整个树
 	deleteMenuTree(data) {
-		return service.postJson('/api/sys/menu/deleteTree', data)
+		return service.postJson('/api/sys/resource/deleteTree', data)
 	},
 	// 编辑菜单
 	editMenu(data) {
-		return service.postJson('/api/sys/menu/edit', data)
+		return service.postJson('/api/sys/resource/edit', data)
 	},
 	// 获取菜单树选择器
 	menuTreeSelector(data) {
-		return service.postJson('/api/sys/menu/menuTreeSelector', data)
+		return service.postJson('/api/sys/resource/menuTreeSelector', data)
 	},
 }
