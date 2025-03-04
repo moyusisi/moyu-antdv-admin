@@ -163,7 +163,7 @@
 		}
 	}
 	const loadData = (parameter) => {
-		return menuApi.menuPage(Object.assign(parameter, searchFormData.value)).then((res) => {
+		return menuApi.resourcePage(Object.assign(parameter, searchFormData.value)).then((res) => {
 			return res.data
 		})
 	}
@@ -175,7 +175,7 @@
 	// 删除
 	const deleteModule = (record) => {
 		let data = { ids: [record.id] }
-		menuApi.deleteMenu(data).then((res) => {
+		menuApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
@@ -183,7 +183,7 @@
 	// 批量删除
 	const deleteBatchModule = (params) => {
 		let data = { ids: selectedRowKeys.value }
-		menuApi.deleteMenu(data).then((res) => {
+		menuApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})

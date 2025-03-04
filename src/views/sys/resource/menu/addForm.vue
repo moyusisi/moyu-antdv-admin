@@ -193,7 +193,7 @@
 		formRef.value.validate().then(() => {
 			const param = buildParam(formData.value)
 			submitLoading.value = true
-			menuApi.addMenu(param).then((res) => {
+			menuApi.addResource(param).then((res) => {
 				message.success(res.message)
 				onClose()
 				emit('successful')

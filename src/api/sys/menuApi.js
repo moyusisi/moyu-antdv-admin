@@ -13,7 +13,7 @@ export default {
 		return service.postJson('/api/sys/resource/list', { "resourceType": 1 })
 	},
 	// 分页查询资源列表(模块、按钮列表)
-	menuPage(data) {
+	resourcePage(data) {
 		return service.postJson('/api/sys/resource/page', data)
 	},
 	// 获取菜单树
@@ -21,15 +21,15 @@ export default {
 		return service.postJson('/api/sys/resource/tree', data)
 	},
 	// 获取菜单详情
-	menuDetail(data) {
+	resourceDetail(data) {
 		return service.postJson('/api/sys/resource/detail', data)
 	},
 	// 新增菜单
-	addMenu(data) {
+	addResource(data) {
 		return service.postJson('/api/sys/resource/add', data)
 	},
 	// 删除菜单，通过ids删除，不会集联删除
-	deleteMenu(data) {
+	deleteResource(data) {
 		return service.postJson('/api/sys/resource/delete', data)
 	},
 	// 删除菜单，通过codes删除，会集联删除整个树

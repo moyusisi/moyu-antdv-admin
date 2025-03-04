@@ -68,7 +68,7 @@
 	const onOpen = (record) => {
 		visible.value = true
 		// 获取模块信息
-		menuApi.menuDetail({ id: record.id }).then((res) => {
+		menuApi.resourceDetail({ id: record.id }).then((res) => {
 			formData.value = res.data
 		})
 	}

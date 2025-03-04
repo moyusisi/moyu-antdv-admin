@@ -58,7 +58,7 @@
   // 打开抽屉
   const onOpen = async (record, module) => {
     // 获取按钮信息
-    const res = await menuApi.menuDetail({ code: record.code })
+    const res = await menuApi.resourceDetail({ code: record.code })
     formData.value = res.data
     // 获取菜单树并加入顶级节点
     const moduleRes = await menuApi.menuTreeSelector({ module: record.module })

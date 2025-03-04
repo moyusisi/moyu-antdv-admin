@@ -166,11 +166,11 @@
       module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
       moduleId.value = module.value.code
       queryFormData.value.module = moduleId.value
-      return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return menuApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
         return res.data
       })
     } else {
-      return menuApi.menuPage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return menuApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
         return res.data
       })
     }
@@ -191,7 +191,7 @@
 	// 删除
 	const deleteButton = (record) => {
 		let data = { ids: [record.id] }
-		menuApi.deleteMenu(data).then((res) => {
+		menuApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
@@ -199,7 +199,7 @@
 	// 批量删除
 	const deleteBatchButton = (params) => {
 		let data = { ids: selectedRowKeys.value }
-		menuApi.deleteMenu(data).then((res) => {
+		menuApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})
