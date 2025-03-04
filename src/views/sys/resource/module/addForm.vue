@@ -48,7 +48,7 @@
 
 <script setup>
 	import { required } from '@/utils/formRules'
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 	import IconSelector from '@/components/Selector/iconSelector.vue'
 	import { message } from "ant-design-vue";
 	// 默认是关闭状态
@@ -88,7 +88,7 @@
 	// 验证并提交数据
 	const onSubmit = () => {
 		formRef.value.validate().then(() => {
-			menuApi.addResource(formData.value).then((res) => {
+			resourceApi.addResource(formData.value).then((res) => {
 				message.success(res.message)
 				emit('successful')
 				onClose()

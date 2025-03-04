@@ -122,7 +122,7 @@
 
 <script setup>
 	import { required } from '@/utils/formRules'
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 	import IconSelector from '@/components/Selector/iconSelector.vue'
 	import { useSettingsStore } from "@/store";
 	import { message } from "ant-design-vue";
@@ -147,10 +147,10 @@
 	// 打开抽屉
 	const onOpen = async (node, module) => {
 		// 获取菜单信息
-    const res = await menuApi.resourceDetail({ code: node.code })
+    const res = await resourceApi.resourceDetail({ code: node.code })
     formData.value = res.data
 		// 获取菜单树并加入顶级节点
-    const moduleRes = await menuApi.menuTreeSelector({ module: module.code })
+    const moduleRes = await resourceApi.menuTreeSelector({ module: module.code })
     treeData.value = [{
       code: module.code,
       name: module.name,
@@ -185,7 +185,7 @@
 		formRef.value.validate().then(() => {
 			const param = buildParam(formData.value)
 			submitLoading.value = true
-			menuApi.editResource(param).then((res) => {
+			resourceApi.editResource(param).then((res) => {
 				message.success(res.message)
 				emit('successful')
 				onClose()

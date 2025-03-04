@@ -88,7 +88,7 @@
 </template>
 
 <script setup>
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 
 	import { h } from 'vue'
 	import { PlusOutlined } from '@ant-design/icons-vue'
@@ -180,16 +180,16 @@
 	const loadData = async (parameter) => {
 		if (!moduleId.value) {
 			// 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-			const res = await menuApi.moduleList()
+			const res = await resourceApi.moduleList()
       moduleList.value = res.data
       module.value = res.data.length > 0 ? res.data[0] : null
       moduleId.value = module.value.code
       queryForm.value.module = moduleId.value
-      const treeRes = await menuApi.menuTree(Object.assign(parameter, queryForm.value))
+      const treeRes = await resourceApi.menuTree(Object.assign(parameter, queryForm.value))
       return treeRes.data ? treeRes.data : []
 		} else {
 			// menuTree获取到的data中的id和parentId均为code
-      const treeRes = await menuApi.menuTree(Object.assign(parameter, queryForm.value))
+      const treeRes = await resourceApi.menuTree(Object.assign(parameter, queryForm.value))
       return treeRes.data ? treeRes.data : []
 		}
 	}
@@ -202,7 +202,7 @@
 	// 单个删除
 	const deleteMenu = (node) => {
 		let data = { codes: [node.code] }
-		menuApi.deleteMenuTree(data).then((res) => {
+		resourceApi.deleteMenuTree(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 			refreshCacheMenu()
@@ -211,7 +211,7 @@
 	// 批量删除
 	const batchDeleteMenu = (params) => {
 		let data = { codes: selectedRowKeys.value }
-		menuApi.deleteMenuTree(data).then((res) => {
+		resourceApi.deleteMenuTree(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 			refreshCacheMenu()

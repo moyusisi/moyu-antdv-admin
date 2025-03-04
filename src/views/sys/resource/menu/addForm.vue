@@ -122,7 +122,7 @@
 
 <script setup>
 	import { required } from '@/utils/formRules'
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 	import IconSelector from '@/components/Selector/iconSelector.vue'
 	import { useSettingsStore } from "@/store";
 	import { message } from "ant-design-vue";
@@ -162,7 +162,7 @@
     // 若指定了parentCode则赋值
     formData.value.parentCode = parentCode
     // 获取菜单树并加入顶级节点
-    const res = await menuApi.menuTreeSelector({ module: module.code })
+    const res = await resourceApi.menuTreeSelector({ module: module.code })
     treeData.value = [{ code: module.code, name: module.name, children: res.data }]
     // 数据就绪之后显示
     visible.value = true
@@ -193,7 +193,7 @@
 		formRef.value.validate().then(() => {
 			const param = buildParam(formData.value)
 			submitLoading.value = true
-			menuApi.addResource(param).then((res) => {
+			resourceApi.addResource(param).then((res) => {
 				message.success(res.message)
 				onClose()
 				emit('successful')

@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 	import { h } from "vue";
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
 	import AddForm from "./addForm.vue";
@@ -161,16 +161,16 @@
   const loadData = async (parameter) => {
     if (!moduleId.value) {
       // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-      const moduleRes = await menuApi.moduleList()
+      const moduleRes = await resourceApi.moduleList()
       moduleList.value = moduleRes.data
       module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
       moduleId.value = module.value.code
       queryFormData.value.module = moduleId.value
-      return menuApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return resourceApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
         return res.data
       })
     } else {
-      return menuApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return resourceApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
         return res.data
       })
     }
@@ -191,7 +191,7 @@
 	// 删除
 	const deleteButton = (record) => {
 		let data = { ids: [record.id] }
-		menuApi.deleteResource(data).then((res) => {
+		resourceApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
@@ -199,7 +199,7 @@
 	// 批量删除
 	const deleteBatchButton = (params) => {
 		let data = { ids: selectedRowKeys.value }
-		menuApi.deleteResource(data).then((res) => {
+		resourceApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})

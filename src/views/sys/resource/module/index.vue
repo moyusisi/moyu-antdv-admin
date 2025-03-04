@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-	import menuApi from '@/api/sys/menuApi'
+	import resourceApi from '@/api/sys/resourceApi.js'
 	import { h } from "vue";
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
 	import AddForm from "@/views/sys/resource/module/addForm.vue";
@@ -163,7 +163,7 @@
 		}
 	}
 	const loadData = (parameter) => {
-		return menuApi.resourcePage(Object.assign(parameter, searchFormData.value)).then((res) => {
+		return resourceApi.resourcePage(Object.assign(parameter, searchFormData.value)).then((res) => {
 			return res.data
 		})
 	}
@@ -175,7 +175,7 @@
 	// 删除
 	const deleteModule = (record) => {
 		let data = { ids: [record.id] }
-		menuApi.deleteResource(data).then((res) => {
+		resourceApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
@@ -183,7 +183,7 @@
 	// 批量删除
 	const deleteBatchModule = (params) => {
 		let data = { ids: selectedRowKeys.value }
-		menuApi.deleteResource(data).then((res) => {
+		resourceApi.deleteResource(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.clearRefreshSelected()
 		})
