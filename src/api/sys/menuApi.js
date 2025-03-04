@@ -16,7 +16,7 @@ export default {
 	resourcePage(data) {
 		return service.postJson('/api/sys/resource/page', data)
 	},
-	// 获取菜单树
+	// 获取菜单树(包括按钮)
 	menuTree(data) {
 		return service.postJson('/api/sys/resource/tree', data)
 	},
