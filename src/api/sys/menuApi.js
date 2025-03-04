@@ -12,7 +12,7 @@ export default {
 	moduleList(data) {
 		return service.postJson('/api/sys/menu/list', { "menuType": 1 })
 	},
-	// 分页查询菜单列表(模块列表)
+	// 分页查询资源列表(模块、按钮列表)
 	menuPage(data) {
 		return service.postJson('/api/sys/menu/page', data)
 	},
