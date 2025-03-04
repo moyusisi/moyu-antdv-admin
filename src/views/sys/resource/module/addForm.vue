@@ -58,7 +58,7 @@
 	const iconSelectorRef = ref()
 	// 表单数据，这里有默认值
 	const formData = ref({
-		menuType: 1,
+    resourceType: 1,
 		visible: 1,
 		sortNum: 9,
 		status: 0

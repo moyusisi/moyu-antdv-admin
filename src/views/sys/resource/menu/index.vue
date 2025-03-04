@@ -30,12 +30,12 @@
 				</a-space>
 			</template>
 			<template #bodyCell="{ column, record : node }">
-				<template v-if="column.dataIndex === 'menuType'">
-					<a-tag v-if="node.menuType === 1" color="orange">模块</a-tag>
-					<a-tag v-if="node.menuType === 2" color="cyan">目录</a-tag>
-					<a-tag v-if="node.menuType === 3" color="blue">菜单</a-tag>
-					<a-tag v-if="node.menuType === 4" color="purple">按钮</a-tag>
-					<a-tag v-if="node.menuType === 5" color="green">链接</a-tag>
+				<template v-if="column.dataIndex === 'resourceType'">
+					<a-tag v-if="node.resourceType === 1" color="orange">模块</a-tag>
+					<a-tag v-if="node.resourceType === 2" color="cyan">目录</a-tag>
+					<a-tag v-if="node.resourceType === 3" color="blue">菜单</a-tag>
+					<a-tag v-if="node.resourceType === 4" color="purple">按钮</a-tag>
+					<a-tag v-if="node.resourceType === 5" color="green">链接</a-tag>
 				</template>
 				<template v-if="column.dataIndex === 'path'">
 					<a-tag v-if="node.path" :bordered="false">{{ node.path }}</a-tag>
@@ -53,7 +53,7 @@
 					<span v-else />
 				</template>
 				<template v-if="column.dataIndex === 'visible'">
-					<span v-if="node.menuType !== 4" >
+					<span v-if="node.resourceType !== 4" >
 						<a-tag v-if="node.visible === 1" color="green">可见</a-tag>
 						<a-tag v-else>不可见</a-tag>
 					</span>
@@ -61,11 +61,11 @@
 				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
-						<a-tooltip v-if="node.menuType === 2" title="添加菜单">
+						<a-tooltip v-if="node.resourceType === 2" title="添加菜单">
 							<a style="color:#53C61D;" @click="addFormRef.onOpen(module, 3, node.code)"><PlusSquareOutlined /></a>
               <a-divider type="vertical" />
 						</a-tooltip>
-						<a-tooltip v-else-if="node.menuType === 3" title="添加按钮">
+						<a-tooltip v-else-if="node.resourceType === 3" title="添加按钮">
 							<a style="color:#53C61D;" @click="addFormRef.onOpen(module, 4, node.code)"><PlusSquareOutlined /></a>
               <a-divider type="vertical" />
 						</a-tooltip>
@@ -114,7 +114,7 @@
 		},
 		{
 			title: '类型',
-			dataIndex: 'menuType',
+			dataIndex: 'resourceType',
 			align: 'center',
 			width: 80
 		},

@@ -88,8 +88,8 @@
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
-	// menuType=1标识模块
-	const searchFormData = ref({ menuType: 1 })
+	// resourceType=1标识模块
+	const searchFormData = ref({ resourceType: 1 })
 	const addFormRef = ref()
 	const editFormRef = ref()
 	const searchFormRef = ref()

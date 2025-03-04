@@ -55,7 +55,7 @@
   const moduleId = ref()
 	// 表单数据，这里有默认值
 	const formData = ref({
-		menuType: 4,
+    resourceType: 4,
 		sortNum: 9,
 		status: 0
 	})

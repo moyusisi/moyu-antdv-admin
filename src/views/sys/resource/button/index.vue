@@ -43,12 +43,12 @@
         </a-space>
       </template>
       <template #bodyCell="{ column, record }">
-        <template v-if="column.dataIndex === 'menuType'">
-          <a-tag v-if="record.menuType === 1" color="orange">模块</a-tag>
-          <a-tag v-if="record.menuType === 2" color="cyan">目录</a-tag>
-          <a-tag v-if="record.menuType === 3" color="blue">菜单</a-tag>
-          <a-tag v-if="record.menuType === 4" color="purple">按钮</a-tag>
-          <a-tag v-if="record.menuType === 5" color="green">链接</a-tag>
+        <template v-if="column.dataIndex === 'resourceType'">
+          <a-tag v-if="record.resourceType === 1" color="orange">模块</a-tag>
+          <a-tag v-if="record.resourceType === 2" color="cyan">目录</a-tag>
+          <a-tag v-if="record.resourceType === 3" color="blue">菜单</a-tag>
+          <a-tag v-if="record.resourceType === 4" color="purple">按钮</a-tag>
+          <a-tag v-if="record.resourceType === 5" color="green">链接</a-tag>
         </template>
         <template v-if="column.dataIndex === 'path'">
           <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
@@ -86,8 +86,8 @@
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
-	// menuType=4表示按钮
-	const queryFormData = ref({ menuType: 4 })
+	// resourceType=4表示按钮
+	const queryFormData = ref({ resourceType: 4 })
 	const addFormRef = ref()
 	const editFormRef = ref()
 	const queryFormRef = ref()
@@ -105,7 +105,7 @@
     },
     {
       title: '类型',
-      dataIndex: 'menuType',
+      dataIndex: 'resourceType',
       align: 'center',
       width: 80
     },
