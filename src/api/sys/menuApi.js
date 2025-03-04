@@ -4,8 +4,8 @@ import service from '@/utils/request'
  * 菜单相关接口(菜单树中的id均使用的code)
  */
 export default {
-	// 查询菜单列表
-	menuList(data) {
+	// 查询菜单列表,暂未使用
+	resourceList(data) {
 		return service.postJson('/api/sys/resource/list', data)
 	},
 	// 查询模块列表(resourceType=1)
@@ -37,7 +37,7 @@ export default {
 		return service.postJson('/api/sys/resource/deleteTree', data)
 	},
 	// 编辑菜单
-	editMenu(data) {
+	editResource(data) {
 		return service.postJson('/api/sys/resource/edit', data)
 	},
 	// 获取菜单树选择器

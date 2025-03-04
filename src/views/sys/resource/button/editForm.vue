@@ -83,7 +83,7 @@
 	// 验证并提交数据
 	const onSubmit = () => {
 		formRef.value.validate().then(() => {
-			menuApi.editMenu(formData.value).then((res) => {
+			menuApi.editResource(formData.value).then((res) => {
 				message.success(res.message)
 				emit('successful')
 				onClose()

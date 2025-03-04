@@ -185,7 +185,7 @@
 		formRef.value.validate().then(() => {
 			const param = buildParam(formData.value)
 			submitLoading.value = true
-			menuApi.editMenu(param).then((res) => {
+			menuApi.editResource(param).then((res) => {
 				message.success(res.message)
 				emit('successful')
 				onClose()
