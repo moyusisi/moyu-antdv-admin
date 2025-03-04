@@ -42,6 +42,6 @@ export default {
 	},
 	// 获取菜单树选择器
 	menuTreeSelector(data) {
-		return service.postJson('/api/sys/menu/treeSelector', data)
+		return service.postJson('/api/sys/menu/menuTreeSelector', data)
 	},
 }
