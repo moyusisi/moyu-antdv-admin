@@ -47,7 +47,7 @@
 						</a-form-item>
 					</a-col>
           <a-col :span="12" v-if="formData.dataScope === 4">
-            <a-form-item label="自定义范围：" name="dataScope" tooltip="自定义数据范围时必填">
+            <a-form-item label="自定义范围：" name="scopeList" tooltip="自定义数据范围时必填">
               <OrgTreeSelect :tree-data="treeData" multiSelect @onChange="scopeChange"/>
             </a-form-item>
           </a-col>
@@ -85,6 +85,7 @@
 		visible: 1,
 		status: 0
 	})
+  const scopeList = ref([])
 	const submitLoading = ref(false)
 	// 使用状态options（0正常 1停用）
 	const statusOptions = [
@@ -114,16 +115,15 @@
 	}
   // 自定义数据范围变更
   const scopeChange = (value) => {
-    if(value) {
-      formData.value.scopeSet = value.join(',');
-    } else {
-      formData.value.scopeSet = null
-    }
+    scopeList.value = value
   }
 	// 验证并提交数据
 	const onSubmit = () => {
 		formRef.value.validate().then(() => {
 			submitLoading.value = true
+      if (scopeList.value) {
+        formData.value.scopeSet = scopeList.value.join(',');
+      }
 			groupApi.addGroup(formData.value).then((res) => {
 				message.success(res.message)
 				emit('successful')
