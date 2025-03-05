@@ -22,7 +22,7 @@ const filterAsyncRoutes = (menus) => {
 		// menu转路由对象
 		const route: RouteRecordRaw = {
 			path: menu.path,
-			name: menu.path,
+			name: menu.code,
 			meta: menu.meta ? menu.meta : {},
 			redirect: menu.redirect,
 			children: menu.children ? filterAsyncRoutes(menu.children) : null,
