@@ -106,6 +106,14 @@ export const useMenuStore = defineStore('menuStore', () => {
 	};
 
 	/**
+	 * 重新加载菜单及路由
+	 */
+	const reloadRoutes = async () => {
+		await refreshModuleMenu()
+		return await generateRoutes()
+	};
+
+	/**
 	 * 根据当前的routes生成菜单的面包屑
 	 */
 	const initBreadcrumb = (routes: RouteRecordRaw[], breadcrumb: RouteRecordRaw[] = []) => {
@@ -129,5 +137,6 @@ export const useMenuStore = defineStore('menuStore', () => {
 		initModuleMenu,
 		refreshModuleMenu,
 		generateRoutes,
+		reloadRoutes
 	}
 })
