@@ -107,7 +107,7 @@
 
 	const columns = [
 		{
-			title: '分组名称',
+			title: '岗位名称',
 			dataIndex: 'name',
 			resizable: true,
 			width: 200
