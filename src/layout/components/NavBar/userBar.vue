@@ -16,7 +16,7 @@
 				<a-menu>
           <a-sub-menu v-if="userInfo.groupInfoList.length > 1" key="groupSubMenu" :icon="h(UserSwitchOutlined)" title="岗位切换">
             <template v-for="group in userInfo.groupInfoList" :key="group.code" :item="group">
-              <a-menu-item :class="{'item-selected':userInfo.groupCode === group.code}">
+              <a-menu-item :class="{'item-selected':userInfo.groupCode === group.code}" @click="switchUserGroup(group.code)">
                 <user-outlined class="mr8" />
                 <span>{{ group.name }}</span>
                 <div class="item-sub-title">{{ group.orgFullName }}</div>
@@ -61,7 +61,12 @@
 		return userStore.userInfo
 	})
 
-	// 个人信息
+  // 切换用户岗位
+  const switchUserGroup = (groupCode) => {
+    userStore.switchUserGroup(groupCode)
+    router.reloadRoutes()
+  }
+	// 退出登陆
 	const userLogout = () => {
     Modal.confirm({
 				title: '提示',
