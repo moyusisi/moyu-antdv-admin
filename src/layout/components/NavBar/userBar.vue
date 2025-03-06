@@ -62,9 +62,17 @@
 	})
 
   // 切换用户岗位
-  const switchUserGroup = (groupCode) => {
-    userStore.switchUserGroup(groupCode)
-    router.reloadRoutes()
+  const switchUserGroup = async (groupCode) => {
+    try {
+      await userStore.switchUserGroup(groupCode)
+      // await router.reloadRoutes()
+      message.loading('切换中...', 0.5)
+      window.location.href = '/index'
+      message.success('切换成功')
+    } catch (err) {
+      message.error('切换失败')
+      console.log(err)
+    }
   }
 	// 退出登陆
 	const userLogout = () => {
