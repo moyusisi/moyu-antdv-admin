@@ -117,12 +117,6 @@
 			width: 80
 		},
 		{
-			title: '手机',
-			dataIndex: 'phone',
-			align: 'center',
-			width: 150
-		},
-		{
 			title: '组织机构',
 			dataIndex: 'orgName',
 			resizable: true,
@@ -140,7 +134,7 @@
 			dataIndex: 'action',
 			align: 'center',
 			resizable: true,
-			width: 200
+			width: 150
 		}
 	]
 	const selectedRowKeys = ref([])
