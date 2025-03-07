@@ -14,7 +14,7 @@
 			</div>
 			<template #overlay>
 				<a-menu>
-          <a-sub-menu v-if="userInfo.groupInfoList.length > 1" key="groupSubMenu" :icon="h(UserSwitchOutlined)" title="岗位切换">
+          <a-sub-menu v-if="userInfo.groupInfoList && userInfo.groupInfoList.length > 1" key="groupSubMenu" :icon="h(UserSwitchOutlined)" title="岗位切换">
             <template v-for="group in userInfo.groupInfoList" :key="group.code" :item="group">
               <a-menu-item :class="{'item-selected':userInfo.groupCode === group.code}" @click="switchUserGroup(group.code)">
                 <user-outlined class="mr8" />
