@@ -96,47 +96,47 @@
 	import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
-	const columns = [
-		{
-			title: '账号',
-			dataIndex: 'account',
-			resizable: true,
-			width: 200,
-			ellipsis: true
-		},
-		{
-			title: '姓名',
-			dataIndex: 'name',
-			resizable: true,
-			width: 150
-		},
-		{
-			title: '性别',
-			dataIndex: 'gender',
-			align: 'center',
-			width: 80
-		},
-		{
-			title: '组织机构',
-			dataIndex: 'orgName',
-			resizable: true,
-			width: 200,
-			ellipsis: true
-		},
-		{
-			title: '状态',
-			dataIndex: 'status',
-			align: 'center',
-			width: 80
-		},
-		{
-			title: '操作',
-			dataIndex: 'action',
-			align: 'center',
-			resizable: true,
-			width: 150
-		}
-	]
+  const columns = [
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      resizable: true,
+      width: 150
+    },
+    {
+      title: '账号',
+      dataIndex: 'account',
+      resizable: true,
+      width: 200,
+      ellipsis: true
+    },
+    {
+      title: '性别',
+      dataIndex: 'gender',
+      align: 'center',
+      width: 80
+    },
+    {
+      title: '组织机构',
+      dataIndex: 'orgName',
+      resizable: true,
+      width: 200,
+      ellipsis: true
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      align: 'center',
+      width: 80
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      align: 'center',
+      resizable: true,
+      width: 150
+    }
+  ]
 	const selectedRowKeys = ref([])
 	// 列表选择配置
 	const options = {
