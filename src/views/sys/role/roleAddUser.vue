@@ -18,7 +18,7 @@
         <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
 			</a-col>
 			<a-col :span="19">
-        <a-alert message="全局授权的用户，仅有对应的功能权限，无任何数据权限。" type="error" />
+        <a-alert message="角色授权的用户，仅有对应的功能权限，数据权限需在岗位中控制。" type="error" />
 				<a-card size="small">
 					<a-form ref="searchFormRef" :model="searchFormData">
 						<a-row :gutter="16">
