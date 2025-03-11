@@ -226,7 +226,7 @@
 			return
 		}
 		let data = { code: role.value.code, codeSet: selectedRowKeys.value }
-    roleApi.userGrantRole(data).then((res) => {
+    roleApi.roleAddUser(data).then((res) => {
 			message.success(res.message)
 			emit('successful')
 			// 添加之后重新加载数据
