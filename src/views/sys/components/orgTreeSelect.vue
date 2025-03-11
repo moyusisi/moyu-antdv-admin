@@ -76,6 +76,8 @@ const refresh = () => {
 }
 // 暴露子组件的方法
 defineExpose({
+  treeData,
+  refresh
 })
 </script>
 
