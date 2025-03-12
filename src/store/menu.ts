@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useSearchStore } from '@/store/search'
 import userCenterApi from '@/api/sys/userCenterApi'
-import routesData from '@/router/systemRouter'
+import { constRoutes } from '@/router'
 import { RouteRecordRaw } from "vue-router"
 // 布局组件, 一般顶层目录使用
 import Layout from '@/layout/index.vue'
@@ -62,7 +62,7 @@ export const useMenuStore = defineStore('menuStore', () => {
 
 	// actions
 	function setRoutes(newRoutes) {
-		routes.value = routesData.concat(newRoutes);
+		routes.value = constRoutes.concat(newRoutes);
 	}
 
 	/**

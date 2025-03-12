@@ -5,7 +5,7 @@ import settings from "@/config/settings.ts"
 import { useMenuStore, useUserStore } from "@/store";
 import { message } from "ant-design-vue";
 
-const constRoutes = [...systemRouter]
+export const constRoutes: RouteRecordRaw[] = [...systemRouter]
 
 const router = createRouter({
   history: createWebHistory(),

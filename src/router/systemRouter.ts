@@ -6,7 +6,7 @@ import Layout from '@/layout/index.vue'
  */
 const routes = [
 	{
-		path: '',
+		path: '/',
 		name: 'layout',
 		component: Layout,
 		redirect: '/index',
