@@ -31,9 +31,6 @@
 						<span v-if="record.resourceType === 1">
 							<a-tag color="orange">模块</a-tag>{{ record.name }}
 						</span>
-						<span v-if="record.resourceType === 1">
-							<a-tag color="orange">模块</a-tag>{{ record.name }}
-						</span>
 						<span v-if="record.resourceType === 2">
 							<a-tag color="cyan">目录</a-tag>{{ record.name }}
 						</span>
