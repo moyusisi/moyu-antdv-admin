@@ -10,6 +10,7 @@ export const constRoutes: RouteRecordRaw[] = [...systemRouter]
 const router = createRouter({
   history: createWebHistory(),
   routes: constRoutes as RouteRecordRaw[],
+  // routes: [] as RouteRecordRaw[],
   // 刷新时，滚动条位置还原
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })

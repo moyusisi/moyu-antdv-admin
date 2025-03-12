@@ -75,6 +75,8 @@ onMounted(() => {
     // path中最后一个为菜单，应当选中此菜单，同时移除菜单后的路径列表即为目录，应打开
     selectedKeys.value = pathList.splice(pathList.length - 1, 1)
     openKeys.value = pathList
+    // console.log('selectedKeys', selectedKeys.value)
+    // console.log('openKeys', openKeys.value)
   }
 })
 
