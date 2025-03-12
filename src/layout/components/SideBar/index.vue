@@ -91,11 +91,11 @@ const onSelect = (obj) => {
 
 // 菜单展开/关闭的回调
 const onOpenChange = (keys) => {
+  // console.log(keys)
 	if (sideUniqueOpen.value) {
 		// 新打开的key，关闭时为 undefined。oldKeys中不存在的为新打开，都存在则为关闭
 		const openKey = keys.find(key => openKeys.value.indexOf(key) === -1);
 		if (openKey) {
-			// console.log('新打开' + openKey)
 			// 新打开 openKey 按照目录树获取上级
 			openKeys.value = getParentKeys(menuList.value, openKey)
 		} else {
