@@ -32,11 +32,12 @@
 					<a-col :span="12">
 						<a-form-item label="菜单类型" name="resourceType" :rules="[required('请选择菜单类型')]">
 							<a-radio-group v-model:value="formData.resourceType" button-style="solid">
-								<!-- 1模块 2目录 3菜单 4按钮 5外链 -->
-								<a-radio-button :value="2">目录</a-radio-button>
-								<a-radio-button :value="3">菜单</a-radio-button>
-								<a-radio-button :value="5">外链</a-radio-button>
-								<a-radio-button :value="4">按钮</a-radio-button>
+                <!-- 字典 1模块 2目录 3菜单 4内链 5外链 6按钮 -->
+                <a-radio-button :value="2">目录</a-radio-button>
+                <a-radio-button :value="3">菜单</a-radio-button>
+                <a-radio-button :value="4">内链</a-radio-button>
+                <a-radio-button :value="5">外链</a-radio-button>
+                <a-radio-button :value="6">按钮</a-radio-button>
 							</a-radio-group>
 						</a-form-item>
 					</a-col>
@@ -56,8 +57,8 @@
 							<a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
 						</a-form-item>
 					</a-col>
-					<!-- 外链:链接地址 -->
-					<a-col :span="12" v-else-if="formData.resourceType === 5">
+					<!-- 内链、外链:链接地址 -->
+					<a-col :span="12" v-else-if="formData.resourceType === 4 || formData.resourceType === 5">
 						<a-form-item label="链接地址" name="path" tooltip="链接必须以http(s)开头" :rules="[required('请输入链接地址')]">
 							<a-input v-model:value="formData.path" placeholder="请输入链接地址" allow-clear />
 						</a-form-item>
@@ -81,13 +82,13 @@
         <!-- 按钮:接口地址、权限标识 -->
         <a-row :gutter="24">
           <!-- 按钮:接口地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 4">
+          <a-col :span="12" v-if="formData.resourceType === 6">
             <a-form-item label="接口地址" name="path" tooltip="非必填，以反斜杠'/'开头">
               <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
             </a-form-item>
           </a-col>
           <!-- 按钮:权限标识 -->
-          <a-col :span="12" v-if="formData.resourceType === 4">
+          <a-col :span="12" v-if="formData.resourceType === 6">
             <a-form-item label="权限标识" name="permission" tooltip="权限标识应与后端接口保持一致且用':'分割，如'sys:user:add'" :rules="[required('请输入权限标识')]">
               <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
             </a-form-item>
@@ -95,13 +96,13 @@
         </a-row>
 				<a-row :gutter="24">
 					<!-- 目录、菜单、外链:是否可见 -->
-					<a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 5">
+					<a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 4 || formData.resourceType === 5">
 						<a-form-item label="是否可见" name="visible" :rules="[required('请选择是否可见')]">
 							<a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
 						</a-form-item>
 					</a-col>
 					<!-- 目录、菜单、外链:图标 -->
-					<a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 5">
+					<a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 4 || formData.resourceType === 5">
 						<a-form-item label="图标" name="icon">
 							<a-input v-model:value="formData.icon" class="wdcalc-70" placeholder="请选择图标" allow-clear disabled />
 							<a-button type="primary" @click="iconSelector.showIconModal(formData.icon)">选择</a-button>
@@ -155,7 +156,7 @@
   const onOpen = async (module, resourceType, parentCode) => {
     // 模块赋值
     moduleId.value = module.code
-    // 若指定了resourceType则赋值  1模块 2目录 3菜单 4按钮 5外链
+    // 若指定了resourceType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
     if (resourceType) {
       formData.value.resourceType = resourceType
     }

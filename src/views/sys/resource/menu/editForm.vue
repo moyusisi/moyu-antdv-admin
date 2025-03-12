@@ -32,11 +32,12 @@
 					<a-col :span="12">
 						<a-form-item label="菜单类型" name="resourceType" :rules="[required('请选择菜单类型')]">
 							<a-radio-group v-model:value="formData.resourceType" button-style="solid">
-								<!-- 1模块 2目录 3菜单 4按钮 5外链 -->
-								<a-radio-button :value="2">目录</a-radio-button>
-								<a-radio-button :value="3">菜单</a-radio-button>
-								<a-radio-button :value="5">外链</a-radio-button>
-								<a-radio-button :value="4">按钮</a-radio-button>
+								<!-- 字典 1模块 2目录 3菜单 4内链 5外链 6按钮 -->
+                <a-radio-button :value="2">目录</a-radio-button>
+                <a-radio-button :value="3">菜单</a-radio-button>
+                <a-radio-button :value="4">内链</a-radio-button>
+                <a-radio-button :value="5">外链</a-radio-button>
+                <a-radio-button :value="6">按钮</a-radio-button>
 							</a-radio-group>
 						</a-form-item>
 					</a-col>
