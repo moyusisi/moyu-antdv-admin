@@ -66,16 +66,16 @@ const sideTheme = computed(() => {
 })
 
 onMounted(() => {
-	let matched = route.matched
-	let pathList = []
-	matched.forEach((item) => {
-		pathList.push(item.path)
-	})
-	if (pathList.length) {
-		// path中最后一个为菜单，应当选中此菜单，同时移除菜单后的路径列表即为目录，应打开
-		selectedKeys.value = pathList.splice(pathList.length - 1, 1)
-		openKeys.value = pathList
-	}
+  let matched = route.matched
+  let pathList = []
+  matched.forEach((item) => {
+    pathList.push(item.path)
+  })
+  if (pathList.length) {
+    // path中最后一个为菜单，应当选中此菜单，同时移除菜单后的路径列表即为目录，应打开
+    selectedKeys.value = pathList.splice(pathList.length - 1, 1)
+    openKeys.value = pathList
+  }
 })
 
 // 当菜单被选中时 { item, key, selectedKeys }
