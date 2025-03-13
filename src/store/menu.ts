@@ -20,11 +20,17 @@ const filterAsyncRoutes = (menus) => {
 	const asyncRoutes: RouteRecordRaw[] = [];
 	// 遍历所有菜单
 	menus.forEach((menu) => {
+		menu.meta = menu.meta ? menu.meta : {}
+		// 处理外部链接特殊路由
+		if (menu.meta.type === 'iframe') {
+			menu.meta.url = menu.path
+			menu.path = `/${menu.code}`
+		}
 		// menu转路由对象
 		const route: RouteRecordRaw = {
 			path: menu.path,
 			name: menu.code,
-			meta: menu.meta ? menu.meta : {},
+			meta: menu.meta,
 			redirect: menu.redirect,
 			children: menu.children ? filterAsyncRoutes(menu.children) : null,
 			component: loadComponent(menu)

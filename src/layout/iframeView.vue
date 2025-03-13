@@ -1,5 +1,5 @@
 <template>
-  <div v-if="route.meta.menuType === 5" class="admin-iframe">
+  <div v-if="route.meta.type === 'iframe'" class="admin-iframe">
     <iframe :key="route.meta.url" :src="route.meta.url"></iframe>
   </div>
 </template>

@@ -7,7 +7,7 @@
 				<component :is="onlyOneRoute.meta.icon" />
 			</template>
 			<!--  如果是超链接 新窗口打开  -->
-			<a v-if="onlyOneRoute.meta?.url" :href="onlyOneRoute.meta.url" target="_blank" @click.stop="() => {}">
+			<a v-if="onlyOneRoute.meta?.type === 'link'" :href="onlyOneRoute.meta.url" target="_blank" @click.stop="() => {}">
 				{{ onlyOneRoute.meta?.title }}
 			</a>
 			<a v-else>{{ onlyOneRoute.meta?.title }}</a>

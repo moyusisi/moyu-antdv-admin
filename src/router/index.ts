@@ -45,8 +45,8 @@ router.beforeEach(async (to, from) => {
       // 生成动态路由
       const asyncRoutes = await menuStore.generateRoutes();
       asyncRoutes.forEach((route) => {
-        router.addRoute(route);
-        // router.addRoute('layout', route)
+        // router.addRoute(route);
+        router.addRoute('layout', route)
       });
       // console.log(asyncRoutes)
       // console.log(menuStore.constRoutes)
