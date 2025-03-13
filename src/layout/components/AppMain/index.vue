@@ -2,10 +2,10 @@
   <div id="admin-ui-main" class="admin-ui-main">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedViews">
-        <component :is="Component" :key="route.path" />
+        <component :is="Component" :key="route.path"/>
       </keep-alive>
     </router-view>
-    <iframe-view></iframe-view>
+    <iframe-view/>
   </div>
 </template>
 
