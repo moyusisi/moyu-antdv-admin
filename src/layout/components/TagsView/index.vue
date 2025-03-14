@@ -20,10 +20,10 @@
         </div>
       </template>
 
-      <a-tab-pane v-for="tag in tagList" :key="tag.fullPath" :closable="!tag.meta.affix">
+      <a-tab-pane v-for="tag in tagList" :key="tag.fullPath" :closable="!(tag?.affix===true)">
         <template #tab>
-					<span :key="tag.meta.key">
-						{{ tag.meta.title }}
+					<span :key="tag.fullPath">
+						{{ tag.title }}
 					</span>
         </template>
       </a-tab-pane>
@@ -31,13 +31,15 @@
   </div>
 </template>
 
-<script setup>
-import { useSettingsStore, useTagsViewStore } from '@/store'
+<script setup lang="ts">
+import { useSettingsStore, useTagsViewStore, useMenuStore } from '@/store'
+import { TagView } from "@/types/global"
 
 const route = useRoute()
 const router = useRouter()
 const settingsStore = useSettingsStore()
 const tagsViewStore = useTagsViewStore()
+const menuStore = useMenuStore()
 
 const tagsView = computed(() => {
   return settingsStore.tagsView
@@ -50,18 +52,86 @@ const tagList = computed(() => {
 })
 
 const activeKey = ref()
+const affixTags = ref<TagView[]>([]);
+
+watch(route, (to) => {
+  // 首次进入回调用onMounted但route不会改变
+  // console.log('watch')
+  addView(to)
+  activeKey.value = to.fullPath
+})
+
+onMounted(() => {
+  // console.log('onMounted')
+  initTags()
+  addView(route)
+  activeKey.value = route.fullPath
+})
 
 
+function initTags() {
+  const tags = filterAffixTags(menuStore.routes);
+  affixTags.value = tags;
+  for (const tag of tags) {
+    // Must have tag name
+    if (tag.name) {
+      tagsViewStore.addView(tag)
+    }
+  }
+}
 
+/**
+ * 过滤出需要固定的标签
+ */
+function filterAffixTags(routes) {
+  let tags = [];
+  routes.forEach((route) => {
+    const tagPath = route.path;
+    if (route.meta?.affix) {
+      tags.push({
+        path: tagPath,
+        fullPath: tagPath,
+        name: String(route.name),
+        title: route.meta?.title || "no-name",
+        affix: route.meta?.affix,
+        keepAlive: route.meta?.keepAlive,
+      });
+    }
+    if (route.children) {
+      const tempTags = filterAffixTags(route.children)
+      if (tempTags.length >= 1) {
+        tags = [...tags, ...tempTags]
+      }
+    }
+  });
+  return tags;
+}
+
+// 增加tagsView
+const addView = (to) => {
+  activeKey.value = to.fullPath
+  if (to.meta.title) {
+    tagsViewStore.addView({
+      name: to.name as string,
+      title: to.meta.title,
+      path: to.path,
+      fullPath: to.fullPath,
+      affix: to.meta?.affix,
+      keepAlive: to.meta?.keepAlive,
+    });
+  }
+}
 
 const onTabRemove = (tabKey, action) => {
+  console.log(action, tabKey)
   if (action === 'remove') {
     const tag = tagList.value.find((tag) => tag.fullPath === tabKey)
     // closeSelectedTag(tag)
   }
 }
-const onTabClick = (tab) => {
-  router.push(tab)
+const onTabClick = (tabKey) => {
+  // console.log('onTabClick', tabKey)
+  router.push(tabKey)
 }
 // 处理鼠标放开事件
 const onTabUp = (e) => {
