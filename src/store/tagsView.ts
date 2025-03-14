@@ -28,7 +28,20 @@ export const useTagsViewStore = defineStore('tagsView', () => {
     }
   }
 
-  function removeView(route) {
+  function removeView(view: TagView) {
+    // visitedViews中移除
+    for (const [i, v] of visitedViews.value.entries()) {
+      // 找到与指定视图路径匹配的视图，在已访问视图列表中删除该视图
+      if (v.path === view.path) {
+        visitedViews.value.splice(i, 1);
+        break;
+      }
+    }
+    // cacheView中移除
+    const index = cachedViews.value.indexOf(view.name);
+    if (index > -1) {
+      cachedViews.value.splice(index, 1);
+    }
   }
 
   function clearViews() {

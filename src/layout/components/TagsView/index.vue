@@ -123,11 +123,29 @@ const addView = (to) => {
 }
 
 const onTabRemove = (tabKey, action) => {
-  console.log(action, tabKey)
+  // console.log(action, tabKey)
   if (action === 'remove') {
     const tag = tagList.value.find((tag) => tag.fullPath === tabKey)
-    // closeSelectedTag(tag)
+    closeSelectedTag(tag)
   }
+}
+// 关闭tag
+const closeSelectedTag = (tag, autoPushLatestView = true) => {
+  // 移除时会同步改变 tagList.value
+  tagsViewStore.removeView(tag)
+  if (autoPushLatestView && isActive(tag)) {
+    const latestView = tagList.value.slice(-1)[0]
+    console.log('isActive', latestView)
+    if (latestView) {
+      router.push(latestView.path)
+    } else {
+      router.push('/')
+    }
+  }
+}
+// 是否激活
+const isActive = (to) => {
+  return to.path === route.path
 }
 const onTabClick = (tabKey) => {
   // console.log('onTabClick', tabKey)
