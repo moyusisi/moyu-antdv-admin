@@ -8,7 +8,7 @@
       <!-- 最上方导航 -->
       <NavBar />
       <!-- 多标签 -->
-       <TagsView />
+       <TagsView v-if="tagsView" />
       <!-- 主要内容区域 -->
       <a-layout-content class="main-content-wrapper">
         <AppMain/>
@@ -25,6 +25,12 @@ import SideBar from "@/layout/components/SideBar/index.vue"
 import NavBar from "@/layout/components/NavBar/index.vue"
 import TagsView from "@/layout/components/TagsView/index.vue"
 import AppMain from "@/layout/components/AppMain/index.vue"
+import { useSettingsStore } from "@/store"
+
+const settingsStore = useSettingsStore()
+const tagsView = computed(() => {
+  return settingsStore.tagsView
+})
 
 onMounted(() => {
   updateVersion()
