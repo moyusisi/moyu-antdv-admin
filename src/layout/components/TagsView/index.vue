@@ -80,7 +80,7 @@ function initTags() {
  * 过滤出需要固定的标签
  */
 function filterAffixTags(routes) {
-  let tags = [];
+  let tags: TagView[] = [];
   routes.forEach((route) => {
     const tagPath = route.path;
     if (route.meta?.affix) {
