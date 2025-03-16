@@ -82,7 +82,7 @@ onMounted(() => {
   }
 })
 
-// 非首次加载则不再调用onMounted，但route会改变
+// 非首次加载则不再调用onMounted，但route会改变。任何地方改变路由时都会被监听到
 watch(route, (to) => {
   let matched = to.matched
   let pathList = []
