@@ -132,7 +132,7 @@ const onOpenChange = (keys) => {
     openKeys.value = keys
   }
 }
-// 获取上级keys
+// 获取上级keys(包括当前key)
 const getParentKeys = (menuList, key) => {
   // 递归查找
   return traverse(menuList, key)
