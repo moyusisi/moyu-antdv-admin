@@ -18,10 +18,11 @@
     </header>
     <!-- sideBarMenu -->
     <a-menu
+        mode="inline"
+        :inline-indent="16"
+        :theme="sideTheme"
         v-bind:openKeys="openKeys"
         v-bind:selectedKeys="selectedKeys"
-        :theme="sideTheme"
-        mode="inline"
         @select="onSelect"
         @openChange="onOpenChange"
     >
@@ -65,6 +66,18 @@ const sideTheme = computed(() => {
   return theme.value
 })
 
+// 监听路由处理需要展示的内容，如高亮选中、菜单展开等
+const showThisRoute = () => {
+  // 从根路由到当前路径的完整路由层级结构
+  let matched = route.matched
+  // 路径列表
+  let pathList = []
+  matched.forEach((item) => {
+    pathList.push(item.path)
+  })
+  console.log("pathList", pathList)
+}
+
 // 首次加载会调用onMounted但route不会改变
 onMounted(() => {
   let matched = route.matched
@@ -106,7 +119,7 @@ watch(route, (to) => {
 
 // 当菜单被选中时 { item, key, selectedKeys }
 const onSelect = (obj) => {
-  // console.log(obj)
+  // console.log("onSelect:", obj)
   // 数组最后一个元素即最新选中的，也可直接使用obj.key
   const path = obj.keyPath[obj.keyPath.length - 1]
   // 跳转到新path
@@ -117,7 +130,7 @@ const onSelect = (obj) => {
 
 // 菜单展开/关闭的回调
 const onOpenChange = (keys) => {
-  // console.log(keys)
+  // console.log("onOpenChange:", keys)
   if (sideUniqueOpen.value) {
     // 新打开的key，关闭时为 undefined。oldKeys中不存在的为新打开，都存在则为关闭
     const openKey = keys.find(key => openKeys.value.indexOf(key) === -1);
