@@ -32,10 +32,9 @@
       <template #operator>
         <!-- 操作区 -->
         <a-space wrap style="padding-bottom: 16px">
-          <a-button type="primary" @click="null" :icon="h(PlusOutlined)">新增</a-button>
-          <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" @click="deleteBatchButton" :icon="h(MinusOutlined)">删除</a-button>
-          <a-button type="primary" :disabled="selectedRowKeys.length!==1" @click="null" :icon="h(FormOutlined)">编辑查看</a-button>
-          <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" @click="deleteBatchButton" :icon="h(DeleteOutlined)">批量删除</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增</a-button>
+          <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" :icon="h(MinusOutlined)" @click="deleteBatchButton">删除</a-button>
+          <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" :icon="h(DeleteOutlined)" @click="deleteBatchButton">批量删除</a-button>
           <!--      <a-button type="dashed" @click="null" :icon="h(PlusOutlined)" style="color: #52C41AFF; border-color: #52C41AFF">添加</a-button>-->
         </a-space>
       </template>
