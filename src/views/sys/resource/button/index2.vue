@@ -1,0 +1,189 @@
+<template>
+  <!-- 上方模块选择 -->
+  <a-card size="small">
+    <a-form ref="queryFormRef" :model="queryFormData">
+      <a-row :gutter="24">
+        <a-col :span="6">
+          <a-form-item name="module" label="所属模块">
+            <a-select v-model:value="moduleId" @change="onModuleChange" placeholder="请选择模块">
+              <a-select-option v-for="item in moduleList" :key="item.code" :value="item.code">{{ item.name }}
+              </a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item name="searchKey" label="名称关键词">
+            <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-space>
+            <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+            <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+          </a-space>
+        </a-col>
+      </a-row>
+    </a-form>
+  </a-card>
+  <a-card size="small">
+    <SVTable ref="tableRef" :loadData="loadData" :columns="columns"
+              row-key="id" @rowSelectChange="onRowSelectChange"
+             :opConfig="opConfig" @opClick="onOpClick">
+      <template #operator>
+        <!-- 操作区 -->
+        <a-space wrap style="padding-bottom: 16px">
+          <a-button type="primary" @click="null" :icon="h(PlusOutlined)">新增</a-button>
+          <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" @click="null" :icon="h(MinusOutlined)">删除</a-button>
+          <a-button type="primary" :disabled="selectedRowKeys.length!==1" @click="null" :icon="h(FormOutlined)">编辑查看</a-button>
+          <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" @click="null" :icon="h(DeleteOutlined)">批量删除</a-button>
+          <!--      <a-button type="dashed" @click="null" :icon="h(PlusOutlined)" style="color: #52C41AFF; border-color: #52C41AFF">添加</a-button>-->
+        </a-space>
+      </template>
+<!--      <ListColumn field="null" title="插槽传入"/>-->
+    </SVTable>
+  </a-card>
+  <AddForm ref="addFormRef" @successful="tableRef.refresh(true)"/>
+  <EditForm ref="editFormRef" @successful="tableRef.refresh(true)"/>
+</template>
+
+<script setup>
+import resourceApi from '@/api/sys/resourceApi.js'
+import { h } from "vue";
+import {
+  DeleteOutlined,
+  FormOutlined,
+  MinusOutlined,
+  PlusOutlined,
+  RedoOutlined,
+  SearchOutlined
+} from "@ant-design/icons-vue";
+import AddForm from "./addForm.vue";
+import EditForm from "./editForm.vue";
+import { message } from "ant-design-vue";
+import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
+import SVTable from "@/components/SVTable/index.vue"
+
+const tableRef = ref()
+const selectedRowKeys = ref([])
+const selectedRows = ref([])
+const records = ref([])
+// 分页参数
+const pageParameter = ref({
+  pageNum: 1,
+  pageSize: 10,
+  total: 10,
+})
+// 列配置
+const columns = [
+  {
+    field: 'name',
+    title: '显示名称',
+    width: "auto"
+  },
+  {
+    field: 'path',
+    title: '接口地址',
+    width: "auto"
+  },
+  {
+    field: 'permission',
+    title: '权限',
+    width: 'auto',
+  },
+  {
+    field: 'sortNum',
+    title: '排序',
+    sort: true,
+    width: 'auto',
+  },
+  {
+    field: 'updateTime',
+    title: '变更时间',
+    sort: true,
+    width: 'auto',
+  },
+]
+// 操作列
+const opConfig = { show: true, opList:['add', 'delete'] }
+
+// resourceType=6表示按钮
+const queryFormData = ref({ resourceType: 6 })
+const addFormRef = ref()
+const editFormRef = ref()
+const queryFormRef = ref()
+const moduleId = ref()
+const module = ref()
+const moduleList = ref([])
+
+onMounted(() => {
+})
+
+const loadData = async (parameter) => {
+  clearSelectRows()
+  if (!moduleId.value) {
+    // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
+    const moduleRes = await resourceApi.moduleList()
+    moduleList.value = moduleRes.data
+    module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
+    moduleId.value = module.value.code
+    queryFormData.value.module = moduleId.value
+    return resourceApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return res.data
+    })
+  } else {
+    return resourceApi.resourcePage(Object.assign(parameter, queryFormData.value)).then((res) => {
+      return res.data
+    })
+  }
+}
+
+// 模块选择发生变更
+const onModuleChange = (value) => {
+  queryFormData.value.module = value
+  module.value = moduleList.value.find((e) => e.code === value)
+  tableRef.value.refresh(true)
+}
+
+// SVTable中的操作点击事件
+const onOpClick = (name, record) => {
+  console.log("操作点击的事件名字", name, record.name)
+}
+
+// SVTable中的操作点击事件
+const onRowSelectChange = (selectedRowKey, selectedRows) => {
+  selectedRowKeys.value = selectedRowKey
+}
+// 清除已勾选的行
+const clearSelectRows = () => {
+  selectedRowKeys.value = []
+  selectedRows.value = []
+}
+
+// 重置
+const reset = () => {
+  queryFormRef.value.resetFields()
+  tableRef.value.refresh(true)
+}
+// 删除
+const deleteButton = (record) => {
+  let data = { ids: [record.id] }
+  resourceApi.deleteResource(data).then((res) => {
+    message.success(res.message)
+    tableRef.value.refresh(true)
+  })
+}
+// 批量删除
+const deleteBatchButton = (params) => {
+  let data = { ids: selectedRowKeys.value }
+  resourceApi.deleteResource(data).then((res) => {
+    message.success(res.message)
+    tableRef.value.clearRefreshSelected()
+  })
+}
+</script>
+
+<style scoped>
+.ant-form-item {
+  margin-bottom: 0 !important;
+}
+</style>
