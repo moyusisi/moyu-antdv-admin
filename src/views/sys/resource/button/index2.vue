@@ -27,19 +27,19 @@
   </a-card>
   <a-card size="small">
     <SVTable ref="tableRef" :loadData="loadData" :columns="columns"
-              row-key="id" @rowSelectChange="onRowSelectChange"
+             row-key="id" @rowSelectChange="onRowSelectChange"
              :opConfig="opConfig" @opClick="onOpClick">
       <template #operator>
         <!-- 操作区 -->
         <a-space wrap style="padding-bottom: 16px">
           <a-button type="primary" @click="null" :icon="h(PlusOutlined)">新增</a-button>
-          <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" @click="null" :icon="h(MinusOutlined)">删除</a-button>
+          <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" @click="deleteBatchButton" :icon="h(MinusOutlined)">删除</a-button>
           <a-button type="primary" :disabled="selectedRowKeys.length!==1" @click="null" :icon="h(FormOutlined)">编辑查看</a-button>
-          <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" @click="null" :icon="h(DeleteOutlined)">批量删除</a-button>
+          <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" @click="deleteBatchButton" :icon="h(DeleteOutlined)">批量删除</a-button>
           <!--      <a-button type="dashed" @click="null" :icon="h(PlusOutlined)" style="color: #52C41AFF; border-color: #52C41AFF">添加</a-button>-->
         </a-space>
       </template>
-<!--      <ListColumn field="null" title="插槽传入"/>-->
+      <!--      <ListColumn field="null" title="插槽传入"/>-->
     </SVTable>
   </a-card>
   <AddForm ref="addFormRef" @successful="tableRef.refresh(true)"/>
@@ -59,20 +59,13 @@ import {
 } from "@ant-design/icons-vue";
 import AddForm from "./addForm.vue";
 import EditForm from "./editForm.vue";
-import { message } from "ant-design-vue";
-import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
+import { message, Modal } from "ant-design-vue";
 import SVTable from "@/components/SVTable/index.vue"
 
 const tableRef = ref()
 const selectedRowKeys = ref([])
 const selectedRows = ref([])
 const records = ref([])
-// 分页参数
-const pageParameter = ref({
-  pageNum: 1,
-  pageSize: 10,
-  total: 10,
-})
 // 列配置
 const columns = [
   {
@@ -103,8 +96,8 @@ const columns = [
     width: 'auto',
   },
 ]
-// 操作列
-const opConfig = { show: true, opList:['add', 'delete'] }
+// 操作列配置
+const opConfig = { show: true, opList: ['add', 'delete'] }
 
 // resourceType=6表示按钮
 const queryFormData = ref({ resourceType: 6 })
@@ -119,7 +112,6 @@ onMounted(() => {
 })
 
 const loadData = async (parameter) => {
-  clearSelectRows()
   if (!moduleId.value) {
     // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
     const moduleRes = await resourceApi.moduleList()
@@ -147,16 +139,17 @@ const onModuleChange = (value) => {
 // SVTable中的操作点击事件
 const onOpClick = (name, record) => {
   console.log("操作点击的事件名字", name, record.name)
+  if (name === "add") {
+    addFormRef.value.onOpen(module)
+  } else if (name === "delete") {
+    deleteButton(record)
+  }
 }
 
 // SVTable中的操作点击事件
 const onRowSelectChange = (selectedRowKey, selectedRows) => {
+  console.log("onRowSelectChange", selectedRowKey)
   selectedRowKeys.value = selectedRowKey
-}
-// 清除已勾选的行
-const clearSelectRows = () => {
-  selectedRowKeys.value = []
-  selectedRows.value = []
 }
 
 // 重置
@@ -167,18 +160,31 @@ const reset = () => {
 // 删除
 const deleteButton = (record) => {
   let data = { ids: [record.id] }
-  resourceApi.deleteResource(data).then((res) => {
-    message.success(res.message)
-    tableRef.value.refresh(true)
-  })
+  // 显示确认对话框
+  Modal.confirm({
+    title: '确定要删除吗？',
+    onOk() {
+      resourceApi.deleteResource(data).then((res) => {
+        message.success(res.message)
+        tableRef.value.refresh(false)
+      })
+    },
+  });
 }
 // 批量删除
 const deleteBatchButton = (params) => {
   let data = { ids: selectedRowKeys.value }
-  resourceApi.deleteResource(data).then((res) => {
-    message.success(res.message)
-    tableRef.value.clearRefreshSelected()
-  })
+  // 显示确认对话框
+  Modal.confirm({
+    title: '确定要删除吗？',
+    onOk() {
+      resourceApi.deleteResource(data).then((res) => {
+        message.success(res.message)
+        // 清空已选并刷新
+        tableRef.value.refresh()
+      })
+    },
+  });
 }
 </script>
 

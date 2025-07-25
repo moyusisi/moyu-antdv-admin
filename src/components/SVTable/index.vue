@@ -182,7 +182,7 @@ const loadListData = () => {
 
 // 页码或 pageSize 改变的回调，参数是改变后的页码及每页条数
 const onPageChange = (page, pageSize) => {
-  console.log("onPageChange", page, pageSize)
+  // console.log("onPageChange", page, pageSize)
   pagination.value.pageNum = page
   pagination.value.pageSize = pageSize
   // 获取请求数据
@@ -280,6 +280,15 @@ const init = () => {
   loadListData()
 }
 
+// 清空 table 已选中项
+const clearSelected = () => {
+  if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
+    selectedRowKeys.value = []
+    selectedRows.value = []
+    emit('rowSelectChange', selectedRowKeys.value, selectedRows.value)
+  }
+}
+
 // 刷新
 const refresh = (bool = false) => {
   if (bool) {
@@ -287,6 +296,7 @@ const refresh = (bool = false) => {
     pagination.value.pageNum = props.pageNum
     pagination.value.pageSize = props.pageSize
   }
+  clearSelected()
   loadListData()
 }
 
