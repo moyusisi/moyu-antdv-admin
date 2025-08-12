@@ -6,28 +6,21 @@ VisActor/VTable 组件说明
 
 >  本组件是在开源项目VisActor VTable的基础上进行封装处理， [官方版(Table)](https://visactor.com/vtable/guide/Getting_Started/Getting_Started) 。
 >
-> 使用分页时，无需在关注分页逻辑，仅需向 Table 组件传递绑定 `:data="Promise"` 对象即可
-> 
+> 使用分页时，无需在关注分页逻辑，仅需向 Table 组件传递绑定 `:loadData="Promise" :columns="columns"` 即可
 
-
-例子1
-----
-（基础使用）
-
-```vue
-
-```
-
-例子2
+内置属性
 ----
 
-（简单的表格，最后一列是各种操作）
-
-```vue
-
-```
-
-
+| 属性              | 是否必需 | 说明                                 | 类型                 | 默认值  |
+|-----------------|------|------------------------------------|--------------------|------|
+| columns         | 是    | 表格列配置，可指定字段和列名                     | Array              | null |
+| loadData        | 是    | 加载数据方法，必须为 `Promise` 对象            | Function           | null |
+| showPagination  | 否    | 是否显示分页器(单页时会隐藏)                    | Boolean            | true |
+| pageNum         | 否    | 当前页码                               | Number             | 1    |
+| pageSize        | 否    | 单页大小，每页记录数                         | Number             | 1    |
+| pageSizeOptions | 否    | 单页大小，每页记录数                         | Array              | -    |
+| opConfig        | 否    | 尾列操作栏配置                            | Object             | -    |
+| rowKey          | 否    | 行选择的key 选择变化时触发 rowSelectChange 事件 | [String, Function] | -    |
 
 内置方法
 ----
@@ -38,189 +31,44 @@ VisActor/VTable 组件说明
 
 > 注意：要调用 `refresh(bool)` 需要给表格组件设定 `ref` 值
 >
-> `refresh()` 方法可以传一个 `bool` 值，当有传值 或值为 `true` 时，则刷新时会强制刷新到第一页（常用户页面 搜索 按钮进行搜索时，结果从第一页开始分页）
+> `refresh()` 方法可以传一个 `bool` 值，当有传值 或值为 `true` 时，则刷新时会强制刷新到第一页
 
-
-内置属性
+事件
 ----
-> 除去 `a-table` 自带属性外，还而外提供了一些额外属性属性  
+* 列选择变更事件`rowSelectChange`: 当通过`rowKey`指定行选择key时，选择变化时触发。支持参数`(selectedRowKey, selectedRows)`
+* 尾列操作事件`opClick`: 当通过`opConfig`定义尾列操作时可以由具体操作触发。支持参数`(name, record)`
 
+插槽
+----
+* 默认插槽: 可通过`<ListColumn>`在列后面自定义列
+* 操作区插槽`operator`: 可在表格上方插入组件
 
-| 属性           | 说明                                            | 类型              | 默认值 |
-| -------------- | ----------------------------------------------- | ----------------- | ------ |
-| alert          | 设置是否显示表格信息栏                          | [object, boolean] | null   |
-| showPagination | 显示分页选择器，可传 'auto' \| boolean          | [string, boolean] | 'auto' |
-| data           | 加载数据方法 必须为 `Promise` 对象 **必须绑定**  | Promise           | -      |
-| lineSelection  | 是否开启点击行高亮显示并选中                     | Boolean           | 'false'      |
+举例
+----
 
-
-`alert` 属性对象：
-
-```javascript
-alert: {
-  show: Boolean, 
-  clear: [Function, Boolean]
-}
+```vue
+<SVTable ref="tableRef" :loadData="loadData" :columns="columns"
+         row-key="id" @rowSelectChange="onRowSelectChange"
+         :opConfig="opConfig" @opClick="onOpClick">
+  <template #operator>
+    <!-- 操作区 -->
+    <a-space wrap style="padding-bottom: 16px">
+      <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增</a-button>
+      <a-button type="primary" danger :disabled="selectedRowKeys.length!==1" :icon="h(MinusOutlined)" @click="deleteBatchButton">删除</a-button>
+      <a-button type="dashed" danger :disabled="selectedRowKeys.length<2" :icon="h(DeleteOutlined)" @click="deleteBatchButton">批量删除</a-button>
+    </a-space>
+  </template>
+  <!--      <ListColumn field="null" title="插槽传入"/>-->
+</SVTable>
 ```
 
 注意事项
 ----
 
-> 你可能需要为了与后端提供的接口返回结果一致而去修改以下代码：
-> (需要注意的是，这里的修改是全局性的，意味着整个项目所有使用该 table 组件都需要遵守这个返回结果定义的字段。)
->
-> 文档中的结构有可能由于组件 bug 进行修正而改动。实际修改请以当时最新版本为准
+> 你可能需要为了与后端提供的接口返回结果一致而去修改代码
+> 需要注意的是，这里的修改是全局性的，意味着整个项目所有使用该 table 组件都需要遵守这个返回结果定义的字段。
 
-修改 `@/components/table/index.js`  第 348 行起
-
-
-
-```javascript
-const data = reactive({
-		needTotalList: [],
-		localLoading: false,
-		localDataSource: [],
-		localPagination: Object.assign({}, props.pagination),
-		isFullscreen: false,
-		customSize: props.compSize,
-		columnsSetting: [],
-		localSettings: {
-			rowClassName: props.rowClassName,
-			rowClassNameSwitch: Boolean(props.rowClassName)
-		}
-	})
-
-// 这里的 data.xxx 是之前声明的
-// 在 loadData() 方法中去获取后端数据，进行一个数据的加载更新
-result.then((r) => {
-				if (r == null) {
-					data.localLoading = false
-					return
-				}
-				// 获取分页数据及分页的显示内容
-				data.localPagination =
-					(props.showPagination &&
-						Object.assign({}, data.localPagination, {
-							current: r.current, // pageNo, // 返回结果中的当前分页数
-							total: r.total, // totalRows, // 返回结果中的总记录数
-							showSizeChanger: props.showSizeChanger,
-							pageSizeOptions: props.pageSizeOptions,
-							showTotal: (total, range) => {
-								return `${range[0]}-${range[1]} 共 ${total} 条 `
-							},
-							pageSize: (pagination && pagination.pageSize) || data.localPagination.pageSize
-						})) ||
-					false
-
-				// 后端数据records为null保存修复
-				if (r.records == null) {
-					r.records = []
-				}
-
-				// 为防止删除数据后导致页面当前页面数据长度为 0 ,自动翻页到上一页
-				if (r.records.length === 0 && props.showPagination && data.localPagination.current > 1) {
-					data.localPagination.current--
-					loadData()
-					return
-				}
-				
-				try {
-					// 当情况满足时，表示数据不满足分页大小，关闭 table 分页功能
-					// 没有数据或只有一页数据时隐藏分页栏
-					// if ((['auto', true].includes(props.showPagination) && r.total <= (r.pages * data.localPagination.pageSize))) {
-					// 	data.localPagination.hideOnSinglePage = true
-					// }
-					if (!props.showPagination) {
-						data.localPagination.hideOnSinglePage = true
-					}
-				} catch (e) {
-					data.localPagination = false
-				}
-
-				// if (props.showPagination === false) {
-				// 	// 既然配置了不分页，那么我们这里接收到肯定是数组
-				// 	console.log(r);
-				// 	data.localDataSource = []
-				// 	if (r instanceof Array) {
-				// 		data.localDataSource = r
-				// 	}
-				// } else {
-				// 	data.localDataSource = r.records
-				// }
-
-				// 返回结果中的数组数据
-				data.localDataSource = r.records
-				data.localLoading = false
-				getTableProps()
-			})
-```
 返回 JSON 例子：
 ```json
-{
-  "message": "",
-  "result": {
-    "data": [{
-        id: 1,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png',
-        title: 'Alipay',
-        description: '那是一种内在的东西， 他们到达不了，也无法触及的',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      },
-      {
-        id: 2,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
-        title: 'Angular',
-        description: '希望是一个好东西，也许是最好的，好东西是不会消亡的',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      },
-      {
-        id: 3,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
-        title: 'Ant Design',
-        description: '城镇中有那么多的酒馆，她却偏偏走进了我的酒馆',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      },
-      {
-        id: 4,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
-        title: 'Snowy',
-        description: '那时候我只会想自己想要什么，从不想自己拥有什么',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      },
-      {
-        id: 5,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
-        title: 'Bootstrap',
-        description: '凛冬将至',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      },
-      {
-        id: 6,
-        cover: 'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png',
-        title: 'Vue',
-        description: '生命就像一盒巧克力，结果往往出人意料',
-        status: 1,
-        updatedAt: '2018-07-26 00:00:00'
-      }
-    ],
-    "pageSize": 10,
-    "pageNo": 0,
-    "totalPage": 6,
-    "totalCount": 57
-  },
-  "status": 200,
-  "timestamp": 1534955098193
-}
+
 ```
-
-
-
-更新时间
-----
-
-该文档最后更新于： 2023-12-27 PM 16:45
