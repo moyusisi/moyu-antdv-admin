@@ -96,7 +96,7 @@ const columns = [
   },
 ]
 // 操作列配置
-const opConfig = { show: true, opList: ['add', 'delete'] }
+const opConfig = { show: true, opList: ['add', 'delete', { name: "other", text: "其他" }] }
 
 // resourceType=6表示按钮
 const queryFormData = ref({ resourceType: 6 })
@@ -142,6 +142,8 @@ const onOpClick = (name, record) => {
     addFormRef.value.onOpen(module)
   } else if (name === "delete") {
     deleteButton(record)
+  } else if (name === "other") {
+    window.alert("点击其他操作")
   }
 }
 
