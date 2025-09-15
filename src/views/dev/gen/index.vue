@@ -29,7 +29,7 @@
 		>
 			<template #operator>
 				<a-space>
-					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增角色</a-button>
+					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增</a-button>
 					<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
 				</a-space>
 			</template>
