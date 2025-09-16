@@ -48,18 +48,18 @@
 				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
+            <template #split>
+              <a-divider type="vertical" />
+            </template>
             <a-tooltip title="分配权限">
               <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)"><DeploymentUnitOutlined /></a>
             </a-tooltip>
-            <a-divider type="vertical" />
             <a-tooltip title="分配用户">
               <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UserAddOutlined /></a>
             </a-tooltip>
-						<a-divider type="vertical" />
 						<a-tooltip title="编辑">
 							<a @click="editFormRef.onOpen(record)"><FormOutlined /></a>
 						</a-tooltip>
-						<a-divider type="vertical" />
 						<a-tooltip title="删除">
 							<a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
 								<a style="color:#FF4D4F;"><DeleteOutlined/></a>

@@ -1,9 +1,9 @@
 <template>
-	<a-card size="small">
+	<a-card size="small" v-if="indexShow">
 		<a-form ref="searchFormRef" :model="searchFormData">
 			<a-row :gutter="24">
 				<a-col :span="8">
-					<a-form-item name="searchKey" label="名称关键词">
+					<a-form-item name="searchKey" label="搜索关键词">
 						<a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
 					</a-form-item>
 				</a-col>
@@ -16,7 +16,7 @@
 			</a-row>
 		</a-form>
 	</a-card>
-	<a-card size="small">
+	<a-card size="small" v-if="indexShow">
 		<STable
 			ref="tableRef"
 			:columns="columns"
@@ -29,7 +29,7 @@
 		>
 			<template #operator>
 				<a-space>
-					<a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增</a-button>
+					<a-button type="primary" :icon="h(PlusOutlined)" @click="openConfig()">新增配置</a-button>
 					<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
 				</a-space>
 			</template>
@@ -43,21 +43,22 @@
 				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
-            <a-tooltip title="分配权限">
-              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)"><DeploymentUnitOutlined /></a>
+<!--            <template #split>-->
+<!--              <a-divider type="vertical" />-->
+<!--            </template>-->
+            <a-tooltip title="预览">
+              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)">预览</a>
             </a-tooltip>
-            <a-divider type="vertical" />
-            <a-tooltip title="分配用户">
-              <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UserAddOutlined /></a>
+            <a-tooltip title="生成">
+              <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)">生成</a>
             </a-tooltip>
-						<a-divider type="vertical" />
-						<a-tooltip title="编辑">
-							<a @click="editFormRef.onOpen(record)"><FormOutlined /></a>
+						<a-tooltip title="配置">
+<!--              <a @click="editFormRef.onOpen(record)">配置</a>-->
+              <a @click="openConfig(record)">配置</a>
 						</a-tooltip>
-						<a-divider type="vertical" />
 						<a-tooltip title="删除">
 							<a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
-								<a style="color:#FF4D4F;"><DeleteOutlined/></a>
+								<a style="color:#FF4D4F;">删除</a>
 							</a-popconfirm>
 						</a-tooltip>
 					</a-space>
@@ -65,6 +66,7 @@
 			</template>
 		</STable>
 	</a-card>
+  <steps v-else ref="stepsRef" @successful="tableRef.refresh(true)" @closed="configClosed()" />
 <!--	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />-->
 <!--	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />-->
 </template>
@@ -75,6 +77,7 @@
 
 	import { h } from "vue"
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import steps from "./steps.vue"
 	// import AddForm from "./addForm.vue";
 	// import EditForm from "./editForm.vue";
 	import { message } from "ant-design-vue";
@@ -117,7 +120,7 @@
 			dataIndex: 'action',
 			align: 'center',
 			resizable: true,
-			width: 150
+      width: 200,
 		}
 	]
 	const selectedRowKeys = ref([])
@@ -143,7 +146,9 @@
 	// 定义tableDOM
 	const tableRef = ref()
 	const formRef = ref()
-	const addFormRef = ref()
+  const indexShow = ref(true)
+  const stepsRef = ref()
+  const addFormRef = ref()
 	const editFormRef = ref()
   const module = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
@@ -155,7 +160,7 @@
 	// 表格查询 返回 Promise 对象
 	const loadData = (parameter) => {
 		let param = Object.assign(parameter, searchFormData.value)
-		return codegenApi.genPage(param).then((res) => {
+		return codegenApi.codePage(param).then((res) => {
 			return res.data
 		})
 	}
@@ -180,6 +185,18 @@
 			tableRef.value.clearRefreshSelected()
 		})
 	}
+
+  // 打开配置界面
+  const openConfig = (record) => {
+    indexShow.value = false
+    nextTick(() => {
+      stepsRef.value.configSteps(record)
+    })
+  }
+  // 关闭配置界面
+  const configClosed = () => {
+    indexShow.value = true
+  }
 </script>
 
 <style scoped>
