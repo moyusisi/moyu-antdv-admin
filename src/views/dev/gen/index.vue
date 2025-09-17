@@ -160,7 +160,7 @@
 	// 表格查询 返回 Promise 对象
 	const loadData = (parameter) => {
 		let param = Object.assign(parameter, searchFormData.value)
-		return codegenApi.codePage(param).then((res) => {
+		return codegenApi.configPage(param).then((res) => {
 			return res.data
 		})
 	}
