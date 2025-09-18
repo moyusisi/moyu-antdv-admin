@@ -1,21 +1,5 @@
 <template>
-	<a-card size="small" v-if="indexShow">
-		<a-form ref="searchFormRef" :model="searchFormData">
-			<a-row :gutter="24">
-				<a-col :span="8">
-					<a-form-item name="searchKey" label="搜索关键词">
-						<a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
-					</a-form-item>
-				</a-col>
-				<a-col :span="8">
-					<a-space>
-						<a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
-						<a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-					</a-space>
-				</a-col>
-			</a-row>
-		</a-form>
-	</a-card>
+
 	<a-card size="small" v-if="indexShow">
 		<STable
 			ref="tableRef"
@@ -28,10 +12,21 @@
 			:tool-config="toolConfig"
 		>
 			<template #operator>
-				<a-space>
-					<a-button type="primary" :icon="h(PlusOutlined)" @click="openConfig()">新增配置</a-button>
-					<BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
-				</a-space>
+        <a-form ref="searchFormRef" :model="searchFormData">
+          <a-row :gutter="24">
+            <a-col :span="7" offset="1">
+              <a-form-item name="searchKey" label="搜索关键词">
+                <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-space>
+                <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+                <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+              </a-space>
+            </a-col>
+          </a-row>
+        </a-form>
 			</template>
 			<template #bodyCell="{ column, record }">
 				<template v-if="column.dataIndex === 'code'">
@@ -53,12 +48,12 @@
               <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)">生成</a>
             </a-tooltip>
 						<a-tooltip title="配置">
-<!--              <a @click="editFormRef.onOpen(record)">配置</a>-->
-              <a @click="openConfig(record)">配置</a>
+              <a @click="stepsFormRef.onOpen(record)">配置</a>
+<!--              <a @click="openConfig(record)">配置</a>-->
 						</a-tooltip>
-						<a-tooltip title="删除">
-							<a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
-								<a style="color:#FF4D4F;">删除</a>
+						<a-tooltip title="重置配置">
+							<a-popconfirm title="确定要重置配置吗？" @confirm="deleteConfig(record)">
+								<a style="color:#FF4D4F;">重置配置</a>
 							</a-popconfirm>
 						</a-tooltip>
 					</a-space>
@@ -66,7 +61,7 @@
 			</template>
 		</STable>
 	</a-card>
-  <steps v-else ref="stepsRef" @successful="tableRef.refresh(true)" @closed="configClosed()" />
+  <stepsForm ref="stepsFormRef" @successful="tableRef.refresh(true)" @closed="configClosed()" />
 <!--	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />-->
 <!--	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />-->
 </template>
@@ -77,7 +72,7 @@
 
 	import { h } from "vue"
 	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import steps from "./steps.vue"
+  import StepsForm from "./stepsForm.vue"
 	// import AddForm from "./addForm.vue";
 	// import EditForm from "./editForm.vue";
 	import { message } from "ant-design-vue";
@@ -147,7 +142,7 @@
 	const tableRef = ref()
 	const formRef = ref()
   const indexShow = ref(true)
-  const stepsRef = ref()
+  const stepsFormRef = ref()
   const addFormRef = ref()
 	const editFormRef = ref()
   const module = ref()
@@ -170,19 +165,11 @@
 		tableRef.value.refresh(true)
 	}
 	// 删除
-	const deleteRole = (record) => {
-		let data = { ids: [record.id] }
-		roleApi.deleteRole(data).then((res) => {
+	const deleteConfig = (record) => {
+		let data = { tableName: record.tableName }
+    codegenApi.deleteConfig(data).then((res) => {
 			message.success(res.message)
-			tableRef.value.refresh(true)
-		})
-	}
-	// 批量删除
-	const deleteBatchRole = (params) => {
-		let data = { ids: selectedRowKeys.value }
-		roleApi.deleteRole(data).then((res) => {
-			message.success(res.message)
-			tableRef.value.clearRefreshSelected()
+			// tableRef.value.refresh(true)
 		})
 	}
 
@@ -190,7 +177,7 @@
   const openConfig = (record) => {
     indexShow.value = false
     nextTick(() => {
-      stepsRef.value.configSteps(record)
+      stepsFormRef.value.configSteps(record)
     })
   }
   // 关闭配置界面
