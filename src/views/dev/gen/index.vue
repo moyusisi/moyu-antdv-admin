@@ -37,16 +37,13 @@
 				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
-<!--            <template #split>-->
-<!--              <a-divider type="vertical" />-->
-<!--            </template>-->
             <a-tooltip title="预览">
-              <a style="color:#1980FF;" @click="stepsFormRef.onOpen(record)">预览</a>
+              <a style="color:#53C61D;" @click="stepsFormRef.onOpen(record)">预览</a>
             </a-tooltip>
             <a-tooltip title="生成代码">
-              <a style="color:#53C61D;" @click="stepsFormRef.onOpen(record)">生成</a>
+              <a style="color:#1980FF;" @click="stepsFormRef.onOpen(record)">生成</a>
             </a-tooltip>
-						<a-tooltip title="配置">
+						<a-tooltip title="修改配置">
               <a @click="stepsFormRef.onOpen(record)">配置</a>
 <!--              <a @click="openConfig(record)">配置</a>-->
 						</a-tooltip>
