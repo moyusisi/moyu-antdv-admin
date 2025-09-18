@@ -31,13 +31,13 @@
 				<template v-if="column.dataIndex === 'code'">
 					<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
 				</template>
-				<template v-if="column.dataIndex === 'status'">
-					<a-tag v-if="record.status === 0" color="green">正常</a-tag>
-					<a-tag v-else>已停用</a-tag>
+				<template v-if="column.dataIndex === 'updateTime'">
+					<a-tag v-if="record.updateTime" color="blue">{{ record.updateTime }}</a-tag>
+					<a-tag v-else>默认配置</a-tag>
 				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
-            <a-tooltip title="预览">
+            <a-tooltip title="预览代码">
               <a style="color:#53C61D;" @click="stepsFormRef.onOpen(record)">预览</a>
             </a-tooltip>
             <a-tooltip title="生成代码">
@@ -48,7 +48,7 @@
 <!--              <a @click="openConfig(record)">配置</a>-->
 						</a-tooltip>
 						<a-tooltip title="重置配置">
-							<a-popconfirm title="确定要重置配置吗？" @confirm="deleteConfig(record)">
+							<a-popconfirm title="确定要恢复默认配置吗？" @confirm="deleteConfig(record)">
 								<a style="color:#FF4D4F;">重置配置</a>
 							</a-popconfirm>
 						</a-tooltip>
@@ -95,8 +95,8 @@
 			width: 150
 		},
 		{
-			title: '创建时间',
-			dataIndex: 'createTime',
+			title: '配置变更时间',
+			dataIndex: 'updateTime',
 			align: 'center',
 			width: 160
 		},

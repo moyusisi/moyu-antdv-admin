@@ -353,7 +353,6 @@ const loadData = async () => {
 // 下一步
 const next = () => {
   if (current.value === 0) {
-    console.log("step:", current.value)
     tableFormRef.value.validate().then(() => {
       current.value++
     }).catch(error => {});
@@ -364,9 +363,9 @@ const next = () => {
     codegenApi.saveConfig(configFormData.value).then((res) => {
       if (res.code === 0) {
         current.value++
+        emit('successful')
       } else {
         message.error(res.message)
-        emit('successful')
       }
     }).finally(() => {
       submitLoading.value = false
