@@ -1,6 +1,5 @@
 <template>
-
-	<a-card size="small" v-if="indexShow">
+	<a-card size="small">
 		<STable
 			ref="tableRef"
 			:columns="columns"
@@ -42,10 +41,10 @@
 <!--              <a-divider type="vertical" />-->
 <!--            </template>-->
             <a-tooltip title="预览">
-              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)">预览</a>
+              <a style="color:#1980FF;" @click="stepsFormRef.onOpen(record)">预览</a>
             </a-tooltip>
-            <a-tooltip title="生成">
-              <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)">生成</a>
+            <a-tooltip title="生成代码">
+              <a style="color:#53C61D;" @click="stepsFormRef.onOpen(record)">生成</a>
             </a-tooltip>
 						<a-tooltip title="配置">
               <a @click="stepsFormRef.onOpen(record)">配置</a>
@@ -61,22 +60,16 @@
 			</template>
 		</STable>
 	</a-card>
-  <stepsForm ref="stepsFormRef" @successful="tableRef.refresh(true)" @closed="configClosed()" />
-<!--	<AddForm ref="addFormRef" @successful="tableRef.refresh()" />-->
-<!--	<EditForm ref="editFormRef" @successful="tableRef.refresh()" />-->
+  <stepsForm ref="stepsFormRef" @successful="tableRef.refresh(true)" />
 </template>
 
 <script setup>
-	import roleApi from '@/api/sys/roleApi'
   import codegenApi from '@/api/dev/codegenApi'
 
 	import { h } from "vue"
-	import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+	import { RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import StepsForm from "./stepsForm.vue"
-	// import AddForm from "./addForm.vue";
-	// import EditForm from "./editForm.vue";
 	import { message } from "ant-design-vue";
-  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
 	const columns = [
@@ -131,24 +124,13 @@
 			clear: () => {
 				selectedRowKeys.value = ref([])
 			}
-		},
-		rowSelection: {
-			onChange: (selectedRowKey, selectedRows) => {
-				selectedRowKeys.value = selectedRowKey
-			}
 		}
 	}
 	// 定义tableDOM
 	const tableRef = ref()
 	const formRef = ref()
-  const indexShow = ref(true)
   const stepsFormRef = ref()
-  const addFormRef = ref()
-	const editFormRef = ref()
-  const module = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
-	const grantMenuFormRef = ref()
-  const roleUserRef = ref()
 	const searchFormRef = ref()
 	const searchFormData = ref({})
 
@@ -169,21 +151,10 @@
 		let data = { tableName: record.tableName }
     codegenApi.deleteConfig(data).then((res) => {
 			message.success(res.message)
-			// tableRef.value.refresh(true)
+			tableRef.value.refresh(true)
 		})
 	}
 
-  // 打开配置界面
-  const openConfig = (record) => {
-    indexShow.value = false
-    nextTick(() => {
-      stepsFormRef.value.configSteps(record)
-    })
-  }
-  // 关闭配置界面
-  const configClosed = () => {
-    indexShow.value = true
-  }
 </script>
 
 <style scoped>

@@ -1,10 +1,10 @@
 <template>
   <a-drawer
       :open="visible"
-      title="新增角色"
-      :width="550"
+      :title="title"
+      :width="drawerWidth"
       :closable="false"
-      :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
+      :footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
       :destroy-on-close="true"
       @close="onClose"
   >
@@ -13,55 +13,43 @@
     </template>
     <div>
       <a-card :bordered="false">
-        <a-row>
-          <a-col :span="4"></a-col>
-          <a-col :span="12">
-            <a-steps :current="current">
-              <a-step v-for="item in steps" :key="item.title" :title="item.title"/>
-            </a-steps>
-          </a-col>
-          <a-col :span="8">
-            <a-space style="float:right;">
-              <a-button :disabled="current === 0" @click="prev"> 上一步</a-button>
-              <a-button :disabled="current === 2" :loading="submitLoading" type="primary" @click="next"> 下一步</a-button>
-              <a-button type="primary" danger ghost @click="emit('closed')"> 关闭</a-button>
-            </a-space>
-          </a-col>
-        </a-row>
+        <a-steps :current="current">
+          <a-step v-for="item in steps" :key="item.title" :title="item.title"/>
+        </a-steps>
       </a-card>
       <a-card v-if="current === 0">
         <a-form ref="tableFormRef" :model="configFormData" :label-col="{span: 4}">
           <a-row :gutter="24">
-            <a-col :span="10" :offset="2">
+            <a-col :span="12">
               <a-form-item label="表名" name="tableName" :rules="[required('请输入表名')]">
                 <a-input v-model:value="configFormData.tableName" placeholder="如:sys_user"/>
               </a-form-item>
             </a-col>
-            <a-col :span="10">
+            <a-col :span="12">
               <a-form-item label="业务名" name="businessName" :rules="[required('请输入业务名')]">
                 <a-input v-model:value="configFormData.businessName" placeholder="如:用户"/>
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :gutter="24">
-            <a-col :span="10" :offset="2">
+            <a-col :span="12">
               <a-form-item label="包名" name="packageName" :rules="[required('请输入包名')]">
                 <a-input v-model:value="configFormData.packageName" placeholder="如:com.moyu.boot"/>
               </a-form-item>
             </a-col>
-            <a-col :span="10">
+            <a-col :span="12">
               <a-form-item label="模块名" name="moduleName" :rules="[required('请输入模块名')]">
                 <a-input v-model:value="configFormData.moduleName" placeholder="如:system"/>
               </a-form-item>
             </a-col>
           </a-row>
           <a-row :gutter="24">
-            <a-col :span="10" :offset="2">
+            <a-col :span="12">
               <a-form-item label="实体名" name="entityName" :rules="[required('请输入实体名')]">
                 <a-input v-model:value="configFormData.entityName" placeholder="如:User"/>
               </a-form-item>
             </a-col>
-            <a-col :span="10">
+            <a-col :span="12">
               <a-form-item label="作者" name="author">
                 <a-input v-model:value="configFormData.author" placeholder="如:moyusisi"/>
               </a-form-item>
@@ -77,7 +65,6 @@
                  :data-source="configFormData.fieldConfigList"
                  :row-key="(record) => record.id"
                  :pagination="false"
-                 :scroll="{ x: 'max-content' }"
                  bordered>
           <template #bodyCell="{ column, record }">
             <template v-if="column.dataIndex === 'code'">
@@ -129,16 +116,17 @@
         <a-result status="success" title="配置完成" sub-title="您的配置已保存成功，此刻您可以去生成代码或预览代码了">
           <template #extra>
             <a-space size="middle">
-              <a-button v-if="current > 0" type="primary" @click="emit('closed')">去预览</a-button>
+              <a-button v-if="current > 0" type="primary" @click="onClose">去预览</a-button>
             </a-space>
           </template>
         </a-result>
       </a-card>
     </div>
     <template #footer>
-      <a-space>
-        <a-button @click="onClose">关闭</a-button>
-        <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
+      <a-space style="float:right;">
+        <a-button :disabled="current === 0" @click="prev"> 上一步</a-button>
+        <a-button :disabled="current === 2" :loading="submitLoading" type="primary" @click="next"> 下一步</a-button>
+        <a-button type="primary" danger ghost @click="onClose"> 关闭</a-button>
       </a-space>
     </template>
   </a-drawer>
@@ -148,9 +136,11 @@ import codegenApi from '@/api/dev/codegenApi'
 
 import { message } from 'ant-design-vue'
 import { required } from "@/utils/formRules.js";
+import { useSettingsStore } from "@/store/index.js";
 // import downloadUtil from '@/utils/downloadUtil'
 // import genPreview from './preview.vue'
-// import genBasicApi from '@/api/gen/genBasicApi'
+
+const settingsStore = useSettingsStore()
 
 const emit = defineEmits({ successful: null, closed: null })
 
@@ -174,7 +164,7 @@ const columns = [
     title: '列名',
     align: 'center',
     dataIndex: 'columnName',
-    width: 120,
+    width: 100,
     ellipsis: true
   },
   {
@@ -346,22 +336,14 @@ const onOpen = (record) => {
   title.value = recordData.value.tableName + "-生成代码配置"
   // 加载数据
   loadData()
+  current.value = 0
   visible.value = true
 }
 // 关闭抽屉
 const onClose = () => {
   visible.value = false
 }
-
-// 打开这个界面
-const configSteps = async (record) => {
-  // 获取组织信息
-  let res = await codegenApi.configDetail({ tableName: record.tableName })
-  configFormData.value = res.data
-  // 数据就绪之后显示
-  // visible.value = true
-}
-
+// 加载数据
 const loadData = async () => {
   // 获取组织信息
   let res = await codegenApi.configDetail({ tableName: recordData.value.tableName })
@@ -384,6 +366,7 @@ const next = () => {
         current.value++
       } else {
         message.error(res.message)
+        emit('successful')
       }
     }).finally(() => {
       submitLoading.value = false
@@ -396,6 +379,7 @@ const prev = () => {
     current.value--
   }
   if (current.value === 2) {
+    loadData()
     current.value--
   }
 }
@@ -424,7 +408,6 @@ const seveGenerate = () => {
 // 对外暴露
 defineExpose({
   onOpen,
-  configSteps
 })
 </script>
 <style scoped>
