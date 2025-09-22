@@ -31,7 +31,7 @@
         <a-space>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL生成</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
-          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
 			</template>
 			<template #bodyCell="{ column, record, index }">
@@ -41,18 +41,20 @@
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
             <a-tooltip title="预览代码">
-              <a style="color:#53C61D;" @click="stepsFormRef.onOpen(record)">预览</a>
+              <a style="color:#53C61D;" @click="configFormRef.onOpen(record)">预览</a>
             </a-tooltip>
-            <a-tooltip title="生成代码">
-              <a style="color:#1980FF;" @click="stepsFormRef.onOpen(record)">生成</a>
+            <a-tooltip title="下载生成的代码">
+              <a style="color:#1980FF;" @click="configFormRef.onOpen(record)">生成</a>
             </a-tooltip>
 						<a-tooltip title="修改配置">
-              <a @click="stepsFormRef.onOpen(record)">配置</a>
-<!--              <a @click="openConfig(record)">配置</a>-->
+              <a @click="configFormRef.onOpen(record)">修改</a>
 						</a-tooltip>
-						<a-tooltip title="重置配置">
-							<a-popconfirm title="确定要恢复默认配置吗？" @confirm="deleteConfig(record)">
-								<a style="color:#FF4D4F;">重置配置</a>
+            <a-tooltip title="根据表结构同步默认配置">
+              <a @click="configFormRef.onOpen(record)">同步</a>
+            </a-tooltip>
+						<a-tooltip title="删除配置">
+							<a-popconfirm title="确定要删除配置吗？" @confirm="deleteConfig(record)">
+								<a style="color:#FF4D4F;">删除</a>
 							</a-popconfirm>
 						</a-tooltip>
 					</a-space>
@@ -61,7 +63,7 @@
 		</STable>
 	</a-card>
   <ImportForm ref="importFormRef" @successful="tableRef.refresh(true)" />
-  <stepsForm ref="stepsFormRef" @successful="tableRef.refresh(true)" />
+  <ConfigForm ref="configFormRef" @successful="tableRef.refresh(true)" />
 </template>
 
 <script setup>
@@ -69,7 +71,7 @@
 
 	import { h } from "vue"
   import { PlusOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import StepsForm from "./stepsForm.vue"
+  import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
 	import { message } from "ant-design-vue";
   import STable from "@/components/STable/index.vue"
@@ -145,9 +147,8 @@
 	}
 	// 定义tableDOM
 	const tableRef = ref()
-	const formRef = ref()
   const importFormRef = ref()
-  const stepsFormRef = ref()
+  const configFormRef = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const searchFormRef = ref()
 	const searchFormData = ref({})
@@ -166,13 +167,20 @@
 	}
 	// 删除
 	const deleteConfig = (record) => {
-		let data = { tableName: record.tableName }
+    let data = { ids: record.id }
     codegenApi.deleteConfig(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)
 		})
 	}
-
+  // 批量删除
+  const batchDelete = (record) => {
+    let data = { ids: selectedRowKeys.value }
+    codegenApi.deleteConfig(data).then((res) => {
+      message.success(res.message)
+      tableRef.value.refresh(true)
+    })
+  }
 </script>
 
 <style scoped>
