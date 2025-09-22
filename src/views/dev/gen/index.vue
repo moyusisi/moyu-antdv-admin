@@ -1,4 +1,21 @@
 <template>
+  <a-card size="small">
+    <a-form ref="searchFormRef" :model="searchFormData">
+      <a-row :gutter="24">
+        <a-col :span="7">
+          <a-form-item name="searchKey" label="搜索关键词">
+            <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+          </a-form-item>
+        </a-col>
+        <a-col :span="8">
+          <a-space>
+            <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+            <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+          </a-space>
+        </a-col>
+      </a-row>
+    </a-form>
+  </a-card>
 	<a-card size="small">
 		<STable
 			ref="tableRef"
@@ -11,23 +28,16 @@
 			:tool-config="toolConfig"
 		>
 			<template #operator>
-        <a-form ref="searchFormRef" :model="searchFormData">
-          <a-row :gutter="24">
-            <a-col :span="7" offset="1">
-              <a-form-item name="searchKey" label="搜索关键词">
-                <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-space>
-                <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
-                <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-              </a-space>
-            </a-col>
-          </a-row>
-        </a-form>
+        <a-space>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL生成</a-button>
+          <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
+        </a-space>
 			</template>
-			<template #bodyCell="{ column, record }">
+			<template #bodyCell="{ column, record, index }">
+        <template v-if="column.dataIndex === 'index'">
+          <span>{{ index + 1 }}</span>
+        </template>
 				<template v-if="column.dataIndex === 'code'">
 					<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
 				</template>
@@ -57,6 +67,7 @@
 			</template>
 		</STable>
 	</a-card>
+  <ImportForm ref="importFormRef" @successful="tableRef.refresh(true)" />
   <stepsForm ref="stepsFormRef" @successful="tableRef.refresh(true)" />
 </template>
 
@@ -64,21 +75,31 @@
   import codegenApi from '@/api/dev/codegenApi'
 
 	import { h } from "vue"
-	import { RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import StepsForm from "./stepsForm.vue"
+  import ImportForm from "./importForm.vue"
 	import { message } from "ant-design-vue";
   import STable from "@/components/STable/index.vue"
+  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
 
 	const columns = [
+    {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 40,
+    },
 		{
-			title: '表名',
+			title: '表名称',
 			dataIndex: 'tableName',
+      align: 'center',
 			resizable: true,
 			width: 150
 		},
 		{
-			title: '描述',
+			title: '表描述',
 			dataIndex: 'tableComment',
+      align: 'center',
 			resizable: true,
 			width: 200
 		},
@@ -121,11 +142,17 @@
 			clear: () => {
 				selectedRowKeys.value = ref([])
 			}
-		}
+		},
+    rowSelection: {
+      onChange: (selectedRowKey, selectedRows) => {
+        selectedRowKeys.value = selectedRowKey
+      }
+    }
 	}
 	// 定义tableDOM
 	const tableRef = ref()
 	const formRef = ref()
+  const importFormRef = ref()
   const stepsFormRef = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const searchFormRef = ref()
