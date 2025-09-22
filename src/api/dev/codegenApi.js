@@ -22,7 +22,7 @@ export default {
 	},
 	// 分页查询代码生成实体配置表列表
 	tablePage(data) {
-		return service.postJson('/api/gen/code/page', data)
+		return service.postJson('/api/gen/config/tablePage', data)
 	},
 	// 保存所有配置
 	importTable(data) {

@@ -167,7 +167,7 @@
 	}
 	// 删除
 	const deleteConfig = (record) => {
-    let data = { ids: record.id }
+    let data = { ids: [record.id] }
     codegenApi.deleteConfig(data).then((res) => {
 			message.success(res.message)
 			tableRef.value.refresh(true)

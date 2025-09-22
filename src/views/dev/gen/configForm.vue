@@ -340,7 +340,7 @@ const onClose = () => {
 // 加载数据
 const loadData = async () => {
   // 获取组织信息
-  let res = await codegenApi.configDetail({ tableName: recordData.value.tableName })
+  let res = await codegenApi.configDetail({ id: recordData.value.id })
   configFormData.value = res.data
 }
 
