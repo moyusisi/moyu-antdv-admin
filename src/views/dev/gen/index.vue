@@ -38,13 +38,6 @@
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
         </template>
-				<template v-if="column.dataIndex === 'code'">
-					<a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
-				</template>
-				<template v-if="column.dataIndex === 'updateTime'">
-					<a-tag v-if="record.updateTime" color="blue">{{ record.updateTime }}</a-tag>
-					<a-tag v-else>默认配置</a-tag>
-				</template>
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
             <a-tooltip title="预览代码">
@@ -87,7 +80,7 @@
       title: '序号',
       dataIndex: 'index',
       align: 'center',
-      width: 40,
+      width: 50,
     },
 		{
 			title: '表名称',
@@ -103,20 +96,21 @@
 			resizable: true,
 			width: 200
 		},
+    {
+      title: '实体类名',
+      dataIndex: 'entityName',
+      align: 'center',
+      resizable: true,
+      width: 150
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      width: 160
+    },
 		{
-			title: '存储引擎',
-			dataIndex: 'engine',
-			align: 'center',
-			width: 100
-		},
-		{
-			title: '排序规则',
-			dataIndex: 'tableCollation',
-			align: 'center',
-			width: 150
-		},
-		{
-			title: '配置变更时间',
+			title: '更新时间',
 			dataIndex: 'updateTime',
 			align: 'center',
 			width: 160
