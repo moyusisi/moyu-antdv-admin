@@ -50,7 +50,7 @@
               <a @click="configFormRef.onOpen(record)">修改</a>
 						</a-tooltip>
             <a-tooltip title="根据表结构同步默认配置">
-              <a @click="configFormRef.onOpen(record)">同步</a>
+              <a @click="syncTable(record)">同步</a>
             </a-tooltip>
 						<a-tooltip title="删除配置">
 							<a-popconfirm title="确定要删除配置吗？" @confirm="deleteConfig(record)">
@@ -177,6 +177,15 @@
   const batchDelete = (record) => {
     let data = { ids: selectedRowKeys.value }
     codegenApi.deleteConfig(data).then((res) => {
+      message.success(res.message)
+      tableRef.value.refresh(true)
+    })
+  }
+  // 同步表
+  const syncTable = (record) => {
+    let data = { tableName: record.tableName }
+    codegenApi.syncTable(data).then((res) => {
+      // 添加之后重新加载数据
       message.success(res.message)
       tableRef.value.refresh(true)
     })

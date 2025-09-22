@@ -24,8 +24,12 @@ export default {
 	tablePage(data) {
 		return service.postJson('/api/gen/config/tablePage', data)
 	},
-	// 保存所有配置
+	// 导入表
 	importTable(data) {
 		return service.postJson('/api/gen/config/import', data)
+	},
+	// 同步表
+	syncTable(data) {
+		return service.postJson('/api/gen/config/syncTable', data)
 	},
 }
