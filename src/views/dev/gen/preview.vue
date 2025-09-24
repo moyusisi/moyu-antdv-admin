@@ -15,8 +15,10 @@
     <a-spin :spinning="dataLoading">
       <a-tabs v-model:activeKey="previewData.activeTab" type="card">
         <a-tab-pane v-for="(code, key) of previewData.codeMap" :key="key" :tab="key">
-<!--          <highlightjs autodetect :code="code" />-->
-          <pre><code class="" v-html="highlightedCode(code, key)" /></pre>
+          <span class="copy-btn"><a @click="copyCode"><CopyOutlined/> 复制</a></span>
+
+<!--          <a-button size="small" type="dashed" ghost :icon="h(CopyOutlined)" @click="copyCode" class="copy-btn">复制</a-button>-->
+          <highlightjs autodetect :code="code" />
         </a-tab-pane>
       </a-tabs>
     </a-spin>
@@ -30,12 +32,11 @@
 <script setup>
 import codegenApi from '@/api/dev/codegenApi'
 
+import { h } from "vue";
+import { CopyOutlined } from "@ant-design/icons-vue"
 import { message } from 'ant-design-vue'
-import { useSettingsStore } from "@/store/index.js";
+import { useSettingsStore } from "@/store/index.js"
 // import downloadUtil from '@/utils/downloadUtil'
-import hljs from 'highlight.js' // 导入代码高亮文件
-import 'highlight.js/styles/github.css' // 代码高亮风格，选择更多风格需导入 node_modules/hightlight.js/styles/ 目录下其它css文件
-// hljs.registerLanguage('vue', require('highlight.js/lib/languages/xml'))
 
 const settingsStore = useSettingsStore()
 
@@ -79,16 +80,13 @@ const loadData = async () => {
   dataLoading.value = false
 }
 
-/** 高亮显示 */
-const highlightedCode = (code, key) => {
-  let language = key.substring(key.indexOf('.') + 1, key.length)
-  const result = hljs.highlight(code, { language: language, ignoreIllegals: true })
-  return result.value
-}
-
-/** 复制代码成功 */
-const clipboardSuccess = () => {
-  message.success("复制成功")
+// 复制代码
+const copyCode = () => {
+  const key = previewData.value.activeTab;
+  const code = previewData.value.codeMap[key]
+  navigator.clipboard.writeText(code).then(() => {
+    message.success('复制成功')
+  })
 }
 
 // 下一步
@@ -103,4 +101,18 @@ defineExpose({
 </script>
 <style scoped>
 
+/** 复制样式 */
+.copy-btn {
+  float: right;
+  top: 8px;
+  right: 8px;
+  position: absolute;
+  z-index: 1;
+}
+.copy-btn a {
+  color:#606266;
+}
+.copy-btn a:hover {
+  color:#1677FF;
+}
 </style>
