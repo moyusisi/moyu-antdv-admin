@@ -32,4 +32,8 @@ export default {
 	syncTable(data) {
 		return service.postJson('/api/gen/config/syncTable', data)
 	},
+	// 代码预览
+	preview(data) {
+		return service.postJson('/api/gen/config/preview', data)
+	},
 }

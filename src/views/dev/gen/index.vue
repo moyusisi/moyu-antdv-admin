@@ -41,7 +41,7 @@
 				<template v-if="column.dataIndex === 'action'">
 					<a-space>
             <a-tooltip title="预览代码">
-              <a style="color:#53C61D;" @click="configFormRef.onOpen(record)">预览</a>
+              <a style="color:#53C61D;" @click="previewRef.onOpen(record)">预览</a>
             </a-tooltip>
             <a-tooltip title="下载生成的代码">
               <a style="color:#1980FF;" @click="configFormRef.onOpen(record)">生成</a>
@@ -64,6 +64,7 @@
 	</a-card>
   <ImportForm ref="importFormRef" @successful="tableRef.refresh(true)" />
   <ConfigForm ref="configFormRef" @successful="tableRef.refresh(true)" />
+  <previewCode ref="previewRef" />
 </template>
 
 <script setup>
@@ -73,6 +74,7 @@
   import { PlusOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
+  import previewCode from "./preview.vue"
 	import { message } from "ant-design-vue";
   import STable from "@/components/STable/index.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
@@ -149,6 +151,7 @@
 	const tableRef = ref()
   const importFormRef = ref()
   const configFormRef = ref()
+  const previewRef = ref()
 	const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
 	const searchFormRef = ref()
 	const searchFormData = ref({})

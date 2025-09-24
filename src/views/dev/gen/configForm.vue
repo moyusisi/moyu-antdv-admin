@@ -344,7 +344,7 @@ const loadData = async () => {
   configFormData.value = res.data
 }
 
-// 下一步
+// 提交
 const onSubmit = () => {
   // 保存所有配置
   submitLoading.value = true
