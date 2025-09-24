@@ -34,8 +34,8 @@
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="实体类注释" name="entityComment" :rules="[required('请输入描述')]">
-                  <a-input v-model:value="configFormData.entityComment" placeholder="如:用户"/>
+                <a-form-item label="实体描述" name="entityDesc" :rules="[required('请输入描述')]">
+                  <a-input v-model:value="configFormData.entityDesc" placeholder="如:用户"/>
                 </a-form-item>
               </a-col>
             </a-row>
