@@ -1,19 +1,15 @@
 <template>
   <a-card size="small">
-    <a-form ref="searchFormRef" :model="searchFormData">
-      <a-row :gutter="24">
-        <a-col :span="6">
-          <a-form-item name="searchKey" label="搜索关键词">
-            <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-space>
-            <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
-            <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-          </a-space>
-        </a-col>
-      </a-row>
+    <a-form ref="searchFormRef" :model="searchFormData" layout="inline">
+      <a-form-item name="searchKey" label="搜索关键词">
+        <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+      </a-form-item>
+      <a-form-item>
+        <a-space>
+          <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+          <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+        </a-space>
+      </a-form-item>
     </a-form>
   </a-card>
 	<a-card size="small">
@@ -196,7 +192,12 @@
 </script>
 
 <style scoped>
-	.ant-form-item {
-		margin-bottom: 0 !important;
+  /** 后代选择器 **/
+  .ant-card-small .ant-form-inline {
+    margin-bottom: -12px !important;
+  }
+   /** 直接后代选择器 **/
+  .ant-form-inline > .ant-form-item {
+		margin-bottom: 12px !important;
 	}
 </style>
