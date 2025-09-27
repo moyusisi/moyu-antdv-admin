@@ -64,6 +64,49 @@
 
   const settingsStore = useSettingsStore()
 
+  // 默认是关闭状态
+  const visible = ref(false)
+  const title = ref()
+  const emit = defineEmits({ successful: null })
+  // 表单数据
+  const searchFormRef = ref()
+  const searchFormData = ref({})
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 表格的数据源
+  const tableData = ref([])
+  // 已选中的行
+  const selectedRowKeys = ref([])
+  // 表格行选择配置
+  const rowSelection = ref({
+    selectedRowKeys: selectedRowKeys,
+    onChange: (selectedKeys, selectedRows) => {
+      selectedRowKeys.value = selectedKeys
+      // console.log('onChange,selectedKeys:', selectedKeys);
+    }
+  });
+  // 表格的分页配置
+  const paginationRef = ref({
+    // 当前页码
+    current: 1,
+    // 每页显示条数
+    pageSize: 10,
+    // 总条数，需要通过接口获取
+    total: 0,
+    // 显示总记录数
+    showTotal: (total, range) => `共 ${total} 条 `,
+    // 是否可改变每页显示条数
+    showSizeChanger: true,
+    // 只有一页或没有数据时隐藏分页栏
+    hideOnSinglePage: true,
+    onChange: (page, pageSize) => {
+      // 处理分页切换的逻辑
+      paginationRef.value.current = page
+      paginationRef.value.pageSize = pageSize
+    },
+  })
+  // 表格列配置
   const columns = [
     {
       title: '表名称',
@@ -92,48 +135,8 @@
       width: 160
     }
   ]
+  /***** 表格相关对象 end *****/
 
-  // 默认是关闭状态
-  const visible = ref(false)
-  const title = ref()
-  const emit = defineEmits({ successful: null })
-  // 表单数据
-  const searchFormRef = ref()
-  const searchFormData = ref({})
-  // table数据
-  const tableRef = ref()
-  // 表格中的数据(loadTableData中会更新)
-  const tableData = ref([])
-  // 已选中的菜单(loadTableData中会更新)
-  const selectedRowKeys = ref([])
-  // 列表选择配置
-  const rowSelection = ref({
-    selectedRowKeys: selectedRowKeys,
-    onChange: (selectedKeys, selectedRows) => {
-      selectedRowKeys.value = selectedKeys
-      console.log('onChange,selectedKeys:', selectedKeys);
-    }
-  });
-  // 表格的分页配置
-  const paginationRef = ref({
-    // 当前页码
-    current: 1,
-    // 每页显示条数
-    pageSize: 10,
-    // 总条数，需要通过接口获取
-    total: 0,
-    // 显示总记录数
-    showTotal: (total, range) => `共 ${total} 条 `,
-    // 是否可改变每页显示条数
-    showSizeChanger: true,
-    // 只有一页或没有数据时隐藏分页栏
-    hideOnSinglePage: true,
-    onChange: (page, pageSize) => {
-      // 处理分页切换的逻辑
-      paginationRef.value.current = page
-      paginationRef.value.pageSize = pageSize
-    },
-  })
   // 抽屉宽度
   const drawerWidth = computed(() => {
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
@@ -150,12 +153,14 @@
     visible.value = false
   }
   // 加载数据
-  const loadData = async () => {
+  const loadData = () => {
+    // 重新加载数据时，清空之前以选中的行
     selectedRowKeys.value = []
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    const res = await codegenApi.tablePage(Object.assign(param, searchFormData.value))
-    paginationRef.value.total = res.data.total
-    tableData.value = res.data.records
+    codegenApi.tablePage(Object.assign(param, searchFormData.value)).then((res) => {
+      paginationRef.value.total = res.data.total
+      tableData.value = res.data.records
+    })
   }
   // 分页、排序、筛选等操作变化时，会触发 change 事件
   const handleTableChange = (pagination, filters, sorter) => {
