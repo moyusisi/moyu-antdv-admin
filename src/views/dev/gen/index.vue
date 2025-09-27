@@ -29,7 +29,7 @@
 		>
 			<template #operator>
         <a-space>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL生成</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
           <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
