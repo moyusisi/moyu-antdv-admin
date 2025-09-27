@@ -290,10 +290,6 @@ const formTypeOptions = ref([
     value: 'SELECT'
   },
   {
-    label: '文本框',
-    value: 'TEXT_AREA'
-  },
-  {
     label: '数字输入框',
     value: 'INPUT_NUMBER'
   },
@@ -306,16 +302,16 @@ const formTypeOptions = ref([
     value: 'CHECK_BOX'
   },
   {
+    label: '文本框',
+    value: 'TEXT_AREA'
+  },
+  {
     label: '日期选择',
     value: 'DATE'
   },
   {
     label: '时间选择',
     value: 'DATE_TIME'
-  },
-  {
-    label: '开关',
-    value: 'SWITCH'
   },
 ])
 
