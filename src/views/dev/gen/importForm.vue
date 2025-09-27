@@ -118,25 +118,25 @@
 		}
 	});
 	// 表格的分页配置
-	const paginationRef = ref({
-		// 当前页码
-		current: 1,
-		// 每页显示条数
-		pageSize: 10,
-		// 总条数，需要通过接口获取
-		total: 0,
-		// 显示总记录数
-		showTotal: (total, range) => `共 ${total} 条 `,
-		// 是否可改变每页显示条数
-		showSizeChanger: true,
+  const paginationRef = ref({
+    // 当前页码
+    current: 1,
+    // 每页显示条数
+    pageSize: 10,
+    // 总条数，需要通过接口获取
+    total: 0,
+    // 显示总记录数
+    showTotal: (total, range) => `共 ${total} 条 `,
+    // 是否可改变每页显示条数
+    showSizeChanger: true,
     // 只有一页或没有数据时隐藏分页栏
     hideOnSinglePage: true,
-		onChange: (page, pageSize) => {
-			// 处理分页切换的逻辑
-			paginationRef.value.current = page
-			paginationRef.value.pageSize = pageSize
-		},
-	})
+    onChange: (page, pageSize) => {
+      // 处理分页切换的逻辑
+      paginationRef.value.current = page
+      paginationRef.value.pageSize = pageSize
+    },
+  })
 	// 抽屉宽度
 	const drawerWidth = computed(() => {
 		return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
