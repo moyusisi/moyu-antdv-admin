@@ -70,95 +70,95 @@
 </template>
 
 <script setup>
-    import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/sys/roleApi'
   import codegenApi from '@/api/dev/codegenApi'
 
-    import { h } from "vue"
-    import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-    // import AddForm from "./addForm.vue";
-    // import EditForm from "./editForm.vue";
-    import { message } from "ant-design-vue";
+  import { h } from "vue"
+  import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  // import AddForm from "./addForm.vue";
+  // import EditForm from "./editForm.vue";
+  import { message } from "ant-design-vue";
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import STable from "@/components/STable/index.vue"
 
-    const columns = [
-        {
-            title: '表名',
-            dataIndex: 'tableName',
-            resizable: true,
-            width: 150
-        },
-        {
-            title: '描述',
-            dataIndex: 'tableComment',
-            resizable: true,
-            width: 200
-        },
-        {
-            title: '存储引擎',
-            dataIndex: 'engine',
-            align: 'center',
-            width: 100
-        },
-        {
-            title: '排序规则',
-            dataIndex: 'tableCollation',
-            align: 'center',
-            width: 150
-        },
-        {
-            title: '创建时间',
-            dataIndex: 'createTime',
-            align: 'center',
-            width: 160
-        },
-        {
-            title: '操作',
-            dataIndex: 'action',
-            align: 'center',
-            resizable: true,
-            width: 150
-        }
-    ]
-    const selectedRowKeys = ref([])
-    // 使用状态options（0正常 1停用）
-    const statusOptions = [
-        { label: "正常", value: 0 },
-        { label: "已停用", value: 1 }
-    ]
-    // 列表选择配置
-    const options = {
-        alert: {
-            show: false,
-            clear: () => {
-                selectedRowKeys.value = ref([])
-            }
-        },
-        rowSelection: {
-            onChange: (selectedRowKey, selectedRows) => {
-                selectedRowKeys.value = selectedRowKey
-            }
-        }
+  const columns = [
+    {
+      title: '表名',
+      dataIndex: 'tableName',
+      resizable: true,
+      width: 150
+    },
+    {
+      title: '描述',
+      dataIndex: 'tableComment',
+      resizable: true,
+      width: 200
+    },
+    {
+      title: '存储引擎',
+      dataIndex: 'engine',
+      align: 'center',
+      width: 100
+    },
+    {
+      title: '排序规则',
+      dataIndex: 'tableCollation',
+      align: 'center',
+      width: 150
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      width: 160
+    },
+    {
+      title: '操作',
+      dataIndex: 'action',
+      align: 'center',
+      resizable: true,
+      width: 150
     }
-    // 定义tableDOM
-    const tableRef = ref()
-    const formRef = ref()
-    const addFormRef = ref()
-    const editFormRef = ref()
+  ]
+  const selectedRowKeys = ref([])
+  // 使用状态options（0正常 1停用）
+  const statusOptions = [
+    { label: "正常", value: 0 },
+    { label: "已停用", value: 1 }
+  ]
+  // 列表选择配置
+  const options = {
+    alert: {
+      show: false,
+      clear: () => {
+        selectedRowKeys.value = ref([])
+      }
+    },
+    rowSelection: {
+      onChange: (selectedRowKey, selectedRows) => {
+        selectedRowKeys.value = selectedRowKey
+      }
+    }
+  }
+  // 定义tableDOM
+  const tableRef = ref()
+  const formRef = ref()
+  const addFormRef = ref()
+  const editFormRef = ref()
   const module = ref()
-    const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
-    const grantMenuFormRef = ref()
+  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
+  const grantMenuFormRef = ref()
   const roleUserRef = ref()
-    const searchFormRef = ref()
-    const searchFormData = ref({})
+  const searchFormRef = ref()
+  const searchFormData = ref({})
 
-    // 表格查询 返回 Promise 对象
-    const loadData = (parameter) => {
-        let param = Object.assign(parameter, searchFormData.value)
-        return codegenApi.genPage(param).then((res) => {
-            return res.data
-        })
-	}
+  // 表格查询 返回 Promise 对象
+  const loadData = (parameter) => {
+    let param = Object.assign(parameter, searchFormData.value)
+    return codegenApi.genPage(param).then((res) => {
+      return res.data
+    })
+  }
 	// 重置
 	const reset = () => {
 		searchFormRef.value.resetFields()
