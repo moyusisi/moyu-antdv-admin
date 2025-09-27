@@ -97,8 +97,6 @@
   const visible = ref(false)
   const title = ref()
   const emit = defineEmits({ successful: null })
-  // 定义treeRef
-  const treeRef = ref()
   // 表单数据
   const searchFormRef = ref()
   const searchFormData = ref({})
@@ -163,7 +161,7 @@
   // 分页、排序、筛选等操作变化时，会触发 change 事件
   const handleTableChange = (pagination, filters, sorter) => {
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    userApi.userPage(Object.assign(param, searchFormData.value)).then((res) => {
+    codegenApi.tablePage(Object.assign(param, searchFormData.value)).then((res) => {
       paginationRef.value.total = res.data.total
       tableData.value = res.data.records
     })
