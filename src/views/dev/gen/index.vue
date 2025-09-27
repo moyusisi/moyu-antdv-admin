@@ -13,16 +13,16 @@
     </a-form>
   </a-card>
 	<a-card size="small">
-		<STable
-			ref="tableRef"
-			:columns="columns"
-			:data="loadData"
-			:alert="options.alert.show"
-			bordered
-			:row-key="(record) => record.id"
-			:row-selection="options.rowSelection"
-			:tool-config="toolConfig"
-		>
+    <STable
+        ref="tableRef"
+        :columns="columns"
+        :data="loadData"
+        :alert="options.alert.show"
+        bordered
+        :row-key="(record) => record.id"
+        :row-selection="options.rowSelection"
+        :tool-config="toolConfig"
+    >
 			<template #operator>
         <a-space>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
