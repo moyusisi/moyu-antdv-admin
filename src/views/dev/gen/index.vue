@@ -2,12 +2,12 @@
   <a-card size="small">
     <a-form ref="searchFormRef" :model="searchFormData">
       <a-row :gutter="24">
-        <a-col :span="7">
+        <a-col :span="6">
           <a-form-item name="searchKey" label="搜索关键词">
             <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
           <a-space>
             <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
             <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
