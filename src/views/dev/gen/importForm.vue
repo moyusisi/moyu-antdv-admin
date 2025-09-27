@@ -1,7 +1,7 @@
 <template>
 	<a-drawer
 		:open="visible"
-		title="导入表"
+		title="从数据表导入"
 		:width="drawerWidth"
 		:closable="false"
 		:footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
@@ -27,7 +27,7 @@
             </a-space>
           </a-col>
           <a-col :span="8" style="text-align: right">
-            <a-button type="dashed" @click="addRows" :icon="h(PlusOutlined)" style="color: #52C41AFF; border-color: #52C41AFF">导入</a-button>
+            <a-button @click="addRows" :icon="h(PlusOutlined)" class="custom-btn">导入</a-button>
           </a-col>
         </a-row>
       </a-form>
@@ -196,8 +196,15 @@
 	.ant-form-item {
 		margin-bottom: 10px !important;
 	}
-	.selectorTree {
-		max-height: 600px;
-		overflow: auto;
-	}
+
+  .custom-btn {
+    background-color: #52C41AFF;
+    border-color: #52C41AFF;
+    color: #fff;
+  }
+  .custom-btn:hover {
+    background-color: #79D84B;
+    border-color: #79D84B;
+    color: #fff;
+  }
 </style>
