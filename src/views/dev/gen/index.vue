@@ -27,7 +27,11 @@
         <a-space>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
-          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete"/>
+          <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
+            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
+              批量删除
+            </a-button>
+          </a-popconfirm>
         </a-space>
       </template>
       <template #bodyCell="{ column, record, index }">
@@ -67,7 +71,7 @@
   import codegenApi from '@/api/dev/codegenApi'
 
   import { h } from "vue"
-  import { PlusOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
   import previewCode from "./preview.vue"
@@ -175,7 +179,11 @@
     })
   }
   // 批量删除
-  const batchDelete = (record) => {
+  const batchDelete = () => {
+    if (selectedRowKeys.value.length < 1) {
+      message.warning('请至少选择一条数据')
+      return
+    }
     let data = { ids: selectedRowKeys.value }
     codegenApi.deleteConfig(data).then((res) => {
       message.success(res.message)
