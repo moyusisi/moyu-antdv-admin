@@ -1,13 +1,13 @@
 <template>
-	<a-drawer
-		:open="visible"
-		title="从数据表导入"
-		:width="drawerWidth"
-		:closable="false"
-		:footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
-		:destroy-on-close="true"
-		@close="onClose"
-	>
+  <a-drawer
+      :open="visible"
+      title="从数据表导入"
+      :width="drawerWidth"
+      :closable="false"
+      :footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
+      :destroy-on-close="true"
+      @close="onClose"
+  >
 		<template #extra>
 			<a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
 		</template>
