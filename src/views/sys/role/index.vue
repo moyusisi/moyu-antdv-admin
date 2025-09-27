@@ -14,7 +14,7 @@
 				</a-col>
 				<a-col :span="8">
 					<a-space>
-						<a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+						<a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
 						<a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
 					</a-space>
 				</a-col>
@@ -174,6 +174,10 @@
 			return res.data
 		})
 	}
+  // 查询
+  const querySubmit = () => {
+    tableRef.value.refresh(true)
+  }
 	// 重置
 	const reset = () => {
 		searchFormRef.value.resetFields()
