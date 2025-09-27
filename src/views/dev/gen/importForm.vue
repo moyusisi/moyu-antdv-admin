@@ -58,7 +58,7 @@
   import { useSettingsStore } from "@/store";
   import { message } from "ant-design-vue";
   import { h } from "vue";
-  import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import userApi from "@/api/sys/userApi"
   import codegenApi from "@/api/dev/codegenApi.js";
 
@@ -198,7 +198,7 @@
 
 <style scoped>
   .ant-form-item {
-    margin-bottom: 10px !important;
+    margin-bottom: 12px !important;
   }
 
   .custom-btn {
