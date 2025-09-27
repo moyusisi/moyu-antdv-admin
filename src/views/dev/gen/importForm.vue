@@ -22,7 +22,7 @@
           </a-col>
           <a-col :span="8">
             <a-space>
-              <a-button type="primary" :icon="h(SearchOutlined)" @click="loadTableData()">查询</a-button>
+              <a-button type="primary" :icon="h(SearchOutlined)" @click="loadData()">查询</a-button>
               <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
             </a-space>
           </a-col>
@@ -108,7 +108,6 @@
   const selectedRowKeys = ref([])
   // 列表选择配置
   const rowSelection = ref({
-    checkStrictly: false,
     selectedRowKeys: selectedRowKeys,
     onChange: (selectedKeys, selectedRows) => {
       selectedRowKeys.value = selectedKeys
@@ -143,15 +142,15 @@
   // 打开抽屉
   const onOpen = (record) => {
     // 加载数据
-    loadTableData()
+    loadData()
     visible.value = true
   }
   // 关闭抽屉
   const onClose = () => {
     visible.value = false
   }
-  // 表格查询
-  const loadTableData = async () => {
+  // 加载数据
+  const loadData = async () => {
     selectedRowKeys.value = []
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
     const res = await codegenApi.tablePage(Object.assign(param, searchFormData.value))
@@ -170,7 +169,7 @@
   const reset = () => {
     searchFormData.value = {}
     paginationRef.value.current = 1
-    loadTableData()
+    loadData()
   }
   // 添加记录
   const addRows = () => {
@@ -183,7 +182,7 @@
       message.success(res.message)
       emit('successful')
       // 添加之后重新加载数据
-      loadTableData()
+      loadData()
     })
   }
   // 调用这个函数将子组件的一些数据和方法暴露出去
