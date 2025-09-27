@@ -2,7 +2,7 @@
   <a-card size="small">
     <a-form ref="searchFormRef" :model="searchFormData" layout="inline">
       <a-form-item name="searchKey" label="搜索关键词">
-        <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+        <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear/>
       </a-form-item>
       <a-form-item>
         <a-space>
@@ -12,7 +12,7 @@
       </a-form-item>
     </a-form>
   </a-card>
-    <a-card size="small">
+  <a-card size="small">
     <STable
         ref="tableRef"
         :columns="columns"
@@ -23,41 +23,41 @@
         :row-selection="options.rowSelection"
         :tool-config="toolConfig"
     >
-            <template #operator>
+      <template #operator>
         <a-space>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
-          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete"/>
         </a-space>
-            </template>
-            <template #bodyCell="{ column, record, index }">
+      </template>
+      <template #bodyCell="{ column, record, index }">
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
         </template>
-                <template v-if="column.dataIndex === 'action'">
-                    <a-space>
+        <template v-if="column.dataIndex === 'action'">
+          <a-space>
             <a-tooltip title="预览代码">
               <a style="color:#53C61D;" @click="previewRef.onOpen(record)">预览</a>
             </a-tooltip>
             <a-tooltip title="下载生成的代码">
               <a style="color:#1980FF;" @click="configFormRef.onOpen(record)">生成</a>
             </a-tooltip>
-                        <a-tooltip title="修改配置">
+            <a-tooltip title="修改配置">
               <a @click="configFormRef.onOpen(record)">修改</a>
-                        </a-tooltip>
+            </a-tooltip>
             <a-tooltip title="根据表结构同步默认配置">
               <a @click="syncTable(record)">同步</a>
             </a-tooltip>
-                        <a-tooltip title="删除配置">
-                            <a-popconfirm title="确定要删除配置吗？" @confirm="deleteConfig(record)">
-                                <a style="color:#FF4D4F;">删除</a>
-                            </a-popconfirm>
-                        </a-tooltip>
-                    </a-space>
-                </template>
-            </template>
-        </STable>
-    </a-card>
+            <a-tooltip title="删除配置">
+              <a-popconfirm title="确定要删除配置吗？" @confirm="deleteConfig(record)">
+                <a style="color:#FF4D4F;">删除</a>
+              </a-popconfirm>
+            </a-tooltip>
+          </a-space>
+        </template>
+      </template>
+    </STable>
+  </a-card>
   <ImportForm ref="importFormRef" @successful="tableRef.refresh(true)" />
   <ConfigForm ref="configFormRef" @successful="tableRef.refresh(true)" />
   <previewCode ref="previewRef" />
@@ -123,12 +123,12 @@
       width: 200,
     }
   ]
-  const selectedRowKeys = ref([])
   // 使用状态options（0正常 1停用）
   const statusOptions = [
     { label: "正常", value: 0 },
     { label: "已停用", value: 1 }
   ]
+  const selectedRowKeys = ref([])
   // 列表选择配置
   const options = {
     alert: {
@@ -143,12 +143,14 @@
       }
     }
   }
+  // 表工具设置
+  const toolConfig = { refresh: true, height: true, columnSetting: true, striped: false }
+
   // 定义tableDOM
   const tableRef = ref()
   const importFormRef = ref()
   const configFormRef = ref()
   const previewRef = ref()
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
   const searchFormRef = ref()
   const searchFormData = ref({})
 
