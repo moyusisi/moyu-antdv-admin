@@ -78,8 +78,8 @@
               <template v-if="column.dataIndex === 'fieldName'">
                 <a-input v-model:value="record.fieldName" />
               </template>
-              <template v-if="column.dataIndex === 'fieldComment'">
-                <a-input v-model:value="record.fieldComment" />
+              <template v-if="column.dataIndex === 'fieldRemark'">
+                <a-input v-model:value="record.fieldRemark" />
               </template>
               <template v-if="column.dataIndex === 'maxLength'">
                 <a-input v-model:value="record.maxLength" />
@@ -185,7 +185,7 @@ const columns = [
   {
     title: '注释',
     align: 'center',
-    dataIndex: 'fieldComment',
+    dataIndex: 'fieldRemark',
     width: 150,
     ellipsis: true
   },
