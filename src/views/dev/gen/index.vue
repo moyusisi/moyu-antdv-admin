@@ -36,9 +36,15 @@
              :pagination="paginationRef"
              @change="onChange"
              @resizeColumn="onResizeColumn"
-             :scroll="{ x: true }"
+             :scroll="{ x: 'max-content' }"
              bordered>
-      <template #bodyCell="{ column, record, index }">
+      <template #bodyCell="{ text, record, index, column }">
+        <!-- 长文本省略显示 -->
+        <template v-if="text && text.length > 24">
+          <a-tooltip :title="text">
+            <span class="large-text">{{ text }}</span>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
         </template>
@@ -142,32 +148,34 @@
       dataIndex: 'tableName',
       align: 'center',
       resizable: true,
-      ellipsis: true,
-    },
-    {
-      title: '表描述',
-      dataIndex: 'tableComment',
-      align: 'center',
-      resizable: true,
-      ellipsis: true,
+      width: 160,
     },
     {
       title: '实体类名',
       dataIndex: 'entityName',
       align: 'center',
       resizable: true,
-      ellipsis: true,
+      width: 160,
+    },
+    {
+      title: '实体描述',
+      dataIndex: 'entityDesc',
+      align: 'center',
+      resizable: true,
+      width: 160,
     },
     {
       title: "创建时间",
       dataIndex: "createTime",
       align: 'center',
+      resizable: true,
       width: 160,
     },
     {
       title: "更新时间",
       dataIndex: "updateTime",
       align: 'center',
+      resizable: true,
       width: 160,
     },
     // 单行操作，不需要可以删掉
@@ -234,6 +242,15 @@
       loadData()
     })
   }
+  // 同步表
+  const syncTable = (record) => {
+    let data = { tableName: record.tableName }
+    codegenApi.syncTable(data).then((res) => {
+      // 添加之后重新加载数据
+      message.success(res.message)
+      loadData()
+    })
+  }
 </script>
 
 <style scoped>
@@ -244,5 +261,14 @@
   /** 直接后代选择器 **/
   .ant-form-inline > .ant-form-item {
     margin-bottom: 12px !important;
+  }
+  /** 长文本截断,超过200px省略(约26个字母，15个汉字的长度) **/
+  .large-text {
+    display: inline-block;
+    width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
   }
 </style>
