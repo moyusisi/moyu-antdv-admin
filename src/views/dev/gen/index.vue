@@ -1,30 +1,22 @@
 <template>
+  <!-- 上方选择区 -->
   <a-card size="small">
-    <a-form ref="searchFormRef" :model="searchFormData" layout="inline">
+    <a-form ref="queryFormRef" :model="queryFormData" layout="inline">
       <a-form-item name="searchKey" label="搜索关键词">
-        <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear/>
+        <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear/>
       </a-form-item>
       <a-form-item>
         <a-space>
-          <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
+          <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
           <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
         </a-space>
       </a-form-item>
     </a-form>
   </a-card>
   <a-card size="small">
-    <STable
-        ref="tableRef"
-        :columns="columns"
-        :data="loadData"
-        :alert="options.alert.show"
-        bordered
-        :row-key="(record) => record.id"
-        :row-selection="options.rowSelection"
-        :tool-config="toolConfig"
-    >
-      <template #operator>
-        <a-space>
+    <a-row>
+      <a-col :span="20" style="margin-bottom: 12px">
+        <a-space wrap>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
           <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
@@ -33,7 +25,18 @@
             </a-button>
           </a-popconfirm>
         </a-space>
-      </template>
+      </a-col>
+    </a-row>
+    <a-table size="small"
+             ref="tableRef"
+             :columns="columns"
+             :data-source="tableData"
+             :row-key="(record) => record.id"
+             :row-selection="rowSelection"
+             :pagination="paginationRef"
+             @change="onChange"
+             @resizeColumn="onResizeColumn"
+             bordered>
       <template #bodyCell="{ column, record, index }">
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
@@ -60,10 +63,10 @@
           </a-space>
         </template>
       </template>
-    </STable>
+    </a-table>
   </a-card>
-  <ImportForm ref="importFormRef" @successful="tableRef.refresh(true)" />
-  <ConfigForm ref="configFormRef" @successful="tableRef.refresh(true)" />
+  <ImportForm ref="importFormRef" @successful="loadData" />
+  <ConfigForm ref="configFormRef" @successful="loadData" />
   <previewCode ref="previewRef" />
 </template>
 
@@ -72,14 +75,61 @@
 
   import { h } from "vue"
   import { PlusOutlined, DeleteOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { message } from "ant-design-vue"
   import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
   import previewCode from "./preview.vue"
-  import { message } from "ant-design-vue";
-  import STable from "@/components/STable/index.vue"
-  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
 
-  const columns = [
+  // 查询表单相关对象
+  const queryFormRef = ref()
+  const queryFormData = ref({})
+  // 下拉框选项
+  const exampleOptions = [
+    { label: "选项一", value: 1 },
+    { label: "选项二", value: 2 }
+  ]
+  // 其他页面操作
+  const importFormRef = ref()
+  const configFormRef = ref()
+  const previewRef = ref()
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 表格的数据源
+  const tableData = ref([])
+  // 已选中的行
+  const selectedRowKeys = ref([])
+  // 表格行选择配置
+  const rowSelection = ref({
+    selectedRowKeys: selectedRowKeys,
+    onChange: (selectedKeys, selectedRows) => {
+      selectedRowKeys.value = selectedKeys
+      // console.log('onChange,selectedKeys:', selectedKeys);
+    }
+  });
+  // 表格的分页配置
+  const paginationRef = ref({
+    // 当前页码
+    current: 1,
+    // 每页显示条数
+    pageSize: 10,
+    // 总条数，需要通过接口获取
+    total: 0,
+    // 显示总记录数
+    showTotal: (total, range) => "共 ${total} 条 ",
+    // 是否可改变每页显示条数
+    showSizeChanger: true,
+    // 只有一页或没有数据时隐藏分页栏
+    hideOnSinglePage: true,
+    onChange: (page, pageSize) => {
+      // 处理分页切换的逻辑
+      paginationRef.value.current = page
+      paginationRef.value.pageSize = pageSize
+    },
+  })
+  // 表格列配置 TODO 根据字段生成
+  const columns = ref([
+    // 不需要序号可以删掉
     {
       title: '序号',
       dataIndex: 'index',
@@ -91,112 +141,96 @@
       dataIndex: 'tableName',
       align: 'center',
       resizable: true,
-      width: 150
+      ellipsis: true,
     },
     {
       title: '表描述',
       dataIndex: 'tableComment',
       align: 'center',
       resizable: true,
-      width: 200
+      ellipsis: true,
     },
     {
       title: '实体类名',
       dataIndex: 'entityName',
       align: 'center',
       resizable: true,
-      width: 150
+      ellipsis: true,
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
+      title: "创建时间",
+      dataIndex: "createTime",
       align: 'center',
-      width: 160
+      width: 160,
     },
     {
-      title: '更新时间',
-      dataIndex: 'updateTime',
+      title: "更新时间",
+      dataIndex: "updateTime",
       align: 'center',
-      width: 160
+      width: 160,
     },
+    // 单行操作，不需要可以删掉
     {
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      resizable: true,
       width: 200,
-    }
-  ]
-  // 使用状态options（0正常 1停用）
-  const statusOptions = [
-    { label: "正常", value: 0 },
-    { label: "已停用", value: 1 }
-  ]
-  const selectedRowKeys = ref([])
-  // 列表选择配置
-  const options = {
-    alert: {
-      show: false,
-      clear: () => {
-        selectedRowKeys.value = ref([])
-      }
     },
-    rowSelection: {
-      onChange: (selectedRowKey, selectedRows) => {
-        selectedRowKeys.value = selectedRowKey
-      }
-    }
-  }
-  // 表工具设置
-  const toolConfig = { refresh: true, height: true, columnSetting: true, striped: false }
+  ])
+  /***** 表格相关对象 end *****/
 
-  // 定义tableDOM
-  const tableRef = ref()
-  const importFormRef = ref()
-  const configFormRef = ref()
-  const previewRef = ref()
-  const searchFormRef = ref()
-  const searchFormData = ref({})
+  // 加载完毕调用
+  onMounted(() => {
+    loadData()
+  })
 
-  // 表格查询 返回 Promise 对象
-  const loadData = (parameter) => {
-    let param = Object.assign(parameter, searchFormData.value)
-    return codegenApi.configPage(param).then((res) => {
-      return res.data
-    })
+  // 提交查询
+  const querySubmit = () => {
+    loadData()
   }
   // 重置
   const reset = () => {
-    searchFormRef.value.resetFields()
-    tableRef.value.refresh(true)
+    queryFormRef.value = {}
+    paginationRef.value.current = 1
+    loadData()
+  }
+  // 加载数据
+  const loadData = (parameter) => {
+    // 重新加载数据时，清空之前以选中的行
+    selectedRowKeys.value = []
+    // 分页参数
+    let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
+    return codegenApi.configPage(Object.assign(param, queryFormData.value)).then((res) => {
+      paginationRef.value.total = res.data.total
+      tableData.value = res.data.records
+    })
+  }
+  // 分页、排序、筛选等操作变化时，会触发 change 事件
+  const onChange = (pagination, filters, sorter) => {
+    loadData()
+  }
+  // 可伸缩列
+  const onResizeColumn = (w, column) => {
+    column.width = w
   }
   // 删除
   const deleteConfig = (record) => {
     let data = { ids: [record.id] }
     codegenApi.deleteConfig(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh(true)
+      loadData()
     })
   }
   // 批量删除
   const batchDelete = () => {
     if (selectedRowKeys.value.length < 1) {
-      message.warning('请至少选择一条数据')
+      message.warning("请至少选择一条数据")
       return
     }
     let data = { ids: selectedRowKeys.value }
     codegenApi.deleteConfig(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh(true)
-    })
-  }
-  // 同步表
-  const syncTable = (record) => {
-    let data = { tableName: record.tableName }
-    codegenApi.syncTable(data).then((res) => {
-      // 添加之后重新加载数据
-      message.success(res.message)
-      tableRef.value.refresh(true)
+      loadData()
     })
   }
 </script>
@@ -206,8 +240,8 @@
   .ant-card-small .ant-form-inline {
     margin-bottom: -12px !important;
   }
-   /** 直接后代选择器 **/
+  /** 直接后代选择器 **/
   .ant-form-inline > .ant-form-item {
-        margin-bottom: 12px !important;
-    }
+    margin-bottom: 12px !important;
+  }
 </style>
