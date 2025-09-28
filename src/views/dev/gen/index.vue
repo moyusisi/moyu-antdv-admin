@@ -27,7 +27,7 @@
         </a-space>
       </a-col>
     </a-row>
-    <a-table size="small"
+    <a-table size="middle"
              ref="tableRef"
              :columns="columns"
              :data-source="tableData"
