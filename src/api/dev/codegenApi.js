@@ -36,4 +36,9 @@ export default {
 	preview(data) {
 		return service.postJson('/api/gen/config/preview', data)
 	},
+	// 下载代码
+	download(data) {
+		return service.postJson('/api/gen/config/download', data)
+	},
+
 }

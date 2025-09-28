@@ -54,7 +54,7 @@
               <a style="color:#53C61D;" @click="previewRef.onOpen(record)">预览</a>
             </a-tooltip>
             <a-tooltip title="下载生成的代码">
-              <a style="color:#1980FF;" @click="configFormRef.onOpen(record)">生成</a>
+              <a style="color:#1980FF;" @click="downloadCode(record)">生成</a>
             </a-tooltip>
             <a-tooltip title="修改配置">
               <a @click="configFormRef.onOpen(record)">修改</a>
@@ -249,6 +249,24 @@
       // 添加之后重新加载数据
       message.success(res.message)
       loadData()
+    })
+  }
+  // 下载代码
+  const downloadCode = (record) => {
+    let ids = []
+    if (record) {
+      ids = [record.id]
+    } else {
+      ids = selectedRowKeys.value
+    }
+    if (ids.length < 1) {
+      message.warning("请至少选择一条数据")
+      return
+    }
+    let data = { ids: ids }
+    codegenApi.download(data).then((res) => {
+    }).catch(err => {
+      console.log(err)
     })
   }
 </script>
