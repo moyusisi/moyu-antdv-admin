@@ -39,8 +39,12 @@
                :row-selection="rowSelection"
                :pagination="paginationRef"
                @change="handleTableChange"
+               @resizeColumn="onResizeColumn"
                bordered>
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, index }">
+          <template v-if="column.dataIndex === 'index'">
+            <span>{{ index + 1 }}</span>
+          </template>
         </template>
       </a-table>
     </a-card>
@@ -80,6 +84,7 @@
   const selectedRowKeys = ref([])
   // 表格行选择配置
   const rowSelection = ref({
+    // 选中行key列表
     selectedRowKeys: selectedRowKeys,
     onChange: (selectedKeys, selectedRows) => {
       selectedRowKeys.value = selectedKeys
@@ -107,12 +112,19 @@
     },
   })
   // 表格列配置
-  const columns = [
+  const columns = ref([
+    {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
+    },
     {
       title: '表名称',
       dataIndex: 'tableName',
       align: 'center',
       resizable: true,
+      ellipsis: true,
       width: 150
     },
     {
@@ -120,7 +132,7 @@
       dataIndex: 'tableComment',
       align: 'center',
       resizable: true,
-      width: 200
+      ellipsis: true,
     },
     {
       title: '创建时间',
@@ -134,7 +146,7 @@
       align: 'center',
       width: 160
     }
-  ]
+  ])
   /***** 表格相关对象 end *****/
 
   // 抽屉宽度
@@ -156,6 +168,7 @@
   const loadData = () => {
     // 重新加载数据时，清空之前以选中的行
     selectedRowKeys.value = []
+    // 分页参数
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
     codegenApi.tablePage(Object.assign(param, searchFormData.value)).then((res) => {
       paginationRef.value.total = res.data.total
@@ -169,6 +182,10 @@
       paginationRef.value.total = res.data.total
       tableData.value = res.data.records
     })
+  }
+  // 可伸缩列
+  const onResizeColumn = (w, column) => {
+    column.width = w
   }
   // 重置
   const reset = () => {
