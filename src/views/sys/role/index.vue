@@ -131,7 +131,6 @@
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      resizable: true,
       width: 150
     }
   ]
