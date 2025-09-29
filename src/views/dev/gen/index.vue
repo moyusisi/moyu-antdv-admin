@@ -17,7 +17,7 @@
     <a-row>
       <a-col :span="20" style="margin-bottom: 12px">
         <a-space wrap>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="xx.onOpen(module)">从SQL导入</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="sqlFormRef.onOpen()">从SQL导入</a-button>
           <a-button type="primary" :icon="h(CloudUploadOutlined)" @click="importFormRef.onOpen()">导入</a-button>
           <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
@@ -78,6 +78,7 @@
     </a-table>
   </a-card>
   <ImportForm ref="importFormRef" @successful="loadData" />
+  <SqlForm ref="sqlFormRef" @successful="loadData" />
   <ConfigForm ref="configFormRef" @successful="loadData" />
   <previewCode ref="previewRef" />
 </template>
@@ -90,6 +91,7 @@
   import { message } from "ant-design-vue"
   import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
+  import SqlForm from "./sqlForm.vue"
   import previewCode from "./preview.vue"
 
   // 查询表单相关对象
@@ -102,6 +104,7 @@
   ]
   // 其他页面操作
   const importFormRef = ref()
+  const sqlFormRef = ref()
   const configFormRef = ref()
   const previewRef = ref()
 
