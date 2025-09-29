@@ -33,7 +33,7 @@
       </a-col>
       <a-col :span="4">
         <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-start">
-          <a-button :icon="h(PlusOutlined)" class="custom-btn">设置</a-button>
+<!--          <a-button :icon="h(PlusOutlined)" class="custom-btn">设置</a-button>-->
         </a-flex>
       </a-col>
     </a-row>
@@ -57,6 +57,10 @@
         </template>
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
+        </template>
+        <template v-if="column.dataIndex === 'sourceType'">
+          <a-tag v-if="record.sourceType === 'TABLE'" color="blue">{{ record.sourceType }}</a-tag>
+          <a-tag v-else color="cyan">{{ record.sourceType }}</a-tag>
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
@@ -161,14 +165,14 @@
       dataIndex: 'tableName',
       align: 'center',
       resizable: true,
-      width: 160,
+      width: 150,
     },
     {
       title: '实体类名',
       dataIndex: 'entityName',
       align: 'center',
       resizable: true,
-      width: 160,
+      width: 150,
     },
     {
       title: '实体描述',
@@ -176,6 +180,13 @@
       align: 'center',
       resizable: true,
       width: 160,
+    },
+    {
+      title: '来源类型',
+      dataIndex: 'sourceType',
+      align: 'center',
+      resizable: true,
+      width: 100,
     },
     {
       title: "创建时间",
