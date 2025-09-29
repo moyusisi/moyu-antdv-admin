@@ -23,7 +23,7 @@
           </a-flex>
         </a-col>
       </a-row>
-      <a-textarea v-model:value="sqlData" placeholder="支持多个建表语句" :rows="25" allowClear/>
+      <a-textarea v-model:value="sqlData" placeholder="支持多个建表语句" :rows="20" allowClear/>
     </a-card>
     <!-- 底部内容 -->
     <template #footer>
