@@ -28,6 +28,10 @@ export default {
 	importTable(data) {
 		return service.postJson('/api/gen/config/import', data)
 	},
+	// 从SQL导入
+	importSql(data) {
+		return service.postJson('/api/gen/config/importSql', data)
+	},
 	// 同步表
 	syncTable(data) {
 		return service.postJson('/api/gen/config/syncTable', data)
