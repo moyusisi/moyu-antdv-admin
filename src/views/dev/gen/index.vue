@@ -106,11 +106,7 @@
   // 查询表单相关对象
   const queryFormRef = ref()
   const queryFormData = ref({})
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
+
   // 其他页面操作
   const importFormRef = ref()
   const sqlFormRef = ref()
