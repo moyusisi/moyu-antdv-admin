@@ -31,6 +31,11 @@
           </a-popconfirm>
         </a-space>
       </a-col>
+      <a-col :span="4">
+        <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-start">
+          <a-button :icon="h(PlusOutlined)" class="custom-btn">设置</a-button>
+        </a-flex>
+      </a-col>
     </a-row>
     <a-table size="middle"
              ref="tableRef"
@@ -287,6 +292,21 @@
   /** 直接后代选择器 **/
   .ant-form-inline > .ant-form-item {
     margin-bottom: 12px !important;
+  }
+  /** 操作区 **/
+  .tool-area {
+    width: 100%;
+    height: 100%;
+  }
+  .custom-btn {
+    background-color: #52C41AFF;
+    border-color: #52C41AFF;
+    color: #fff;
+  }
+  .custom-btn:hover {
+    background-color: #79D84B;
+    border-color: #79D84B;
+    color: #fff;
   }
   /** 长文本截断,超过200px省略(约26个字母，15个汉字的长度) **/
   .large-text {
