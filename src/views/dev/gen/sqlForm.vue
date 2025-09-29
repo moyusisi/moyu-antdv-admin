@@ -15,7 +15,7 @@
     <a-card size="small">
       <a-row>
         <a-col :span="20">
-          <a-alert message="目前仅支持MySql语法。" type="error" />
+          <a-alert message="目前仅支持MySql语法。" type="info" />
         </a-col>
         <a-col :span="4">
           <a-flex gap="small" class="tool-area" justify="flex-end" align="center">

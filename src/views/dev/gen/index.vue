@@ -182,7 +182,7 @@
       width: 160,
     },
     {
-      title: '来源类型',
+      title: '来源',
       dataIndex: 'sourceType',
       align: 'center',
       resizable: true,
