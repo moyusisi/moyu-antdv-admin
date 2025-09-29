@@ -42,6 +42,12 @@
                @resizeColumn="onResizeColumn"
                bordered>
         <template #bodyCell="{ column, record, index }">
+          <!-- 长文本省略显示 -->
+          <template v-if="text && text.length > 24">
+            <a-tooltip :title="text">
+              <span class="large-text">{{ text }}</span>
+            </a-tooltip>
+          </template>
           <template v-if="column.dataIndex === 'index'">
             <span>{{ index + 1 }}</span>
           </template>
@@ -124,15 +130,14 @@
       dataIndex: 'tableName',
       align: 'center',
       resizable: true,
-      ellipsis: true,
-      width: 150
+      width: 150,
     },
     {
       title: '表描述',
       dataIndex: 'tableComment',
       align: 'center',
       resizable: true,
-      ellipsis: true,
+      width: 150,
     },
     {
       title: '创建时间',
@@ -227,5 +232,14 @@
     background-color: #79D84B;
     border-color: #79D84B;
     color: #fff;
+  }
+  /** 长文本截断,超过200px省略(约26个字母，15个汉字的长度) **/
+  .large-text {
+    display: inline-block;
+    width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
   }
 </style>
