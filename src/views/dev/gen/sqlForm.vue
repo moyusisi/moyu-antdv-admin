@@ -104,7 +104,7 @@
   .ant-form-inline > .ant-form-item {
     margin-bottom: 12px !important;
   }
-  /** 直接后代选择器 **/
+  /** 操作区 **/
   .tool-area {
     width: 100%;
     height: 100%;
