@@ -73,8 +73,8 @@
             <a-tooltip title="修改配置">
               <a @click="configFormRef.onOpen(record)">修改</a>
             </a-tooltip>
-            <a-tooltip title="根据表结构同步默认配置">
-              <a @click="syncTable(record)">同步</a>
+            <a-tooltip v-if="record.sourceType === 'TABLE'" title="根据表结构重置为默认配置">
+              <a @click="resetTable(record)">重置</a>
             </a-tooltip>
             <a-tooltip title="删除配置">
               <a-popconfirm title="确定要删除配置吗？" @confirm="deleteConfig(record)">
@@ -266,10 +266,10 @@
       loadData()
     })
   }
-  // 同步表
-  const syncTable = (record) => {
-    let data = { tableName: record.tableName }
-    codegenApi.syncTable(data).then((res) => {
+  // 重置表配置
+  const resetTable = (record) => {
+    let data = { id: record.id }
+    codegenApi.resetTable(data).then((res) => {
       // 添加之后重新加载数据
       message.success(res.message)
       loadData()

@@ -90,6 +90,7 @@
     codegenApi.importSql(data).then((res) => {
       message.success(res.message)
       emit('successful')
+      onClose()
     })
   }
   // 调用这个函数将子组件的一些数据和方法暴露出去

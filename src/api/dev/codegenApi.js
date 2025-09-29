@@ -32,9 +32,9 @@ export default {
 	importSql(data) {
 		return service.postJson('/api/gen/config/importSql', data)
 	},
-	// 同步表
-	syncTable(data) {
-		return service.postJson('/api/gen/config/syncTable', data)
+	// 重置表配置
+	resetTable(data) {
+		return service.postJson('/api/gen/config/resetTable', data)
 	},
 	// 代码预览
 	preview(data) {

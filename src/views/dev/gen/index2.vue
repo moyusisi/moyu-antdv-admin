@@ -193,7 +193,7 @@
   // 同步表
   const syncTable = (record) => {
     let data = { tableName: record.tableName }
-    codegenApi.syncTable(data).then((res) => {
+    codegenApi.resetTable(data).then((res) => {
       // 添加之后重新加载数据
       message.success(res.message)
       tableRef.value.refresh(true)
