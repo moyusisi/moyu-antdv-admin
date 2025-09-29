@@ -24,6 +24,11 @@
               批量删除
             </a-button>
           </a-popconfirm>
+          <a-popconfirm title="确定要批量生成代码并下载吗？" :disabled ="selectedRowKeys.length < 1" @confirm="downloadCode">
+            <a-button type="primary" :icon="h(CloudDownloadOutlined)" :disabled="selectedRowKeys.length < 1">
+              批量生成
+            </a-button>
+          </a-popconfirm>
         </a-space>
       </a-col>
     </a-row>
@@ -81,7 +86,7 @@
   import codegenApi from '@/api/dev/codegenApi'
 
   import { h } from "vue"
-  import { PlusOutlined, DeleteOutlined, CloudUploadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, CloudUploadOutlined, CloudDownloadOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import ConfigForm from "./configForm.vue"
   import ImportForm from "./importForm.vue"
@@ -252,10 +257,10 @@
     })
   }
   // 下载代码
-  const downloadCode = (record) => {
+  const downloadCode = (row) => {
     let ids = []
-    if (record) {
-      ids = [record.id]
+    if (row && row.id) {
+      ids = [row.id]
     } else {
       ids = selectedRowKeys.value
     }
