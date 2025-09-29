@@ -15,15 +15,15 @@
     <a-card size="small">
       <a-row>
         <a-col :span="20">
-          <a-alert message="角色授权的用户，仅有对应的功能权限，数据权限需在岗位中控制。" type="error" />
+          <a-alert message="目前仅支持MySql语法。" type="error" />
         </a-col>
         <a-col :span="4">
           <a-flex gap="small" class="tool-area" justify="flex-end" align="center">
-            <a-button @click="addRows" :icon="h(PlusOutlined)" class="custom-btn">导入</a-button>
+            <a-button :icon="h(PlusOutlined)" class="custom-btn" @click="addRows" >导入</a-button>
           </a-flex>
         </a-col>
       </a-row>
-      <a-textarea v-model:value="value" placeholder="Basic usage" :rows="4" />
+      <a-textarea v-model:value="sqlData" placeholder="支持多个建表语句" :rows="25" allowClear/>
     </a-card>
     <!-- 底部内容 -->
     <template #footer>
@@ -56,8 +56,7 @@
   const title = ref()
   const emit = defineEmits({ successful: null })
   // 表单数据
-  const searchFormRef = ref()
-  const searchFormData = ref({})
+  const sqlData = ref()
 
   // 抽屉宽度
   const drawerWidth = computed(() => {
@@ -83,8 +82,12 @@
   }
   // 添加记录
   const addRows = () => {
-    let data = { tableNameSet: [] }
-    codegenApi.importTable(data).then((res) => {
+    if (!sqlData.value) {
+      message.warning('请输入建表语句')
+      return
+    }
+    let data = { sql: sqlData.value }
+    codegenApi.importSql(data).then((res) => {
       message.success(res.message)
       emit('successful')
     })
@@ -96,14 +99,6 @@
 </script>
 
 <style scoped>
-  /** 后代选择器 **/
-  .ant-card-small .ant-form-inline {
-    margin-bottom: -12px !important;
-  }
-  /** 直接后代选择器 **/
-  .ant-form-inline > .ant-form-item {
-    margin-bottom: 12px !important;
-  }
   /** 操作区 **/
   .tool-area {
     width: 100%;
