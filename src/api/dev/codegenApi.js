@@ -38,7 +38,7 @@ export default {
 	},
 	// 下载代码
 	download(data) {
-		return service.postJson('/api/gen/config/download', data)
+		return service.download('/api/gen/config/download', data)
 	},
 
 }
