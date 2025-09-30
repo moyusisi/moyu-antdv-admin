@@ -4,7 +4,6 @@
     title="新增岗位(Group)"
     :width="drawerWidth"
     :closable="false"
-    :footerStyle="{display: 'flex', justifyContent: 'flex-end'}"
     :destroy-on-close="true"
     @close="onClose"
   >
@@ -55,10 +54,10 @@
       </a-card>
     </a-form>
     <template #footer>
-      <a-space>
+      <a-flex gap="small" justify="flex-end">
         <a-button @click="onClose">关闭</a-button>
         <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
-      </a-space>
+      </a-flex>
     </template>
   </a-drawer>
 </template>

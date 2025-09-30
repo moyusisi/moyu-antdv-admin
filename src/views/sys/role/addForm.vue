@@ -4,7 +4,6 @@
     title="新增角色"
     :width="550"
     :closable="false"
-    :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
     :destroy-on-close="true"
     @close="onClose"
   >
@@ -33,10 +32,10 @@
       </a-form-item>
     </a-form>
     <template #footer>
-      <a-space>
+      <a-flex gap="small" justify="flex-end">
         <a-button @click="onClose">关闭</a-button>
         <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
-      </a-space>
+      </a-flex>
     </template>
   </a-drawer>
 </template>
@@ -46,6 +45,8 @@
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue";
+  import { h } from "vue";
+  import { PlusOutlined } from "@ant-design/icons-vue";
 
   // 定义emit事件
   const emit = defineEmits({ successful: null })
