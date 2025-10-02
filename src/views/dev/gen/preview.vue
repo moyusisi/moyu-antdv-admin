@@ -23,9 +23,11 @@
       </a-tabs>
     </a-spin>
     <template #footer>
-      <a-space style="float:right;">
-        <a-button type="primary" danger ghost @click="onClose"> 关闭</a-button>
-      </a-space>
+      <a-flex gap="small" justify="flex-end">
+        <a-button type="primary" danger @click="onClose"> 关闭</a-button>
+        <a-button type="primary" ghost @click="downloadCode">写入本地</a-button>
+        <a-button type="primary" :loading="submitLoading" @click="downloadCode">下载Zip</a-button>
+      </a-flex>
     </template>
   </a-drawer>
 </template>
@@ -51,6 +53,7 @@ const previewData = ref({
   activeTab: "entity.java",
 });
 const dataLoading = ref(false)
+const submitLoading = ref(false)
 
 // 抽屉宽度
 const drawerWidth = computed(() => {
@@ -71,13 +74,15 @@ const onClose = () => {
   visible.value = false
 }
 // 加载数据
-const loadData = async () => {
+const loadData = () => {
   dataLoading.value = true
   // 获取组织信息
-  let res = await codegenApi.preview({ id: recordData.value.id })
-  previewData.value.codeMap = res.data
-  previewData.value.activeTab = "entity.java"
-  dataLoading.value = false
+  codegenApi.preview({ id: recordData.value.id }).then((res) => {
+    previewData.value.codeMap = res.data
+    previewData.value.activeTab = "entity.java"
+  }).finally(() => {
+    dataLoading.value = false
+  })
 }
 
 // 复制代码
@@ -89,9 +94,22 @@ const copyCode = () => {
   })
 }
 
-// 下一步
-const onSubmit = () => {
-  onClose()
+// 下载代码
+const downloadCode = () => {
+  if (!recordData.value.id) {
+    message.warning("无法获取配置id，无法下载")
+    return
+  }
+  let data = { ids: [recordData.value.id] }
+  submitLoading.value = true
+  codegenApi.download(data).then((res) => {
+    emit('successful')
+    onClose()
+  }).catch(err => {
+    console.log(err)
+  }).finally(() => {
+    submitLoading.value = false
+  })
 }
 
 // 对外暴露
