@@ -60,7 +60,7 @@
           <a-radio value="skip">跳过已存在</a-radio>
         </a-radio-group>
       </a-form-item>
-      <a-progress :percent="80" />
+      <a-progress :percent="writeProgress.percent" />
     </a-form>
     <template #footer>
       <a-flex gap="small" justify="flex-end">
@@ -231,12 +231,12 @@ const writeToLocal = async () => {
   const files = codePreviewList.value.filter((e) => {
     return writeScope.value === "all" || e.codeType === writeScope.value;
   });
-  writeProgress.total = files.length;
-  writeProgress.done = 0;
-  writeProgress.percent = 0;
-  writeProgress.current = "";
+  writeProgress.value.total = files.length;
+  writeProgress.value.done = 0;
+  writeProgress.value.percent = 0;
+  writeProgress.value.current = "";
 
-  const concurrency = 4;
+  const concurrency = 2;
   const queue = files.slice();
   const workers = [];
 
@@ -246,13 +246,12 @@ const writeToLocal = async () => {
       try {
         const codeType = item.codeType
         const relativeFileName = item.path + "/" + item.fileName
-        writeProgress.current = relativeFileName
+        writeProgress.value.current = relativeFileName
         if (writeMode.value === "skip") {
           const targetRoot = codeType === "frontend" ? frontendDirHandle.value : backendDirHandle.value
           const exists = await fileExists(targetRoot, relativeFileName)
           if (exists) {
-            writeProgress.done++;
-            writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
+            // 即使continue， finally也会执行
             continue;
           }
         }
@@ -267,8 +266,9 @@ const writeToLocal = async () => {
         console.error("写入失败:", item.fileName, err);
         failed.push(item.fileName);
       } finally {
-        writeProgress.done++;
-        writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
+        writeProgress.value.done++;
+        writeProgress.value.percent = Math.round((writeProgress.value.done / writeProgress.value.total) * 100);
+        console.log("writeProgress.percent:", writeProgress.value.percent)
       }
     }
   }
@@ -276,7 +276,6 @@ const writeToLocal = async () => {
   for (let i = 0; i < concurrency; i++) {
     workers.push(worker());
   }
-  console.log("workers.push")
   await Promise.all(workers);
   writeRunning.value = false;
   if (failed.length) {
@@ -287,14 +286,15 @@ const writeToLocal = async () => {
 }
 
 // 判断文件是否存在
-async function fileExists(dirHandle, fileName) {
+async function fileExists(dirHandle, filePath) {
   try {
-    const parts = fileName.split("/").filter(Boolean)
+    const parts = filePath.split("/").filter(Boolean)
     const fileName = parts.pop()
     const targetDir = await ensureDir(dirHandle, parts, false);
-    await targetDir.getFileHandle(fileName, { create: false });
+    const fileHandle =  await targetDir.getFileHandle(fileName, { create: false });
     return true;
-  } catch {
+  } catch (err) {
+    console.log(err)
     return false;
   }
 }
