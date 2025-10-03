@@ -181,7 +181,7 @@ const openWriteDialog = () => {
 }
 // 对话框确定
 const onOk = () => {
-  // TODO
+  writeToLocal()
   writeDialogOpen.value = true
 }
 // 对话框取消
@@ -194,6 +194,9 @@ const pickFrontendDir = async () => {
     frontendDirHandle.value = await window.showDirectoryPicker()
     frontendDirName.value = frontendDirHandle.value?.name || ""
     message.success("前端目录选择成功")
+    for await (const entry of frontendDirHandle.value.values()) {
+      console.log(entry.name);
+    }
   } catch {
     // 用户取消或浏览器不支持
   }
@@ -209,6 +212,143 @@ const pickBackendDir = async () => {
     // 用户取消或浏览器不支持
   }
 };
+
+const writeToLocal = async () => {
+  if (!supportsFSAccess) {
+    message.warning("当前浏览器不支持本地写入，请选择下载ZIP");
+    return;
+  }
+  if ((needFrontend.value && !frontendDirHandle.value) || (needBackend.value && !backendDirHandle.value)) {
+    message.warning("请先选择所需的前端/后端目录");
+    return;
+  }
+  if (!codePreviewList.value.length) {
+    message.warning("请先生成预览");
+    return;
+  }
+
+  writeRunning.value = true;
+  let frontCount = 0;
+  let backCount = 0;
+  const failed = [];
+  const files = codePreviewList.value.filter((e) => {
+    return writeScope.value === "all" || e.codeType === writeScope.value;
+  });
+  writeProgress.total = files.length;
+  writeProgress.done = 0;
+  writeProgress.percent = 0;
+  writeProgress.current = "";
+
+  const concurrency = 4;
+  const queue = files.slice();
+  const workers = [];
+
+  async function worker() {
+    while (queue.length) {
+      const item = queue.shift()
+      try {
+        const codeType = item.codeType
+        const relativeFileName = item.path + "/" + item.fileName
+        writeProgress.current = relativeFileName
+        if (writeMode.value === "skip") {
+          const targetRoot = codeType === "frontend" ? frontendDirHandle.value : backendDirHandle.value
+          const exists = fileExists(targetRoot, relativeFileName)
+          if (exists) {
+            writeProgress.done++;
+            writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
+            continue;
+          }
+        }
+        if (codeType === "frontend") {
+          await writeFile(frontendDirHandle.value, relativeFileName, item.content || "");
+          frontCount++;
+        } else {
+          await writeFile(backendDirHandle.value, relativeFileName, item.content || "");
+          backCount++;
+        }
+      } catch (err) {
+        console.error("写入失败:", item.fileName, err);
+        failed.push(item.fileName);
+      } finally {
+        writeProgress.done++;
+        writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
+      }
+    }
+  }
+
+  for (let i = 0; i < concurrency; i++) {
+    workers.push(worker());
+  }
+  await Promise.all(workers);
+  writeRunning.value = false;
+  if (failed.length) {
+    message.warning(`部分文件写入失败：${failed.length} 个，成功 前端 ${frontCount} 个/后端 ${backCount} 个`);
+  } else {
+    message.success(`写入完成：前端 ${frontCount} 个文件，后端 ${backCount} 个文件`);
+  }
+}
+
+// 判断文件是否存在
+function fileExists(dirHandle, fileName) {
+  try {
+    const parts = fileName.split("/").filter(Boolean)
+    const fileName = parts.pop()
+    const targetDir = ensureDir(dirHandle, parts, false);
+    targetDir.getFileHandle(fileName, { create: false });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// 确保目录存在，返回最深一层目录的dirHandle
+function ensureDir(rootDirHandle, pathList, force = true) {
+  let current = rootDirHandle
+  for (const segment of pathList) {
+    try {
+      current = current.getDirectoryHandle(segment, { create: true })
+    } catch (err) {
+      // 若同名文件阻塞目录创建，尝试强制删除后重建
+      if (force && err?.name === "TypeMismatchError") {
+        try {
+          current.removeEntry(segment, { recursive: true })
+          current = current.getDirectoryHandle(segment, { create: true })
+        } catch {
+          throw err
+        }
+      } else {
+        throw err
+      }
+    }
+  }
+  return current
+}
+
+// 写入文件
+function writeFile(dirHandle, filePath, content) {
+  const parts = filePath.split("/").filter(Boolean)
+  const fileName = parts.pop()
+  const targetDir = ensureDir(dirHandle, parts, true);
+  let fileHandle
+  try {
+    fileHandle = targetDir.getFileHandle(fileName, { create: true });
+  } catch (err) {
+    if (err?.name === "TypeMismatchError") {
+      // 存在同名目录，尝试删除后重建文件
+      try {
+        targetDir.removeEntry(fileName, { recursive: true });
+        fileHandle = targetDir.getFileHandle(fileName, { create: true });
+      } catch {
+        throw err;
+      }
+    } else {
+      throw err;
+    }
+  }
+  const writable = fileHandle.createWritable();
+  writable.write(content ?? "");
+  writable.close();
+}
 
 // 对外暴露
 defineExpose({
