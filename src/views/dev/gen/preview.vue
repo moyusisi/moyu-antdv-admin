@@ -13,23 +13,62 @@
     </template>
     <!-- 代码预览 -->
     <a-spin :spinning="dataLoading">
-      <a-tabs v-model:activeKey="previewData.activeTab" type="card">
-        <a-tab-pane v-for="(code, key) of previewData.codeMap" :key="key" :tab="key">
-          <span class="copy-btn"><a @click="copyCode"><CopyOutlined/> 复制</a></span>
+      <a-tabs v-model:activeKey="activeTab" type="card">
+        <a-tab-pane v-for="(item, index) in codePreviewList" :key="item.codeKey" :tab="item.codeKey">
+          <span class="copy-btn"><a @click="copyCode(index)"><CopyOutlined/> 复制</a></span>
 
 <!--          <a-button size="small" type="dashed" ghost :icon="h(CopyOutlined)" @click="copyCode" class="copy-btn">复制</a-button>-->
-          <highlightjs autodetect :code="code" />
+          <highlightjs autodetect :code="item.content" />
         </a-tab-pane>
       </a-tabs>
     </a-spin>
     <template #footer>
       <a-flex gap="small" justify="flex-end">
         <a-button type="primary" danger @click="onClose"> 关闭</a-button>
-        <a-button type="primary" ghost @click="downloadCode">写入本地</a-button>
+        <a-tooltip title="可直接把生成的代码直接写入到项目中">
+          <a-button type="primary" ghost @click="openWriteDialog" :disabled="!supportsFSAccess">写入本地</a-button>
+        </a-tooltip>
         <a-button type="primary" :loading="submitLoading" @click="downloadCode">下载Zip</a-button>
       </a-flex>
     </template>
   </a-drawer>
+  <a-modal :open="writeDialogOpen" title="写入本地" :maskClosable="false" @ok="onOk" @cancel="onCancel">
+    <a-alert v-if="!supportsFSAccess" closable message="当前浏览器不支持 File System Access API，建议使用 Chrome/Edge 最新版" type="error" />
+    <a-form>
+      <a-form-item label="写入范围">
+        <a-radio-group v-model:value="writeScope" option-type="button" button-style="solid">
+          <a-radio value="all">全部</a-radio>
+          <a-radio value="frontend">仅前端</a-radio>
+          <a-radio value="backend">仅后端</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <a-form-item v-if="writeScope==='all' || writeScope==='frontend'" label="前端根目录" tooltip="前端代码src目录">
+        <a-space-compact>
+          <a-input v-model:value="frontendDirName" placeholder="请选择前端根目录" disabled/>
+          <a-button :disabled="!supportsFSAccess" @click="pickFrontendDir">选择</a-button>
+        </a-space-compact>
+      </a-form-item>
+      <a-form-item v-if="writeScope==='all' || writeScope==='backend'" label="后端根目录" tooltip="后端代码src目录">
+        <a-space-compact>
+          <a-input v-model:value="backendDirName" placeholder="请选择后端根目录" disabled/>
+          <a-button :disabled="!supportsFSAccess" @click="pickBackendDir">选择</a-button>
+        </a-space-compact>
+      </a-form-item>
+      <a-form-item label="覆盖策略">
+        <a-radio-group v-model:value="writeMode" option-type="button" button-style="solid">
+          <a-radio value="overwrite">覆盖</a-radio>
+          <a-radio value="skip">跳过已存在</a-radio>
+        </a-radio-group>
+      </a-form-item>
+      <a-progress :percent="80" />
+    </a-form>
+    <template #footer>
+      <a-flex gap="small" justify="flex-end">
+        <a-button  @click="onCancel">取消</a-button>
+        <a-button type="primary" @click="onOk">写入</a-button>
+      </a-flex>
+    </template>
+  </a-modal>
 </template>
 <script setup>
 import codegenApi from '@/api/dev/codegenApi'
@@ -38,6 +77,7 @@ import { h } from "vue";
 import { CopyOutlined } from "@ant-design/icons-vue"
 import { message } from 'ant-design-vue'
 import { useSettingsStore } from "@/store/index.js"
+import { required } from "@/utils/formRules.js";
 // import downloadUtil from '@/utils/downloadUtil'
 
 const settingsStore = useSettingsStore()
@@ -48,10 +88,8 @@ const emit = defineEmits({ successful: null, closed: null })
 const visible = ref(false)
 const title = ref()
 const recordData = ref()
-const previewData = ref({
-  codeMap: Map,
-  activeTab: "entity.java",
-});
+const activeTab = ref("entity.java")
+const codePreviewList = ref([])
 const dataLoading = ref(false)
 const submitLoading = ref(false)
 
@@ -60,6 +98,20 @@ const drawerWidth = computed(() => {
   return `calc(100%)`
   // return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
 })
+
+/***** 写入本地磁盘相关 *****/
+const supportsFSAccess = typeof (window.showDirectoryPicker) === "function"
+const writeDialogOpen = ref(false);
+const frontendDirHandle = ref();
+const backendDirHandle = ref();
+const frontendDirName = ref("");
+const backendDirName = ref("");
+const writeScope = ref("all");
+const writeMode = ref("overwrite");
+
+const writeProgress = ref({ total: 0, done: 0, percent: 0, current: "" });
+const writeRunning = ref(false);
+
 
 // 打开抽屉
 const onOpen = (record) => {
@@ -78,17 +130,16 @@ const loadData = () => {
   dataLoading.value = true
   // 获取组织信息
   codegenApi.preview({ id: recordData.value.id }).then((res) => {
-    previewData.value.codeMap = res.data
-    previewData.value.activeTab = "entity.java"
+    codePreviewList.value = res.data
+    activeTab.value = "entity.java"
   }).finally(() => {
     dataLoading.value = false
   })
 }
 
 // 复制代码
-const copyCode = () => {
-  const key = previewData.value.activeTab;
-  const code = previewData.value.codeMap[key]
+const copyCode = (index) => {
+  const code = codePreviewList.value[index]?.content
   navigator.clipboard.writeText(code).then(() => {
     message.success('复制成功')
   })
@@ -111,6 +162,43 @@ const downloadCode = () => {
     submitLoading.value = false
   })
 }
+
+// =============== 写入本地 ===============
+// 对话框打开
+const openWriteDialog = () => {
+  writeDialogOpen.value = true
+}
+// 对话框确定
+const onOk = () => {
+  // TODO
+  writeDialogOpen.value = true
+}
+// 对话框取消
+const onCancel = () => {
+  writeDialogOpen.value = false
+}
+
+const pickFrontendDir = async () => {
+  try {
+    frontendDirHandle.value = await window.showDirectoryPicker()
+    console.log(frontendDirHandle.value)
+    frontendDirName.value = frontendDirHandle.value?.name || ""
+    message.success("前端目录选择成功")
+  } catch {
+    // 用户取消或浏览器不支持
+  }
+};
+
+const pickBackendDir = async () => {
+  try {
+    // @ts-ignore
+    backendDirHandle.value = await window.showDirectoryPicker()
+    backendDirName.value = backendDirHandle.value?.name || ""
+    message.success("后端目录选择成功")
+  } catch {
+    // 用户取消或浏览器不支持
+  }
+};
 
 // 对外暴露
 defineExpose({
