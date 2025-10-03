@@ -137,6 +137,11 @@ const onOpen = (record) => {
   // 加载数据
   loadData()
   visible.value = true
+  // 写入本地对话框中的初始化
+  writeProgress.value.total = 0
+  writeProgress.value.done = 0
+  writeProgress.value.percent = 0
+  writeProgress.value.current = ""
 }
 // 关闭抽屉
 const onClose = () => {
