@@ -194,9 +194,6 @@ const pickFrontendDir = async () => {
     frontendDirHandle.value = await window.showDirectoryPicker()
     frontendDirName.value = frontendDirHandle.value?.name || ""
     message.success("前端目录选择成功")
-    for await (const entry of frontendDirHandle.value.values()) {
-      console.log(entry.name);
-    }
   } catch {
     // 用户取消或浏览器不支持
   }
@@ -252,7 +249,7 @@ const writeToLocal = async () => {
         writeProgress.current = relativeFileName
         if (writeMode.value === "skip") {
           const targetRoot = codeType === "frontend" ? frontendDirHandle.value : backendDirHandle.value
-          const exists = fileExists(targetRoot, relativeFileName)
+          const exists = await fileExists(targetRoot, relativeFileName)
           if (exists) {
             writeProgress.done++;
             writeProgress.percent = Math.round((writeProgress.done / writeProgress.total) * 100);
@@ -279,6 +276,7 @@ const writeToLocal = async () => {
   for (let i = 0; i < concurrency; i++) {
     workers.push(worker());
   }
+  console.log("workers.push")
   await Promise.all(workers);
   writeRunning.value = false;
   if (failed.length) {
@@ -289,12 +287,12 @@ const writeToLocal = async () => {
 }
 
 // 判断文件是否存在
-function fileExists(dirHandle, fileName) {
+async function fileExists(dirHandle, fileName) {
   try {
     const parts = fileName.split("/").filter(Boolean)
     const fileName = parts.pop()
-    const targetDir = ensureDir(dirHandle, parts, false);
-    targetDir.getFileHandle(fileName, { create: false });
+    const targetDir = await ensureDir(dirHandle, parts, false);
+    await targetDir.getFileHandle(fileName, { create: false });
     return true;
   } catch {
     return false;
@@ -302,17 +300,17 @@ function fileExists(dirHandle, fileName) {
 }
 
 // 确保目录存在，返回最深一层目录的dirHandle
-function ensureDir(rootDirHandle, pathList, force = true) {
+async function ensureDir(rootDirHandle, pathList, force = true) {
   let current = rootDirHandle
   for (const segment of pathList) {
     try {
-      current = current.getDirectoryHandle(segment, { create: true })
+      current = await current.getDirectoryHandle(segment, { create: true })
     } catch (err) {
       // 若同名文件阻塞目录创建，尝试强制删除后重建
       if (force && err?.name === "TypeMismatchError") {
         try {
-          current.removeEntry(segment, { recursive: true })
-          current = current.getDirectoryHandle(segment, { create: true })
+          await current.removeEntry(segment, { recursive: true })
+          current = await current.getDirectoryHandle(segment, { create: true })
         } catch {
           throw err
         }
@@ -325,19 +323,19 @@ function ensureDir(rootDirHandle, pathList, force = true) {
 }
 
 // 写入文件
-function writeFile(dirHandle, filePath, content) {
+async function writeFile(dirHandle, filePath, content) {
   const parts = filePath.split("/").filter(Boolean)
   const fileName = parts.pop()
-  const targetDir = ensureDir(dirHandle, parts, true);
+  const targetDir = await ensureDir(dirHandle, parts, true);
   let fileHandle
   try {
-    fileHandle = targetDir.getFileHandle(fileName, { create: true });
+    fileHandle = await targetDir.getFileHandle(fileName, { create: true });
   } catch (err) {
     if (err?.name === "TypeMismatchError") {
       // 存在同名目录，尝试删除后重建文件
       try {
-        targetDir.removeEntry(fileName, { recursive: true });
-        fileHandle = targetDir.getFileHandle(fileName, { create: true });
+        await targetDir.removeEntry(fileName, { recursive: true });
+        fileHandle = await targetDir.getFileHandle(fileName, { create: true });
       } catch {
         throw err;
       }
@@ -345,9 +343,9 @@ function writeFile(dirHandle, filePath, content) {
       throw err;
     }
   }
-  const writable = fileHandle.createWritable();
-  writable.write(content ?? "");
-  writable.close();
+  const writable = await fileHandle.createWritable();
+  await writable.write(content ?? "");
+  await writable.close();
 }
 
 // 对外暴露
