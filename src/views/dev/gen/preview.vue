@@ -32,7 +32,7 @@
       </a-flex>
     </template>
   </a-drawer>
-  <a-modal :open="writeDialogOpen" title="写入本地" :maskClosable="false" @ok="onOk" @cancel="onCancel">
+  <a-modal :open="writeDialogOpen" title="写入本地" :confirmLoading="writeRunning" :maskClosable="false" @ok="onOk" @cancel="onCancel">
     <a-alert v-if="!supportsFSAccess" closable message="当前浏览器不支持 File System Access API，建议使用 Chrome/Edge 最新版" type="error" />
     <a-spin :spinning="writeRunning" tip="正在写入中...">
       <a-form>
