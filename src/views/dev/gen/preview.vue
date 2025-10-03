@@ -111,10 +111,16 @@ const writeMode = ref("overwrite");
 
 const writeProgress = ref({ total: 0, done: 0, percent: 0, current: "" });
 const writeRunning = ref(false);
+const needFrontend = computed(() => {
+      return writeScope.value === "all" || writeScope.value === "frontend"
+})
+const needBackend = computed(() => {
+  return writeScope.value === "all" || writeScope.value === "backend"
+})
 const canWriteToLocal = computed(() => {
   if (!codePreviewList.value.length) return false;
-  const frontOk = (writeScope.value === "all" || writeScope.value === "frontend") ? !!frontendDirHandle.value : true;
-  const backOk = (writeScope.value === "all" || writeScope.value === "backend") ? !!backendDirHandle.value : true;
+  const frontOk = needFrontend.value ? !!frontendDirHandle.value : true;
+  const backOk = needBackend.value ? !!backendDirHandle.value : true;
   return frontOk && backOk;
 });
 
