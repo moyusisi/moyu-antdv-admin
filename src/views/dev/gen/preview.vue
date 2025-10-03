@@ -34,41 +34,43 @@
   </a-drawer>
   <a-modal :open="writeDialogOpen" title="写入本地" :maskClosable="false" @ok="onOk" @cancel="onCancel">
     <a-alert v-if="!supportsFSAccess" closable message="当前浏览器不支持 File System Access API，建议使用 Chrome/Edge 最新版" type="error" />
-    <a-form>
-      <a-form-item label="写入范围">
-        <a-radio-group v-model:value="writeScope" option-type="button" button-style="solid">
-          <a-radio value="all">全部</a-radio>
-          <a-radio value="frontend">仅前端</a-radio>
-          <a-radio value="backend">仅后端</a-radio>
-        </a-radio-group>
-      </a-form-item>
-      <a-form-item v-if="writeScope==='all' || writeScope==='frontend'" label="前端根目录" tooltip="即代码src的父目录">
-        <a-space-compact>
-          <a-input v-model:value="frontendDirName" placeholder="请选择前端根目录" disabled/>
-          <a-button :disabled="!supportsFSAccess" @click="pickFrontendDir">选择</a-button>
-        </a-space-compact>
-      </a-form-item>
-      <a-form-item v-if="writeScope==='all' || writeScope==='backend'" label="后端根目录" tooltip="即代码src的父目录">
-        <a-space-compact>
-          <a-input v-model:value="backendDirName" placeholder="请选择后端根目录" disabled/>
-          <a-button :disabled="!supportsFSAccess" @click="pickBackendDir">选择</a-button>
-        </a-space-compact>
-      </a-form-item>
-      <a-form-item label="覆盖策略">
-        <a-radio-group v-model:value="writeMode" option-type="button" button-style="solid">
-          <a-radio value="overwrite">覆盖</a-radio>
-          <a-radio value="skip">跳过已存在</a-radio>
-        </a-radio-group>
-      </a-form-item>
-      <a-progress :percent="writeProgress.percent" />
-      <a-flex v-if="writeProgress.total > 0" justify="space-between">
-        <div>{{ writeProgress.done }}/{{ writeProgress.total }}</div>
-        <div>{{ writeProgress.current }}</div>
-      </a-flex>
-    </a-form>
+    <a-spin :spinning="writeRunning" tip="正在写入中...">
+      <a-form>
+        <a-form-item label="写入范围">
+          <a-radio-group v-model:value="writeScope" option-type="button" button-style="solid">
+            <a-radio value="all">全部</a-radio>
+            <a-radio value="frontend">仅前端</a-radio>
+            <a-radio value="backend">仅后端</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item v-if="writeScope==='all' || writeScope==='frontend'" label="前端根目录" tooltip="即代码src的父目录" required>
+          <a-space-compact>
+            <a-input v-model:value="frontendDirName" placeholder="请选择前端根目录" disabled/>
+            <a-button :disabled="!supportsFSAccess" @click="pickFrontendDir">选择</a-button>
+          </a-space-compact>
+        </a-form-item>
+        <a-form-item v-if="writeScope==='all' || writeScope==='backend'" label="后端根目录" tooltip="即代码src的父目录" required>
+          <a-space-compact>
+            <a-input v-model:value="backendDirName" placeholder="请选择后端根目录" disabled/>
+            <a-button :disabled="!supportsFSAccess" @click="pickBackendDir">选择</a-button>
+          </a-space-compact>
+        </a-form-item>
+        <a-form-item label="覆盖策略">
+          <a-radio-group v-model:value="writeMode" option-type="button" button-style="solid">
+            <a-radio value="overwrite">覆盖</a-radio>
+            <a-radio value="skip">跳过已存在</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-progress :percent="writeProgress.percent" />
+        <a-flex v-if="writeProgress.total > 0" justify="space-between">
+          <div>{{ writeProgress.done }}/{{ writeProgress.total }}</div>
+          <div>{{ writeProgress.current }}</div>
+        </a-flex>
+      </a-form>
+    </a-spin>
     <template #footer>
       <a-flex gap="small" justify="flex-end">
-        <a-button  @click="onCancel">取消</a-button>
+        <a-button :disabled="writeRunning" @click="onCancel">取消</a-button>
         <a-button type="primary" :disabled="!canWriteToLocal || writeRunning" @click="onOk">写入</a-button>
       </a-flex>
     </template>
@@ -105,7 +107,6 @@ const drawerWidth = computed(() => {
 
 /***** 写入本地磁盘相关 *****/
 const supportsFSAccess = typeof (window.showDirectoryPicker) === "function"
-const writeLoading = ref(true)
 const writeDialogOpen = ref(false);
 const frontendDirHandle = ref();
 const backendDirHandle = ref();
@@ -274,7 +275,6 @@ const writeToLocal = async () => {
       } finally {
         writeProgress.value.done++;
         writeProgress.value.percent = Math.round((writeProgress.value.done / writeProgress.value.total) * 100);
-        console.log("writeProgress.percent:", writeProgress.value.percent)
       }
     }
   }
