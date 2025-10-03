@@ -42,13 +42,13 @@
           <a-radio value="backend">仅后端</a-radio>
         </a-radio-group>
       </a-form-item>
-      <a-form-item v-if="writeScope==='all' || writeScope==='frontend'" label="前端根目录" tooltip="前端代码src目录">
+      <a-form-item v-if="writeScope==='all' || writeScope==='frontend'" label="前端根目录" tooltip="即代码src的父目录">
         <a-space-compact>
           <a-input v-model:value="frontendDirName" placeholder="请选择前端根目录" disabled/>
           <a-button :disabled="!supportsFSAccess" @click="pickFrontendDir">选择</a-button>
         </a-space-compact>
       </a-form-item>
-      <a-form-item v-if="writeScope==='all' || writeScope==='backend'" label="后端根目录" tooltip="后端代码src目录">
+      <a-form-item v-if="writeScope==='all' || writeScope==='backend'" label="后端根目录" tooltip="即代码src的父目录">
         <a-space-compact>
           <a-input v-model:value="backendDirName" placeholder="请选择后端根目录" disabled/>
           <a-button :disabled="!supportsFSAccess" @click="pickBackendDir">选择</a-button>
@@ -61,6 +61,10 @@
         </a-radio-group>
       </a-form-item>
       <a-progress :percent="writeProgress.percent" />
+      <a-flex v-if="writeProgress.total > 0" justify="space-between">
+        <div>{{ writeProgress.done }}/{{ writeProgress.total }}</div>
+        <div>{{ writeProgress.current }}</div>
+      </a-flex>
     </a-form>
     <template #footer>
       <a-flex gap="small" justify="flex-end">
@@ -101,6 +105,7 @@ const drawerWidth = computed(() => {
 
 /***** 写入本地磁盘相关 *****/
 const supportsFSAccess = typeof (window.showDirectoryPicker) === "function"
+const writeLoading = ref(true)
 const writeDialogOpen = ref(false);
 const frontendDirHandle = ref();
 const backendDirHandle = ref();
@@ -246,11 +251,11 @@ const writeToLocal = async () => {
       try {
         const codeType = item.codeType
         const relativeFileName = item.path + "/" + item.fileName
-        writeProgress.value.current = relativeFileName
         if (writeMode.value === "skip") {
           const targetRoot = codeType === "frontend" ? frontendDirHandle.value : backendDirHandle.value
           const exists = await fileExists(targetRoot, relativeFileName)
           if (exists) {
+            writeProgress.value.current = relativeFileName
             // 即使continue， finally也会执行
             continue;
           }
@@ -262,6 +267,7 @@ const writeToLocal = async () => {
           await writeFile(backendDirHandle.value, relativeFileName, item.content || "");
           backCount++;
         }
+        writeProgress.value.current = relativeFileName
       } catch (err) {
         console.error("写入失败:", item.fileName, err);
         failed.push(item.fileName);
@@ -294,7 +300,7 @@ async function fileExists(dirHandle, filePath) {
     const fileHandle =  await targetDir.getFileHandle(fileName, { create: false });
     return true;
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     return false;
   }
 }
