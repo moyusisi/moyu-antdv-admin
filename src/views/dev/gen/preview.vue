@@ -65,7 +65,7 @@
     <template #footer>
       <a-flex gap="small" justify="flex-end">
         <a-button  @click="onCancel">取消</a-button>
-        <a-button type="primary" @click="onOk">写入</a-button>
+        <a-button type="primary" :disabled="!canWriteToLocal || writeRunning" @click="onOk">写入</a-button>
       </a-flex>
     </template>
   </a-modal>
@@ -111,7 +111,12 @@ const writeMode = ref("overwrite");
 
 const writeProgress = ref({ total: 0, done: 0, percent: 0, current: "" });
 const writeRunning = ref(false);
-
+const canWriteToLocal = computed(() => {
+  if (!codePreviewList.value.length) return false;
+  const frontOk = (writeScope.value === "all" || writeScope.value === "frontend") ? !!frontendDirHandle.value : true;
+  const backOk = (writeScope.value === "all" || writeScope.value === "backend") ? !!backendDirHandle.value : true;
+  return frontOk && backOk;
+});
 
 // 打开抽屉
 const onOpen = (record) => {
@@ -181,7 +186,6 @@ const onCancel = () => {
 const pickFrontendDir = async () => {
   try {
     frontendDirHandle.value = await window.showDirectoryPicker()
-    console.log(frontendDirHandle.value)
     frontendDirName.value = frontendDirHandle.value?.name || ""
     message.success("前端目录选择成功")
   } catch {
