@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { Table } from "ant-design-vue"
 import { ref, onMounted, useSlots } from 'vue'
 
 // 组件props
@@ -59,7 +58,7 @@ const rowSelection = ref({
   selectedRowKeys: selectedRowKeys,
   onChange: (selectedKeys, selectedRows) => {
     selectedRowKeys.value = selectedKeys
-    console.log('rowSelection中的onChange,selectedKeys:', selectedKeys);
+    // console.log('rowSelection中的onChange,selectedKeys:', selectedKeys);
     emit('selectedChange', selectedKeys, selectedRows)
   }
 });

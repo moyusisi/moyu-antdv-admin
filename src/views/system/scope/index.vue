@@ -99,40 +99,9 @@
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
-  // 表格的数据源
-  const tableData = ref([])
-  const dataLoading = ref(false)
   // 已选中的行
   const selectedRowKeys = ref([])
-  // 表格行选择配置
-  const rowSelection = ref({
-    selectedRowKeys: selectedRowKeys,
-    onChange: (selectedKeys, selectedRows) => {
-      selectedRowKeys.value = selectedKeys
-      // console.log('onChange,selectedKeys:', selectedKeys);
-    }
-  });
-  // 表格的分页配置
-  const paginationRef = ref({
-    // 当前页码
-    current: 1,
-    // 每页显示条数
-    pageSize: 10,
-    // 总条数，需要通过接口获取
-    total: 0,
-    // 显示总记录数
-    showTotal: (total, range) => `共 ${total} 条 `,
-    // 是否可改变每页显示条数
-    showSizeChanger: true,
-    // 只有一页或没有数据时隐藏分页栏
-    // hideOnSinglePage: true,
-    onChange: (page, pageSize) => {
-      // 处理分页切换的逻辑
-      paginationRef.value.current = page
-      paginationRef.value.pageSize = pageSize
-    },
-  })
-  // 表格列配置 TODO 根据字段生成
+  // 表格列配置
   const columns = ref([
     // 不需要序号可以删掉
     {
@@ -194,7 +163,7 @@
 
   // 加载完毕调用
   onMounted(() => {
-    // loadData()
+
   })
 
   // 提交查询
@@ -213,24 +182,18 @@
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
     return scopeApi.scopePage(param).then((res) => {
-      // paginationRef.value.total = res.data.total
-      // tableData.value = res.data.records
+      // res.data 为 {total, records}
       return res.data
     }).catch((err) => {
       console.error(err)
-      tableRef.value.refresh()
     })
   }
   // 选中行发生变化
   const onSelectedChange = (selectedKeys, selectedRows) => {
     selectedRowKeys.value = selectedKeys
-    console.log('onSelectedChange,selectedKeys:', selectedKeys);
+    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
 
-  // 可伸缩列
-  // const onResizeColumn = (w, column) => {
-  //   column.width = w
-  // }
   // 删除
   const deleteScope = (record) => {
     let data = { ids: [record.id] }
