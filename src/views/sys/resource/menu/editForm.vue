@@ -1,12 +1,12 @@
 <template>
   <a-drawer
-    :open="visible"
-    title="编辑菜单"
-    :width="drawerWidth"
-    :closable="false"
-    :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
-    :destroy-on-close="true"
-    @close="onClose"
+      :open="visible"
+      title="编辑菜单"
+      :width="drawerWidth"
+      :closable="false"
+      :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
+      :destroy-on-close="true"
+      @close="onClose"
   >
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
@@ -30,7 +30,7 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item label="菜单类型" name="resourceType" :rules="[required('请选择菜单类型')]">
+            <a-form-item label="资源类型" name="resourceType" :rules="[required('请选择资源类型')]">
               <a-radio-group v-model:value="formData.resourceType" button-style="solid">
                 <!-- 字典 1模块 2目录 3菜单 4内链 5外链 6按钮 -->
                 <a-radio-button :value="2">目录</a-radio-button>
