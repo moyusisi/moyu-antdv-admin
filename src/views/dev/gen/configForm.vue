@@ -53,6 +53,21 @@
             </a-row>
             <a-row :gutter="24">
               <a-col :span="12">
+                <a-form-item label="上级菜单" name="parentCode">
+                  <a-tree-select
+                      v-model:value="configFormData.parentMenuCode"
+                      v-model:treeExpandedKeys="defaultExpandedKeys"
+                      placeholder="请选择"
+                      allow-clear
+                      :tree-data="treeData"
+                      :field-names="{ children: 'children', label: 'name', value: 'code' }"
+                      :tree-line="{ showLeafIcon:false }"
+                      :show-checked-strategy="TreeSelect.SHOW_ALL"
+                      @change="null"
+                  />
+                </a-form-item>
+              </a-col>
+              <a-col :span="12">
                 <a-form-item label="作者" name="author">
                   <a-input v-model:value="configFormData.author" placeholder="如:moyusisi"/>
                 </a-form-item>
@@ -130,11 +145,11 @@
 <script setup name="stepsForm">
 import codegenApi from '@/api/dev/codegenApi'
 
-import { message } from 'ant-design-vue'
+import { message, TreeSelect } from 'ant-design-vue'
 import { required } from "@/utils/formRules.js";
 import { useSettingsStore } from "@/store/index.js";
-// import downloadUtil from '@/utils/downloadUtil'
-// import genPreview from './preview.vue'
+import resourceApi from "@/api/sys/resourceApi.js";
+import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue";
 
 const settingsStore = useSettingsStore()
 
@@ -151,6 +166,10 @@ const configFormData = ref({
   packageName: "com.moyu.boot",
   author: "moyusisi"
 });
+// 菜单树选择
+const treeData = ref([])
+// 默认展开的节点
+const defaultExpandedKeys = ref([])
 const submitLoading = ref(false)
 
 const columns = [
@@ -335,7 +354,11 @@ const onClose = () => {
 }
 // 加载数据
 const loadData = async () => {
-  // 获取组织信息
+  // 获取菜单树
+  const menuTreeList = await resourceApi.menuTreeSelector({ })
+  treeData.value = menuTreeList.data
+  defaultExpandedKeys.value = [treeData.value[0]?.code]
+  // 获取详细信息
   let res = await codegenApi.configDetail({ id: recordData.value.id })
   configFormData.value = res.data
 }
