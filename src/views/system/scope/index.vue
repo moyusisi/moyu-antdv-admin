@@ -45,14 +45,10 @@
     <MTable size="middle"
             ref="tableRef"
             :columns="columns"
-            :data-source="tableData"
-            :loading="dataLoading"
-            :row-key="(record) => record.id"
-            :row-selection="rowSelection"
-            :pagination="paginationRef"
+            :loadData="loadData"
+            :row-key="(row) => row.id"
             @selectedChange="onSelectedChange"
-            @change="onChange"
-            bordered>
+    >
       <template #bodyCell="{ column, record, index, text }">
         <!-- 长文本省略显示 -->
         <template v-if="text && text.length > 24">
@@ -198,46 +194,39 @@
 
   // 加载完毕调用
   onMounted(() => {
-    loadData()
+    // loadData()
   })
 
   // 提交查询
   const querySubmit = () => {
-    loadData()
+    tableRef.value.refresh()
   }
   // 重置
   const reset = () => {
-    queryFormRef.value = {}
-    paginationRef.value.current = 1
-    loadData()
+    queryFormRef.value.resetFields()
+    tableRef.value.refresh(true)
   }
   // 加载数据
   const loadData = (parameter) => {
-    dataLoading.value = true
     // 重新加载数据时，清空之前以选中的行
     selectedRowKeys.value = []
     // 分页参数
-    let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    return scopeApi.scopePage(Object.assign(param, queryFormData.value)).then((res) => {
-      paginationRef.value.total = res.data.total
-      tableData.value = res.data.records
+    let param = Object.assign(parameter, queryFormData.value)
+    return scopeApi.scopePage(param).then((res) => {
+      // paginationRef.value.total = res.data.total
+      // tableData.value = res.data.records
       return res.data
     }).catch((err) => {
       console.error(err)
-    }).finally(() => {
-      dataLoading.value = false
+      tableRef.value.refresh()
     })
   }
+  // 选中行发生变化
   const onSelectedChange = (selectedKeys, selectedRows) => {
     selectedRowKeys.value = selectedKeys
-    // console.log('onChange,selectedKeys:', selectedKeys);
+    console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
 
-  // 分页、排序、筛选等操作变化时，会触发 change 事件
-  const onChange = (pagination, filters, sorter) => {
-    console.log('onChange...', pagination)
-    loadData()
-  }
   // 可伸缩列
   // const onResizeColumn = (w, column) => {
   //   column.width = w

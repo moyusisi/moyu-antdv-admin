@@ -1,6 +1,11 @@
 <template>
   <a-table v-bind="$attrs"
            ref="tableRef"
+           :data-source="tableData"
+           :loading="dataLoading"
+           :row-key="props.rowKey"
+           :row-selection="rowSelection"
+           :pagination="paginationRef"
            @resizeColumn="onResizeColumn"
            @change="onChange"
            @expand="onExpand"
@@ -23,7 +28,7 @@ const props = defineProps(
     Object.assign({}, {
       rowKey: {
         type: [String, Function],
-        default: (row) => row.id
+        default: "id"
       },
       loadData: {
         type: Function,
@@ -54,8 +59,8 @@ const rowSelection = ref({
   selectedRowKeys: selectedRowKeys,
   onChange: (selectedKeys, selectedRows) => {
     selectedRowKeys.value = selectedKeys
+    console.log('rowSelection中的onChange,selectedKeys:', selectedKeys);
     emit('selectedChange', selectedKeys, selectedRows)
-    // console.log('onChange,selectedKeys:', selectedKeys);
   }
 });
 // 表格的分页配置
@@ -82,11 +87,13 @@ const paginationRef = ref({
 
 // 加载完毕调用
 onMounted(() => {
-  // loadTableData()
+  loadTableData()
 })
 
 const loadTableData = () => {
   dataLoading.value = true
+  // 重新加载数据时，清空之前选中的行
+  rowSelection.value.onChange([],[])
   // 分页参数
   let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
   props.loadData(param).then((data) => {
@@ -101,9 +108,9 @@ const loadTableData = () => {
 
 // 分页、排序、筛选变化时触发
 const onChange = (pagination, filters, sorter) => {
-  emit('change', pagination, filters, sorter)
+  loadTableData()
   console.log('table的onChange...')
-
+  emit('change', pagination, filters, sorter)
 }
 // 点击展开图标时触发
 const onExpand = (expanded, record) => {
@@ -120,9 +127,16 @@ const onResizeColumn = (w, column) => {
   column.width = w
 }
 
+// 刷新
+const refresh = (bool = false) => {
+  if (bool) {
+    paginationRef.value.current = 1
+  }
+  loadTableData()
+}
 // 声明额外的选项
 defineExpose({
-  inheritAttrs: false
+  refresh
 })
 
 </script>
