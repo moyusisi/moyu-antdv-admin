@@ -110,7 +110,7 @@
     // 是否可改变每页显示条数
     showSizeChanger: true,
     // 只有一页或没有数据时隐藏分页栏
-    hideOnSinglePage: true,
+    // hideOnSinglePage: true,
     onChange: (page, pageSize) => {
       // 处理分页切换的逻辑
       paginationRef.value.current = page
