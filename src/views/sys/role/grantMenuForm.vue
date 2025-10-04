@@ -24,6 +24,7 @@
            :data-source="tableData"
            :row-key="(record) => record.code"
            :row-selection="rowSelection"
+           :pagination="paginationRef"
            :defaultExpandedRowKeys="defaultExpandedRowKeys"
            bordered>
         <template #bodyCell="{ column, record }">
@@ -127,6 +128,11 @@
       }
     }
   });
+  // 表格的分页配置
+  const paginationRef = ref({
+    // 只有一页或没有数据时隐藏分页栏
+    hideOnSinglePage: true,
+  })
 
   // 打开抽屉
   const onOpen = (record) => {
