@@ -1,9 +1,15 @@
 <template>
-  <a-table v-bind="$props"
+  <a-table v-bind="$attrs"
+           ref="tableRef"
            @resizeColumn="onResizeColumn"
+           @change="onChange"
+           @expand="onExpand"
+           @expandedRowsChange="onExpandedRowsChange"
+           :scroll="{ x: 'max-content' }"
+           bordered
   >
-    <template #[item]="scope" v-for="item in renderArr">
-      <slot v-if="item" :name="item" :scope="scope" v-bind="scope || {}"></slot>
+    <template v-for="slotKey in slotKeys" #[slotKey]="scope" >
+      <slot v-if="slotKey" :name="slotKey" :scope="scope" v-bind="scope || {}"></slot>
     </template>
   </a-table>
 </template>
@@ -13,22 +19,112 @@ import { Table } from "ant-design-vue"
 import { ref, onMounted, useSlots } from 'vue'
 
 // 组件props
-const props = defineProps({
-      ...Table.props
-    }
+const props = defineProps(
+    Object.assign({}, {
+      rowKey: {
+        type: [String, Function],
+        default: (row) => row.id
+      },
+      loadData: {
+        type: Function,
+        required: true
+      },
+    })
 )
 
 // 自动获取父组件传递过来的插槽
 const slots = useSlots()
 // 获取父组件过来的插槽数量，便于循环
-const renderArr = Object.keys(slots)
+const slotKeys = computed(() => {
+  return Object.keys(slots)
+})
 
+// 所有的事件均参考官方文档 https://www.antdv.com/components/table-cn#api
+const emit = defineEmits(['selectedChange', 'change', 'expand', 'expandedRowsChange'])
 
+/***** 表格相关对象 *****/
+const tableRef = ref()
+// 表格的数据源
+const tableData = ref([])
+const dataLoading = ref(false)
+// 已选中的行
+const selectedRowKeys = ref([])
+// 表格行选择配置
+const rowSelection = ref({
+  selectedRowKeys: selectedRowKeys,
+  onChange: (selectedKeys, selectedRows) => {
+    selectedRowKeys.value = selectedKeys
+    emit('selectedChange', selectedKeys, selectedRows)
+    // console.log('onChange,selectedKeys:', selectedKeys);
+  }
+});
+// 表格的分页配置
+const paginationRef = ref({
+  // 当前页码
+  current: 1,
+  // 每页显示条数
+  pageSize: 10,
+  // 总条数，需要通过接口获取
+  total: 0,
+  // 显示总记录数
+  showTotal: (total, range) => `共 ${total} 条 `,
+  // 是否可改变每页显示条数
+  showSizeChanger: true,
+  // 只有一页或没有数据时隐藏分页栏
+  // hideOnSinglePage: true,
+  onChange: (page, pageSize) => {
+    console.log('paginationRef中的onChange...')
+    // 处理分页切换的逻辑
+    paginationRef.value.current = page
+    paginationRef.value.pageSize = pageSize
+  },
+})
 
+// 加载完毕调用
+onMounted(() => {
+  // loadTableData()
+})
+
+const loadTableData = () => {
+  dataLoading.value = true
+  // 分页参数
+  let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
+  props.loadData(param).then((data) => {
+    paginationRef.value.total = data.total
+    tableData.value = data.records ? data.records : []
+  }).catch((err) => {
+    console.error(err)
+  }).finally(() => {
+    dataLoading.value = false
+  })
+}
+
+// 分页、排序、筛选变化时触发
+const onChange = (pagination, filters, sorter) => {
+  emit('change', pagination, filters, sorter)
+  console.log('table的onChange...')
+
+}
+// 点击展开图标时触发
+const onExpand = (expanded, record) => {
+  emit('expand', expanded, record)
+
+}
+
+// 点击展开图标时触发
+const onExpandedRowsChange = (expandedRows) => {
+  emit('expandedRowsChange', expandedRows)
+}
 // 可伸缩列
 const onResizeColumn = (w, column) => {
   column.width = w
 }
+
+// 声明额外的选项
+defineExpose({
+  inheritAttrs: false
+})
+
 </script>
 
 

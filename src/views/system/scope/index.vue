@@ -42,18 +42,17 @@
         </a-flex>
       </a-col>
     </a-row>
-    <a-table size="middle"
-             ref="tableRef"
-             :columns="columns"
-             :data-source="tableData"
-             :loading="dataLoading"
-             :row-key="(record) => record.id"
-             :row-selection="rowSelection"
-             :pagination="paginationRef"
-             @change="onChange"
-             @resizeColumn="onResizeColumn"
-             :scroll="{ x: 'max-content' }"
-             bordered>
+    <MTable size="middle"
+            ref="tableRef"
+            :columns="columns"
+            :data-source="tableData"
+            :loading="dataLoading"
+            :row-key="(record) => record.id"
+            :row-selection="rowSelection"
+            :pagination="paginationRef"
+            @selectedChange="onSelectedChange"
+            @change="onChange"
+            bordered>
       <template #bodyCell="{ column, record, index, text }">
         <!-- 长文本省略显示 -->
         <template v-if="text && text.length > 24">
@@ -77,7 +76,7 @@
           </a-space>
         </template>
       </template>
-    </a-table>
+    </MTable>
   </a-card>
   <EditForm ref="editFormRef" @successful="loadData" />
 </template>
@@ -89,6 +88,7 @@
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import EditForm from "./editForm.vue"
+  import MTable from "@/components/MTable/index.vue"
 
   // 查询表单相关对象
   const queryFormRef = ref()
@@ -218,21 +218,30 @@
     selectedRowKeys.value = []
     // 分页参数
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    scopeApi.scopePage(Object.assign(param, queryFormData.value)).then((res) => {
+    return scopeApi.scopePage(Object.assign(param, queryFormData.value)).then((res) => {
       paginationRef.value.total = res.data.total
       tableData.value = res.data.records
+      return res.data
+    }).catch((err) => {
+      console.error(err)
     }).finally(() => {
       dataLoading.value = false
     })
   }
+  const onSelectedChange = (selectedKeys, selectedRows) => {
+    selectedRowKeys.value = selectedKeys
+    // console.log('onChange,selectedKeys:', selectedKeys);
+  }
+
   // 分页、排序、筛选等操作变化时，会触发 change 事件
   const onChange = (pagination, filters, sorter) => {
+    console.log('onChange...', pagination)
     loadData()
   }
   // 可伸缩列
-  const onResizeColumn = (w, column) => {
-    column.width = w
-  }
+  // const onResizeColumn = (w, column) => {
+  //   column.width = w
+  // }
   // 删除
   const deleteScope = (record) => {
     let data = { ids: [record.id] }
