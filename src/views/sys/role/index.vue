@@ -22,15 +22,12 @@
     </a-form>
   </a-card>
   <a-card size="small">
-    <STable
-      ref="tableRef"
-      :columns="columns"
-      :data="loadData"
-      :alert="options.alert.show"
-      bordered
-      :row-key="(record) => record.id"
-      :row-selection="options.rowSelection"
-      :tool-config="toolConfig"
+    <MTable ref="tableRef"
+            :columns="columns"
+            :loadData="loadData"
+            :row-key="(row) => row.id"
+            showRowSelection
+            @selectedChange="onSelectedChange"
     >
       <template #operator>
         <a-space>
@@ -68,7 +65,7 @@
           </a-space>
         </template>
       </template>
-    </STable>
+    </MTable>
   </a-card>
   <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
   <AddForm ref="addFormRef" @successful="tableRef.refresh()" />
@@ -86,7 +83,7 @@
   import GrantMenuForm from "./grantMenuForm.vue";
   import { message } from "ant-design-vue";
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
-  import STable from "@/components/STable/index.vue"
+  import MTable from "@/components/MTable/index.vue"
   import RoleUser from "./roleUser.vue";
 
   const columns = [
@@ -140,27 +137,13 @@
     { label: "正常", value: 0 },
     { label: "已停用", value: 1 }
   ]
-  // 列表选择配置
-  const options = {
-    alert: {
-      show: false,
-      clear: () => {
-        selectedRowKeys.value = ref([])
-      }
-    },
-    rowSelection: {
-      onChange: (selectedRowKey, selectedRows) => {
-        selectedRowKeys.value = selectedRowKey
-      }
-    }
-  }
+
   // 定义tableDOM
   const tableRef = ref()
   const formRef = ref()
   const addFormRef = ref()
   const editFormRef = ref()
   const module = ref()
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
   const grantMenuFormRef = ref()
   const roleUserRef = ref()
   const searchFormRef = ref()
@@ -181,6 +164,11 @@
   const reset = () => {
     searchFormRef.value.resetFields()
     tableRef.value.refresh(true)
+  }
+  // 选中行发生变化
+  const onSelectedChange = (selectedKeys, selectedRows) => {
+    selectedRowKeys.value = selectedKeys
+    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
   // 删除
   const deleteRole = (record) => {
