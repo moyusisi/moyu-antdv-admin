@@ -123,11 +123,11 @@
       edit.value = true
     }
     if (edit.value) {
-      title.value = "编辑分组信息"
+      title.value = "编辑分组"
       // 表单数据赋值
       loadData(row)
     } else {
-      title.value = "新增分组信息"
+      title.value = "新增分组"
     }
   }
   // 关闭抽屉
