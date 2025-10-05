@@ -6,14 +6,14 @@
       <slot name="operator"></slot>
     </a-col>
     <!-- 右上方工具栏 -->
-    <a-col :span="4" style="min-height: 28px">
+    <a-col :span="4" v-if="props.tool.refresh || props.tool.columnSetting || props.tool.height" style="min-height: 28px">
       <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-center">
         <!-- 刷新 -->
-        <a-tooltip v-if="props.toolConfig.refresh" title="刷新" @click="refresh">
+        <a-tooltip v-if="props.tool.refresh" title="刷新" @click="refresh">
           <sync-outlined class="tool-icon" />
         </a-tooltip>
         <!-- 列展示 -->
-        <a-popover v-if="props.toolConfig.columnSetting" trigger="click" placement="topLeft" arrow-point-at-center>
+        <a-popover v-if="props.tool.columnSetting" trigger="click" placement="topLeft" arrow-point-at-center>
           <template #content>
             <columnSetting :columns="props.columns" @columnChange="columnChange" />
           </template>
@@ -22,7 +22,7 @@
           </a-tooltip>
         </a-popover>
         <!-- 表格密度 -->
-        <a-dropdown v-if="props.toolConfig.height" trigger="click">
+        <a-dropdown v-if="props.tool.height" trigger="click">
           <template #overlay>
             <a-menu selectable :selectedKeys="[localData.size]" @click="changeSize">
               <a-menu-item key="large">宽松</a-menu-item>
@@ -86,7 +86,7 @@ const props = defineProps(
         default: false
       },
       // 配置工具栏
-      toolConfig: {
+      tool: {
         type: Object,
         default: () => ({
           refresh: true,
@@ -212,11 +212,12 @@ const getTableProps = () => {
 // 分页、排序、筛选变化时触发
 const onChange = (pagination, filters, sorter) => {
   loadTableData()
-  // console.log('MTable的onChange...')
-  // emit('change', pagination, filters, sorter)
+  // console.log('MTable中的onChange...')
+  emit('change', pagination, filters, sorter)
 }
 // 点击展开图标时触发
 const onExpand = (expanded, record) => {
+  // console.log('MTable中的expanded...')
   emit('expand', expanded, record)
 }
 
