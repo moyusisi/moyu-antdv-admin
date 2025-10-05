@@ -1,15 +1,15 @@
 <template>
   <a-card size="small">
-    <a-form ref="searchFormRef" :model="searchFormData">
+    <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="8">
           <a-form-item name="searchKey" label="名称关键词">
-            <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+            <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
           <a-form-item label="使用状态" name="status">
-            <a-select v-model:value="searchFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
+            <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="8">
@@ -30,9 +30,13 @@
             @selectedChange="onSelectedChange"
     >
       <template #operator>
-        <a-space>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module)">新增角色</a-button>
-          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="deleteBatchRole" />
+        <a-space wrap style="margin-bottom: 6px">
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen()">新增角色</a-button>
+          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="deleteBatchRole">
+            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
+              批量删除
+            </a-button>
+          </a-popconfirm>
         </a-space>
       </template>
       <template #bodyCell="{ column, record }">
@@ -77,12 +81,11 @@
   import roleApi from '@/api/sys/roleApi'
 
   import { h } from "vue"
-  import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, SearchOutlined, RedoOutlined } from "@ant-design/icons-vue"
   import AddForm from "./addForm.vue";
   import EditForm from "./editForm.vue";
   import GrantMenuForm from "./grantMenuForm.vue";
   import { message } from "ant-design-vue";
-  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
   import RoleUser from "./roleUser.vue";
 
@@ -146,12 +149,12 @@
   const module = ref()
   const grantMenuFormRef = ref()
   const roleUserRef = ref()
-  const searchFormRef = ref()
-  const searchFormData = ref({})
+  const queryFormRef = ref()
+  const queryFormData = ref({})
 
   // 表格查询 返回 Promise 对象
   const loadData = (parameter) => {
-    let param = Object.assign(parameter, searchFormData.value)
+    let param = Object.assign(parameter, queryFormData.value)
     return roleApi.rolePage(param).then((res) => {
       return res.data
     })
@@ -162,7 +165,7 @@
   }
   // 重置
   const reset = () => {
-    searchFormRef.value.resetFields()
+    queryFormRef.value.resetFields()
     tableRef.value.refresh(true)
   }
   // 选中行发生变化
