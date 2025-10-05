@@ -9,9 +9,6 @@
         <a-form-item name="code" label="编码">
           <a-input v-model:value="queryFormData.code" placeholder="编码" allowClear />
         </a-form-item>
-        <a-form-item name="orgName" label="直属组织名称">
-          <a-input v-model:value="queryFormData.orgName" placeholder="直属组织名称" allowClear />
-        </a-form-item>
         <a-form-item name="createTime" label="创建时间">
           <a-range-picker v-model:value="queryFormData.createTimeRange" valueFormat="YYYY-MM-DD"/>
         </a-form-item>
@@ -36,7 +33,7 @@
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
           <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen()">新增</a-button>
-          <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
+          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？'" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
             </a-button>
