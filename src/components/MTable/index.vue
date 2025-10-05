@@ -41,7 +41,6 @@
            ref="tableRef"
            :loading="dataLoading"
            :row-key="props.rowKey"
-           :row-selection="rowSelection"
            :pagination="paginationRef"
            @change="onChange"
            @expand="onExpand"
@@ -77,9 +76,15 @@ const props = defineProps(
         type: [String, Function],
         default: "id"
       },
+      // 数据加载函数
       loadData: {
         type: Function,
         required: true
+      },
+      // 是否展示行选择，为true时会产生事件selectedChange
+      showRowSelection: {
+        type: Boolean,
+        default: false
       },
       // 配置工具栏
       toolConfig: {
@@ -92,13 +97,6 @@ const props = defineProps(
       }
     })
 )
-// 本地数据,用于向tableProps赋值
-const localData = reactive({
-  dataSource: [],
-  columnsSetting: [],
-  size: props.size,
-})
-
 // 表格props，在a-table中后面设置属性会覆盖renderTableProps的同名属性
 const renderTableProps = ref({})
 
@@ -138,6 +136,18 @@ const paginationRef = ref({
   },
 })
 
+
+// 本地数据,用于向tableProps赋值
+const localData = reactive({
+  // tableProps中的同名属性
+  dataSource: [],
+  size: props.size,
+  // 非tableProps的同名属性
+  columnsSetting: [],
+  // 默认的
+  localRowSelection: rowSelection.value,
+})
+
 // 加载完毕调用
 onMounted(() => {
   // @ts-ignore
@@ -152,7 +162,7 @@ const loadTableData = () => {
   }
   dataLoading.value = true
   // 重新加载数据时，清空之前选中的行
-  rowSelection.value.onChange([],[])
+  clearSelected()
   // 分页参数
   let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
   props.loadData(param).then((data) => {
@@ -178,7 +188,14 @@ const getTableProps = () => {
       renderProps[key] = localData[key]
     }
   })
-  // columns赋值
+  // 非同名属性的处理及赋值
+  // @ts-ignore
+  renderProps.columns = localData.columnsSetting.filter((value) => value.checked === undefined || value.checked)
+  // 若 showRowSelection 为 true 但未传入 rowSelection，使用默认的 rowSelection
+  if (props.showRowSelection && props.rowSelection == null) {
+    // @ts-ignore
+    renderProps.rowSelection = localData.localRowSelection
+  }
   renderProps = {
     ...renderProps,
     // @ts-ignore
@@ -228,9 +245,11 @@ const columnChange = (v) => {
 }
 // 清空 table 已选中项
 const clearSelected = () => {
-  if (props.rowSelection && props.rowSelection.onChange) {
+  if (props.rowSelection) {
+    props.rowSelection.selectedRowKeys = []
     props.rowSelection.onChange([], [])
-    getTableProps()
+  } else {
+    localData.localRowSelection.onChange([], [])
   }
 }
 

@@ -30,6 +30,7 @@
             :columns="columns"
             :loadData="loadData"
             :row-key="(row) => row.id"
+            showRowSelection
             @selectedChange="onSelectedChange"
     >
       <template #operator>
