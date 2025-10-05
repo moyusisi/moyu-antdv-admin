@@ -41,7 +41,6 @@
            ref="tableRef"
            :loading="dataLoading"
            :row-key="props.rowKey"
-           :pagination="paginationRef"
            @change="onChange"
            @expand="onExpand"
            @resizeColumn="onResizeColumn"
@@ -144,8 +143,9 @@ const localData = reactive({
   size: props.size,
   // 非tableProps的同名属性
   columnsSetting: [],
-  // 默认的
+  // 本地配置, 无props时使用
   localRowSelection: rowSelection.value,
+  localPagination: paginationRef.value,
 })
 
 // 加载完毕调用
@@ -191,11 +191,13 @@ const getTableProps = () => {
   // 非同名属性的处理及赋值
   // @ts-ignore
   renderProps.columns = localData.columnsSetting.filter((value) => value.checked === undefined || value.checked)
-  // 若 showRowSelection 为 true 但未传入 rowSelection，使用默认的 rowSelection
-  if (props.showRowSelection && props.rowSelection == null) {
-    // @ts-ignore
-    renderProps.rowSelection = localData.localRowSelection
+  // 展示 rowSelection 时, 优选 props 其次 local
+  if (props.showRowSelection) {
+    // @ts-ignore 优选 props 其次 local
+    renderProps.rowSelection = props.rowSelection || localData.localRowSelection
   }
+  // @ts-ignore 分页优选 props 其次 local
+  renderProps.pagination = props.pagination || localData.localPagination
   renderProps = {
     ...renderProps,
     // @ts-ignore
