@@ -68,13 +68,13 @@
       </template>
     </MTable>
   </a-card>
-  <EditForm ref="editFormRef" @successful="loadData" />
+  <EditForm ref="editFormRef" @successful="tableRef.refresh()" />
 </template>
 
 <script setup>
   import scopeApi from '@/api/system/scopeApi.js'
 
-  import { h } from "vue"
+  import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import EditForm from "./editForm.vue"
@@ -193,7 +193,7 @@
     let data = { ids: [record.id] }
     scopeApi.deleteScope(data).then((res) => {
       message.success(res.message)
-      loadData()
+      tableRef.value.refresh()
     })
   }
   // 批量删除
@@ -205,7 +205,7 @@
     let data = { ids: selectedRowKeys.value }
     scopeApi.deleteScope(data).then((res) => {
       message.success(res.message)
-      loadData()
+      tableRef.value.refresh()
     })
   }
 
