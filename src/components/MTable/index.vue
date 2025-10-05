@@ -1,7 +1,6 @@
 <template>
-  <a-table v-bind="$attrs"
+  <a-table v-bind="{...renderTableProps}"
            ref="tableRef"
-           :data-source="tableData"
            :loading="dataLoading"
            :row-key="props.rowKey"
            :row-selection="rowSelection"
@@ -21,10 +20,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, useSlots } from 'vue'
+import { tableProps } from 'ant-design-vue/es/table/Table.js'
 
-// 组件props
+// 表格props，在a-table中后面设置属性会覆盖renderTableProps的同名属性
+const renderTableProps = ref({})
+// 组件props 通过tableProps()支持Table原属性
 const props = defineProps(
-    Object.assign({}, {
+    Object.assign({}, tableProps(), {
       rowKey: {
         type: [String, Function],
         default: "id"
@@ -35,6 +37,11 @@ const props = defineProps(
       },
     })
 )
+// 本地数据,用于向tableProps赋值
+const localData = reactive({
+  dataSource: [],
+  columnsSetting: [],
+})
 
 // 自动获取父组件传递过来的插槽
 const slots = useSlots()
@@ -48,8 +55,7 @@ const emit = defineEmits(['selectedChange', 'change', 'expand', 'expandedRowsCha
 
 /***** 表格相关对象 *****/
 const tableRef = ref()
-// 表格的数据源
-const tableData = ref([])
+// 表格的加载状态
 const dataLoading = ref(false)
 // 已选中的行
 const selectedRowKeys = ref([])
@@ -86,10 +92,15 @@ const paginationRef = ref({
 
 // 加载完毕调用
 onMounted(() => {
+  localData.columnsSetting = props.columns
   loadTableData()
 })
 
 const loadTableData = () => {
+  if (!props.loadData) {
+    console.error("loadData不是函数，无法加载数据")
+    return
+  }
   dataLoading.value = true
   // 重新加载数据时，清空之前选中的行
   rowSelection.value.onChange([],[])
@@ -97,12 +108,34 @@ const loadTableData = () => {
   let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
   props.loadData(param).then((data) => {
     paginationRef.value.total = data.total
-    tableData.value = data.records ? data.records : []
+    localData.dataSource = data.records ? data.records : []
+    dataLoading.value = false
+    getTableProps()
   }).catch((err) => {
     console.error(err)
   }).finally(() => {
     dataLoading.value = false
   })
+}
+
+// 动态加载table的props
+const getTableProps = () => {
+  let renderProps = Object.assign(tableProps(), props)
+  const localKeys = Object.keys(localData)
+  const propsKeys = Object.keys(renderProps)
+  // localData中的同名属性赋值给renderProps
+  localKeys.forEach((key) => {
+    if (propsKeys.includes(key)) {
+      renderProps[key] = localData[key]
+    }
+  })
+  // columns赋值
+  renderProps = {
+    ...renderProps,
+    columns: localData.columnsSetting.filter((value) => value.checked === undefined || value.checked),
+  }
+  // 将值为 undefined 或者 null 的 table里props属性进行过滤
+  renderTableProps.value = Object.fromEntries(Object.entries(renderProps).filter(([k,v]) => v != null))
 }
 
 // 分页、排序、筛选变化时触发
