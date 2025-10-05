@@ -58,7 +58,7 @@
 import { ref, onMounted, useSlots, h } from 'vue'
 import { tableProps } from 'ant-design-vue/es/table/Table.js'
 import { DeleteOutlined, PlusOutlined, SyncOutlined } from "@ant-design/icons-vue"
-import columnSetting from "@/components/STable/columnSetting.vue"
+import columnSetting from "@/components/MTable/columnSetting.vue"
 
 // 自动获取父组件传递过来的插槽
 const slots = useSlots()
