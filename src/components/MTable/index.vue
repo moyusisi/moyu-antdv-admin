@@ -1,13 +1,49 @@
 <template>
+  <a-row>
+    <a-col :span="20">
+      <!-- 操作区插槽 -->
+      <slot name="operator"></slot>
+    </a-col>
+    <a-col :span="4" style="min-height: 28px">
+      <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-center">
+        <!-- 刷新 -->
+        <a-tooltip v-if="props.toolConfig.refresh" title="刷新" @click="refresh">
+          <sync-outlined class="tool-icon" />
+        </a-tooltip>
+        <!-- 列展示 -->
+        <a-popover v-if="props.toolConfig.columnSetting" trigger="click" placement="topLeft" arrow-point-at-center>
+          <template #content>
+            <columnSetting :columns="props.columns" @columnChange="columnChange" />
+          </template>
+          <a-tooltip title="列设置">
+            <component class="tool-icon" is="setting-outlined"></component>
+          </a-tooltip>
+        </a-popover>
+        <!-- 表格密度 -->
+        <a-dropdown v-if="props.toolConfig.height" trigger="click">
+          <template #overlay>
+            <a-menu selectable :selectedKeys="[localData.size]" @click="changeSize">
+              <a-menu-item key="large">宽松</a-menu-item>
+              <a-menu-item key="middle">中等</a-menu-item>
+              <a-menu-item key="small">紧凑</a-menu-item>
+            </a-menu>
+          </template>
+          <a-tooltip title="表格密度">
+            <component class="tool-icon" is="column-height-outlined"></component>
+          </a-tooltip>
+        </a-dropdown>
+      </a-flex>
+    </a-col>
+  </a-row>
   <a-table v-bind="{...renderTableProps}"
            ref="tableRef"
            :loading="dataLoading"
            :row-key="props.rowKey"
            :row-selection="rowSelection"
            :pagination="paginationRef"
-           @resizeColumn="onResizeColumn"
            @change="onChange"
            @expand="onExpand"
+           @resizeColumn="onResizeColumn"
            @expandedRowsChange="onExpandedRowsChange"
            :scroll="{ x: 'max-content' }"
            bordered
@@ -19,11 +55,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, useSlots } from 'vue'
+import { ref, onMounted, useSlots, h } from 'vue'
 import { tableProps } from 'ant-design-vue/es/table/Table.js'
+import { DeleteOutlined, PlusOutlined, SyncOutlined } from "@ant-design/icons-vue"
+import columnSetting from "@/components/STable/columnSetting.vue"
 
-// 表格props，在a-table中后面设置属性会覆盖renderTableProps的同名属性
-const renderTableProps = ref({})
+// 自动获取父组件传递过来的插槽
+const slots = useSlots()
+// 所有的事件均参考官方文档 https://www.antdv.com/components/table-cn#api
+const emit = defineEmits(['selectedChange', 'change', 'expand', 'expandedRowsChange'])
+// 获取父组件过来的插槽数量，便于循环
+const slotKeys = computed(() => {
+  return Object.keys(slots)
+})
 // 组件props 通过tableProps()支持Table原属性
 const props = defineProps(
     Object.assign({}, tableProps(), {
@@ -35,25 +79,27 @@ const props = defineProps(
         type: Function,
         required: true
       },
+      // 配置工具栏
+      toolConfig: {
+        type: Object,
+        default: () => ({
+          refresh: true,
+          height: true,
+          columnSetting: true
+        })
+      }
     })
 )
 // 本地数据,用于向tableProps赋值
 const localData = reactive({
   dataSource: [],
   columnsSetting: [],
+  size: props.size,
 })
 
-// 自动获取父组件传递过来的插槽
-const slots = useSlots()
-// 获取父组件过来的插槽数量，便于循环
-const slotKeys = computed(() => {
-  return Object.keys(slots)
-})
+// 表格props，在a-table中后面设置属性会覆盖renderTableProps的同名属性
+const renderTableProps = ref({})
 
-// 所有的事件均参考官方文档 https://www.antdv.com/components/table-cn#api
-const emit = defineEmits(['selectedChange', 'change', 'expand', 'expandedRowsChange'])
-
-/***** 表格相关对象 *****/
 const tableRef = ref()
 // 表格的加载状态
 const dataLoading = ref(false)
@@ -147,7 +193,6 @@ const onChange = (pagination, filters, sorter) => {
 // 点击展开图标时触发
 const onExpand = (expanded, record) => {
   emit('expand', expanded, record)
-
 }
 
 // 点击展开图标时触发
@@ -166,6 +211,18 @@ const refresh = (bool = false) => {
   }
   loadTableData()
 }
+
+// 表格大小切换
+const changeSize = (v) => {
+  localData.size = v.key
+  getTableProps()
+}
+// 列设置
+const columnChange = (v) => {
+  localData.columnsSetting = v
+  getTableProps()
+}
+
 // 声明额外的选项
 defineExpose({
   refresh
@@ -175,7 +232,15 @@ defineExpose({
 
 
 <style scoped>
-
+/** 操作区 **/
+.tool-area {
+  width: 100%;
+  height: 100%;
+}
+/** 操作区图标 **/
+.tool-icon {
+  font-size: 16px;
+}
 /** 长文本截断,超过200px省略(约26个字母，15个汉字的长度) **/
 .large-text {
   display: inline-block;
