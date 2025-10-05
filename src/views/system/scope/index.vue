@@ -25,23 +25,6 @@
     </a-form>
   </a-card>
   <a-card size="small">
-    <a-row>
-      <a-col :span="20" style="margin-bottom: 12px">
-        <a-space wrap>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen()">新增</a-button>
-          <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
-            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
-              批量删除
-            </a-button>
-          </a-popconfirm>
-        </a-space>
-      </a-col>
-      <a-col :span="4">
-        <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-start">
-          <a-button :icon="h(PlusOutlined)" class="custom-btn" @click="null">操作</a-button>
-        </a-flex>
-      </a-col>
-    </a-row>
     <MTable size="middle"
             ref="tableRef"
             :columns="columns"
@@ -49,6 +32,16 @@
             :row-key="(row) => row.id"
             @selectedChange="onSelectedChange"
     >
+      <template #operator>
+        <a-space wrap style="margin-bottom: 6px">
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen()">新增</a-button>
+          <a-popconfirm title="确定要批量删除吗？" :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
+            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
+              批量删除
+            </a-button>
+          </a-popconfirm>
+        </a-space>
+      </template>
       <template #bodyCell="{ column, record, index, text }">
         <!-- 长文本省略显示 -->
         <template v-if="text && text.length > 24">
