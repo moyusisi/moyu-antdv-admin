@@ -192,7 +192,12 @@
 </script>
 
 <style scoped>
-  .ant-form-item {
-    margin-bottom: 0 !important;
+  /** 后代选择器 **/
+  .ant-card .ant-form {
+    margin-bottom: -12px !important;
   }
+  .ant-form-item {
+    margin-bottom: 12px !important;
+  }
+
 </style>
