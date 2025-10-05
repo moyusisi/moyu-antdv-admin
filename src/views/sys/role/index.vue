@@ -12,11 +12,11 @@
             <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
           </a-form-item>
         </a-col>
-        <a-col :span="8">
-          <a-space>
+        <a-col :span="6">
+          <a-flex gap="small">
             <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
             <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-          </a-space>
+          </a-flex>
         </a-col>
       </a-row>
     </a-form>
@@ -186,7 +186,7 @@
     let data = { ids: selectedRowKeys.value }
     roleApi.deleteRole(data).then((res) => {
       message.success(res.message)
-      tableRef.value.clearRefreshSelected()
+      tableRef.value.refresh(true)
     })
   }
 </script>
