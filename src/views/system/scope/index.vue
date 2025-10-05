@@ -216,11 +216,6 @@
   .ant-form-inline > .ant-form-item {
     margin-bottom: 12px !important;
   }
-  /** 操作区 **/
-  .tool-area {
-    width: 100%;
-    height: 100%;
-  }
   .custom-btn {
     background-color: #52C41AFF;
     border-color: #52C41AFF;
