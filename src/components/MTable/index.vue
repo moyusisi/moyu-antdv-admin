@@ -1,9 +1,11 @@
 <template>
+  <!-- 表格上方操作区 -->
   <a-row>
+    <!-- 左上方操作区插槽 -->
     <a-col :span="20">
-      <!-- 操作区插槽 -->
       <slot name="operator"></slot>
     </a-col>
+    <!-- 右上方工具栏 -->
     <a-col :span="4" style="min-height: 28px">
       <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-center">
         <!-- 刷新 -->
@@ -138,6 +140,7 @@ const paginationRef = ref({
 
 // 加载完毕调用
 onMounted(() => {
+  // @ts-ignore
   localData.columnsSetting = props.columns
   loadTableData()
 })
@@ -178,6 +181,7 @@ const getTableProps = () => {
   // columns赋值
   renderProps = {
     ...renderProps,
+    // @ts-ignore
     columns: localData.columnsSetting.filter((value) => value.checked === undefined || value.checked),
   }
   // 将值为 undefined 或者 null 的 table里props属性进行过滤
@@ -221,6 +225,13 @@ const changeSize = (v) => {
 const columnChange = (v) => {
   localData.columnsSetting = v
   getTableProps()
+}
+// 清空 table 已选中项
+const clearSelected = () => {
+  if (props.rowSelection && props.rowSelection.onChange) {
+    props.rowSelection.onChange([], [])
+    getTableProps()
+  }
 }
 
 // 声明额外的选项
