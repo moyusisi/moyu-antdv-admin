@@ -109,7 +109,7 @@ const rowSelection = ref({
   selectedRowKeys: selectedRowKeys,
   onChange: (selectedKeys, selectedRows) => {
     selectedRowKeys.value = selectedKeys
-    // console.log('rowSelection中的onChange,selectedKeys:', selectedKeys);
+    // console.log('MTable.localData.rowSelection中的onChange,selectedKeys:', selectedKeys);
     emit('selectedChange', selectedKeys, selectedRows)
   }
 });
@@ -128,7 +128,7 @@ const paginationRef = ref({
   // 只有一页或没有数据时隐藏分页栏
   // hideOnSinglePage: true,
   onChange: (page, pageSize) => {
-    console.log('paginationRef中的onChange...')
+    // console.log('MTable.localData.pagination中的onChange...')
     // 处理分页切换的逻辑
     paginationRef.value.current = page
     paginationRef.value.pageSize = pageSize
@@ -154,7 +154,7 @@ onMounted(() => {
   localData.columnsSetting = props.columns
   loadTableData()
 })
-
+// 加载表格中的数据
 const loadTableData = () => {
   if (!props.loadData) {
     console.error("loadData不是函数，无法加载数据")
@@ -163,10 +163,12 @@ const loadTableData = () => {
   dataLoading.value = true
   // 重新加载数据时，清空之前选中的行
   clearSelected()
+  // 分页器优选 props 其次 local
+  let pagination = props.pagination || localData.localPagination
   // 分页参数
-  let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
+  let param = { pageNum: pagination.current, pageSize: pagination.pageSize }
   props.loadData(param).then((data) => {
-    paginationRef.value.total = data.total
+    pagination.total = data.total
     localData.dataSource = data.records ? data.records : []
     dataLoading.value = false
     getTableProps()
@@ -196,7 +198,7 @@ const getTableProps = () => {
     // @ts-ignore 优选 props 其次 local
     renderProps.rowSelection = props.rowSelection || localData.localRowSelection
   }
-  // @ts-ignore 分页优选 props 其次 local
+  // @ts-ignore 分页器优选 props 其次 local
   renderProps.pagination = props.pagination || localData.localPagination
   renderProps = {
     ...renderProps,
@@ -210,8 +212,8 @@ const getTableProps = () => {
 // 分页、排序、筛选变化时触发
 const onChange = (pagination, filters, sorter) => {
   loadTableData()
-  console.log('table的onChange...')
-  emit('change', pagination, filters, sorter)
+  // console.log('MTable的onChange...')
+  // emit('change', pagination, filters, sorter)
 }
 // 点击展开图标时触发
 const onExpand = (expanded, record) => {
