@@ -105,7 +105,6 @@
     {
       title: '排序',
       dataIndex: 'sortNum',
-      sorter: true,
       align: 'center',
       width: 100
     },
