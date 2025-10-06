@@ -1,13 +1,13 @@
 <template>
   <!-- 上方模块选择 -->
   <a-card size="small">
-    <a-space>
+    <a-flex>
       <a-radio-group v-model:value="moduleId" button-style="solid">
         <a-radio-button v-for="module in moduleList" :key="module.code" :value="module.code" @click="moduleClick(module)">
           <component :is="module.icon" /> {{ module.name }}
         </a-radio-button>
       </a-radio-group>
-    </a-space>
+    </a-flex>
   </a-card>
   <!-- 内容区域 -->
   <a-card size="small">
