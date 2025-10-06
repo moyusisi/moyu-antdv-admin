@@ -1,6 +1,6 @@
 <template>
   <a-card size="small">
-    <a-form ref="searchFormRef" :model="searchFormData">
+    <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item name="orgCode" label="组织机构">
@@ -9,12 +9,12 @@
         </a-col>
         <a-col :span="6">
           <a-form-item name="searchKey" label="名称关键词">
-            <a-input v-model:value="searchFormData.searchKey" placeholder="请输入关键词" allowClear />
+            <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
           <a-form-item label="使用状态" name="status">
-            <a-select v-model:value="searchFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
+            <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -39,7 +39,7 @@
     >
       <template #operator class="table-operator">
         <a-space>
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(searchFormData.orgCode, treeRef.treeData)">新增</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.orgCode, treeRef.treeData)">新增</a-button>
           <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteGroup" />
         </a-space>
       </template>
@@ -175,34 +175,34 @@
   const editFormRef = ref()
   const groupUserRef = ref()
   const groupRoleRef = ref()
-  const searchFormRef = ref()
-  const searchFormData = ref({})
+  const queryFormRef = ref()
+  const queryFormData = ref({})
 
   // 定义treeRef
   const treeRef = ref()
 
   // 表格查询 返回 Promise 对象
   const loadTableData = (parameter) => {
-    return groupApi.groupPage(Object.assign(parameter, searchFormData.value)).then((res) => {
+    return groupApi.groupPage(Object.assign(parameter, queryFormData.value)).then((res) => {
       return res.data
     })
   }
   // 重置
   const reset = () => {
-    searchFormRef.value.resetFields()
+    queryFormRef.value.resetFields()
     tableRef.value.refresh(true)
   }
 
   // 组织机构变更
   const orgChange = (value) => {
-    searchFormData.value.orgCode = value
+    queryFormData.value.orgCode = value
   }
   // 点击树查询
   const treeSelect = (selectedKeys) => {
     if (selectedKeys.length > 0) {
-      searchFormData.value.orgCode = selectedKeys.toString()
+      queryFormData.value.orgCode = selectedKeys.toString()
     } else {
-      delete searchFormData.value.orgCode
+      delete queryFormData.value.orgCode
     }
     tableRef.value.refresh(true)
   }
