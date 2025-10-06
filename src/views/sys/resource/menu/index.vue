@@ -12,23 +12,18 @@
   <!-- 内容区域 -->
   <a-card size="small">
     <!--  表格数据区  -->
-    <STable
-      ref="tableRef"
-      :columns="columns"
-      :data="loadData"
-      :alert="options.alert.show"
-      bordered
-      :row-key="(node) => node.code"
-      :show-pagination="false"
-      :row-selection="options.rowSelection"
-      :scroll="{ x: 'max-content' }"
+    <MTable ref="tableRef"
+            :columns="columns"
+            :loadData="loadData"
+            :row-key="(row) => row.id"
+            hideOnSinglePage
+            showRowSelection
+            @selectedChange="onSelectedChange"
     >
       <template #operator>
-        <a-space wrap>
+        <a-space wrap style="margin-bottom: 6px">
           <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module, 2, module.code)">新增菜单</a-button>
-          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
-            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">批量删除</a-button>
-          </a-popconfirm>
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
       </template>
       <template #bodyCell="{ column, record : node }">
@@ -87,7 +82,7 @@
           </a-space>
         </template>
       </template>
-    </STable>
+    </MTable>
   </a-card>
   <AddForm ref="addFormRef" @successful="handleSuccess" />
   <EditForm ref="editFormRef" @successful="handleSuccess" />
@@ -103,7 +98,6 @@
   import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
-  import STable from "@/components/STable/index.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // 查询表单相关对象

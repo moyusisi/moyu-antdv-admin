@@ -1,5 +1,5 @@
 <template>
-  <a-popconfirm title="确定要批量删除吗？" @confirm="batchDelete">
+  <a-popconfirm :title=" '确定要删除这 ' + props.selectedRowKeys.length + ' 条数据吗？' " @confirm="batchDelete">
     <a-button danger :icon="h(DeleteOutlined)" :disabled="props.selectedRowKeys.length < 1">
       {{ props.buttonName }}
     </a-button>

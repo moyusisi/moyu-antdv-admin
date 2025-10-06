@@ -171,11 +171,13 @@
       await init()
       param.module = moduleId.value
       return resourceApi.resourcePage(param).then((res) => {
+        // res.data 为 {total, records}
         return res.data
       })
     } else {
       param.module = moduleId.value
       return resourceApi.resourcePage(param).then((res) => {
+        // res.data 为 {total, records}
         return res.data
       })
     }

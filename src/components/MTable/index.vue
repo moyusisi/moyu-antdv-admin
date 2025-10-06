@@ -85,6 +85,11 @@ const props = defineProps(
         type: Boolean,
         default: false
       },
+      // 只有一页或没有数据时隐藏分页栏
+      hideOnSinglePage: {
+        type: Boolean,
+        default: false
+      },
       // 配置工具栏
       tool: {
         type: Object,
@@ -169,7 +174,7 @@ const loadTableData = () => {
   let param = { pageNum: pagination.current, pageSize: pagination.pageSize }
   props.loadData(param).then((data) => {
     pagination.total = data.total
-    localData.dataSource = data.records ? data.records : []
+    localData.dataSource = data instanceof Array ? data : data.records
     dataLoading.value = false
     getTableProps()
   }).catch((err) => {
@@ -200,6 +205,10 @@ const getTableProps = () => {
   }
   // @ts-ignore 分页器优选 props 其次 local
   renderProps.pagination = props.pagination || localData.localPagination
+  if (props.hideOnSinglePage) {
+    // @ts-ignore 单页不显示分页器
+    renderProps.pagination.hideOnSinglePage = true
+  }
   renderProps = {
     ...renderProps,
     // @ts-ignore
