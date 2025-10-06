@@ -82,11 +82,12 @@
 
 <script setup>
   import resourceApi from '@/api/sys/resourceApi.js'
-  import { h } from "vue";
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
-  import AddForm from "@/views/sys/resource/module/addForm.vue";
-  import EditForm from "@/views/sys/resource/module/editForm.vue";
-  import { message } from "ant-design-vue";
+
+  import { h, ref } from "vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { message } from "ant-design-vue"
+  import AddForm from "@/views/sys/resource/module/addForm.vue"
+  import EditForm from "@/views/sys/resource/module/editForm.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // resourceType=1标识模块
