@@ -3,8 +3,8 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="8">
-          <a-form-item name="searchKey" label="名称关键词">
-            <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
+          <a-form-item name="name" label="名称">
+            <a-input v-model:value="queryFormData.name" placeholder="搜索名称" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -93,25 +93,29 @@
     {
       title: '角色名称',
       dataIndex: 'name',
+      align: "center",
       resizable: true,
       width: 150
     },
     {
       title: '唯一编码',
       dataIndex: 'code',
+      align: "center",
       resizable: true,
       width: 200
-    },
-    {
-      title: '排序',
-      dataIndex: 'sortNum',
-      align: 'center',
-      width: 100
     },
     {
       title: '状态',
       dataIndex: 'status',
       align: 'center',
+      resizable: true,
+      width: 100
+    },
+    {
+      title: '排序',
+      dataIndex: 'sortNum',
+      align: 'center',
+      resizable: true,
       width: 100
     },
     {
