@@ -41,6 +41,7 @@
                :data-source="tableData"
                :row-key="(record) => record.code"
                :row-selection="rowSelection"
+               :pagination="false"
                bordered>
             <template #bodyCell="{ column, record }">
               <template v-if="column.dataIndex === 'code'">

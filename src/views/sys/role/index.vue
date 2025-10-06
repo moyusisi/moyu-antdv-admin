@@ -8,7 +8,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item label="使用状态" name="status">
+          <a-form-item label="状态" name="status">
             <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
           </a-form-item>
         </a-col>
@@ -112,11 +112,11 @@
       width: 100
     },
     {
-      title: '排序',
-      dataIndex: 'sortNum',
-      align: 'center',
+      title: "备注",
+      dataIndex: "remark",
+      align: "center",
       resizable: true,
-      width: 100
+      width: 150,
     },
     {
       title: '创建时间',
