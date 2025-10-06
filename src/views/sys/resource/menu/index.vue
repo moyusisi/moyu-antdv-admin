@@ -11,6 +11,7 @@
   </a-card>
   <!-- 内容区域 -->
   <a-card size="small">
+    <!--  表格数据区  -->
     <STable
       ref="tableRef"
       :columns="columns"
@@ -19,14 +20,15 @@
       bordered
       :row-key="(node) => node.code"
       :show-pagination="false"
-      :tool-config="toolConfig"
       :row-selection="options.rowSelection"
       :scroll="{ x: 'max-content' }"
     >
       <template #operator>
-        <a-space>
+        <a-space wrap>
           <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module, 2, module.code)">新增菜单</a-button>
-          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteMenu" />
+          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
+            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">批量删除</a-button>
+          </a-popconfirm>
         </a-space>
       </template>
       <template #bodyCell="{ column, record : node }">
@@ -94,23 +96,43 @@
 <script setup>
   import resourceApi from '@/api/sys/resourceApi.js'
 
-  import { h } from 'vue'
-  import { PlusOutlined } from '@ant-design/icons-vue'
+  import { h, ref } from "vue"
+  import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"
+  import { message } from "ant-design-vue"
+  import { useMenuStore } from '@/store/menu'
   import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
-  import { useMenuStore } from '@/store/menu'
-  import { message } from "ant-design-vue";
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import STable from "@/components/STable/index.vue"
+  import MTable from "@/components/MTable/index.vue"
 
-  const queryForm = ref({})
-  const tableRef = ref()
+  // 查询表单相关对象
+  const moduleList = ref([])
+  const module = ref()
+  const moduleId = ref()
+  // 其他页面操作
   const addFormRef = ref()
   const editFormRef = ref()
-  const moduleId = ref()
-  const module = ref()
-  const moduleList = ref([])
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 已选中的行
+  let selectedRowKeys = ref([])
+  // 列表选择配置
+  const options = {
+    alert: {
+      show: false,
+      clear: () => {
+        selectedRowKeys = ref([])
+      }
+    },
+    rowSelection: {
+      onChange: (selectedRowKey, selectedRows) => {
+        selectedRowKeys.value = selectedRowKey
+      }
+    }
+  }
+  // 表格列配置
   const columns = [
     {
       title: '显示名称',
@@ -160,7 +182,6 @@
     {
       title: '排序',
       dataIndex: 'sortNum',
-      sorter: true,
       align: 'center',
       width: 80
     },
@@ -171,41 +192,42 @@
       width: 150
     }
   ]
-  let selectedRowKeys = ref([])
-  // 列表选择配置
-  const options = {
-    alert: {
-      show: false,
-      clear: () => {
-        selectedRowKeys = ref([])
-      }
-    },
-    rowSelection: {
-      onChange: (selectedRowKey, selectedRows) => {
-        selectedRowKeys.value = selectedRowKey
-      }
-    }
-  }
-  const loadData = async (parameter) => {
+
+  // 初始化
+  const init = async () => {
     if (!moduleId.value) {
       // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-      const res = await resourceApi.moduleList()
-      moduleList.value = res.data
-      module.value = res.data.length > 0 ? res.data[0] : null
+      const moduleRes = await resourceApi.moduleList()
+      moduleList.value = moduleRes.data
+      module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
       moduleId.value = module.value.code
-      queryForm.value.module = moduleId.value
-      const treeRes = await resourceApi.menuTree(Object.assign(parameter, queryForm.value))
+    }
+  }
+  // 加载数据
+  const loadData = async (parameter) => {
+    // 分页参数
+    let param = Object.assign({}, parameter)
+    if (!moduleId.value) {
+      await init()
+      param.module = moduleId.value
+      const treeRes = await resourceApi.menuTree(param)
       return treeRes.data ? treeRes.data : []
     } else {
+      param.module = moduleId.value
       // menuTree获取到的data中的id和parentId均为code
-      const treeRes = await resourceApi.menuTree(Object.assign(parameter, queryForm.value))
+      const treeRes = await resourceApi.menuTree(param)
       return treeRes.data ? treeRes.data : []
     }
+  }
+  // 选中行发生变化
+  const onSelectedChange = (selectedKeys, selectedRows) => {
+    selectedRowKeys.value = selectedKeys
+    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
   // 切换应用标签查询菜单列表
   const moduleClick = (value) => {
     module.value = value
-    queryForm.value.module = module.value.code
+    moduleId.value = module.value.code
     tableRef.value.refresh(true)
   }
   // 单个删除
@@ -213,16 +235,20 @@
     let data = { codes: [node.code] }
     resourceApi.deleteMenuTree(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh(true)
+      tableRef.value.refresh()
       refreshCacheMenu()
     })
   }
   // 批量删除
-  const batchDeleteMenu = (params) => {
+  const batchDelete = () => {
+    if (selectedRowKeys.value.length < 1) {
+      message.warning("请至少选择一条数据")
+      return
+    }
     let data = { codes: selectedRowKeys.value }
     resourceApi.deleteMenuTree(data).then((res) => {
       message.success(res.message)
-      tableRef.value.clearRefreshSelected()
+      tableRef.value.refresh()
       refreshCacheMenu()
     })
   }
@@ -239,7 +265,11 @@
 </script>
 
 <style scoped>
+/** 后代选择器 **/
+.ant-card .ant-form {
+  margin-bottom: -12px !important;
+}
 .ant-form-item {
-  margin-bottom: 0 !important;
+  margin-bottom: 12px !important;
 }
 </style>
