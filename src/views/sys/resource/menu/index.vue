@@ -142,12 +142,12 @@
       title: '图标',
       dataIndex: 'icon',
       align: 'center',
-      width: 80
+      width: 50
     },
     {
       title: '唯一编码',
       dataIndex: 'code',
-      width: 200
+      width: 150
     },
     {
       title: '地址',
@@ -171,7 +171,7 @@
       title: '是否可见',
       dataIndex: 'visible',
       align: 'center',
-      width: 100
+      width: 80
     },
     {
       title: '排序',
