@@ -45,6 +45,9 @@
             </a-space>
           </template>
           <template #bodyCell="{ column, record }">
+            <template v-if="column.dataIndex === 'account'">
+              <a-tag v-if="record.account" :bordered="false">{{ record.account }}</a-tag>
+            </template>
             <template v-if="column.dataIndex === 'gender'">
               <a-tag v-if="record.gender === 1" color="blue">男</a-tag>
               <a-tag v-else-if="record.gender === 2" color="pink">女</a-tag>
@@ -94,7 +97,6 @@
   import OrgTree from "../components/orgTree.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
-  import STable from "@/components/STable/index.vue"
 
   // 查询表单相关对象
   const queryFormRef = ref()
@@ -116,36 +118,44 @@
   // 表格列配置
   const columns = ref([
     {
-      title: '姓名',
-      dataIndex: 'name',
+      title: "姓名",
+      dataIndex: "name",
+      align: "center",
       resizable: true,
-      width: 150
+      width: 150,
     },
     {
-      title: '账号',
-      dataIndex: 'account',
+      title: "账号",
+      dataIndex: "account",
+      align: "center",
       resizable: true,
-      width: 200,
-      ellipsis: true
+      width: 150,
     },
     {
-      title: '性别',
-      dataIndex: 'gender',
-      align: 'center',
-      width: 80
+      title: "性别",
+      dataIndex: "gender",
+      align: "center",
+      width: 60
     },
     {
-      title: '组织机构',
-      dataIndex: 'orgName',
+      title: "组织机构",
+      dataIndex: "orgName",
+      align: "center",
       resizable: true,
-      width: 200,
-      ellipsis: true
+      width: 150,
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      align: 'center',
-      width: 80
+      title: "状态",
+      dataIndex: "status",
+      align: "center",
+      resizable: true,
+      width: 60
+    },
+    {
+      title: "修改时间",
+      dataIndex: "updateTime",
+      align: "center",
+      width: 160,
     },
     {
       title: '操作',
