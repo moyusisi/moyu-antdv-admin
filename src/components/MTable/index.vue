@@ -198,7 +198,7 @@ const getTableProps = () => {
   // 非同名属性的处理及赋值
   // @ts-ignore
   renderProps.columns = localData.columnsSetting.filter((value) => value.checked === undefined || value.checked)
-  // 展示 rowSelection 时, 优选 props 其次 local
+  // 不设置 rowSelection 时, 使用props。设置 rowSelection 时 优选 props 其次 local
   if (props.showRowSelection) {
     // @ts-ignore 优选 props 其次 local
     renderProps.rowSelection = props.rowSelection || localData.localRowSelection
