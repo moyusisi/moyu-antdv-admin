@@ -10,8 +10,8 @@
         <a-form ref="queryFormRef" :model="queryFormData">
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="searchKey" label="名称关键词">
-                <a-input v-model:value="queryFormData.searchKey" placeholder="请输入关键词" allowClear />
+              <a-form-item name="name" label="组织名称">
+                <a-input v-model:value="queryFormData.name" placeholder="搜索组织名称" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="6">
@@ -19,35 +19,34 @@
                 <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-space>
-                <a-button type="primary" :icon="h(SearchOutlined)" @click="tableRef.refresh(true)">查询</a-button>
-                <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-              </a-space>
+            <a-col :span="6">
+              <a-form-item>
+                <a-flex gap="small">
+                  <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
+                  <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+                </a-flex>
+              </a-form-item>
             </a-col>
           </a-row>
         </a-form>
       </a-card>
       <a-card size="small">
-        <STable
-          ref="tableRef"
-          :columns="columns"
-          :data="loadTableData"
-          :expand-row-by-click="true"
-          :alert="options.alert.show"
-          :scroll="{ x: 'max-content' }"
-          bordered
-          :row-key="(record) => record.code"
-          :tool-config="toolConfig"
-          :row-selection="options.rowSelection"
+        <!--  表格数据区  -->
+        <MTable ref="tableRef"
+                :columns="columns"
+                :loadData="loadData"
+                :row-key="(row) => row.code"
+                showRowSelection
+                @selectedChange="onSelectedChange"
         >
-          <template #operator class="table-operator">
-            <a-space>
+          <!--  表格上方左侧操作区  -->
+          <template #operator>
+            <a-space wrap style="margin-bottom: 6px">
               <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.parentCode, treeRef.treeData)">新增</a-button>
-              <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDeleteOrg" />
+              <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
             </a-space>
           </template>
-          <template #bodyCell="{ column, record }">
+          <template #bodyCell="{ column, record, index, text }">
             <template v-if="column.dataIndex === 'code'">
               <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
             </template>
@@ -74,7 +73,7 @@
               </a-space>
             </template>
           </template>
-        </STable>
+        </MTable>
       </a-card>
     </a-col>
   </a-row>
@@ -83,17 +82,37 @@
 </template>
 
 <script setup>
-  import { onMounted, h } from "vue";
   import orgApi from '@/api/sys/orgApi'
-  import { Empty, message } from 'ant-design-vue'
-  import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
+
+  import { h, ref } from "vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { message } from "ant-design-vue"
   import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
   import OrgTree from "../components/orgTree.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
-  import STable from "@/components/STable/index.vue"
+  import MTable from "@/components/MTable/index.vue"
 
-  const columns = [
+  // 查询表单相关对象
+  const queryFormRef = ref()
+  const queryFormData = ref({})
+  // 使用状态options（0正常 1停用）
+  const statusOptions = [
+    { label: "正常", value: 0 },
+    { label: "已停用", value: 1 }
+  ]
+  // 其他页面操作
+  const addFormRef = ref()
+  const editFormRef = ref()
+  // 定义treeRef
+  const treeRef = ref()
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 已选中的行
+  const selectedRowKeys = ref([])
+  // 表格列配置
+  const columns = ref([
     {
       title: '组织名称',
       dataIndex: 'name',
@@ -136,49 +155,39 @@
       align: 'center',
       width: 100
     }
-  ]
-  const selectedRowKeys = ref([])
-  // 列表选择配置
-  const options = {
-    alert: {
-      show: false,
-      clear: () => {
-        selectedRowKeys.value = ref([])
-      }
-    },
-    rowSelection: {
-      onChange: (selectedRowKey, selectedRows) => {
-        selectedRowKeys.value = selectedRowKey
-      }
-    }
-  }
-  // 使用状态options（0正常 1停用）
-  const statusOptions = [
-    { label: "正常", value: 0 },
-    { label: "已停用", value: 1 }
-  ]
-  // 定义tableDOM
-  const tableRef = ref()
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
-  const addFormRef = ref()
-  const editFormRef = ref()
-  const queryFormRef = ref()
-  const queryFormData = ref({})
-  // 定义treeRef
-  const treeRef = ref()
+  ])
+  /***** 表格相关对象 end *****/
 
-  // 表格查询 返回 Promise 对象
-  const loadTableData = (parameter) => {
-    return orgApi.orgPage(Object.assign(parameter, queryFormData.value)).then((res) => {
-      return res.data
-    })
+  // 加载完毕调用
+  onMounted(() => {
+
+  })
+
+  // 提交查询
+  const querySubmit = () => {
+    tableRef.value.refresh(true)
   }
   // 重置
   const reset = () => {
     queryFormRef.value.resetFields()
     tableRef.value.refresh(true)
   }
-
+  // 表格查询 返回 Promise 对象
+  const loadData = (parameter) => {
+    // 分页参数
+    let param = Object.assign(parameter, queryFormData.value)
+    return orgApi.orgPage(param).then((res) => {
+      // res.data 为 {total, records}
+      return res.data
+    }).catch((err) => {
+      console.error(err)
+    })
+  }
+  // 选中行发生变化
+  const onSelectedChange = (selectedKeys, selectedRows) => {
+    selectedRowKeys.value = selectedKeys
+    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
+  }
   // 点击树查询
   const treeSelect = (selectedKeys) => {
     if (selectedKeys.length > 0) {
@@ -188,20 +197,24 @@
     }
     tableRef.value.refresh(true)
   }
-  // 单个删除
+  // 删除
   const deleteOrg = (record) => {
     let data = { codes: [record.code] }
     orgApi.deleteOrgTree(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh(true)
+      tableRef.value.refresh()
     })
   }
   // 批量删除
-  const batchDeleteOrg = (params) => {
+  const batchDelete = () => {
+    if (selectedRowKeys.value.length < 1) {
+      message.warning("请至少选择一条数据")
+      return
+    }
     let data = { codes: selectedRowKeys.value }
     orgApi.deleteOrgTree(data).then((res) => {
       message.success(res.message)
-      tableRef.value.clearRefreshSelected()
+      tableRef.value.refresh()
     })
   }
   // 成功回调
@@ -212,7 +225,11 @@
 </script>
 
 <style scoped>
-  .ant-form-item {
-    margin-bottom: 0 !important;
-  }
+/** 后代选择器 **/
+.ant-card .ant-form {
+  margin-bottom: -12px !important;
+}
+.ant-form-item {
+  margin-bottom: 12px !important;
+}
 </style>
