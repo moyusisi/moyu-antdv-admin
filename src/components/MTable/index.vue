@@ -85,11 +85,6 @@ const props = defineProps(
         type: Boolean,
         default: false
       },
-      // 只有一页或没有数据时隐藏分页栏
-      hideOnSinglePage: {
-        type: Boolean,
-        default: false
-      },
       // 配置工具栏
       tool: {
         type: Object,
@@ -141,16 +136,18 @@ const paginationRef = ref({
 })
 
 
-// 本地数据,用于向tableProps赋值
+// 本地数据, 同名属性会赋值renderTableProps并重新渲染
 const localData = reactive({
-  // tableProps中的同名属性
+  /***** tableProps的同名属性 *****/
   dataSource: [],
   size: props.size || "middle",
-  // 非tableProps的同名属性
+  // 不设置分页时，默认配置分页。支持pagination设置为false，所以必须使用null判断
+  pagination: props.pagination == null ? paginationRef.value : props.pagination,
+
+  /***** 非tableProps的同名属性 *****/
   columnsSetting: [],
   // 本地配置, 无props时使用
   localRowSelection: rowSelection.value,
-  localPagination: paginationRef.value,
 })
 
 // 加载完毕调用
@@ -168,12 +165,15 @@ const loadTableData = () => {
   dataLoading.value = true
   // 重新加载数据时，清空之前选中的行
   clearSelected()
-  // 分页器优选 props 其次 local
-  let pagination = props.pagination || localData.localPagination
-  // 分页参数
-  let param = { pageNum: pagination.current, pageSize: pagination.pageSize }
+  let param = { }
+  // 若有分页，设置分页参数
+  if (localData.pagination) {
+    param = { pageNum: localData.pagination.current, pageSize: localData.pagination.pageSize }
+  }
   props.loadData(param).then((data) => {
-    pagination.total = data.total
+    if (localData.pagination) {
+      localData.pagination.total = data.total
+    }
     localData.dataSource = data instanceof Array ? data : data.records
     dataLoading.value = false
     getTableProps()
@@ -202,12 +202,6 @@ const getTableProps = () => {
   if (props.showRowSelection) {
     // @ts-ignore 优选 props 其次 local
     renderProps.rowSelection = props.rowSelection || localData.localRowSelection
-  }
-  // @ts-ignore 分页器优选 props 其次 local
-  renderProps.pagination = props.pagination || localData.localPagination
-  if (props.hideOnSinglePage) {
-    // @ts-ignore 单页不显示分页器
-    renderProps.pagination.hideOnSinglePage = true
   }
   renderProps = {
     ...renderProps,
@@ -261,6 +255,7 @@ const columnChange = (v) => {
 const clearSelected = () => {
   if (props.rowSelection) {
     props.rowSelection.selectedRowKeys = []
+    // @ts-ignore
     props.rowSelection.onChange([], [])
   } else {
     localData.localRowSelection.onChange([], [])

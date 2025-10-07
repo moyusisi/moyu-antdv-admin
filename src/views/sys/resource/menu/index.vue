@@ -16,7 +16,7 @@
             :columns="columns"
             :loadData="loadData"
             :row-key="(row) => row.id"
-            hideOnSinglePage
+            :pagination="false"
             showRowSelection
             @selectedChange="onSelectedChange"
     >
