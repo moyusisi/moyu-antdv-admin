@@ -32,12 +32,8 @@
       message.warning('请至少选择一条数据')
       return
     }
-		const params = props.selectedRowKeys.map((m) => {
-			return {
-				id: m
-			}
-		})
-		// 发起方法调用，谁的谁来实现
-		emit('batchDelete', params)
+    let data = { ids: selectedRowKeys.value }
+		// 产生 batchDelete 事件
+		emit('batchDelete', data)
 	}
 </script>

@@ -44,7 +44,7 @@
               <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
             </a-space>
           </template>
-          <template #bodyCell="{ column, record }">
+          <template #bodyCell="{ column, record, index, text }">
             <template v-if="column.dataIndex === 'account'">
               <a-tag v-if="record.account" :bordered="false">{{ record.account }}</a-tag>
             </template>
@@ -234,10 +234,6 @@
   }
   // 批量删除
   const batchDelete = () => {
-    if (selectedRowKeys.value.length < 1) {
-      message.warning("请至少选择一条数据")
-      return
-    }
     let data = { ids: selectedRowKeys.value }
     userApi.deleteUser(data).then((res) => {
       message.success(res.message)

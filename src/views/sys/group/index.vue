@@ -43,11 +43,7 @@
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
           <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.orgCode, treeRef.treeData)">新增</a-button>
-          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
-            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
-              批量删除
-            </a-button>
-          </a-popconfirm>
+          <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
       </template>
       <template #bodyCell="{ column, record, index, text }">
@@ -106,6 +102,7 @@
   import GroupUser from './groupUser.vue'
   import MTable from "@/components/MTable/index.vue"
   import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
+  import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
 
   const columns = [
     {
@@ -223,7 +220,7 @@
     })
   }
   // 批量删除
-  const batchDelete = (record) => {
+  const batchDelete = () => {
     if (selectedRowKeys.value.length < 1) {
       message.warning("请至少选择一条数据")
       return
