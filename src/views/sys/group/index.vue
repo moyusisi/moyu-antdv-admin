@@ -97,14 +97,13 @@
 
 <script setup>
   import groupApi from '@/api/sys/groupApi'
-  import { onMounted, h } from "vue";
+  import { onMounted, h } from "vue"
   import { message } from 'ant-design-vue'
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
-  import OrgTree from "../components/orgTree.vue"
   import MTable from "@/components/MTable/index.vue"
   import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
 
