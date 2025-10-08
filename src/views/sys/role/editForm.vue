@@ -1,42 +1,49 @@
 <template>
   <a-drawer
-    :open="visible"
-    title="编辑角色"
-    :width="550"
-    :closable="false"
-    :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
-    :destroy-on-close="true"
-    @close="onClose"
+      :open="visible"
+      :title="title"
+      :width="drawerWidth"
+      :closable="false"
+      :maskClosable="false"
+      :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
+      :destroy-on-close="true"
+      @close="onClose"
   >
+    <!--  上方操作区  -->
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
-    <a-form ref="formRef" :model="formData" layout="vertical">
-      <a-form-item label="角色名称" name="name" :rules="[required('请输入角色名称')]">
-        <a-input v-model:value="formData.name" placeholder="请输入角色名称" allow-clear show-count :maxlength="20" />
-      </a-form-item>
-      <a-form-item label="唯一编码" name="code" tooltip="不可更改！不填将会自动生成">
-        <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" disabled />
-      </a-form-item>
-      <!-- 使用状态 -->
-      <a-form-item label="使用状态" name="status" :rules="[required('请选择使用状态')]">
-        <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions"/>
-      </a-form-item>
-      <a-form-item label="排序" name="sortNum">
-        <a-input-number v-model:value="formData.sortNum" :max="100" />
-      </a-form-item>
-      <a-form-item label="备注" name="remark" >
-        <a-input v-model:value="formData.remark" placeholder="备注信息" show-count :maxlength="100" />
-      </a-form-item>
-      <a-form-item label="扩展信息" name="extJson">
-        <a-textarea v-model:value="formData.extJson" placeholder="Json格式" :rows="4" />
-      </a-form-item>
-    </a-form>
+    <!--  数据区  -->
+    <a-spin :spinning="dataLoading">
+      <a-form ref="formRef" :model="formData" layout="vertical">
+        <a-form-item name="name" label="角色名称" tooltip="角色名称" required>
+          <a-input v-model:value="formData.name" placeholder="角色名称" allowClear showCount :maxlength="20" />
+        </a-form-item>
+        <a-form-item name="code" label="角色编码" tooltip="不填将自动生成，创建后不可更改" >
+          <a-input v-if="edit" v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" disabled />
+          <a-input v-else v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" allowClear />
+        </a-form-item>
+        <!-- 使用状态 -->
+        <a-form-item name="status" label="使用状态" tooltip="使用状态（0正常 1停用）" >
+          <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions"/>
+        </a-form-item>
+        <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" >
+          <a-input-number v-model:value="formData.sortNum" placeholder="排序顺序" :max="100" />
+        </a-form-item>
+        <a-form-item name="extJson" label="扩展信息" tooltip="扩展信息,json格式" >
+          <a-textarea v-model:value="formData.extJson" placeholder="扩展信息" allowClear />
+        </a-form-item>
+        <a-form-item name="remark" label="备注" tooltip="备注" >
+          <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
+        </a-form-item>
+      </a-form>
+    </a-spin>
+    <!--  底部操作区  -->
     <template #footer>
-      <a-space>
-        <a-button @click="onClose">关闭</a-button>
+      <a-flex gap="small" justify="flex-end">
+        <a-button type="primary" danger @click="onClose"> 关闭</a-button>
         <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
-      </a-space>
+      </a-flex>
     </template>
   </a-drawer>
 </template>
@@ -45,38 +52,78 @@
   import roleApi from '@/api/sys/roleApi'
 
   import { required } from '@/utils/formRules'
-  import { message } from "ant-design-vue";
+  import { message } from "ant-design-vue"
+  import { useSettingsStore } from "@/store"
+
+  // store
+  const settingsStore = useSettingsStore()
 
   // 定义emit事件
   const emit = defineEmits({ successful: null })
   // 默认是关闭状态
   const visible = ref(false)
-  const formRef = ref()
+  const title = ref()
+  // 计算属性 抽屉宽度
+  const drawerWidth = computed(() => {
+    return 550
+    // return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
+  })
+
+  // 是否为编辑
+  const edit = ref(false)
   // 表单数据
+  const formRef = ref()
   const formData = ref({})
+  const dataLoading = ref(false)
   const submitLoading = ref(false)
   // 使用状态options（0正常 1停用）
   const statusOptions = [
     { label: "正常", value: 0 },
     { label: "已停用", value: 1 }
   ]
+
   // 打开抽屉
-  const onOpen = async (record) => {
-    // 获取模块信息
-    const res = await roleApi.roleDetail({ id: record.id })
-    formData.value = res.data
-    // 数据就绪之后显示
+  const onOpen = (row) => {
     visible.value = true
+    if (row) {
+      edit.value = true
+    }
+    if (edit.value) {
+      title.value = "编辑角色"
+      // 表单数据赋值
+      loadData(row)
+    } else {
+      title.value = "新增角色"
+    }
   }
   // 关闭抽屉
   const onClose = () => {
+    formData.value = {}
     visible.value = false
   }
+  // 加载数据
+  const loadData = (row) => {
+    dataLoading.value = true
+    // 组装请求参数
+    let param = { id: row.id }
+    roleApi.roleDetail(param).then((res) => {
+      formData.value = res.data
+    }).finally(() => {
+      dataLoading.value = false
+    })
+  }
+
   // 验证并提交数据
   const onSubmit = () => {
     formRef.value.validate().then(() => {
       submitLoading.value = true
-      roleApi.editRole(formData.value).then((res) => {
+      // formData.value 加工处理  add/edit
+      let fun = roleApi.addRole
+      if (edit.value) {
+        fun = roleApi.editRole
+      }
+      // add/edit 发送不同请求
+      fun(formData.value).then((res) => {
         message.success(res.message)
         emit('successful')
         onClose()

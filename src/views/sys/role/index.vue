@@ -33,7 +33,7 @@
     >
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen()">新增角色</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen()">新增角色</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="deleteBatchRole">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -74,7 +74,6 @@
     </MTable>
   </a-card>
   <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-  <AddForm ref="addFormRef" @successful="tableRef.refresh()" />
   <EditForm ref="editFormRef" @successful="tableRef.refresh()" />
   <RoleUser ref="roleUserRef" />
 </template>
@@ -82,14 +81,13 @@
 <script setup>
   import roleApi from '@/api/sys/roleApi'
 
-  import { h } from "vue"
-  import { PlusOutlined, DeleteOutlined, SearchOutlined, RedoOutlined } from "@ant-design/icons-vue"
-  import AddForm from "./addForm.vue";
-  import EditForm from "./editForm.vue";
-  import GrantMenuForm from "./grantMenuForm.vue";
-  import { message } from "ant-design-vue";
+  import { h, ref } from "vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { message } from "ant-design-vue"
+  import EditForm from "./editForm.vue"
   import MTable from "@/components/MTable/index.vue"
-  import RoleUser from "./roleUser.vue";
+  import GrantMenuForm from "./grantMenuForm.vue"
+  import RoleUser from "./roleUser.vue"
 
   const columns = [
     {
@@ -149,7 +147,6 @@
   // 定义tableDOM
   const tableRef = ref()
   const formRef = ref()
-  const addFormRef = ref()
   const editFormRef = ref()
   const module = ref()
   const grantMenuFormRef = ref()
