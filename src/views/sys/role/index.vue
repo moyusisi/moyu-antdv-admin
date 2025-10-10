@@ -33,7 +33,7 @@
     >
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen()">新增角色</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增角色</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="deleteBatchRole">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -61,7 +61,7 @@
               <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UserAddOutlined /></a>
             </a-tooltip>
             <a-tooltip title="编辑">
-              <a @click="editFormRef.onOpen(record)"><FormOutlined /></a>
+              <a @click="formRef.onOpen(record)"><FormOutlined /></a>
             </a-tooltip>
             <a-tooltip title="删除">
               <a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
@@ -74,7 +74,7 @@
     </MTable>
   </a-card>
   <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-  <EditForm ref="editFormRef" @successful="tableRef.refresh()" />
+  <EditForm ref="formRef" @successful="tableRef.refresh()" />
   <RoleUser ref="roleUserRef" />
 </template>
 
@@ -147,7 +147,6 @@
   // 定义tableDOM
   const tableRef = ref()
   const formRef = ref()
-  const editFormRef = ref()
   const module = ref()
   const grantMenuFormRef = ref()
   const roleUserRef = ref()
