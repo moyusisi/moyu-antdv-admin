@@ -42,7 +42,7 @@
           <!--  表格上方左侧操作区  -->
           <template #operator>
             <a-space wrap style="margin-bottom: 6px">
-              <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.parentCode, treeRef.treeData)">新增</a-button>
+              <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen(null, treeRef.treeData, queryFormData.parentCode)">新增</a-button>
               <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
             </a-space>
           </template>
@@ -78,7 +78,6 @@
     </a-col>
   </a-row>
   <EditForm ref="editFormRef" @successful="handleSuccess" />
-  <AddForm ref="addFormRef" @successful="handleSuccess" />
 </template>
 
 <script setup>
@@ -102,7 +101,6 @@
     { label: "已停用", value: 1 }
   ]
   // 其他页面操作
-  const addFormRef = ref()
   const editFormRef = ref()
   // 定义treeRef
   const treeRef = ref()
