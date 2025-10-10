@@ -42,7 +42,7 @@
           <!--  表格上方左侧操作区  -->
           <template #operator>
             <a-space wrap style="margin-bottom: 6px">
-              <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen(null, treeRef.treeData, queryFormData.parentCode)">新增</a-button>
+              <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, treeRef.treeData, queryFormData.parentCode)">新增</a-button>
               <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
             </a-space>
           </template>
@@ -62,7 +62,7 @@
             <template v-if="column.dataIndex === 'action'">
               <a-space>
                 <a-tooltip title="编辑">
-                  <a @click="editFormRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
+                  <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
                 </a-tooltip>
                 <a-divider type="vertical" />
                 <a-tooltip title="删除">
@@ -77,7 +77,7 @@
       </a-card>
     </a-col>
   </a-row>
-  <EditForm ref="editFormRef" @successful="handleSuccess" />
+  <Form ref="formRef" @successful="handleSuccess" />
 </template>
 
 <script setup>
@@ -86,8 +86,7 @@
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import AddForm from './addForm.vue'
-  import EditForm from './editForm.vue'
+  import Form from './form.vue'
   import OrgTree from "../components/orgTree.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
@@ -101,7 +100,7 @@
     { label: "已停用", value: 1 }
   ]
   // 其他页面操作
-  const editFormRef = ref()
+  const formRef = ref()
   // 定义treeRef
   const treeRef = ref()
 
