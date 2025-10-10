@@ -40,7 +40,7 @@
           <!--  表格上方左侧操作区  -->
           <template #operator>
             <a-space wrap style="margin-bottom: 6px">
-              <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.orgCode, treeRef.treeData)">新增用户</a-button>
+              <a-button type="primary" :icon="h(PlusOutlined)" @click="editFormRef.onOpen(null, treeRef.treeData, queryFormData.orgCode)">新增用户</a-button>
               <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
             </a-space>
           </template>
@@ -82,7 +82,6 @@
     </a-col>
   </a-row>
   <EditForm ref="editFormRef" @successful="tableRef.refresh()" />
-  <AddForm ref="addFormRef" @successful="tableRef.refresh()" />
 </template>
 
 <script setup>
@@ -92,7 +91,6 @@
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
 
-  import AddForm from './addForm.vue'
   import EditForm from "./editForm.vue"
   import OrgTree from "../components/orgTree.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
@@ -118,15 +116,15 @@
   // 表格列配置
   const columns = ref([
     {
-      title: "姓名",
-      dataIndex: "name",
+      title: "账号",
+      dataIndex: "account",
       align: "center",
       resizable: true,
       width: 150,
     },
     {
-      title: "账号",
-      dataIndex: "account",
+      title: "姓名",
+      dataIndex: "name",
       align: "center",
       resizable: true,
       width: 150,
