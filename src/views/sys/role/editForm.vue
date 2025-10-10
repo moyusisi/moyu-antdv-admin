@@ -20,8 +20,7 @@
           <a-input v-model:value="formData.name" placeholder="角色名称" allowClear showCount :maxlength="20" />
         </a-form-item>
         <a-form-item name="code" label="角色编码" tooltip="不填将自动生成，创建后不可更改" >
-          <a-input v-if="edit" v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" disabled />
-          <a-input v-else v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" allowClear />
+          <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear />
         </a-form-item>
         <!-- 使用状态 -->
         <a-form-item name="status" label="使用状态" tooltip="使用状态（0正常 1停用）" >
@@ -87,12 +86,11 @@
     visible.value = true
     if (row) {
       edit.value = true
-    }
-    if (edit.value) {
       title.value = "编辑角色"
       // 表单数据赋值
       loadData(row)
     } else {
+      edit.value = false
       title.value = "新增角色"
     }
   }
