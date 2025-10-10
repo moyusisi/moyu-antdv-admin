@@ -74,7 +74,7 @@
     </MTable>
   </a-card>
   <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-  <EditForm ref="formRef" @successful="tableRef.refresh()" />
+  <Form ref="formRef" @successful="tableRef.refresh()" />
   <RoleUser ref="roleUserRef" />
 </template>
 
@@ -84,7 +84,7 @@
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import EditForm from "./editForm.vue"
+  import Form from "./editForm.vue"
   import MTable from "@/components/MTable/index.vue"
   import GrantMenuForm from "./grantMenuForm.vue"
   import RoleUser from "./roleUser.vue"
