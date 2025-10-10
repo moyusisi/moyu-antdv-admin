@@ -37,27 +37,21 @@
               <a-radio-button :value="3">虚拟节点</a-radio-button>
             </a-radio-group>
           </a-form-item>
+          <a-col :span="12">
+            <a-form-item label="排序:" name="sortNum" :rules="[required('请填写排序值')]">
+              <a-input-number class="wd" v-model:value="formData.sortNum" :max="100" />
+            </a-form-item>
+          </a-col>
           <!-- 使用状态 -->
           <a-col :span="12">
             <a-form-item label="使用状态:" name="status" :rules="[required('请选择使用状态')]">
               <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions" />
-            </a-form-item>
-          </a-col>
-          <a-col :span="12">
-            <a-form-item label="排序:" name="sortNum" :rules="[required('请填写排序值')]">
-              <a-input-number class="wd" v-model:value="formData.sortNum" :max="100" />
             </a-form-item>
           </a-col>
         </a-row>
       </a-card>
       <a-card title="资源信息">
         <a-row :gutter="24">
-          <!-- 使用状态 -->
-          <a-col :span="12">
-            <a-form-item label="使用状态:" name="status" :rules="[required('请选择使用状态')]">
-              <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions" />
-            </a-form-item>
-          </a-col>
           <!-- 公司层级 -->
           <a-col :span="12" v-if="formData.orgType === 1">
             <a-form-item label="公司层级：" name="orgLevel" :rules="[required('请选择层级')]">
