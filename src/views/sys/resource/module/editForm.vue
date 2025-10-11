@@ -1,39 +1,40 @@
 <template>
   <a-drawer
-    :open="visible"
-    title="编辑模块"
-    :width="550"
-    :closable="false"
-    :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
-    :destroy-on-close="true"
-    @close="onClose"
+      :open="visible"
+      :title="title"
+      :width="drawerWidth"
+      :closable="false"
+      :maskClosable="false"
+      :destroy-on-close="true"
+      @close="onClose"
   >
+    <!--  上方操作区  -->
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
     <a-form ref="formRef" :model="formData" layout="vertical">
-      <a-form-item label="模块名称" name="name" :rules="[required('请输入模块名称')]">
-        <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear />
+      <a-form-item name="name" label="模块名称" tooltip="模块或应用名称" required>
+        <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear/>
       </a-form-item>
-      <a-form-item label="唯一编码" name="code">
-        <a-input v-model:value="formData.code" disabled />
+      <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
+        <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
       </a-form-item>
-      <a-form-item label="路径地址" name="link" tooltip="以反斜杠'/'开头">
+      <a-form-item name="path" label="路径地址" tooltip="以反斜杠'/'开头">
         <a-input v-model:value="formData.path" placeholder="请输入模块路径地址" allow-clear />
       </a-form-item>
-      <a-form-item label="模块主页" name="link" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
+      <a-form-item name="link" label="模块主页" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
         <a-input v-model:value="formData.link" placeholder="请输入模块主页地址" allow-clear />
       </a-form-item>
-      <a-form-item label="图标" name="icon">
+      <a-form-item name="icon" label="图标">
         <a-input v-model:value="formData.icon" placeholder="请选择图标" style="width: calc(100% - 70px)" allow-clear disabled />
         <a-button type="primary" @click="iconSelectorRef.showIconModal(formData.icon)">选择</a-button>
       </a-form-item>
       <!-- 使用状态 -->
-      <a-form-item label="使用状态" name="status" :rules="[required('请选择使用状态')]">
+      <a-form-item name="status" label="使用状态" tooltip="" required>
         <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions"/>
       </a-form-item>
-      <a-form-item label="排序" name="sortNum" :rules="[required('请填写排序顺序')]">
-        <a-input-number v-model:value="formData.sortNum" :max="100" class="wd" />
+      <a-form-item label="排序顺序" name="sortNum" tooltip="排序顺序" required>
+        <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
       </a-form-item>
     </a-form>
     <template #footer>
@@ -47,17 +48,39 @@
 </template>
 
 <script setup>
-  import { required } from '@/utils/formRules'
   import resourceApi from '@/api/sys/resourceApi.js'
+
+  import { required } from '@/utils/formRules'
+  import { message } from "ant-design-vue"
+  import { useSettingsStore } from "@/store"
   import IconSelector from '@/components/Selector/iconSelector.vue'
-  import { message } from "ant-design-vue";
+
+  // store
+  const settingsStore = useSettingsStore()
+
+  const emit = defineEmits({ successful: null })
   // 默认是关闭状态
   const visible = ref(false)
-  const emit = defineEmits({ successful: null })
-  const formRef = ref()
-  const iconSelectorRef = ref()
+  const title = ref()
+  // 计算属性 抽屉宽度
+  const drawerWidth = computed(() => {
+    return 550
+    // return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
+  })
+
+  // 是否为编辑
+  const edit = ref(false)
   // 表单数据
-  const formData = ref({ sortNum: 99 })
+  const formRef = ref()
+  const formData = ref({
+    resourceType: 1,
+    visible: 1,
+    sortNum: 99,
+    status: 0
+  })
+  const dataLoading = ref(false)
+  const submitLoading = ref(false)
+  const iconSelectorRef = ref()
   // 使用状态options（0正常 1停用）
   const statusOptions = [
     { label: "正常", value: 0 },
@@ -65,17 +88,34 @@
   ]
 
   // 打开抽屉
-  const onOpen = (record) => {
+  const onOpen = (row) => {
     visible.value = true
-    // 获取模块信息
-    resourceApi.resourceDetail({ id: record.id }).then((res) => {
-      formData.value = res.data
-    })
+    if (row) {
+      edit.value = true
+      title.value = "编辑模块"
+      // 表单数据赋值
+      loadData(row)
+    } else {
+      edit.value = false
+      title.value = "新增模块"
+    }
   }
   // 关闭抽屉
   const onClose = () => {
     formRef.value.resetFields()
     visible.value = false
+  }
+  // 加载数据
+  const loadData = (row) => {
+    dataLoading.value = true
+    // 组装请求参数
+    let param = { id: row.id }
+    // 获取模块信息
+    resourceApi.resourceDetail(param).then((res) => {
+      formData.value = res.data
+    }).finally(() => {
+      dataLoading.value = false
+    })
   }
   // 图标选择器回调
   const iconCallBack = (value) => {
@@ -88,10 +128,19 @@
   // 验证并提交数据
   const onSubmit = () => {
     formRef.value.validate().then(() => {
-      resourceApi.editResource(formData.value).then((res) => {
+      submitLoading.value = true
+      // formData.value 加工处理 add/edit
+      let fun = resourceApi.addResource
+      if (edit.value) {
+        fun = resourceApi.editResource
+      }
+      // add/edit 发送不同请求
+      fun(formData.value).then((res) => {
         message.success(res.message)
         emit('successful')
         onClose()
+      }).finally(() => {
+        submitLoading.value = false
       })
     }).catch(() => {
     })
