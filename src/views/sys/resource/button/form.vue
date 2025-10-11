@@ -95,15 +95,8 @@
       edit.value = false
       title.value = "新增按钮"
       // 模块赋值
-      formData.value.module = value
+      formData.value.module = module.code
     }
-    // 获取菜单树并加入顶级节点
-    const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
-    treeData.value = [{
-      code: module.code,
-      name: module.name,
-      children: moduleRes.data
-    }]
   }
   // 关闭抽屉
   const onClose = () => {

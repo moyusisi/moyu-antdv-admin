@@ -168,7 +168,7 @@
       edit.value = false
       title.value = "新增菜单"
       // 模块赋值
-      formData.value.module = value
+      formData.value.module = module.code
       // 若指定了resourceType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
       if (resourceType) {
         formData.value.resourceType = resourceType
