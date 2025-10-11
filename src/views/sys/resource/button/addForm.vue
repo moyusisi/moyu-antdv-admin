@@ -29,8 +29,8 @@
       <a-form-item label="权限标识" name="permission" tooltip="权限标识应与后端接口保持一致且用':'分割，如'sys:user:add'" :rules="[required('请输入权限标识')]">
         <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
       </a-form-item>
-      <a-form-item label="排序" name="sortNum" :rules="[required('请填写排序顺序')]">
-        <a-input-number v-model:value="formData.sortNum" :max="100" class="wd"/>
+      <a-form-item label="排序顺序" name="sortNum" tooltip="排序顺序" required>
+        <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
       </a-form-item>
     </a-form>
     <template #footer>
