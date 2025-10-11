@@ -41,7 +41,7 @@
       <!--      <ListColumn field="null" title="插槽传入"/>-->
     </SVTable>
   </a-card>
-  <EditForm ref="formRef" @successful="tableRef.refresh(true)"/>
+  <Form ref="formRef" @successful="tableRef.refresh(true)"/>
 </template>
 
 <script setup>
@@ -55,7 +55,7 @@ import {
   RedoOutlined,
   SearchOutlined
 } from "@ant-design/icons-vue";
-import EditForm from "./editForm.vue";
+import Form from "./form.vue";
 import { message, Modal } from "ant-design-vue";
 import SVTable from "@/components/SVTable/index.vue"
 

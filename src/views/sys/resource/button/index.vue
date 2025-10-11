@@ -70,7 +70,7 @@
       </template>
     </MTable>
   </a-card>
-  <EditForm ref="formRef" @successful="tableRef.refresh(true)" />
+  <Form ref="formRef" @successful="tableRef.refresh(true)" />
 </template>
 
 <script setup>
@@ -79,14 +79,13 @@
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import EditForm from "./editForm.vue"
+  import Form from "./form.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // 查询表单相关对象
   const queryFormRef = ref()
   // resourceType=6表示按钮
   const queryFormData = ref({ resourceType: 6 })
-  const addFormRef = ref()
   const moduleId = ref()
   const module = ref()
   const moduleList = ref([])
