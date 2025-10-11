@@ -19,7 +19,7 @@
         <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
       </a-form-item>
       <a-form-item name="parentCode" label="上级菜单" tooltip="" required>
-        <OrgTreeSelect :tree-data="treeData" :defaultValue="formData.parentCode" @onChange="parentChange"/>
+        <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" @onChange="parentChange"/>
       </a-form-item>
       <!-- 按钮:接口地址 -->
       <a-form-item name="path" label="接口地址" tooltip="按钮绑定的接口地址，以反斜杠'/'开头" required>
@@ -49,7 +49,7 @@
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
-  import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
+  import MenuTreeSelect from "@/views/sys/components/menuTreeSelect.vue"
 
   // store
   const settingsStore = useSettingsStore()
@@ -89,13 +89,17 @@
     if (row) {
       edit.value = true
       title.value = "编辑按钮"
+      // 菜单树默认值,无法异步赋值
+      formData.value.module = row.module
+      formData.value.parentCode = row.parentCode
       // 表单数据赋值
       loadData(row)
     } else {
       edit.value = false
       title.value = "新增按钮"
-      // 模块赋值
+      // 菜单树默认值,无法异步赋值
       formData.value.module = module.code
+      formData.value.parentCode = module.code
     }
   }
   // 关闭抽屉
