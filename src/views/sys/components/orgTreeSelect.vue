@@ -3,7 +3,7 @@
   <a-tree-select
       v-model:value="selectValue"
       v-model:treeExpandedKeys="defaultExpandedKeys"
-      :dropdown-style="{ maxHeight: '500px', overflow: 'auto' }"
+      listHeight="400"
       placeholder="请选择"
       allow-clear
       :tree-data="treeData"
