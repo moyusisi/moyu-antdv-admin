@@ -70,6 +70,7 @@
   const formData = ref({
     resourceType: 6,
     sortNum: 99,
+    visible: 1,
     status: 0
   })
   const dataLoading = ref(false)
@@ -92,6 +93,8 @@
     } else {
       edit.value = false
       title.value = "新增按钮"
+      // 模块赋值
+      formData.value.module = value
     }
     // 获取菜单树并加入顶级节点
     const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
