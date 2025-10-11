@@ -54,6 +54,10 @@
         <template v-if="column.dataIndex === 'permission'">
           <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
         </template>
+        <template v-if="column.dataIndex === 'status'">
+          <a-tag v-if="record.status === 0" color="green">正常</a-tag>
+          <a-tag v-else>已停用</a-tag>
+        </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
             <a-tooltip title="编辑">
@@ -99,29 +103,42 @@
   // 表格列配置
   const columns = [
     {
-      title: '显示名称',
-      dataIndex: 'name',
+      title: "显示名称",
+      dataIndex: "name",
       resizable: true,
-      width: 180
+      width: 150,
     },
     {
-      title: '接口地址',
-      dataIndex: 'path',
-      ellipsis: true,
-      width: 150
+      title: "接口地址",
+      dataIndex: "path",
+      resizable: true,
+      width: 150,
     },
     {
-      title: '权限',
-      dataIndex: 'permission',
-      ellipsis: true,
-      width: 150
+      title: "权限",
+      dataIndex: "permission",
+      resizable: true,
+      width: 150,
     },
     {
-      title: '排序',
-      dataIndex: 'sortNum',
-      sorter: true,
-      align: 'center',
-      width: 80
+      title: "状态",
+      dataIndex: "status",
+      align: "center",
+      resizable: true,
+      width: 100,
+    },
+    {
+      title: "排序顺序",
+      dataIndex: "sortNum",
+      align: "center",
+      width: 100
+    },
+    {
+      title: "备注",
+      dataIndex: "remark",
+      align: "center",
+      resizable: true,
+      width: 150,
     },
     {
       title: '变更时间',
