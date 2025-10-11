@@ -120,7 +120,7 @@
     })
   }
   // 选择上级加载模块的选择框
-  const parentChange = (value) => {
+  const parentChange = (value, label) => {
     formData.value.parentCode = value
   }
 

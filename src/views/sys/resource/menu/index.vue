@@ -85,7 +85,7 @@
       </template>
     </MTable>
   </a-card>
-  <EditForm ref="formRef" @successful="handleSuccess" />
+  <Form ref="formRef" @successful="handleSuccess" />
 </template>
 
 <script setup>
@@ -95,7 +95,7 @@
   import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import { useMenuStore } from '@/store/menu'
-  import EditForm from './editForm.vue'
+  import Form from './form.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import MTable from "@/components/MTable/index.vue"
 
