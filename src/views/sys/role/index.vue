@@ -112,17 +112,18 @@
       width: 100
     },
     {
+      title: "排序顺序",
+      dataIndex: "sortNum",
+      align: "center",
+      resizable: true,
+      width: 100,
+    },
+    {
       title: "备注",
       dataIndex: "remark",
       align: "center",
       resizable: true,
       width: 150,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      align: 'center',
-      width: 160
     },
     {
       title: '更新时间',

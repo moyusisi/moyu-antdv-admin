@@ -134,10 +134,18 @@
       width: 100,
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      align: 'center',
-      width: 160
+      title: "排序顺序",
+      dataIndex: "sortNum",
+      align: "center",
+      resizable: true,
+      width: 100,
+    },
+    {
+      title: "备注",
+      dataIndex: "remark",
+      align: "center",
+      resizable: true,
+      width: 150,
     },
     {
       title: "修改时间",
@@ -160,7 +168,6 @@
   ]
   // 定义tableDOM
   const tableRef = ref()
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
   const addFormRef = ref()
   const editFormRef = ref()
   const groupUserRef = ref()
