@@ -37,11 +37,12 @@
         <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
       </a-form-item>
     </a-form>
+    <!--  底部操作区  -->
     <template #footer>
-      <a-space>
-        <a-button @click="onClose">关闭</a-button>
-        <a-button type="primary" @click="onSubmit">保存</a-button>
-      </a-space>
+      <a-flex gap="small" justify="flex-end">
+        <a-button type="primary" danger @click="onClose"> 关闭</a-button>
+        <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
+      </a-flex>
     </template>
     <Icon-selector ref="iconSelectorRef" @iconCallBack="iconCallBack" />
   </a-drawer>

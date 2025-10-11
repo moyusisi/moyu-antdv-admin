@@ -102,11 +102,12 @@
         </a-row>
       </a-card>
     </a-form>
+    <!--  底部操作区  -->
     <template #footer>
-      <a-space>
-        <a-button @click="onClose">关闭</a-button>
+      <a-flex gap="small" justify="flex-end">
+        <a-button type="primary" danger @click="onClose"> 关闭</a-button>
         <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
-      </a-space>
+      </a-flex>
     </template>
     <Icon-selector ref="iconSelector" @iconCallBack="iconCallBack" />
   </a-drawer>
