@@ -32,7 +32,6 @@ const props = defineProps({
   // 模块编码
   moduleCode: {
     type: String,
-    required: true
   }
 })
 
@@ -60,9 +59,16 @@ const loadTreeData = () => {
   resourceApi.menuTreeSelector({}).then((res) => {
     if (res.data !== null) {
       const moduleList = res.data
-      const moduleMenu = moduleList.find((e) => e.code === props.moduleCode)
-      treeData.value = [moduleMenu]
-      defaultExpandedKeys.value = [moduleMenu.code]
+      if (props.moduleCode) {
+        // 指定了模块的情况
+        const moduleMenu = moduleList.find((e) => e.code === props.moduleCode)
+        treeData.value = [moduleMenu]
+        defaultExpandedKeys.value = [moduleMenu.code]
+      } else {
+        // 未指定模块的情况
+        treeData.value = moduleList
+        defaultExpandedKeys.value = [moduleList[0]?.code]
+      }
     }
   })
 
