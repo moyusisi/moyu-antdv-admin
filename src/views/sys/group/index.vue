@@ -113,6 +113,13 @@
       width: 150,
     },
     {
+      title: "唯一编码",
+      dataIndex: "code",
+      align: "center",
+      resizable: true,
+      width: 150
+    },
+    {
       title: "所属组织机构",
       dataIndex: "orgName",
       align: "center",
