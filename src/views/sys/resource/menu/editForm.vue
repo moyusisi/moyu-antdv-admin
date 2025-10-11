@@ -1,10 +1,10 @@
 <template>
   <a-drawer
       :open="visible"
-      title="编辑菜单"
+      :title="title"
       :width="drawerWidth"
       :closable="false"
-      :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
+      :maskClosable="false"
       :destroy-on-close="true"
       @close="onClose"
   >
@@ -113,48 +113,90 @@
 </template>
 
 <script setup>
-  import { required } from '@/utils/formRules'
   import resourceApi from '@/api/sys/resourceApi.js'
-  import IconSelector from '@/components/Selector/iconSelector.vue'
-  import { useSettingsStore } from "@/store";
-  import { message } from "ant-design-vue";
-  import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue";
 
+  import { required } from '@/utils/formRules'
+  import { message } from "ant-design-vue"
+  import { useSettingsStore } from "@/store"
+  import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
+  import IconSelector from '@/components/Selector/iconSelector.vue'
+
+  // store
   const settingsStore = useSettingsStore()
 
+  const emit = defineEmits({ successful: null })
   // 默认是关闭状态
   const visible = ref(false)
-  const emit = defineEmits({ successful: null })
-  const formRef = ref()
-  const treeData = ref([])
-  const iconSelector = ref()
-  // 表单数据，这里有默认值
-  const formData = ref({})
-  const submitLoading = ref(false)
-
+  const title = ref()
+  // 计算属性 抽屉宽度
   const drawerWidth = computed(() => {
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
 
+  // 是否为编辑
+  const edit = ref(false)
+  // 表单数据
+  const formRef = ref()
+  const formData = ref({
+    resourceType: 3,
+    sortNum: 99,
+    visible: 1,
+    status: 0
+  })
+  const dataLoading = ref(false)
+  const submitLoading = ref(false)
+  // 使用状态options（0正常 1停用）
+  const statusOptions = [
+    { label: "正常", value: 0 },
+    { label: "已停用", value: 1 }
+  ]
+  const treeData = ref([])
+  const iconSelector = ref()
+
   // 打开抽屉
-  const onOpen = async (node, module) => {
-    // 获取菜单信息
-    const res = await resourceApi.resourceDetail({ code: node.code })
-    formData.value = res.data
+  const onOpen = (node, module, resourceType, parentCode) => {
+    visible.value = true
+    if (node) {
+      edit.value = true
+      title.value = "编辑菜单"
+      // 表单数据赋值
+      loadData(node)
+    } else {
+      edit.value = false
+      title.value = "新增菜单"
+      // 模块赋值
+      formData.value.module = value
+      // 若指定了resourceType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
+      if (resourceType) {
+        formData.value.resourceType = resourceType
+      }
+      // 若指定了parentCode则赋值
+      formData.value.parentCode = parentCode
+    }
     // 获取菜单树并加入顶级节点
-    const moduleRes = await resourceApi.menuTreeSelector({ module: module.code })
+    const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
     treeData.value = [{
       code: module.code,
       name: module.name,
       children: moduleRes.data
     }]
-    // 数据就绪之后显示
-    visible.value = true
   }
   // 关闭抽屉
   const onClose = () => {
     formRef.value.resetFields()
     visible.value = false
+  }
+  // 加载数据
+  const loadData = (node) => {
+    dataLoading.value = true
+    // 组装请求参数
+    let param = { code: node.code }
+    // 获取模块信息
+    resourceApi.resourceDetail(param).then((res) => {
+      formData.value = res.data
+    }).finally(() => {
+      dataLoading.value = false
+    })
   }
   // 选择上级加载模块的选择框
   const parentChange = (value) => {
@@ -177,7 +219,13 @@
     formRef.value.validate().then(() => {
       const param = buildParam(formData.value)
       submitLoading.value = true
-      resourceApi.editResource(param).then((res) => {
+      // formData.value 加工处理 add/edit
+      let fun = resourceApi.addResource
+      if (edit.value) {
+        fun = resourceApi.editResource
+      }
+      // add/edit 发送不同请求
+      fun(param).then((res) => {
         message.success(res.message)
         emit('successful')
         onClose()

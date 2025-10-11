@@ -22,11 +22,12 @@
     >
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(module, 2, module.code)">新增菜单</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, module, 2, module.code)">新增菜单</a-button>
           <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
       </template>
-      <template #bodyCell="{ column, record : node }">
+      <!--  每行的记录重命名为node,node不一定有id  -->
+      <template #bodyCell="{ column, record : node, index, text }">
         <template v-if="column.dataIndex === 'resourceType'">
           <a-tag v-if="node.resourceType === 1" color="orange">模块</a-tag>
           <a-tag v-if="node.resourceType === 2" color="cyan">目录</a-tag>
@@ -63,15 +64,15 @@
         <template v-if="column.dataIndex === 'action'">
           <a-space>
             <a-tooltip v-if="node.resourceType === 2" title="添加菜单">
-              <a style="color:#53C61D;" @click="addFormRef.onOpen(module, 3, node.code)"><PlusSquareOutlined /></a>
+              <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 3, node.code)"><PlusSquareOutlined /></a>
               <a-divider type="vertical" />
             </a-tooltip>
             <a-tooltip v-else-if="node.resourceType === 3" title="添加按钮">
-              <a style="color:#53C61D;" @click="addFormRef.onOpen(module, 6, node.code)"><PlusSquareOutlined /></a>
+              <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 6, node.code)"><PlusSquareOutlined /></a>
               <a-divider type="vertical" />
             </a-tooltip>
             <a-tooltip title="编辑">
-              <a @click="editFormRef.onOpen(node, module)"><FormOutlined /></a>
+              <a @click="formRef.onOpen(node, module)"><FormOutlined /></a>
             </a-tooltip>
             <a-divider type="vertical" />
             <a-tooltip title="删除">
@@ -84,8 +85,7 @@
       </template>
     </MTable>
   </a-card>
-  <AddForm ref="addFormRef" @successful="handleSuccess" />
-  <EditForm ref="editFormRef" @successful="handleSuccess" />
+  <EditForm ref="formRef" @successful="handleSuccess" />
 </template>
 
 <script setup>
@@ -95,7 +95,6 @@
   import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import { useMenuStore } from '@/store/menu'
-  import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import MTable from "@/components/MTable/index.vue"
@@ -105,8 +104,7 @@
   const module = ref()
   const moduleId = ref()
   // 其他页面操作
-  const addFormRef = ref()
-  const editFormRef = ref()
+  const formRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
