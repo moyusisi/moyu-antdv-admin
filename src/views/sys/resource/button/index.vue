@@ -39,7 +39,7 @@
       <!--  表格上方左侧操作区  -->
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen()">新增按钮</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, module)">新增按钮</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -57,7 +57,7 @@
         <template v-if="column.dataIndex === 'action'">
           <a-space>
             <a-tooltip title="编辑">
-              <a @click="editFormRef.onOpen(record, module)"><FormOutlined /></a>
+              <a @click="formRef.onOpen(record, module)"><FormOutlined /></a>
             </a-tooltip>
             <a-divider type="vertical" />
             <a-tooltip title="删除">
@@ -70,8 +70,7 @@
       </template>
     </MTable>
   </a-card>
-  <AddForm ref="addFormRef" @successful="tableRef.refresh(true)" />
-  <EditForm ref="editFormRef" @successful="tableRef.refresh(true)" />
+  <EditForm ref="formRef" @successful="tableRef.refresh(true)" />
 </template>
 
 <script setup>
@@ -80,7 +79,6 @@
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import AddForm from "./addForm.vue"
   import EditForm from "./editForm.vue"
   import MTable from "@/components/MTable/index.vue"
 
@@ -93,7 +91,7 @@
   const module = ref()
   const moduleList = ref([])
   // 其他页面操作
-  const editFormRef = ref()
+  const formRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
