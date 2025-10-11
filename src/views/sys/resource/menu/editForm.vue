@@ -26,7 +26,7 @@
           </a-col>
           <a-col :span="12">
             <a-form-item name="parentCode" label="上级菜单" tooltip="" required>
-              <OrgTreeSelect :tree-data="treeData" :defaultValue="formData.parentCode" @onChange="parentChange"/>
+              <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" @onChange="parentChange"/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -121,8 +121,8 @@
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
-  import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
   import IconSelector from '@/components/Selector/iconSelector.vue'
+  import MenuTreeSelect from "@/views/sys/components/menuTreeSelect.vue";
 
   // store
   const settingsStore = useSettingsStore()
@@ -162,6 +162,9 @@
     if (node) {
       edit.value = true
       title.value = "编辑菜单"
+      // 菜单树默认值,无法异步赋值
+      formData.value.module = node.module
+      formData.value.parentCode = node.parentCode
       // 表单数据赋值
       loadData(node)
     } else {
@@ -169,12 +172,12 @@
       title.value = "新增菜单"
       // 模块赋值
       formData.value.module = module.code
+      // parentCode赋值
+      formData.value.parentCode = parentCode
       // 若指定了resourceType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
       if (resourceType) {
         formData.value.resourceType = resourceType
       }
-      // 若指定了parentCode则赋值
-      formData.value.parentCode = parentCode
     }
     // 获取菜单树并加入顶级节点
     const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
