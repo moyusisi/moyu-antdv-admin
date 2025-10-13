@@ -158,13 +158,9 @@
 
   // 打开抽屉
   const onOpen = (node, module, resourceType, parentCode) => {
-    visible.value = true
     if (node) {
       edit.value = true
       title.value = "编辑菜单"
-      // 菜单树默认值,无法异步赋值
-      formData.value.module = node.module
-      formData.value.parentCode = node.parentCode
       // 表单数据赋值
       loadData(node)
     } else {
@@ -178,6 +174,8 @@
       if (resourceType) {
         formData.value.resourceType = resourceType
       }
+      // 数据就绪之后显示
+      visible.value = true
     }
     // 获取菜单树并加入顶级节点
     const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
@@ -202,6 +200,8 @@
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
+      // 数据就绪之后显示
+      visible.value = true
     })
   }
   // 选择上级加载模块的选择框

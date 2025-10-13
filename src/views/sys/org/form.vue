@@ -120,14 +120,11 @@
 
   // 打开抽屉
   const onOpen = (row, tree, orgCode) => {
-    visible.value = true
     // 组织树赋值并展开顶级节点
     treeData.value = tree
     if (row) {
       edit.value = true
       title.value = "编辑组织机构"
-      // 组织树默认选中值,若在loadData中赋值则无法默认选中
-      formData.value.parentCode = row.parentCode
       // 表单数据赋值
       loadData(row)
     } else {
@@ -135,6 +132,8 @@
       title.value = "新增组织机构"
       // 表单数据赋值
       formData.value.parentCode = orgCode
+      // 数据就绪之后显示
+      visible.value = true
     }
   }
   // 关闭抽屉
@@ -151,6 +150,8 @@
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
+      // 数据就绪之后显示
+      visible.value = true
     })
   }
   // 选择上级加载模块的选择框

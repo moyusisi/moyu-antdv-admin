@@ -85,13 +85,9 @@
 
   // 打开抽屉
   const onOpen = (row, module) => {
-    visible.value = true
     if (row) {
       edit.value = true
       title.value = "编辑按钮"
-      // 菜单树默认值,无法异步赋值
-      formData.value.module = row.module
-      formData.value.parentCode = row.parentCode
       // 表单数据赋值
       loadData(row)
     } else {
@@ -100,6 +96,8 @@
       // 菜单树默认值,无法异步赋值
       formData.value.module = module.code
       formData.value.parentCode = module.code
+      // 数据就绪之后显示
+      visible.value = true
     }
   }
   // 关闭抽屉
@@ -117,6 +115,8 @@
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
+      // 数据就绪之后显示
+      visible.value = true
     })
   }
   // 选择上级加载模块的选择框

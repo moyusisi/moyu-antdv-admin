@@ -169,7 +169,6 @@ const statusOptions = [
 
 // 打开抽屉
 const onOpen = (row, tree, orgCode) => {
-  visible.value = true
   // 组织树赋值并展开顶级节点
   treeData.value = tree
   if (row) {
@@ -184,6 +183,8 @@ const onOpen = (row, tree, orgCode) => {
     title.value = "新增用户信息"
     // 表单数据赋值
     formData.value.orgCode = orgCode
+    // 数据就绪之后显示
+    visible.value = true
   }
 }
 // 关闭抽屉
@@ -200,6 +201,8 @@ const loadData = (row) => {
     formData.value = res.data
   }).finally(() => {
     dataLoading.value = false
+    // 数据就绪之后显示
+    visible.value = true
   })
 }
 

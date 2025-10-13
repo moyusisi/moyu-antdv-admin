@@ -90,7 +90,6 @@
 
   // 打开抽屉
   const onOpen = (row) => {
-    visible.value = true
     if (row) {
       edit.value = true
       title.value = "编辑模块"
@@ -99,6 +98,8 @@
     } else {
       edit.value = false
       title.value = "新增模块"
+      // 数据就绪之后显示
+      visible.value = true
     }
   }
   // 关闭抽屉
@@ -116,6 +117,8 @@
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
+      // 数据就绪之后显示
+      visible.value = true
     })
   }
   // 图标选择器回调
