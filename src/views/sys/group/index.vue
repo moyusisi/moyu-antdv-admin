@@ -85,7 +85,7 @@
       </template>
     </MTable>
   </a-card>
-  <EditForm ref="formRef" @successful="tableRef.refresh()" />
+  <Form ref="formRef" @successful="tableRef.refresh(true)" />
   <GroupRole ref="groupRoleRef" @successful="handleSuccess()" />
   <GroupUser ref="groupUserRef" @successful="handleSuccess()" />
 </template>
@@ -95,7 +95,7 @@
   import { onMounted, h } from "vue"
   import { message } from 'ant-design-vue'
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import EditForm from './editForm.vue'
+  import Form from './form.vue'
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
   import MTable from "@/components/MTable/index.vue"
