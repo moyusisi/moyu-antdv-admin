@@ -167,13 +167,6 @@
       width: 100,
     },
     {
-      title: "备注",
-      dataIndex: "remark",
-      align: "center",
-      resizable: true,
-      width: 150,
-    },
-    {
       title: "修改时间",
       dataIndex: "updateTime",
       align: "center",
