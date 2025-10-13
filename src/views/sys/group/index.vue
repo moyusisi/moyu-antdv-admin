@@ -42,7 +42,7 @@
       <!--  表格上方左侧操作区  -->
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="addFormRef.onOpen(queryFormData.orgCode, treeRef.treeData)">新增</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, treeRef.treeData, queryFormData.orgCode)">新增</a-button>
           <BatchDeleteButton icon="DeleteOutlined" :selectedRowKeys="selectedRowKeys" @batchDelete="batchDelete" />
         </a-space>
       </template>
@@ -72,7 +72,7 @@
             </a-tooltip>
             <a-divider type="vertical" />
             <a-tooltip title="编辑">
-              <a @click="editFormRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
+              <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
             </a-tooltip>
             <a-divider type="vertical" />
             <a-tooltip title="删除">
@@ -85,8 +85,7 @@
       </template>
     </MTable>
   </a-card>
-  <EditForm ref="editFormRef" @successful="tableRef.refresh()" />
-  <AddForm ref="addFormRef" @successful="tableRef.refresh()" />
+  <EditForm ref="formRef" @successful="tableRef.refresh()" />
   <GroupRole ref="groupRoleRef" @successful="handleSuccess()" />
   <GroupUser ref="groupUserRef" @successful="handleSuccess()" />
 </template>
@@ -96,7 +95,6 @@
   import { onMounted, h } from "vue"
   import { message } from 'ant-design-vue'
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import AddForm from './addForm.vue'
   import EditForm from './editForm.vue'
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
@@ -104,6 +102,27 @@
   import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
 
+  // 查询表单相关对象
+  const queryFormRef = ref()
+  const queryFormData = ref({})
+  // 使用状态options（0正常 1停用）
+  const statusOptions = [
+    { label: "正常", value: 0 },
+    { label: "已停用", value: 1 }
+  ]
+  // 定义treeRef
+  const treeRef = ref()
+
+  // 其他页面操作
+  const formRef = ref()
+  const groupUserRef = ref()
+  const groupRoleRef = ref()
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 已选中的行
+  const selectedRowKeys = ref([])
+  // 表格列配置
   const columns = [
     {
       title: "岗位名称",
@@ -167,23 +186,6 @@
       width: 200,
     }
   ]
-  const selectedRowKeys = ref([])
-  // 使用状态options（0正常 1停用）
-  const statusOptions = [
-    { label: "正常", value: 0 },
-    { label: "已停用", value: 1 }
-  ]
-  // 定义tableDOM
-  const tableRef = ref()
-  const addFormRef = ref()
-  const editFormRef = ref()
-  const groupUserRef = ref()
-  const groupRoleRef = ref()
-  const queryFormRef = ref()
-  const queryFormData = ref({})
-
-  // 定义treeRef
-  const treeRef = ref()
 
   // 提交查询
   const querySubmit = () => {
