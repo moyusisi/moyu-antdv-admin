@@ -41,8 +41,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" >
-              <a-input-number v-model:value="formData.sortNum" placeholder="排序顺序" :max="100" />
+            <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" required>
+              <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
             </a-form-item>
           </a-col>
           <!-- 使用状态 -->
