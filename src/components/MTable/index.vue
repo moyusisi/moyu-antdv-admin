@@ -45,7 +45,7 @@
            @expand="onExpand"
            @resizeColumn="onResizeColumn"
            @expandedRowsChange="onExpandedRowsChange"
-           :scroll="{ x: 'max-content' }"
+           :scroll="{ x: tableWidth }"
            bordered
   >
     <template v-for="slotKey in slotKeys" #[slotKey]="scope" >
@@ -58,16 +58,24 @@
 import { ref, onMounted, useSlots, h } from 'vue'
 import { tableProps } from 'ant-design-vue/es/table/Table.js'
 import { DeleteOutlined, PlusOutlined, SyncOutlined } from "@ant-design/icons-vue"
+import { useSettingsStore } from "@/store"
 import columnSetting from "@/components/MTable/columnSetting.vue"
 
+// store
+const settingsStore = useSettingsStore()
 // 自动获取父组件传递过来的插槽
 const slots = useSlots()
 // 所有的事件均参考官方文档 https://www.antdv.com/components/table-cn#api
 const emit = defineEmits(['selectedChange', 'change', 'expand', 'expandedRowsChange'])
-// 获取父组件过来的插槽数量，便于循环
+// 计算属性 获取父组件过来的插槽数量，便于循环
 const slotKeys = computed(() => {
   return Object.keys(slots)
 })
+// 计算属性 表格宽度 超过宽度则会出现x轴上的scroll
+const tableWidth = computed(() => {
+  return settingsStore.menuCollapsed ? `calc(100% - 80px -24px)` : `calc(100% - 210px -24px)`
+})
+
 // 组件props 通过tableProps()支持Table原属性
 const props = defineProps(
     Object.assign({}, tableProps(), {
