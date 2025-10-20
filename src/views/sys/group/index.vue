@@ -47,8 +47,21 @@
         </a-space>
       </template>
       <template #bodyCell="{ column, record, index, text }">
+        <template v-if="column.dataIndex === 'name'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'code'">
-          <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+          </a-tooltip>
+        </template>
+        <template v-if="column.dataIndex === 'orgName'">
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'dataScope'">
           <!-- 数据范围(字典 0无限制 1本人数据 2本机构 3本机构及以下 4自定义) -->
@@ -129,6 +142,7 @@
       dataIndex: "name",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
@@ -136,6 +150,7 @@
       dataIndex: "code",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150
     },
     {
@@ -143,6 +158,7 @@
       dataIndex: "orgName",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 200,
     },
     {
@@ -157,14 +173,14 @@
       dataIndex: "status",
       align: "center",
       resizable: true,
-      width: 100,
+      width: 80,
     },
     {
       title: "排序顺序",
       dataIndex: "sortNum",
       align: "center",
       resizable: true,
-      width: 100,
+      width: 80,
     },
     {
       title: "修改时间",

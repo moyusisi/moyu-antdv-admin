@@ -41,13 +41,26 @@
           </a-popconfirm>
         </a-space>
       </template>
-      <template #bodyCell="{ column, record }">
+      <template #bodyCell="{ column, record, index, text }">
+        <template v-if="column.dataIndex === 'name'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'code'">
-          <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'status'">
           <a-tag v-if="record.status === 0" color="green">正常</a-tag>
           <a-tag v-else>已停用</a-tag>
+        </template>
+        <template v-if="column.dataIndex === 'remark'">
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
@@ -95,6 +108,7 @@
       dataIndex: 'name',
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150
     },
     {
@@ -102,6 +116,7 @@
       dataIndex: 'code',
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 200
     },
     {
@@ -123,6 +138,7 @@
       dataIndex: "remark",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
