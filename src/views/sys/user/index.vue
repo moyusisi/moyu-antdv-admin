@@ -34,6 +34,7 @@
                 :columns="columns"
                 :loadData="loadData"
                 :row-key="(row) => row.id"
+                showRowSelection
                 @selectedChange="onSelectedChange"
         >
           <!--  表格上方左侧操作区  -->
