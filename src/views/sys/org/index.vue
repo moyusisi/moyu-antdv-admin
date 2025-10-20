@@ -121,6 +121,7 @@
     {
       title: '组织名称',
       dataIndex: 'name',
+      align: "center",
       resizable: true,
       ellipsis: true,
       width: 150
@@ -128,6 +129,7 @@
     {
       title: '组织编码',
       dataIndex: 'code',
+      align: "center",
       resizable: true,
       ellipsis: true,
       width: 150
