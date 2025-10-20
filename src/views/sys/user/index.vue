@@ -1,11 +1,11 @@
 <template>
   <a-row :gutter="8">
     <!-- 左侧组织树 -->
-    <a-col :span="5">
+    <a-col :span="4">
       <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
     </a-col>
     <!-- 右侧内容 -->
-    <a-col :span="19">
+    <a-col :span="20">
       <a-card size="small">
         <a-form ref="queryFormRef" :model="queryFormData">
           <a-row :gutter="24">

@@ -1,5 +1,5 @@
 <template>
-  <div id="admin-ui-main" class="admin-ui-main">
+  <div class="admin-ui-main">
     <router-view v-slot="{ Component }">
       <keep-alive :include="cachedViews">
         <component :is="Component" :key="route.path"/>
