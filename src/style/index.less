@@ -27,7 +27,7 @@ a, button, input, textarea {
 	flex: 1;
 }
 
-/* 大布局样式 */
+/* 布局样式 */
 .admin-ui {
 	overflow: hidden;
 	height: 100%;
@@ -40,6 +40,7 @@ a, button, input, textarea {
 	flex-direction: column;
 	height: 100%;
 	flex: 1;
+	//background-color: #f6f8f9;
 }
 .main-content-wrapper{
 	padding: 3px 3px 0px;
@@ -57,17 +58,6 @@ a, button, input, textarea {
 	align-items: flex-end;
 	justify-content: center;
 	padding-bottom: 25px;
-}
-
-.ant-layout-sider-collapsed{
-	.logo-bar>span{
-		display: none;
-	}
-}
-.ant-layout-sider-dark{
-	.header-logo{
-		color: #fff;
-	}
 }
 
 /* 设置抽屉样式 */
@@ -137,54 +127,13 @@ a, button, input, textarea {
 .panel-item:hover {
 	background: var(--header-color-split);
 }
-.contextmenu {
-	position: fixed;
-	width: 200px;
-	margin:0;
-	border-radius: 0px;
-	background: @body-background;
-	border: 1px solid var(--border-color-split);
-	box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-	z-index: 3000;
-	list-style-type: none;
-	padding: 10px 0;
-}
-.contextmenu hr {
-	margin:5px 0;
-	border: none;
-	height: 1px;
-	font-size: 0px;
-	background-color: var(--border-color-split)
-}
-.contextmenu li {
-	display: flex;
-	align-items: center;
-	margin:0;
-	cursor: pointer;
-	line-height: 30px;
-	padding: 0 17px;
-	color: @text-color;
-}
-.contextmenu li i {
-	font-size: 14px;
-	margin-right: 10px;
-}
-.contextmenu li:hover {
-	background-color: @component-background;
-	color: #66b1ff;
-}
-.contextmenu li.disabled {
-	cursor: not-allowed;
-	color: #bbb;
-	background: transparent;
-}
 
 /*页面最大化*/
 .app-main.main-maximize {
 	.main-maximize-exit {
 		display: block;
 	}
-	.ant-layout-sider, .ant-layout-sider-dark, .layout-setting .admin-ui-breadcrumb {
+	.ant-layout-sider, .layout-setting .admin-ui-breadcrumb {
 		display: none;
 	}
 	.main-content-wrapper {
@@ -263,7 +212,6 @@ body,
 .ant-scrolling-effect,
 .ant-drawer-wrapper-body,
 .ant-drawer-body,
-.admin-ui,
 .ant-modal-wrap,
 .ant-transfer-list-content,
 .ant-card,
