@@ -55,7 +55,7 @@
         </template>
         <template v-if="column.dataIndex === 'component'">
           <a-tooltip :title="text" placement="topLeft">
-            <a-tag v-if="node.path" :bordered="false">{{ node.component }}</a-tag>
+            <a-tag v-if="node.component" :bordered="false">{{ node.component }}</a-tag>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'permission'">
