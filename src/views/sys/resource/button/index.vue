@@ -48,15 +48,30 @@
         </a-space>
       </template>
       <template #bodyCell="{ column, record, index, text }">
+        <template v-if="column.dataIndex === 'name'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'path'">
-          <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'permission'">
-          <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'status'">
           <a-tag v-if="record.status === 0" color="green">正常</a-tag>
           <a-tag v-else>已停用</a-tag>
+        </template>
+        <template v-if="column.dataIndex === 'remark'">
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
@@ -106,18 +121,21 @@
       title: "显示名称",
       dataIndex: "name",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
       title: "接口地址",
       dataIndex: "path",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
       title: "权限",
       dataIndex: "permission",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
@@ -138,6 +156,7 @@
       dataIndex: "remark",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {

@@ -28,6 +28,12 @@
       </template>
       <!--  每行的记录重命名为node,node不一定有id  -->
       <template #bodyCell="{ column, record : node, index, text }">
+        <template v-if="column.dataIndex === 'name'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'resourceType'">
           <a-tag v-if="node.resourceType === 1" color="orange">模块</a-tag>
           <a-tag v-if="node.resourceType === 2" color="cyan">目录</a-tag>
@@ -37,16 +43,25 @@
           <a-tag v-if="node.resourceType === 6" color="purple">按钮</a-tag>
         </template>
         <template v-if="column.dataIndex === 'code'">
-          <a-tag v-if="node.code" :bordered="false">{{ node.code }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="node.code" :bordered="false">{{ node.code }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'path'">
-          <a-tag v-if="node.path" :bordered="false">{{ node.path }}</a-tag>
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="node.path" :bordered="false">{{ node.path }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'component'">
-          <a-tag v-if="node.path" :bordered="false">{{ node.component }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="node.path" :bordered="false">{{ node.component }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'permission'">
-          <a-tag v-if="node.permission" :bordered="false">{{ node.permission }}</a-tag>
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="node.permission" :bordered="false">{{ node.permission }}</a-tag>
+          </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'icon'">
           <span v-if="node.icon && node.icon !== '#'" >
@@ -129,6 +144,9 @@
     {
       title: '显示名称',
       dataIndex: 'name',
+      resizable: true,
+      ellipsis: true,
+      width: 150,
     },
     {
       title: '类型',
@@ -145,23 +163,28 @@
     {
       title: '唯一编码',
       dataIndex: 'code',
+      resizable: true,
+      ellipsis: true,
       width: 150
     },
     {
       title: '地址',
       dataIndex: 'path',
+      resizable: true,
       ellipsis: true,
       width: 150
     },
     {
       title: '组件',
       dataIndex: 'component',
+      resizable: true,
       ellipsis: true,
       width: 150
     },
     {
       title: '权限',
       dataIndex: 'permission',
+      resizable: true,
       ellipsis: true,
       width: 150
     },
