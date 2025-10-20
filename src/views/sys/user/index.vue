@@ -34,7 +34,6 @@
                 :columns="columns"
                 :loadData="loadData"
                 :row-key="(row) => row.id"
-                showRowSelection
                 @selectedChange="onSelectedChange"
         >
           <!--  表格上方左侧操作区  -->
@@ -46,7 +45,20 @@
           </template>
           <template #bodyCell="{ column, record, index, text }">
             <template v-if="column.dataIndex === 'account'">
-              <a-tag v-if="record.account" :bordered="false">{{ record.account }}</a-tag>
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <a-tag v-if="record.account" :bordered="false">{{ record.account }}</a-tag>
+              </a-tooltip>
+            </template>
+            <template v-if="column.dataIndex === 'name'">
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
+            <template v-if="column.dataIndex === 'orgName'">
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
             </template>
             <template v-if="column.dataIndex === 'gender'">
               <a-tag v-if="record.gender === 1" color="blue">男</a-tag>
@@ -119,6 +131,7 @@
       dataIndex: "account",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
@@ -126,6 +139,7 @@
       dataIndex: "name",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
@@ -139,6 +153,7 @@
       dataIndex: "orgName",
       align: "center",
       resizable: true,
+      ellipsis: true,
       width: 150,
     },
     {
@@ -158,7 +173,6 @@
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      resizable: true,
       width: 150
     }
   ])

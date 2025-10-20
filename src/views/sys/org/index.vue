@@ -47,8 +47,16 @@
             </a-space>
           </template>
           <template #bodyCell="{ column, record, index, text }">
+            <template v-if="column.dataIndex === 'name'">
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
             <template v-if="column.dataIndex === 'code'">
-              <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+              <a-tooltip :title="text" placement="topLeft">
+                <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+              </a-tooltip>
             </template>
             <template v-if="column.dataIndex === 'orgType'">
               <a-tag v-if="record.orgType === 1" color="cyan">公司组织</a-tag>
@@ -114,12 +122,15 @@
       title: '组织名称',
       dataIndex: 'name',
       resizable: true,
-      width: 200
+      ellipsis: true,
+      width: 150
     },
     {
       title: '组织编码',
       dataIndex: 'code',
-      width: 100
+      resizable: true,
+      ellipsis: true,
+      width: 150
     },
     {
       title: '组织类型',
@@ -136,7 +147,6 @@
     {
       title: '排序',
       dataIndex: 'sortNum',
-      sorter: true,
       align: 'center',
       width: 80
     },
