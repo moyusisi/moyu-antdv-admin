@@ -91,7 +91,7 @@
 <script setup>
   import orgApi from '@/api/sys/orgApi'
 
-  import { h, ref } from "vue"
+  import { onActivated, h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from './form.vue'
@@ -170,6 +170,11 @@
   // 加载完毕调用
   onMounted(() => {
 
+  })
+
+  // 调用时机为首次挂载 以及 每次从缓存中被重新插入时
+  onActivated(() => {
+    console.log("org/index onActivated...")
   })
 
   // 提交查询

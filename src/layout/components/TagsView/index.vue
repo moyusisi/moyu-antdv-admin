@@ -132,7 +132,7 @@ const closeSelectedTag = (tag, autoPushLatestView = true) => {
   tagsViewStore.removeView(tag)
   if (autoPushLatestView && isActive(tag)) {
     const latestView = tagList.value.slice(-1)[0]
-    console.log('isActive', latestView)
+    // console.log('isActive', latestView)
     if (latestView) {
       router.push(latestView.path)
     } else {
