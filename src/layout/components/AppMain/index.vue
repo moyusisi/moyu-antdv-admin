@@ -14,11 +14,12 @@ import IframeView from "./iframeView.vue"
 import { useTagsViewStore } from "@/store"
 
 const route = useRoute()
+const tagsViewStore = useTagsViewStore()
 
 // 缓存页面集合
 const cachedViews = computed(() => {
   // Proxy通过join(',')转为字符串数组
-  return useTagsViewStore().cachedViews.join(',')
+  return tagsViewStore.cachedViews.join(',')
 })
 
 </script>
