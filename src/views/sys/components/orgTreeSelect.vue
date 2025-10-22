@@ -3,9 +3,9 @@
   <a-tree-select
       v-model:value="selectValue"
       v-model:treeExpandedKeys="defaultExpandedKeys"
-      listHeight="400"
       placeholder="请选择"
       allow-clear
+      :listHeight="400"
       :tree-data="treeData"
       :field-names="{ children: 'children', label: 'name', value: 'code' }"
       :tree-line="{ showLeafIcon:false }"
