@@ -11,6 +11,7 @@
 
 <script setup lang="ts">
 import IframeView from "./iframeView.vue"
+import Error404 from "@/views/other/404.vue"
 import { useTagsViewStore } from "@/store"
 
 // 缓存页面集合, 直接解构store中的同名字段
