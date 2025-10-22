@@ -193,7 +193,6 @@
       }
     }
   }
-  const toolConfig = { refresh: true, height: true, columnSetting: false, striped: false }
   // 定义treeRef
   const treeRef = ref()
 
