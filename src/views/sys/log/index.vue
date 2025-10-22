@@ -4,11 +4,6 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="requestUrl" label="请求路径地址">
-            <a-input v-model:value="queryFormData.requestUrl" placeholder="搜索请求路径地址" allowClear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
           <a-form-item name="module" label="系统/模块">
             <a-input v-model:value="queryFormData.module" placeholder="搜索系统/模块" allowClear />
           </a-form-item>
@@ -24,18 +19,13 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="content" label="内容说明">
-            <a-input v-model:value="queryFormData.content" placeholder="搜索内容说明" allowClear />
+          <a-form-item name="content" label="内容">
+            <a-input v-model:value="queryFormData.content" placeholder="搜索内容" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
           <a-form-item name="requestContent" label="请求参数">
             <a-input v-model:value="queryFormData.requestContent" placeholder="搜索请求参数" allowClear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item name="responseContent" label="返回结果">
-            <a-input v-model:value="queryFormData.responseContent" placeholder="搜索返回结果" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -177,21 +167,6 @@
       width: 50,
     },
     {
-      title: "主键id",
-      dataIndex: "id",
-      align: "center",
-      resizable: true,
-      width: 100,
-    },
-    {
-      title: "请求路径地址",
-      dataIndex: "requestUrl",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
       title: "系统/模块",
       dataIndex: "module",
       align: "center",
@@ -218,6 +193,14 @@
     {
       title: "内容说明",
       dataIndex: "content",
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 150,
+    },
+    {
+      title: "请求路径地址",
+      dataIndex: "requestUrl",
       align: "center",
       resizable: true,
       ellipsis: true,

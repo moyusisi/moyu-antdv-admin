@@ -14,7 +14,7 @@
     </template>
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
-      <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
+      <a-form ref="formRef" :model="formData" :label-col="{span: 6}" disabled>
         <a-card title="基本信息">
           <a-row :gutter="24">
             <a-col :span="12">
@@ -37,19 +37,20 @@
                 <a-input v-model:value="formData.operate" placeholder="操作" allowClear />
               </a-form-item>
             </a-col>
+
             <a-col :span="12">
               <a-form-item name="content" label="内容说明" tooltip="内容说明" >
-                <a-input v-model:value="formData.content" placeholder="内容说明" allowClear />
+                <a-textarea v-model:value="formData.content" placeholder="内容说明" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
               <a-form-item name="requestContent" label="请求参数" tooltip="请求参数" >
-                <a-input v-model:value="formData.requestContent" placeholder="请求参数" allowClear />
+                <a-textarea v-model:value="formData.requestContent" placeholder="请求参数" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
               <a-form-item name="responseContent" label="返回结果" tooltip="返回结果" >
-                <a-input v-model:value="formData.responseContent" placeholder="返回结果" allowClear />
+                <a-textarea v-model:value="formData.responseContent" placeholder="返回结果" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
