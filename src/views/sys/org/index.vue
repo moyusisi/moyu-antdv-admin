@@ -169,7 +169,7 @@
 
   // 加载完毕调用
   onMounted(() => {
-
+    console.log("org/index onMounted...")
   })
 
   // 调用时机为首次挂载 以及 每次从缓存中被重新插入时

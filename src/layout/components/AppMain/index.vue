@@ -1,6 +1,7 @@
 <template>
   <div class="admin-ui-main">
     <router-view v-slot="{ Component, route }">
+      <!--  TODO keep-alive还有点问题，被缓存的页面，激活时onMounted和onActivated都会触发，导致多次请求    -->
       <keep-alive :include="cachedViews">
         <component :is="currentComponent(Component, route)" :key="route.name"/>
       </keep-alive>
@@ -41,7 +42,7 @@ const currentComponent = (component: Component, route: RouteLocationNormalized) 
   }
 
   // 添加组件数量限制
-  if (wrapperMap.size > 100) {
+  if (wrapperMap.size > 10) {
     const firstKey = wrapperMap.keys().next().value;
     if (firstKey) {
       wrapperMap.delete(firstKey);
