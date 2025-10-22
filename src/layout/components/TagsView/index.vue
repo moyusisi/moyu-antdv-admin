@@ -39,10 +39,9 @@ const route = useRoute()
 const router = useRouter()
 const tagsViewStore = useTagsViewStore()
 const menuStore = useMenuStore()
+// 解构 store中的属性
+const { visitedViews } = toRefs(tagsViewStore)
 
-const visitedViews = computed(() => {
-  return tagsViewStore.visitedViews
-})
 const tagList = computed(() => {
   return visitedViews.value
 })
