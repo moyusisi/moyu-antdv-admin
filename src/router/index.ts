@@ -86,7 +86,7 @@ router.afterEach((to, from) => {
 
 router.onError((error) => {
   NProgress.done()
-  message.error('路由错误,请检查网络')
+  message.error('路由错误，请检查网络')
   console.error({ message: '路由错误', description: error.message })
 })
 
