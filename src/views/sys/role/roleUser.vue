@@ -18,7 +18,7 @@
         <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
       </a-col>
       <a-col :span="19">
-        <a-alert message="角色授权的用户，仅有对应的功能权限，无任何数据权限。" type="error" />
+        <a-alert message="角色直接授权的用户，数据权限为仅限本人数据。" type="error" />
         <a-card size="small">
           <!-- 上方查询框 -->
           <a-form ref="searchFormRef" :model="searchFormData">
