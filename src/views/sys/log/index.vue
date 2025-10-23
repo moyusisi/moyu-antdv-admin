@@ -1,7 +1,7 @@
 <template>
   <!-- 上方查询区 -->
   <a-card size="small">
-    <a-form ref="queryFormRef" :model="queryFormData">
+    <a-form ref="queryFormRef" :model="queryFormData" :label-col="{span: 6}">
       <a-row :gutter="24">
         <a-col :span="6">
           <a-form-item name="module" label="系统/模块">
@@ -21,6 +21,11 @@
         <a-col :span="6">
           <a-form-item name="content" label="内容">
             <a-input v-model:value="queryFormData.content" placeholder="搜索内容" allowClear />
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
+          <a-form-item name="requestUrl" label="接口地址">
+            <a-input v-model:value="queryFormData.requestUrl" placeholder="搜索接口地址" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -61,7 +66,6 @@
       <!--  表格上方左侧操作区  -->
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -212,7 +216,7 @@
       width: 150,
     },
     {
-      title: "请求路径地址",
+      title: "接口地址",
       dataIndex: "requestUrl",
       align: "center",
       resizable: true,
