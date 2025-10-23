@@ -34,7 +34,7 @@
         <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid" :options="statusOptions"/>
       </a-form-item>
       <a-form-item label="排序顺序" name="sortNum" tooltip="排序顺序" required>
-        <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
+        <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
       </a-form-item>
       <a-form-item name="remark" label="备注" tooltip="备注" >
         <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />

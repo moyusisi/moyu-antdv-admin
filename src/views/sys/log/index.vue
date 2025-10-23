@@ -117,8 +117,8 @@
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
-            <a-tooltip title="编辑">
-              <a @click="formRef.onOpen(record)">编辑</a>
+            <a-tooltip title="查看">
+              <a @click="formRef.onOpen(record)">查看</a>
             </a-tooltip>
             <a-tooltip title="删除">
               <a-popconfirm title="确定要删除吗？" @confirm="deleteLog(record)">
@@ -165,6 +165,19 @@
       dataIndex: 'index',
       align: 'center',
       width: 50,
+    },
+    {
+      title: "记录时间",
+      dataIndex: "createTime",
+      align: "center",
+      width: 160,
+    },
+    {
+      title: "操作人",
+      dataIndex: "createBy",
+      align: "center",
+      resizable: true,
+      width: 150,
     },
     {
       title: "系统/模块",
@@ -240,19 +253,6 @@
       align: "center",
       resizable: true,
       width: 100,
-    },
-    {
-      title: "操作人ID",
-      dataIndex: "createBy",
-      align: "center",
-      resizable: true,
-      width: 150,
-    },
-    {
-      title: "记录时间",
-      dataIndex: "createTime",
-      align: "center",
-      width: 160,
     },
     // 单行操作，不需要可以删掉
     {

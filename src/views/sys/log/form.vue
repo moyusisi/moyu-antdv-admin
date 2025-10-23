@@ -86,7 +86,7 @@
     <template #footer>
       <a-flex gap="small" justify="flex-end">
         <a-button type="primary" danger @click="onClose"> 关闭</a-button>
-        <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
+        <a-button type="primary" :loading="submitLoading" @click="onSubmit" disabled>保存</a-button>
       </a-flex>
     </template>
   </a-drawer>

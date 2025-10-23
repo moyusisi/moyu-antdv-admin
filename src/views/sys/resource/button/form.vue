@@ -30,7 +30,7 @@
         <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
       </a-form-item>
       <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" required>
-        <a-input-number v-model:value="formData.sortNum" :max="100" style="width: 100%"/>
+        <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
       </a-form-item>
       <a-form-item name="remark" label="备注" tooltip="备注" >
         <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
