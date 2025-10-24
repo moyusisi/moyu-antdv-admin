@@ -10,7 +10,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import IframeView from "./iframeView.vue"
 import Error404 from "@/views/other/404.vue"
 import { useTagsViewStore } from "@/store"
@@ -19,8 +19,8 @@ import { useTagsViewStore } from "@/store"
 const { cachedViews } = toRefs(useTagsViewStore());
 
 // 当前组件 keep-alive通过组件的name匹配,而不是route的name
-const wrapperMap = new Map<string, Component>();
-const currentComponent = (component: Component, route: RouteLocationNormalized) => {
+const wrapperMap = new Map();
+const currentComponent = (component, route) => {
   if (!component) return;
   // 使用路由的name作为组件名称
   const { name: componentName } = route;
