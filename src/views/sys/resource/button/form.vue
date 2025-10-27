@@ -90,12 +90,12 @@
   const onOpen = (row, module) => {
     if (row) {
       edit.value = true
-      title.value = "编辑按钮"
+      title.value = "编辑接口"
       // 表单数据赋值
       loadData(row)
     } else {
       edit.value = false
-      title.value = "新增按钮"
+      title.value = "新增接口"
       // 菜单树默认值,无法异步赋值
       formData.value.module = module.code
       formData.value.parentCode = module.code

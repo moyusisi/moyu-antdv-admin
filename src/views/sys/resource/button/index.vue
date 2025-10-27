@@ -11,11 +11,16 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="name" label="显示名称">
-            <a-input v-model:value="queryFormData.name" placeholder="搜索显示名称" allowClear />
+          <a-form-item name="name" label="名称">
+            <a-input v-model:value="queryFormData.name" placeholder="搜索名称" allowClear />
           </a-form-item>
         </a-col>
-        <a-col :span="8">
+        <a-col :span="6">
+          <a-form-item name="path" label="接口地址">
+            <a-input v-model:value="queryFormData.path" placeholder="搜索接口地址" allowClear />
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
           <a-form-item>
             <a-flex gap="small">
               <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
@@ -39,7 +44,7 @@
       <!--  表格上方左侧操作区  -->
       <template #operator>
         <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, module)">新增按钮</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen(null, module)">新增接口</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -118,7 +123,7 @@
   // 表格列配置
   const columns = [
     {
-      title: "显示名称",
+      title: "名称",
       dataIndex: "name",
       resizable: true,
       ellipsis: true,
