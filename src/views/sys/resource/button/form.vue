@@ -73,17 +73,10 @@
   const formRef = ref()
   const formData = ref({
     resourceType: 6,
-    sortNum: 99,
-    visible: 1,
-    status: 0
+    sortNum: 99
   })
   const dataLoading = ref(false)
   const submitLoading = ref(false)
-  // 使用状态options（0正常 1停用）
-  const statusOptions = [
-    { label: "正常", value: 0 },
-    { label: "已停用", value: 1 }
-  ]
   const treeData = ref([])
 
   // 打开抽屉

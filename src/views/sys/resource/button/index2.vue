@@ -76,6 +76,11 @@ const columns = [
     width: "auto"
   },
   {
+    field: 'code',
+    title: '唯一编码',
+    width: "auto"
+  },
+  {
     field: 'path',
     title: '接口地址',
     width: "auto"
@@ -87,7 +92,7 @@ const columns = [
   },
   {
     field: 'sortNum',
-    title: '排序',
+    title: '排序顺序',
     sort: true,
     width: 'auto',
   },

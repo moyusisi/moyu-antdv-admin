@@ -59,6 +59,11 @@
             <span>{{ text }}</span>
           </a-tooltip>
         </template>
+        <template v-if="column.dataIndex === 'code'">
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'path'">
           <a-tooltip :title="text" placement="topLeft">
             <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
@@ -68,10 +73,6 @@
           <a-tooltip :title="text" placement="topLeft">
             <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
           </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'status'">
-          <a-tag v-if="record.status === 0" color="green">正常</a-tag>
-          <a-tag v-else>已停用</a-tag>
         </template>
         <template v-if="column.dataIndex === 'remark'">
           <a-tooltip :title="text" placement="topLeft">
@@ -125,9 +126,17 @@
     {
       title: "名称",
       dataIndex: "name",
+      align: "center",
       resizable: true,
       ellipsis: true,
       width: 150,
+    },
+    {
+      title: '唯一编码',
+      dataIndex: 'code',
+      resizable: true,
+      ellipsis: true,
+      width: 150
     },
     {
       title: "接口地址",
@@ -144,17 +153,10 @@
       width: 150,
     },
     {
-      title: "状态",
-      dataIndex: "status",
-      align: "center",
-      resizable: true,
-      width: 100,
-    },
-    {
       title: "排序顺序",
       dataIndex: "sortNum",
       align: "center",
-      width: 100
+      width: 80
     },
     {
       title: "备注",
