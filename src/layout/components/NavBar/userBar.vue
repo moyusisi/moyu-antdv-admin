@@ -86,7 +86,7 @@
       onOk() {
         message.loading('退出中...', 0.5)
         userStore.logout().then(() => {
-          menuStore.$reset()
+          menuStore.clear()
           router.push(`/login?redirect=${route.fullPath}`);
           // router.push({ path: '/login' })
         }).catch((err) => {

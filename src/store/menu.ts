@@ -22,12 +22,6 @@ export const useMenuStore = defineStore('menuStore', () => {
   // 所有模块的menu,用于保存后端返回的原始数据
   const menuList = ref([])
 
-  // 在 Setup Stores 中，您需要创建自己的 $reset() 方法 https://pinia.vuejs.org/zh/core-concepts/state.html
-  function $reset() {
-    menuList.value = []
-    routes.value = []
-  }
-
   // actions
   function setRoutes(newRoutes) {
     routes.value = constRoutes.concat(newRoutes);
@@ -56,6 +50,15 @@ export const useMenuStore = defineStore('menuStore', () => {
     localStorage.setItem('MENU', JSON.stringify(res.data))
     menuList.value = res.data
   };
+
+  /**
+   * 清空菜单及路由数据
+   */
+  const clear = async () =>{
+    menuList.value = []
+    routes.value = []
+    localStorage.removeItem('MENU')
+  }
 
   /**
    * 生成异步(动态)路由
@@ -138,7 +141,7 @@ export const useMenuStore = defineStore('menuStore', () => {
 
   return {
     routes,
-    $reset,
+    clear,
     initModuleMenu,
     refreshModuleMenu,
     generateRoutes,

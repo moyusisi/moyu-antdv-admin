@@ -8,11 +8,6 @@ export const useUserStore = defineStore('userStore', () => {
   // 用户信息
   const userInfo = ref<UserInfo>({});
 
-  // 在 Setup Stores 中，您需要创建自己的 $reset() 方法 https://pinia.vuejs.org/zh/core-concepts/state.html
-  function $reset() {
-    userInfo.value = {}
-  }
-
   // 定义action
   // 登录
   const login = async ({ account, password }) => {
@@ -65,7 +60,6 @@ export const useUserStore = defineStore('userStore', () => {
     login,
     logout,
     userInfo,
-    $reset,
     initUserInfo,
     refreshUserInfo,
     switchUserGroup
