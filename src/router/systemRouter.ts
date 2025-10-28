@@ -3,8 +3,21 @@ import Layout from '@/layout/index.vue'
 /**
  * 静态路由
  * * path 要以"/"开头的绝对路径,children中的path也要写绝对路径
+ * * meta 必须包含title字段,否则面包屑设置会出错
  */
 const routes = [
+	{
+		path: "/redirect",
+		component: Layout,
+		meta: { hidden: true },
+		children: [
+			{
+				path: "/redirect/:path(.*)",
+				component: () => import("@/views/redirect/index.vue"),
+				meta: { title: '重定向', hidden: true }
+			},
+		],
+	},
 	{
 		path: '/',
 		name: 'layout',
