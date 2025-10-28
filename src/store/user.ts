@@ -37,5 +37,11 @@ export const useUserStore = defineStore('userStore', () => {
 		localStorage.setItem('TOKEN', res.data)
 		await refreshUserInfo()
 	}
-	return { userInfo, $reset, initUserInfo, refreshUserInfo, switchUserGroup }
+	return {
+		userInfo,
+		$reset,
+		initUserInfo,
+		refreshUserInfo,
+		switchUserGroup
+	}
 })
