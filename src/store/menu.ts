@@ -8,7 +8,7 @@ import Layout from '@/layout/index.vue'
 // 空布局。多层目录嵌套时需要使用
 import Empty from '@/layout/empty.vue'
 
-// findPwd和login路由组件已静态加载，此处不在进行异步加载
+// login和findPwd路由组件已静态加载，此处不在进行异步加载
 const modules = import.meta.glob([
 	'/src/views/**/**.vue',
 	'!/src/views/auth/findPwd/**.vue',
@@ -55,10 +55,10 @@ const loadComponent = (menu) => {
 
 export const useMenuStore = defineStore('menuStore', () => {
 	// state
-	// 所有模块的menu
-	const menuList = ref([])
-	// 当前的所有路由(包括静态配置的和动态生成的)
+	// 所有路由(静态路由 + 动态路由)
 	const routes = ref<RouteRecordRaw[]>([]);
+	// 所有模块的menu,用于保存后端返回的原始数据
+	const menuList = ref([])
 
 	// 在 Setup Stores 中，您需要创建自己的 $reset() 方法 https://pinia.vuejs.org/zh/core-concepts/state.html
 	function $reset() {
@@ -77,14 +77,13 @@ export const useMenuStore = defineStore('menuStore', () => {
 	const initModuleMenu = async () => {
 		// 优先获取本地数据
 		const menu = localStorage.getItem('MENU')
-		let localMenu = JSON.parse(menu)
-		if (!localMenu) {
-			// 若本地无数据则api获取，然后保存到本地
-			const res = await userCenterApi.loginUserMenu()
-			localMenu = res.data
-			localStorage.setItem('MENU', JSON.stringify(res.data))
+		let localMenu = JSON.parse(menu as string)
+		if (localMenu) {
+			menuList.value = localMenu
+		} else {
+			// 本地无则从api获取
+			await refreshModuleMenu()
 		}
-		menuList.value = localMenu
 	};
 
 	/**
@@ -138,7 +137,6 @@ export const useMenuStore = defineStore('menuStore', () => {
 	}
 
 	return {
-		menuList,
 		routes,
 		$reset,
 		initModuleMenu,

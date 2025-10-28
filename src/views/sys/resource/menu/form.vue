@@ -60,7 +60,7 @@
           <!-- 菜单:组件地址 -->
           <a-col :span="12" v-if="formData.resourceType === 3">
             <a-form-item name="component" label="组件地址" tooltip="前端组件(不带.vue)" required>
-              <a-input v-model:value="formData.component" addon-before="src/views/" placeholder="请输入组件地址" allow-clear/>
+              <a-input v-model:value="formData.component" addon-before="src/views/" addon-after=".vue" placeholder="请输入组件地址" allow-clear/>
             </a-form-item>
           </a-col>
           <!-- 内链、外链:链接地址 -->
