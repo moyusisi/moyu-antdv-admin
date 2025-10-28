@@ -62,8 +62,9 @@ router.beforeEach(async (to, from) => {
     await menuStore.initModuleMenu()
     // 生成动态路由
     const asyncRoutes = await menuStore.generateRoutes();
-    asyncRoutes.forEach((route) => {
+    asyncRoutes.forEach((route: RouteRecordRaw) => {
       // router.addRoute(route);
+      // 如果顶层route没有component=Layout,则需要指定一个parentName
       router.addRoute('layout', route)
     });
     console.log("动态加载异步路由...")
