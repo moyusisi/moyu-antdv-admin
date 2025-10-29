@@ -61,9 +61,11 @@ export const useMenuStore = defineStore('menuStore', () => {
   }
 
   /**
-   * 生成异步(动态)路由
+   * 生成菜单及异步(动态)路由
    */
   const generateRoutes = async () => {
+    // 加载菜单数据(优先本地，其次接口)
+    await initModuleMenu()
     // 生成动态路由
     const asyncRoutes: RouteRecordRaw[] = parseAsyncRoutes(menuList.value);
     // 设置routes
@@ -74,14 +76,39 @@ export const useMenuStore = defineStore('menuStore', () => {
     const searchStore = useSearchStore()
     searchStore.init(routes.value)
     // 添加到路由组件中
+    addToRouter(asyncRoutes)
+    return asyncRoutes;
+  };
+
+  /**
+   * 重新生成菜单及异步(动态)路由
+   */
+  const reloadRoutes = async () => {
+    clear()
+    // 更新菜单数据
+    await refreshModuleMenu()
+    // 先移除之前的动态路由
+    const currentRoutes = router.getRoutes()
+    currentRoutes.forEach(route => {
+      const isConstRoute = constRoutes.some(e => e.name === route.name)
+      if (!isConstRoute) {
+        router.removeRoute(route.name as string)
+      }
+    });
+    // 生成动态路由
+    await generateRoutes()
+  };
+
+  // 将菜单添加到路由
+  const addToRouter = (asyncRoutes: RouteRecordRaw[]) => {
+    // 添加到路由组件中
     asyncRoutes.forEach((route: RouteRecordRaw) => {
       // 如果最顶层目录有component=Layout，则直接设置路由。
       // router.addRoute(route);
       // 如果顶层route没有component=Layout,则需要指定使用布局的parentName(静态路由中已存在的)
       router.addRoute('layout', route)
     });
-    return asyncRoutes;
-  };
+  }
 
   // 转换为路由对象
   const parseAsyncRoutes = (menus) => {
@@ -120,28 +147,6 @@ export const useMenuStore = defineStore('menuStore', () => {
     }
     return item
   }
-
-  /**
-   * 重新加载菜单及路由
-   */
-  const reloadRoutes = async () => {
-    await refreshModuleMenu()
-    const asyncRoutes: RouteRecordRaw[] = await generateRoutes()
-
-    // 先移除之前的动态路由
-    const currentRoutes = router.getRoutes()
-    currentRoutes.forEach(route => {
-      const isConstRoute = constRoutes.some(e => e.name === route.name)
-      if (!isConstRoute) {
-        router.removeRoute(route.name as string)
-      }
-    });
-    // 新生成的动态路由添加到router中
-    asyncRoutes.forEach((route: RouteRecordRaw) => {
-      // 注意要与generateRoutes中使用相同的添加方式
-      router.addRoute('layout', route)
-    });
-  };
 
   /**
    * 根据当前的routes生成菜单的面包屑
