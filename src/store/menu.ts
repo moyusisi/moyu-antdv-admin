@@ -172,7 +172,6 @@ export const useMenuStore = defineStore('menuStore', () => {
     routes,
     dynamicRouter,
     clear,
-    refreshModuleMenu,
     generateRoutes,
     reloadRoutes
   }
