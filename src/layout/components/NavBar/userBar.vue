@@ -69,8 +69,8 @@
       await userStore.switchUserGroup(groupCode)
       message.loading('切换中...', 0.5)
       await menuStore.reloadRoutes()
-      // router.push({ path: '/' })
-      window.location.href = '/index'
+      router.push({ path: '/' })
+      // window.location.href = '/index'
       message.success('切换成功')
     } catch (err) {
       message.error('切换失败')

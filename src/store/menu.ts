@@ -89,7 +89,8 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 先移除之前的动态路由
     const currentRoutes = router.getRoutes()
     currentRoutes.forEach(route => {
-      const isConstRoute = constRoutes.some(e => e.name === route.name)
+      let constList = constRoutePathList(constRoutes)
+      const isConstRoute = constList.includes(route.path)
       if (!isConstRoute) {
         router.removeRoute(route.name as string)
       }
@@ -97,6 +98,18 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 生成动态路由
     await generateRoutes()
   };
+
+  // 递归获取静态路由的所有path
+  function constRoutePathList(constRoutes: RouteRecordRaw[]) {
+    let pathList: string[] = []
+    constRoutes.forEach(route => {
+      pathList.push(route.path)
+      if (route.children) {
+        pathList = [...pathList, ...constRoutePathList(route.children)]
+      }
+    })
+    return pathList
+  }
 
   // 将菜单添加到路由
   const addToRouter = (asyncRoutes: RouteRecordRaw[]) => {
