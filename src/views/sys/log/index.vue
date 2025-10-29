@@ -256,7 +256,7 @@
       dataIndex: "executionTime",
       align: "center",
       resizable: true,
-      width: 100,
+      width: 120,
     },
     // 单行操作，不需要可以删掉
     {
