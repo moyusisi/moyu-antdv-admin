@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { useSearchStore } from '@/store/search'
 import userCenterApi from '@/api/sys/userCenterApi'
-import { constRoutes } from '@/router'
+import router, { constRoutes } from '@/router'
 import { RouteRecordRaw } from "vue-router"
 // 布局组件, 一般顶层目录使用
 import Layout from '@/layout/index.vue'
@@ -65,7 +65,7 @@ export const useMenuStore = defineStore('menuStore', () => {
    */
   const generateRoutes = async () => {
     // 生成动态路由
-    const asyncRoutes = parseAsyncRoutes(menuList.value);
+    const asyncRoutes: RouteRecordRaw[] = parseAsyncRoutes(menuList.value);
     // 设置routes
     setRoutes(asyncRoutes)
     // 初始化面包屑
@@ -73,6 +73,13 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 初始化搜索
     const searchStore = useSearchStore()
     searchStore.init(routes.value)
+    // 添加到路由组件中
+    asyncRoutes.forEach((route: RouteRecordRaw) => {
+      // 如果最顶层目录有component=Layout，则直接设置路由。
+      // router.addRoute(route);
+      // 如果顶层route没有component=Layout,则需要指定使用布局的parentName(静态路由中已存在的)
+      router.addRoute('layout', route)
+    });
     return asyncRoutes;
   };
 
@@ -119,7 +126,21 @@ export const useMenuStore = defineStore('menuStore', () => {
    */
   const reloadRoutes = async () => {
     await refreshModuleMenu()
-    return await generateRoutes()
+    const asyncRoutes: RouteRecordRaw[] = await generateRoutes()
+
+    // 先移除之前的动态路由
+    const currentRoutes = router.getRoutes()
+    currentRoutes.forEach(route => {
+      const isConstRoute = constRoutes.some(e => e.name === route.name)
+      if (!isConstRoute) {
+        router.removeRoute(route.name as string)
+      }
+    });
+    // 新生成的动态路由添加到router中
+    asyncRoutes.forEach((route: RouteRecordRaw) => {
+      // 注意要与generateRoutes中使用相同的添加方式
+      router.addRoute('layout', route)
+    });
   };
 
   /**
@@ -130,6 +151,10 @@ export const useMenuStore = defineStore('menuStore', () => {
       // 生成当前route的breadcrumb
       const temp: RouteRecordRaw[] = [...breadcrumb]
       temp.push(route)
+      // 防止meta为空
+      if (!route.meta) {
+        route.meta = {}
+      }
       // 设置在route的meta中
       route.meta.breadcrumb = temp
       // 若有子路由则递归设置子路由

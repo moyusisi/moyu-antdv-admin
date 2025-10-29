@@ -67,8 +67,9 @@
   const switchUserGroup = async (groupCode) => {
     try {
       await userStore.switchUserGroup(groupCode)
-      // await router.reloadRoutes()
       message.loading('切换中...', 0.5)
+      await menuStore.reloadRoutes()
+      // router.push({ path: '/' })
       window.location.href = '/index'
       message.success('切换成功')
     } catch (err) {

@@ -99,21 +99,4 @@ router.onError((error) => {
   console.error({ message: '路由错误', description: error.message })
 })
 
-// 入侵追加自定义方法、对象
-router.reloadRoutes = async () => {
-  const menuStore = useMenuStore()
-  const asyncRoutes = await menuStore.reloadRoutes()
-  // 增加固定路由
-  const currentRoutes = router.getRoutes()
-  currentRoutes.forEach(route => {
-    const isConstRoute = constRoutes.some(e => e.name === route.name)
-    if (!isConstRoute) {
-      router.removeRoute(route.name)
-    }
-  });
-  asyncRoutes.forEach((route) => {
-    router.addRoute(route);
-  });
-}
-
 export default router
