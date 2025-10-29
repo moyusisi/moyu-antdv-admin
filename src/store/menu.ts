@@ -155,6 +155,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     if (component?.toString() === "Layout") {
       item = Layout
     } else {
+      // @ts-ignore
       item = modules[`/src/views/${component}.vue`] || modules[`/src/views/${component}/index.vue`] || Empty
     }
     return item
