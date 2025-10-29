@@ -19,14 +19,11 @@ export const useMenuStore = defineStore('menuStore', () => {
   // state
   // 所有路由(静态路由 + 动态路由)
   const routes = ref<RouteRecordRaw[]>([]);
+  const dynamicRouter = ref<boolean>(false)
   // 所有模块的menu,用于保存后端返回的原始数据
   const menuList = ref([])
 
   // actions
-  function setRoutes(newRoutes) {
-    routes.value = constRoutes.concat(newRoutes);
-  }
-
   /**
    * 初始化模块及菜单(优先本地，无则api获取)
    */
@@ -54,9 +51,10 @@ export const useMenuStore = defineStore('menuStore', () => {
   /**
    * 清空菜单及路由数据
    */
-  const clear = async () =>{
+  const clear = async () => {
     menuList.value = []
     routes.value = []
+    dynamicRouter.value = false
     localStorage.removeItem('MENU')
   }
 
@@ -69,14 +67,15 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 生成动态路由
     const asyncRoutes: RouteRecordRaw[] = parseAsyncRoutes(menuList.value);
     // 设置routes
-    setRoutes(asyncRoutes)
+    routes.value = [...constRoutes, ...asyncRoutes];
+    // 添加到路由组件中
+    addToRouter(asyncRoutes)
+    dynamicRouter.value = true
     // 初始化面包屑
     initBreadcrumb(routes.value)
     // 初始化搜索
     const searchStore = useSearchStore()
     searchStore.init(routes.value)
-    // 添加到路由组件中
-    addToRouter(asyncRoutes)
     return asyncRoutes;
   };
 
@@ -171,8 +170,8 @@ export const useMenuStore = defineStore('menuStore', () => {
 
   return {
     routes,
+    dynamicRouter,
     clear,
-    initModuleMenu,
     refreshModuleMenu,
     generateRoutes,
     reloadRoutes

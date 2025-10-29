@@ -57,16 +57,9 @@ router.beforeEach(async (to, from) => {
     await userStore.initUserInfo();
   }
   // 如果未加载动态路由，则需先加载路由
-  if (menuStore.routes.length === 0) {
-    // 初始化模块菜单列表
-    await menuStore.initModuleMenu()
+  if (!menuStore.dynamicRouter) {
     // 生成动态路由
-    const asyncRoutes = await menuStore.generateRoutes();
-    asyncRoutes.forEach((route: RouteRecordRaw) => {
-      // router.addRoute(route);
-      // 如果顶层route没有component=Layout,则需要指定一个parentName
-      router.addRoute('layout', route)
-    });
+    await menuStore.generateRoutes();
     console.log("动态加载异步路由...")
     // console.log(asyncRoutes)
     // console.log(router.getRoutes())
