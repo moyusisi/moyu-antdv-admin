@@ -65,6 +65,10 @@
 
   // 切换用户岗位
   const switchUserGroup = async (groupCode) => {
+    if (userInfo.value.groupCode === groupCode) {
+      message.success('当前已是所选岗位')
+      return
+    }
     try {
       await userStore.switchUserGroup(groupCode)
       message.loading('切换中...', 0.5)
