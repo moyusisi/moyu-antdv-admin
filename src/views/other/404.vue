@@ -10,7 +10,7 @@
 	import { useRouter } from 'vue-router'
 	const router = useRouter()
 	const goHome = () => {
-		location.href = '/'
+    router.push("/")
 	}
 	const goBack = () => {
 		router.go(-1)
