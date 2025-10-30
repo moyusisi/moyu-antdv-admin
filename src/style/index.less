@@ -93,10 +93,6 @@ a, button, input, textarea {
 	padding-left: 20px;
 }
 
-.header-left .menu-unfold-outlined {
-	padding: 0 12px
-}
-
 .side-menu-header .logo-bar {
 	font-weight: bold;
 	display: flex;
@@ -110,14 +106,16 @@ a, button, input, textarea {
 	height: 35px;
 }
 
+.side-menu-body {
+	height: calc(100vh - 90px);
+	overflow: auto;
+}
+
 .side-menu-footer {
-	position: relative;
-	bottom: 0;
-	width: 100%;
 	height: 40px;
 	line-height: 40px;
-	text-align: center;
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	border-top: 1px solid var(--header-bottom);
 }
@@ -130,6 +128,13 @@ a, button, input, textarea {
 	}
 	.side-menu-footer > span {
 		display: none;
+	}
+}
+
+/* a-sider暗色时的class */
+.ant-layout-sider-dark {
+	.side-menu-header, .side-menu-footer {
+		color: #fff;
 	}
 }
 

@@ -1,10 +1,10 @@
 <template>
 	<div class="user-bar">
-		<!-- 搜索面板 -->
+		<!-- 全屏 -->
 		<div v-if="!isMobile" class="screen panel-item hidden-sm-and-down" @click="fullscreen">
 			<fullscreen-outlined />
 		</div>
-		<a-dropdown class="user panel-item">
+		<a-dropdown class="panel-item">
 			<div class="user-avatar">
 <!--        <a-avatar :src="userInfo ? userInfo.avatar : undefined" />-->
         <a-avatar>
@@ -31,9 +31,6 @@
 				</a-menu>
 			</template>
 		</a-dropdown>
-		<div class="setting panel-item" @click="openSetting">
-			<layout-outlined />
-		</div>
 	</div>
 
 	<!-- 整体风格设置抽屉 -->

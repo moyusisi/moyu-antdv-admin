@@ -33,6 +33,12 @@
       </a-menu>
     </div>
     <div class="side-menu-footer">
+      <span class="foot-label">MY管理系统</span>
+      <div class="item">
+        <a-tooltip title="点击伸缩菜单栏" placement="topLeft" destroyTooltipOnHide>
+          <Hamburger/>
+        </a-tooltip>
+      </div>
     </div>
   </a-layout-sider>
 </template>
