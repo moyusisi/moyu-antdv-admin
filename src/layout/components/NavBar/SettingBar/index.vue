@@ -10,7 +10,8 @@
 </template>
 <script setup>
 	import { LayoutOutlined } from "@ant-design/icons-vue"
-  import Setting from "@/layout/components/setting.vue"
+  import Setting from "@/layout/components/NavBar/SettingBar/setting.vue"
+
   const settingDialog = ref(false)
 
   // 设置抽屉
