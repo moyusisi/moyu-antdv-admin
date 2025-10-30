@@ -10,7 +10,6 @@
 		<!-- 右侧面板 -->
 		<div class="right-panel">
 			<UserBar />
-      <SettingBar/>
 		</div>
 	</div>
 </template>

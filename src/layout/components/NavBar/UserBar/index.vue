@@ -6,10 +6,7 @@
 		</div>
 		<a-dropdown class="panel-item">
 			<div class="user-avatar">
-<!--        <a-avatar :src="userInfo ? userInfo.avatar : undefined" />-->
-        <a-avatar>
-          <template #icon><UserOutlined /></template>
-        </a-avatar>
+        <a-avatar :src="userInfo.avatar ? userInfo.avatar : avatarImg">Me</a-avatar>
 				<label>{{ userInfo.name }}</label>
 			</div>
 			<template #overlay>
@@ -33,10 +30,6 @@
 		</a-dropdown>
 	</div>
 
-	<!-- 整体风格设置抽屉 -->
-	<a-drawer v-model:open="settingDialog" :closable="false" width="300">
-		<setting />
-	</a-drawer>
 </template>
 
 <script setup>
@@ -45,7 +38,6 @@
   import { Modal } from 'ant-design-vue'
   import screenFull from 'screenfull'
   import { message } from 'ant-design-vue'
-  import Setting from '../SettingBar/setting.vue'
   import { useMenuStore, useUserStore } from '@/store/index.js'
   import { useRoute, useRouter } from 'vue-router'
 
@@ -53,6 +45,7 @@
   const menuStore = useMenuStore()
   const route = useRoute()
   const router = useRouter()
+  const avatarImg = '/img/avatar.gif?' +new Date()
 
   const settingDialog = ref(false)
   const isMobile = ref(false)
