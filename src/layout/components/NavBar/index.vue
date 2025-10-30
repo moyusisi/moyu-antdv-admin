@@ -18,7 +18,7 @@
 	import Breadcrumb from '@/layout/components/Breadcrumb/index.vue'
   import Hamburger from "@/layout/components/NavBar/Hamburger/index.vue"
   import SettingBar from "@/layout/components/NavBar/SettingBar/index.vue"
-	import UserBar from "@/layout/components/NavBar/userBar.vue";
+	import UserBar from "@/layout/components/NavBar/UserBar/index.vue"
 
 </script>
 

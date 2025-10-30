@@ -45,8 +45,8 @@
   import { Modal } from 'ant-design-vue'
   import screenFull from 'screenfull'
   import { message } from 'ant-design-vue'
-  import Setting from '../setting.vue'
-  import { useMenuStore, useUserStore } from '@/store'
+  import Setting from '../../setting.vue'
+  import { useMenuStore, useUserStore } from '@/store/index.js'
   import { useRoute, useRouter } from 'vue-router'
 
   const userStore = useUserStore()
