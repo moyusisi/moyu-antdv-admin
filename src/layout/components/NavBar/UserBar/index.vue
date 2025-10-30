@@ -1,7 +1,7 @@
 <template>
 	<div class="user-bar">
 		<!-- 全屏 -->
-		<div v-if="!isMobile" class="screen panel-item hidden-sm-and-down" @click="fullscreen">
+		<div v-if="!isMobile" class="bar-item hidden-sm-and-down" @click="fullscreen">
 			<fullscreen-outlined />
 		</div>
 		<a-dropdown class="panel-item">

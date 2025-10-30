@@ -33,6 +33,9 @@
       </a-menu>
     </div>
     <div class="side-menu-footer">
+      <div class="item">
+        <SettingBar/>
+      </div>
       <span class="foot-label">MY管理系统</span>
       <div class="item">
         <a-tooltip title="点击伸缩菜单栏" placement="topLeft">
@@ -51,6 +54,7 @@ import { useRoute, useRouter } from "vue-router";
 import MenuItem from "@/layout/components/SideBar/MenuItem.vue";
 import Hamburger from "@/layout/components/NavBar/Hamburger/index.vue";
 import SettingBar from "@/layout/components/NavBar/SettingBar/index.vue";
+import UserBar from "@/layout/components/NavBar/UserBar/index.vue";
 
 const settingsStore = useSettingsStore()
 const menuStore = useMenuStore()
@@ -195,7 +199,7 @@ const traverse = (array, key) => {
 <style scoped>
 
 .foot-label {
-  padding-left: 20px;
+  font-size: 12px;
 }
 .item {
   height: 100%;
