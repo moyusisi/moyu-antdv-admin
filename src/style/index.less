@@ -80,6 +80,18 @@ a, button, input, textarea {
 	color: #fff;
 }
 
+.header-logo {
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--header-bottom);
+}
+
+.header-logo-primary-color {
+	color: white;
+	background-color: var(--primary-color);
+}
+
 .header-left {
 	display: flex;
 	align-items: center;
@@ -88,18 +100,6 @@ a, button, input, textarea {
 
 .header-left .menu-unfold-outlined {
 	padding: 0 12px
-}
-
-.header-logo {
-	height: 49px;
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.header-logo-primary-color {
-	color: white;
-	background-color: var(--primary-color);
 }
 
 .header-logo .logo-bar {
@@ -113,6 +113,29 @@ a, button, input, textarea {
 	margin-right: 10px;
 	width: 35px;
 	height: 35px;
+}
+
+.side-footer {
+	position: relative;
+	bottom: 0;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	border-top: 1px solid var(--header-bottom);
+}
+
+/* a-sider折叠时的class */
+.ant-layout-sider-collapsed {
+	/* 嵌套选择器，等效于后代选择器 */
+	.logo-bar > span {
+		display: none;
+	}
+	.side-footer > span {
+		display: none;
+	}
 }
 
 .panel-item {
