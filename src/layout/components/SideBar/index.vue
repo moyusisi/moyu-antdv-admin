@@ -38,9 +38,7 @@
       </div>
       <span class="foot-label">MY管理系统</span>
       <div class="item">
-        <a-tooltip title="点击伸缩菜单栏" placement="topLeft">
-          <Hamburger/>
-        </a-tooltip>
+        <Hamburger/>
       </div>
     </div>
   </a-layout-sider>
