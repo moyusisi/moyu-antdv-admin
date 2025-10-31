@@ -169,8 +169,8 @@ a, button, input, textarea {
 
 /* 重写antdv的一些样式，定义到全局 */
 .ant-layout {
-	// 默认为白烟颜色
-	//background-color: #f6f8f9;
+	/** 背景色改为默认白烟 */
+	/** background-color: #f6f8f9; */
 }
 
 /* 重写antdv的表格滚动条 */
@@ -190,7 +190,7 @@ a, button, input, textarea {
 	}
 }
 
-// 滚动条，需要哪里，加哪个class
+/** 滚动条，需要哪里，加哪个class */
 body,
 .ant-scrolling-effect,
 .ant-drawer-wrapper-body,
@@ -221,7 +221,7 @@ body,
 .ant-table-body,
 .dict-tree-div,
 
-.admin-ui-main{
+.admin-ui-main {
 	&::-webkit-scrollbar {
 		/*滚动条整体样式*/
 		width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
@@ -250,19 +250,4 @@ body,
 		opacity: 0;
 		display: none;
 	}
-}
-
-.json-box-9136076486841527{
-	overflow: hidden!important;;
-	.CodeMirror-scrollbar-filler{
-		display: none!important;
-	}
-}
-.ant-modal-close-x .anticon {
-	padding: 2px !important;
-}
-
-// 解决浏览器F12爆红aria-hidden问题
-.ant-modal div[aria-hidden="true"] {
-	display: none !important
 }
