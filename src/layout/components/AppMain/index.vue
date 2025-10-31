@@ -1,7 +1,6 @@
 <template>
   <div class="admin-ui-main">
     <router-view v-slot="{ Component, route }">
-      <!--  TODO keep-alive还有点问题，被缓存的页面，激活时onMounted和onActivated都会触发，导致多次请求    -->
       <keep-alive :include="cachedViews">
         <component :is="currentComponent(Component, route)" :key="route.fullPath"/>
       </keep-alive>

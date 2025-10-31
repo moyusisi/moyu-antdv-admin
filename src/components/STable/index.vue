@@ -596,11 +596,11 @@
 		}
 	}
 	.s-table-alert {
-		background-color: var(--primary-1) !important;
-		border-color: var(--primary-color) !important;
+		background-color: #e6f7ff !important;
+		border-color: #1677FF !important;
 		:deep(.ant-alert-icon),
 		a {
-			color: var(--primary-color) !important;
+			color: #1677FF !important;
 		}
 	}
 </style>

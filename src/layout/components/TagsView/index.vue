@@ -138,7 +138,7 @@ const scrollRight = () => {
 
 .admin-tags {
   height: 40px;
-  background: var(--background-color);
+  background: #FFFFFF;
 }
 
 .admin-tabs {
@@ -180,7 +180,7 @@ const scrollRight = () => {
         }
 
         .ant-tabs-tab-active {
-          background: var(--primary-1);
+          background: #e6f7ff;
         }
       }
     }
