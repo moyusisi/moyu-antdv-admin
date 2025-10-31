@@ -57,64 +57,6 @@ a, button, input, textarea {
 	padding-bottom: 25px;
 }
 
-.side-menu-header {
-	height: 50px;
-	display: flex;
-	justify-content: space-between;
-	border-bottom: 1px solid rgba(246, 246, 246, 0.85);
-}
-
-.header-left {
-	display: flex;
-	align-items: center;
-	padding-left: 20px;
-}
-
-.side-menu-header .logo-bar {
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	font-size: 20px;
-}
-
-.side-menu-header .logo-bar .logo {
-	margin-right: 10px;
-	width: 35px;
-	height: 35px;
-}
-
-.side-menu-body {
-	height: calc(100vh - 90px);
-	overflow: auto;
-}
-
-.side-menu-footer {
-	height: 40px;
-	line-height: 40px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-top: 1px solid rgba(246, 246, 246, 0.85);
-}
-
-/* a-sider折叠时的class */
-.ant-layout-sider-collapsed {
-	/* 嵌套选择器，等效于后代选择器 */
-	.logo-bar > span {
-		display: none;
-	}
-	.side-menu-footer > span {
-		display: none;
-	}
-}
-
-/* a-sider暗色时的class */
-.ant-layout-sider-dark {
-	.side-menu-header, .side-menu-footer {
-		color: #fff;
-	}
-}
-
 /* 单个操作图标Bar */
 .bar-item {
 	width: 40px;
@@ -163,7 +105,7 @@ a, button, input, textarea {
 	background: rgba(0, 0, 0, 0.4);
 }
 
-.ant-layout-sider{
+.ant-layout-sider {
 	overflow: auto;
 }
 
@@ -174,7 +116,7 @@ a, button, input, textarea {
 }
 
 /* 重写antdv的表格滚动条 */
-.ant-table-body, .ant-table-content, .side-menu-body {
+.ant-table-body, .ant-table-content {
 	&::-webkit-scrollbar {
 		height: 10px;
 		width: 10px;
