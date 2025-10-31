@@ -38,16 +38,16 @@
   import { Modal } from 'ant-design-vue'
   import screenFull from 'screenfull'
   import { message } from 'ant-design-vue'
-  import { useMenuStore, useUserStore } from '@/store/index.js'
+  import { useMenuStore, useTagsViewStore, useUserStore } from '@/store/index.js'
   import { useRoute, useRouter } from 'vue-router'
 
   const userStore = useUserStore()
   const menuStore = useMenuStore()
+  const tagsViewStore = useTagsViewStore()
   const route = useRoute()
   const router = useRouter()
   const avatarImg = '/img/avatar.gif?' +new Date()
 
-  const settingDialog = ref(false)
   const isMobile = ref(false)
   const userInfo = computed(() => {
     return userStore.userInfo
@@ -63,6 +63,7 @@
       await userStore.switchUserGroup(groupCode)
       message.loading('切换中...', 0.5)
       await menuStore.reloadRoutes()
+      tagsViewStore.initTags()
       router.push({ path: '/' })
       // window.location.href = '/index'
       message.success('切换成功')
@@ -82,6 +83,7 @@
         message.loading('退出中...', 0.5)
         userStore.logout().then(() => {
           menuStore.clear()
+          tagsViewStore.initTags()
           router.push(`/login?redirect=${route.fullPath}`);
           // router.push({ path: '/login' })
         }).catch((err) => {
@@ -92,10 +94,6 @@
       onCancel() {
       }
     })
-  }
-  // 设置抽屉
-  const openSetting = () => {
-    settingDialog.value = true
   }
   // 全屏
   const fullscreen = () => {
