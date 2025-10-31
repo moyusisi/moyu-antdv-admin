@@ -174,7 +174,7 @@ a, button, input, textarea {
 }
 
 /* 重写antdv的表格滚动条 */
-.ant-table-body, .ant-table-content{
+.ant-table-body, .ant-table-content, .side-menu-body {
 	&::-webkit-scrollbar {
 		height: 10px;
 		width: 10px;
@@ -223,8 +223,8 @@ body,
 
 .admin-ui-main {
 	&::-webkit-scrollbar {
-		/*滚动条整体样式*/
-		width : 0;  /*高宽分别对应横竖滚动条的尺寸*/
+		/*高宽分别对应横竖滚动条的尺寸*/
+		width: 0;
 		height: 0;
 	}
 	&::-webkit-scrollbar-thumb {
