@@ -42,7 +42,7 @@ a, button, input, textarea {
 	flex: 1;
 }
 .main-content-wrapper{
-	padding: 3px 3px 0px;
+	padding: 3px 3px 0;
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: auto;
@@ -66,7 +66,7 @@ a, button, input, textarea {
 	height: 40px;
 	border-radius: 3px 0 0 3px;
 	bottom: 50%;
-	right: 0px;
+	right: 0;
 	z-index: 100;
 	background: @primary-color;
 	display: flex;
@@ -138,17 +138,6 @@ a, button, input, textarea {
 	}
 }
 
-.panel-item {
-	padding: 0 10px;
-	cursor: pointer;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	/*color: var(--font-color);*/
-}
-.panel-item:hover {
-	background: var(--header-color-split);
-}
 /* 单个操作图标Bar */
 .bar-item {
 	width: 40px;
@@ -308,42 +297,4 @@ body,
 // 解决浏览器F12爆红aria-hidden问题
 .ant-modal div[aria-hidden="true"] {
 	display: none !important
-}
-
-// 以下是重写表单设计器的样式
-.list-main {
-	background: var(--auto-judge-before-color) !important;
-}
-.drag-move-box:before {
-	background: var(--primary-color) !important;
-}
-.drag-move-box>.delete {
-	background: var(--primary-color) !important;
-}
-.drag-move-box>.copy {
-	background: var(--primary-color) !important;
-}
-.drag-move-box .show-key-box {
-	color: var(--primary-color) !important;
-}
-.left-ul-item:hover {
-	color: var(--primary-color) !important;
-	border: 1px solid var(--primary-color) !important;
-	-webkit-box-shadow: 0 2px 6px var(--primary-color) !important;
-	box-shadow: 0 2px 6px var(--primary-color) !important;
-}
-.list-main>.moving:before {
-	background: var(--primary-color) !important;
-}
-.operating-area a:hover {
-	color: var(--primary-color) !important;
-}
-.batch-box>.delete {
-	background: var(--primary-color) !important;
-}
-.batch-box>.copy {
-	background: var(--primary-color) !important;
-}
-.batch-box.active:before {
-	background: var(--primary-color) !important;
 }
