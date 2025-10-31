@@ -126,7 +126,7 @@ a, button, input, textarea {
 }
 
 .bar-item:hover {
-	background: var(--header-color-split);
+	background: rgba(0, 0, 0, 0.08);
 }
 
 /*页面最大化*/
