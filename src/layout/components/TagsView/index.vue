@@ -26,8 +26,6 @@
 import { useTagsViewStore, useMenuStore } from '@/store'
 import { LeftOutlined, RightOutlined } from "@ant-design/icons-vue";
 
-import { TagView } from "@/types/global"
-
 const route = useRoute()
 const router = useRouter()
 const tagsViewStore = useTagsViewStore()
