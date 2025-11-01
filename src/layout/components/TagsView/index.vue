@@ -128,7 +128,7 @@ const scrollRight = () => {
 }
 
 .admin-tabs {
-
+  /** 覆盖ant的默认样式 */
   .ant-tabs-nav {
     margin-bottom: 0;
     /** 左右两侧插槽 */
