@@ -11,12 +11,12 @@
     >
       <template #leftExtra>
         <div class="admin-tabs-arrow" @click="scrollLeft">
-          <left-outlined/>
+          <LeftOutlined/>
         </div>
       </template>
       <template #rightExtra>
         <div class="admin-tabs-arrow" @click="scrollRight">
-          <right-outlined/>
+          <RightOutlined/>
         </div>
       </template>
 
@@ -33,6 +33,8 @@
 
 <script setup lang="ts">
 import { useTagsViewStore, useMenuStore } from '@/store'
+import { LeftOutlined, RightOutlined } from "@ant-design/icons-vue";
+
 import { TagView } from "@/types/global"
 
 const route = useRoute()
