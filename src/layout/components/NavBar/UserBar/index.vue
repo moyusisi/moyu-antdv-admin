@@ -104,7 +104,7 @@
   }
 </script>
 
-<style lang="less">
+<style>
 	.user-bar {
 		display: flex;
 		align-items: center;

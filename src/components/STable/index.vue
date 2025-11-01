@@ -580,7 +580,7 @@
 		init()
 	})
 </script>
-<style lang="less" scoped>
+<style scoped>
 	.s-table-tool {
 		display: flex;
 		margin-bottom: 16px;

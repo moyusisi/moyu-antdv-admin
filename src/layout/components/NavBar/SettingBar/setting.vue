@@ -82,7 +82,7 @@
 	})
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 	.setting-checkbox {
 		display: flex;
 		margin-bottom: 20px;

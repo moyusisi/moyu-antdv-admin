@@ -134,71 +134,69 @@ const scrollRight = () => {
 }
 </script>
 
-<style lang="less">
+<style>
 
 .admin-tags {
   height: 40px;
   background: #FFFFFF;
 }
 
-.admin-tabs {
-  //overflow: hidden; // 新增
-  &.ant-tabs {
-    z-index: 99;
+/** 同时具有两个class的元素 */
+.admin-tabs.ant-tabs {
+  z-index: 99;
 
-    .ant-tabs-nav {
-      margin-bottom: 0;
+  .ant-tabs-nav {
+    margin-bottom: 0;
 
-      .ant-tabs-extra-content {
-        display: flex;
-      }
-
-      .ant-tabs-nav-wrap {
-        .ant-tabs-ink-bar {
-          visibility: visible;
-        }
-
-        .ant-tabs-tab-with-remove {
-          padding-right: 4px;
-        }
-
-        .ant-tabs-tab {
-          background: none;
-          height: 40px;
-          line-height: 40px;
-          transition: background-color 0.3s,
-          color 0.3s;
-          padding: 0 16px;
-          border-radius: 0;
-          border: none;
-          margin: 0;
-
-          .ant-tabs-tab-remove {
-            margin: 0;
-            padding: 0 5px;
-          }
-        }
-
-        .ant-tabs-tab-active {
-          background: #e6f7ff;
-        }
-      }
+    .ant-tabs-extra-content {
+      display: flex;
     }
 
-    .admin-tabs-drop,
-    .admin-tabs-arrow,
-    .ant-tabs-nav-operations .ant-tabs-nav-more {
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      line-height: 40px;
-      text-align: center;
-      cursor: pointer;
-
-      .anticon {
-        font-size: 12px;
-        vertical-align: -1px;
+    .ant-tabs-nav-wrap {
+      .ant-tabs-ink-bar {
+        visibility: visible;
       }
+
+      .ant-tabs-tab-with-remove {
+        padding-right: 4px;
+      }
+
+      .ant-tabs-tab {
+        background: none;
+        height: 40px;
+        line-height: 40px;
+        transition: background-color 0.3s,
+        color 0.3s;
+        padding: 0 16px;
+        border-radius: 0;
+        border: none;
+        margin: 0;
+
+        .ant-tabs-tab-remove {
+          margin: 0;
+          padding: 0 5px;
+        }
+      }
+
+      .ant-tabs-tab-active {
+        background: #e6f7ff;
+      }
+    }
+  }
+
+  .admin-tabs-drop,
+  .admin-tabs-arrow,
+  .ant-tabs-nav-operations .ant-tabs-nav-more {
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+
+    .anticon {
+      font-size: 12px;
+      vertical-align: -1px;
     }
   }
 }

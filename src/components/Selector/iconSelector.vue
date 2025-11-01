@@ -120,7 +120,7 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 	.xn-icon-select-radio {
 		padding-left: 5px;
 		padding-bottom: 10px;
