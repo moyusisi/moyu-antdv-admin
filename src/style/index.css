@@ -33,7 +33,7 @@
 	flex: 1;
 }
 .main-content-wrapper {
-	padding: 3px 3px 0;
+	padding: 3px 3px 0 3px;
 	overflow-y: auto;
 	overflow-x: hidden;
 	flex: auto;
@@ -62,40 +62,6 @@
 
 .bar-item:hover {
 	background: rgba(0, 0, 0, 0.08);
-}
-
-/*页面最大化*/
-.app-main.main-maximize {
-	.main-maximize-exit {
-		display: block;
-	}
-	.ant-layout-sider, .layout-setting .admin-ui-breadcrumb {
-		display: none;
-	}
-	.main-content-wrapper {
-		padding: 0;
-	}
-}
-
-/* 最大化后的退出按钮 */
-.main-maximize-exit {
-	display: none;
-	position: fixed;
-	z-index: 3000;
-	top: -20px;
-	padding-top: 18px;
-	left: 50%;
-	margin-left: -20px;
-	border-radius: 50%;
-	width: 40px;
-	height: 40px;
-	cursor: pointer;
-	background: rgba(0, 0, 0, 0.2);
-	text-align: center;
-}
-
-.main-maximize-exit:hover {
-	background: rgba(0, 0, 0, 0.4);
 }
 
 /* 重写antdv的表格滚动条 */
