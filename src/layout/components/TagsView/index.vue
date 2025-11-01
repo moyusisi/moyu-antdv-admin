@@ -1,14 +1,7 @@
 <template>
-  <div class="admin-tags">
-    <a-tabs
-        v-model:activeKey="activeKey"
-        type="editable-card"
-        class="admin-tabs"
-        hide-add
-        @edit="onTabRemove"
-        @tabClick="onTabClick"
-        @mouseup="onTabUp"
-    >
+  <div class="admin-tabs-container">
+    <a-tabs class="admin-tabs" :activeKey="activeKey" type="editable-card" hide-add
+            @tabClick="onTabClick" @edit="onTabEdit">
       <template #leftExtra>
         <div class="admin-tabs-arrow" @click="scrollLeft">
           <LeftOutlined/>
@@ -22,9 +15,7 @@
 
       <a-tab-pane v-for="tag in tagList" :key="tag.fullPath" :closable="!(tag?.affix===true)">
         <template #tab>
-					<span :key="tag.fullPath">
-						{{ tag.title }}
-					</span>
+          <span>{{ tag.title }}</span>
         </template>
       </a-tab-pane>
     </a-tabs>
@@ -80,7 +71,7 @@ const addView = (to) => {
   }
 }
 
-const onTabRemove = (tabKey, action) => {
+const onTabEdit = (tabKey, action) => {
   // console.log(action, tabKey)
   if (action === 'remove') {
     const tag = tagList.value.find((tag) => tag.fullPath === tabKey)
@@ -102,21 +93,14 @@ const closeSelectedTag = (tag, autoPushLatestView = true) => {
   }
 }
 // 是否激活
-const isActive = (to) => {
-  return to.path === route.path
+const isActive = (tag) => {
+  return tag.path === route.path
 }
 const onTabClick = (tabKey) => {
   // console.log('onTabClick', tabKey)
   router.push(tabKey)
 }
-// 处理鼠标放开事件
-const onTabUp = (e) => {
-  // 鼠标中键
-  if (e.which === 2) {
-    // handleTabContextMenu(e)
-    // closeTabs()
-  }
-}
+
 const getTabWrapEl = () => {
   return document.querySelector('.ant-tabs-nav-wrap')
 }
@@ -138,56 +122,48 @@ const scrollRight = () => {
 
 <style>
 
-.admin-tags {
+.admin-tabs-container {
   height: 40px;
   background: #FFFFFF;
 }
 
-/** 同时具有两个class的元素 */
-.admin-tabs.ant-tabs {
-  z-index: 99;
+.admin-tabs {
 
   .ant-tabs-nav {
     margin-bottom: 0;
-
+    /** 左右两侧插槽 */
     .ant-tabs-extra-content {
       display: flex;
     }
-
+    /** 整个tabs包裹区(不含两侧插槽) */
     .ant-tabs-nav-wrap {
-      .ant-tabs-ink-bar {
-        visibility: visible;
-      }
-
-      .ant-tabs-tab-with-remove {
-        padding-right: 4px;
-      }
-
+      /** 选项tab样式 */
       .ant-tabs-tab {
         background: none;
-        height: 40px;
-        line-height: 40px;
-        transition: background-color 0.3s,
-        color 0.3s;
+        transition: background-color 0.3s, color 0.3s;
         padding: 0 16px;
         border-radius: 0;
         border: none;
         margin: 0;
-
+        /** 选项tab中, 移除区的样式 */
         .ant-tabs-tab-remove {
           margin: 0;
-          padding: 0 5px;
+          padding: 0 0 0 5px;
         }
       }
-
+      /** 选中元素样式 */
       .ant-tabs-tab-active {
         background: #e6f7ff;
+      }
+      /** 选中元素下方的线 */
+      .ant-tabs-ink-bar {
+        visibility: visible;
       }
     }
   }
 
-  .admin-tabs-drop,
   .admin-tabs-arrow,
+  /** tabs操作区 如更多操作 */
   .ant-tabs-nav-operations .ant-tabs-nav-more {
     padding: 0;
     width: 40px;
@@ -197,7 +173,6 @@ const scrollRight = () => {
     cursor: pointer;
 
     .anticon {
-      font-size: 12px;
       vertical-align: -1px;
     }
   }
