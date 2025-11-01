@@ -1,22 +1,15 @@
 <template>
   <!-- 左侧侧边栏 -->
-  <a-layout-sider class="" :collapsed="menuCollapsed" :theme="sideTheme" collapsible width="210" @collapse="onCollapse">
+  <a-layout-sider class="side-menu" :collapsed="menuCollapsed" :theme="sideTheme" collapsible width="210" @collapse="onCollapse">
     <!-- 侧边栏logo标题 -->
     <a-layout-header class="side-menu-header">
         <img class="logo" :src="defaultSettings.logo"/>
         <span class="title">{{ defaultSettings.title }}</span>
     </a-layout-header>
     <div class="side-menu-body">
-      <!-- sideBarMenu -->
-      <a-menu
-          mode="inline"
-          :inline-indent="16"
-          :theme="sideTheme"
-          v-bind:openKeys="openKeys"
-          v-bind:selectedKeys="selectedKeys"
-          @select="onSelect"
-          @openChange="onOpenChange"
-      >
+      <!-- 侧边栏菜单 -->
+      <a-menu mode="inline" :inline-indent="16" :theme="sideTheme" :openKeys="openKeys" :selectedKeys="selectedKeys"
+              @select="onSelect" @openChange="onOpenChange">
         <MenuItem v-for="route in menuList" :key="route.path" :item="route"/>
       </a-menu>
     </div>
@@ -183,15 +176,12 @@ const traverse = (array, key) => {
 
 .side-menu {
   height: 100vh;
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
   overflow: auto;
 }
 
 .side-menu-header {
   padding: 0;
+  /** a-layout-header默认高度为64,此处改为50 */
   height: 50px;
   display: flex;
   justify-content: flex-start;
@@ -214,11 +204,14 @@ const traverse = (array, key) => {
 }
 
 .side-menu-body {
-  height: calc(100vh - 90px);
+  /** 高度为 页面100% - header高度 - trigger(footer)高度 */
+  height: calc(100vh - 50px - 48px);
+  /** scroll在body中,注释掉则出现在side-menu，即header也会滑动 */
   overflow: auto;
 }
 
 .side-menu-footer {
+  /** trigger高度默认为48 */
   height: 100%;
   display: flex;
   justify-content: space-between;
