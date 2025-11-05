@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia'
 import '@/utils/objects'
+import { SearchItem } from "@/types/global";
 
 export const useSearchStore = defineStore('search', () => {
 	// 定义state
-	const pool = ref([])
+	const pool = ref<SearchItem[]>([])
 	const hotkey = ref({
 		open: 's',
 		close: 'esc'
@@ -18,10 +19,10 @@ export const useSearchStore = defineStore('search', () => {
 		active.value = val
 	}
 	const init = (menus) => {
-		const poolList = []
+		const poolList: SearchItem[] = []
 		const getFullName = function (meta) {
 			if (meta.fullTitlePath) {
-				let list = []
+				let list: string[] = []
 				meta.fullTitlePath.forEach((item) => {
 					list.push(item.title)
 				})
@@ -35,7 +36,7 @@ export const useSearchStore = defineStore('search', () => {
 					push(m.children)
 				} else {
 					if (m.meta.title) {
-						poolList.push({
+						var item: SearchItem = {
 							icon: m.meta.icon,
 							path: m.path,
 							fullPath: m.path,
@@ -43,7 +44,8 @@ export const useSearchStore = defineStore('search', () => {
 							fullName: getFullName(m.meta),
 							namePinyin: m.meta.title.toPinyin(),
 							namePinyinFirst: m.meta.title.toPinyin(true)
-						})
+						}
+						poolList.push(item)
 					}
 				}
 			})
