@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import '@/utils/objects'
 import { SearchItem } from "@/types/global";
+import { RouteRecordRaw } from "vue-router";
 
 export const useSearchStore = defineStore('search', () => {
 	// 定义state
@@ -18,7 +19,7 @@ export const useSearchStore = defineStore('search', () => {
 	const setActive = (val) => {
 		active.value = val
 	}
-	const init = (menus) => {
+	const init = (menus: RouteRecordRaw[]) => {
 		const poolList: SearchItem[] = []
 		const getFullName = function (meta) {
 			if (meta.fullTitlePath) {
@@ -35,7 +36,8 @@ export const useSearchStore = defineStore('search', () => {
 				if (m.children) {
 					push(m.children)
 				} else {
-					if (m.meta.title) {
+					// 菜单且非隐藏则需要搜索
+					if (m.meta.title && !m.meta.hidden) {
 						var item: SearchItem = {
 							icon: m.meta.icon,
 							path: m.path,
