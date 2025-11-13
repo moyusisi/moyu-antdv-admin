@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { Modal, message } from 'ant-design-vue'
 import settings from '@/config/settings'
+import router from "@/router"
 
 // 创建 axios 实例
 const service = axios.create({
@@ -47,13 +48,13 @@ service.interceptors.response.use(
 		// 返回的报文内容
 		const res = response.data
 		// 特殊错误码处理
-		if (res.code === 50001) {
+		if (res.code === "A0230") {
 			message.error(res.message || "登陆已失效，请重新登陆")
 			reLogin()
-			return Promise.reject(res.message || "登陆已失效");
+			return Promise.reject(res);
 		}
 		// 成功直接返回数据
-		if (res.code === 0) {
+		if (res.code === "00000") {
 			return Promise.resolve(res)
 		}
 
@@ -75,10 +76,11 @@ const reLogin = () => {
 		okText: '重新登录',
 		content: '登录已失效， 请重新登录',
 		onOk: () => {
-			localStorage.remove('TOKEN')
-			localStorage.remove('USER_INFO')
-			localStorage.remove('MENU')
-			window.location.reload()
+			localStorage.clear()
+			// 跳转到登录页，保留当前路由用于登录后跳转
+			const currentPath = router.currentRoute.value.fullPath;
+			router.push(`/login?redirect=${currentPath}`);
+			// router.push({ path: '/login' })
 		}
 	})
 }

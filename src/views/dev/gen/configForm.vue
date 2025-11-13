@@ -377,13 +377,11 @@ const onSubmit = () => {
   // 保存所有配置
   submitLoading.value = true
   codegenApi.saveConfig(configFormData.value).then((res) => {
-    if (res.code === 0) {
-      message.success(res.message)
-      emit('successful')
-      onClose()
-    } else {
-      message.error(res.message)
-    }
+    message.success(res.message)
+    emit('successful')
+    onClose()
+  }).catch((res) => {
+    message.error(res.message)
   }).finally(() => {
     submitLoading.value = false
   })
