@@ -298,7 +298,6 @@
   }
   // 加载数据
   const loadData = (parameter) => {
-    console.log(queryFormData.value)
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
     return logApi.logPage(param).then((res) => {
