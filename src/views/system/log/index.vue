@@ -82,7 +82,7 @@
         <template v-if="column.dataIndex === 'id'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
-            <a @click="detailRef.onOpen(record)">{{ text }}</a>
+            <a style="text-decoration: underline;" @click="detailRef.onOpen(record)">{{ text }}</a>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'requestUrl'">
@@ -335,7 +335,7 @@
   .ant-card .ant-form {
     margin-bottom: -12px !important;
   }
-  .ant-form-item {
+  .ant-card .ant-form-item {
     margin-bottom: 12px !important;
   }
   .custom-btn {
