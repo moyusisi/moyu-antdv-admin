@@ -49,7 +49,7 @@ service.interceptors.response.use(
 		const res = response.data
 		// 特殊错误码处理
 		if (res.code === "A0230") {
-			message.error(res.message || "登陆已失效，请重新登陆")
+			// message.error(res.message || "登陆已失效，请重新登陆")
 			reLogin()
 			return Promise.reject(res);
 		}
@@ -70,17 +70,22 @@ service.interceptors.response.use(
 )
 
 // 保持重新登录Modal的唯一性
+const reLoginShow = ref(false)
 const reLogin = () => {
+	// 防止多个请求时重复弹框
+	if (reLoginShow.value) {
+		return
+	}
+	reLoginShow.value = true
 	Modal.error({
 		title: '提示：',
 		okText: '重新登录',
 		content: '登录已失效， 请重新登录',
 		onOk: () => {
 			localStorage.clear()
-			// 跳转到登录页，保留当前路由用于登录后跳转
-			const currentPath = router.currentRoute.value.fullPath;
-			router.push(`/login?redirect=${currentPath}`);
-			// router.push({ path: '/login' })
+			// 跳转到登录页
+			router.push({ path: '/login' })
+			reLoginShow.value = false
 		}
 	})
 }
