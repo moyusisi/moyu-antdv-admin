@@ -49,8 +49,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="6" v-if="showMore">
-          <a-form-item name="createTime" label="记录时间">
-            <a-range-picker v-model:value="queryFormData.createTimeRange" valueFormat="YYYY-MM-DD"/>
+          <a-form-item name="startTimeRange" label="记录时间">
+            <a-range-picker v-model:value="queryFormData.startTimeRange" valueFormat="YYYY-MM-DD"/>
           </a-form-item>
         </a-col>
       </a-row>
