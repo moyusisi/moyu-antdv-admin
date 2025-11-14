@@ -133,7 +133,7 @@ import userApi from '@/api/system/userApi'
 import { required } from '@/utils/formRules'
 import { message } from "ant-design-vue"
 import { useSettingsStore } from "@/store"
-import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
+import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"
 
 // store
 const settingsStore = useSettingsStore()

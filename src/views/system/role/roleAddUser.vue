@@ -81,7 +81,7 @@
   import { h } from "vue";
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import userApi from "@/api/system/userApi"
-  import OrgTree from "@/views/sys/components/orgTree.vue";
+  import OrgTree from "@/views/system/components/orgTree.vue";
 
   const settingsStore = useSettingsStore()
 

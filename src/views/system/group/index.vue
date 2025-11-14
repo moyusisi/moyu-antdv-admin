@@ -112,7 +112,7 @@
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
   import MTable from "@/components/MTable/index.vue"
-  import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue"
+  import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue";
 
   // 查询表单相关对象

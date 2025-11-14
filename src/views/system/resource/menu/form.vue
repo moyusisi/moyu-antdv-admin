@@ -122,7 +122,7 @@
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
   import IconSelector from '@/components/Selector/iconSelector.vue'
-  import MenuTreeSelect from "@/views/sys/components/menuTreeSelect.vue";
+  import MenuTreeSelect from "@/views/system/components/menuTreeSelect.vue";
 
   // store
   const settingsStore = useSettingsStore()

@@ -100,7 +100,7 @@
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import Form from "@/views/sys/resource/module/form.vue"
+  import Form from "@/views/system/resource/module/form.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // resourceType=1标识模块

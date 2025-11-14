@@ -52,7 +52,7 @@
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
-  import MenuTreeSelect from "@/views/sys/components/menuTreeSelect.vue"
+  import MenuTreeSelect from "@/views/system/components/menuTreeSelect.vue"
 
   // store
   const settingsStore = useSettingsStore()
