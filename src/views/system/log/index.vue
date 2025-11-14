@@ -79,6 +79,12 @@
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
         </template>
+        <template v-if="column.dataIndex === 'id'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <a @click="detailRef.onOpen(record)">{{ text }}</a>
+          </a-tooltip>
+        </template>
         <template v-if="column.dataIndex === 'requestUrl'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
@@ -123,8 +129,8 @@
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
-            <a-tooltip title="查看">
-              <a @click="formRef.onOpen(record)">查看</a>
+            <a-tooltip title="编辑">
+              <a @click="formRef.onOpen(record)">编辑</a>
             </a-tooltip>
             <a-tooltip title="删除">
               <a-popconfirm title="确定要删除吗？" @confirm="deleteLog(record)">
@@ -137,6 +143,7 @@
     </MTable>
   </a-card>
   <Form ref="formRef" @successful="tableRef.refresh()" />
+  <Detail ref="detailRef"/>
 </template>
 
 <script setup>
@@ -146,6 +153,7 @@
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from "./form.vue"
+  import Detail from "./detail.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // 查询表单相关对象
@@ -156,6 +164,7 @@
 
   // 其他页面操作
   const formRef = ref()
+  const detailRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
@@ -163,12 +172,11 @@
   const selectedRowKeys = ref([])
   // 表格列配置
   const columns = ref([
-    // 不需要序号可以删掉
     {
-      title: '序号',
-      dataIndex: 'index',
-      align: 'center',
-      width: 50,
+      title: "唯一ID",
+      dataIndex: "id",
+      align: "center",
+      width: 100,
     },
     {
       title: "记录时间",

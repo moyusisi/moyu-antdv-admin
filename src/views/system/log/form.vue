@@ -14,7 +14,7 @@
     </template>
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
-      <a-form ref="formRef" :model="formData" :label-col="{span: 6}" disabled>
+      <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
         <a-card title="基本信息">
           <a-row :gutter="24">
             <a-col :span="12">
@@ -86,7 +86,7 @@
     <template #footer>
       <a-flex gap="small" justify="flex-end">
         <a-button type="primary" danger @click="onClose"> 关闭</a-button>
-        <a-button type="primary" :loading="submitLoading" @click="onSubmit" disabled>保存</a-button>
+        <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
       </a-flex>
     </template>
   </a-drawer>
@@ -117,11 +117,6 @@
   const formData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
 
   // 打开抽屉
   const onOpen = (row) => {
