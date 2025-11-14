@@ -64,7 +64,7 @@ service.interceptors.response.use(
 	},
 	(error) => {
 		console.error('系统错误', error)
-		message.error('网络连接失败，请检查网络设置')
+		message.error('网络请求失败，请检查网络设置')
 		return Promise.reject(error.message);
 	}
 )
