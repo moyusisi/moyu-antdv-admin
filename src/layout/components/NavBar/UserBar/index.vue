@@ -90,13 +90,6 @@
       }
     })
   }
-  // 全屏
-  const fullscreen = () => {
-    const element = document.documentElement
-    if (screenFull.isEnabled) {
-      screenFull.toggle(element)
-    }
-  }
 </script>
 
 <style>
