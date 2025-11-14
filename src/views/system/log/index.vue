@@ -180,8 +180,8 @@
       width: 100,
     },
     {
-      title: "记录时间",
-      dataIndex: "createTime",
+      title: "时间",
+      dataIndex: "startTime",
       align: "center",
       width: 160,
     },
@@ -249,12 +249,6 @@
       width: 150,
     },
     {
-      title: "开始时间",
-      dataIndex: "startTime",
-      align: "center",
-      width: 160,
-    },
-    {
       title: "结束时间",
       dataIndex: "endTime",
       align: "center",
@@ -266,6 +260,12 @@
       align: "center",
       resizable: true,
       width: 120,
+    },
+    {
+      title: "记录时间",
+      dataIndex: "createTime",
+      align: "center",
+      width: 160,
     },
     // 单行操作，不需要可以删掉
     {
