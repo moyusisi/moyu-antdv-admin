@@ -82,7 +82,7 @@
         <template v-if="column.dataIndex === 'id'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
-<!--            <a style="text-decoration: underline;" @click="detailRef.onOpen(record)">{{ text }}</a>-->
+            <!--<a style="text-decoration: underline;" @click="detailRef.onOpen(record)">{{ text }}</a>-->
             <a @click="detailRef.onOpen(record)">{{ text }}</a>
           </a-tooltip>
         </template>
@@ -143,7 +143,7 @@
       </template>
     </MTable>
   </a-card>
-  <Form ref="formRef" @successful="tableRef.refresh()" />
+  <Form ref="formRef" @successful="tableRef.refresh()"/>
   <Detail ref="detailRef"/>
 </template>
 
