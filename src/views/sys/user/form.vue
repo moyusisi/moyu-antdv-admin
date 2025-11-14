@@ -128,7 +128,7 @@
 </template>
 
 <script setup>
-import userApi from '@/api/sys/userApi'
+import userApi from '@/api/system/userApi'
 
 import { required } from '@/utils/formRules'
 import { message } from "ant-design-vue"

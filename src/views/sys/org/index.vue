@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-  import orgApi from '@/api/sys/orgApi'
+  import orgApi from '@/api/system/orgApi'
 
   import { onActivated, h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"

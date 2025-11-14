@@ -83,13 +83,13 @@
 </template>
 
 <script setup>
-  import groupApi from '@/api/sys/groupApi'
+  import groupApi from '@/api/system/groupApi'
 
   import { useSettingsStore } from "@/store";
   import { Empty, message } from "ant-design-vue";
   import { h } from "vue";
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import userApi from "@/api/sys/userApi"
+  import userApi from "@/api/system/userApi"
 
   const settingsStore = useSettingsStore()
 

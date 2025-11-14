@@ -98,7 +98,7 @@
 </template>
 
 <script setup>
-  import userApi from '@/api/sys/userApi'
+  import userApi from '@/api/system/userApi'
 
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"

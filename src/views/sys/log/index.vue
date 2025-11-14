@@ -140,7 +140,7 @@
 </template>
 
 <script setup>
-  import logApi from '@/api/sys/logApi.js'
+  import logApi from '@/api/system/logApi.js'
 
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"

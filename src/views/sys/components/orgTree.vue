@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import userCenterApi from "@/api/sys/userCenterApi"
+import userCenterApi from "@/api/system/userCenterApi"
 
 import { Empty } from "ant-design-vue"
 

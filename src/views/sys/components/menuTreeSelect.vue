@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import resourceApi from "@/api/sys/resourceApi"
+import resourceApi from "@/api/system/resourceApi"
 
 import { TreeSelect } from "ant-design-vue"
 

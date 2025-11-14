@@ -72,7 +72,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/system/roleApi'
   import { useMenuStore } from '@/store/menu'
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store";

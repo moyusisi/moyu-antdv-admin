@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/sys/resourceApi.js'
+  import resourceApi from '@/api/system/resourceApi.js'
 
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"

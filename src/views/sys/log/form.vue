@@ -92,7 +92,7 @@
   </a-drawer>
 </template>
 <script setup>
-  import logApi from '@/api/sys/logApi.js'
+  import logApi from '@/api/system/logApi.js'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"

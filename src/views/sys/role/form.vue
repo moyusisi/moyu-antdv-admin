@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/system/roleApi'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"

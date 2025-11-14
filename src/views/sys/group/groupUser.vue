@@ -82,7 +82,7 @@
 </template>
 
 <script setup>
-  import groupApi from '@/api/sys/groupApi'
+  import groupApi from '@/api/system/groupApi'
 
   import { Empty, message } from "ant-design-vue";
   import { h } from "vue";

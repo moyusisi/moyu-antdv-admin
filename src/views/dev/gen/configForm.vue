@@ -151,7 +151,7 @@ import codegenApi from '@/api/dev/codegenApi'
 import { message, TreeSelect } from 'ant-design-vue'
 import { required } from "@/utils/formRules.js";
 import { useSettingsStore } from "@/store/index.js";
-import resourceApi from "@/api/sys/resourceApi.js";
+import resourceApi from "@/api/system/resourceApi.js";
 import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue";
 
 const settingsStore = useSettingsStore()

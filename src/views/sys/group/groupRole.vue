@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-  import groupApi from '@/api/sys/groupApi'
+  import groupApi from '@/api/system/groupApi'
 
   import { useSettingsStore } from "@/store";
   import { h } from "vue";

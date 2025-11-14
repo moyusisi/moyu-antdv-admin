@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-  import groupApi from '@/api/sys/groupApi'
+  import groupApi from '@/api/system/groupApi'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"

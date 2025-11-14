@@ -104,7 +104,7 @@
 </template>
 
 <script setup>
-  import groupApi from '@/api/sys/groupApi'
+  import groupApi from '@/api/system/groupApi'
   import { onMounted, h } from "vue"
   import { message } from 'ant-design-vue'
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"

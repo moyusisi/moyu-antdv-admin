@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import resourceApi from '@/api/sys/resourceApi.js'
+import resourceApi from '@/api/system/resourceApi.js'
 import { h } from "vue";
 import {
   DeleteOutlined,

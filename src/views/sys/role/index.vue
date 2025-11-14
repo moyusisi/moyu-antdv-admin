@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/system/roleApi'
 
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"

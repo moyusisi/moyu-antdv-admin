@@ -18,7 +18,7 @@
 <script setup lang="ts">
 
 import { TreeSelect } from "ant-design-vue"
-import userCenterApi from "@/api/sys/userCenterApi"
+import userCenterApi from "@/api/system/userCenterApi"
 
 const props = defineProps({
   // 是否多选

@@ -74,7 +74,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/system/roleApi'
 
   import { message } from "ant-design-vue";
   import { h } from "vue";

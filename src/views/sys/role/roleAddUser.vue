@@ -74,13 +74,13 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/sys/roleApi'
+  import roleApi from '@/api/system/roleApi'
 
   import { useSettingsStore } from "@/store";
   import { message } from "ant-design-vue";
   import { h } from "vue";
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import userApi from "@/api/sys/userApi"
+  import userApi from "@/api/system/userApi"
   import OrgTree from "@/views/sys/components/orgTree.vue";
 
   const settingsStore = useSettingsStore()

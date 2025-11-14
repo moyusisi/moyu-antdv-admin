@@ -79,13 +79,13 @@
 </template>
 
 <script setup>
-  import orgApi from '@/api/sys/orgApi'
+  import orgApi from '@/api/system/orgApi'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
   import OrgTreeSelect from "@/views/sys/components/orgTreeSelect.vue";
-  import userApi from "@/api/sys/userApi.js";
+  import userApi from "@/api/system/userApi.js";
 
   // store
   const settingsStore = useSettingsStore()

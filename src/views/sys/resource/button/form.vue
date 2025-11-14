@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/sys/resourceApi.js'
+  import resourceApi from '@/api/system/resourceApi.js'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
