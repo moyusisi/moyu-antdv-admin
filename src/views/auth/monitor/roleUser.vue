@@ -60,49 +60,38 @@
   const columns = [
     {
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: 'tokenDevice',
       align: 'center',
       resizable: true,
       width: 100
     },
     {
-      title: '账号',
-      dataIndex: 'account',
-      align: 'center',
+      title: '登录设备',
+      dataIndex: 'tokenDevice',
+      align: "center",
       resizable: true,
-      width: 100,
-      ellipsis: true
-    },
-    {
-      title: '性别',
-      dataIndex: 'gender',
-      align: 'center',
-      width: 80
-    },
-    {
-      title: '组织机构',
-      dataIndex: 'orgName',
-      resizable: true,
-      width: 200,
-      ellipsis: true
-    },
-    {
-      title: '手机',
-      dataIndex: 'phone',
-      align: 'center',
       width: 150
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      align: 'center',
-      width: 80
-    }
+      title: '有效期',
+      dataIndex: 'tokenTimeout',
+      align: "center",
+      resizable: true,
+      width: 150
+    },
+    {
+      title: '令牌',
+      dataIndex: 'tokenValue',
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 150
+    },
   ]
 
   // 默认是关闭状态
   const visible = ref(false)
-  const role = ref()
+  const record = ref()
   const emit = defineEmits({ successful: null })
   const searchFormData = ref({})
   // table数据
@@ -127,7 +116,7 @@
 
   // 打开抽屉
   const onOpen = (record) => {
-    role.value = record;
+    record.value = record;
     // 加载数据
     loadTableData()
     visible.value = true
@@ -146,9 +135,7 @@
   // 表格查询
   const loadTableData = async () => {
     selectedRowKeys.value = []
-    let param = Object.assign({ "code": role.value.code }, searchFormData.value)
-    const res = await roleApi.roleUserList(param)
-    tableData.value = res.data
+    tableData.value = record.value.tokenList
   }
   // 批量强退
   const batchDelete = () => {
