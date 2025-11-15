@@ -25,10 +25,16 @@
                ref="tableRef"
                :columns="columns"
                :data-source="tableData"
-               :row-key="(record) => record.account"
+               :row-key="(record) => record.tokenValue"
                :row-selection="rowSelection"
                bordered>
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, index, text }">
+          <template v-if="column.dataIndex === 'tokenValue'">
+            <!-- 长文本省略提示 -->
+            <a-tooltip :title="text" placement="topLeft">
+              <span>{{ text }}</span>
+            </a-tooltip>
+          </template>
           <template v-if="column.dataIndex === 'gender'">
             <a-tag v-if="record.gender === 1" color="blue">男</a-tag>
             <a-tag v-else-if="record.gender === 2" color="pink">女</a-tag>
@@ -53,23 +59,23 @@
   import { h } from "vue";
   import { DeleteOutlined } from "@ant-design/icons-vue";
   import { useSettingsStore } from "@/store";
-  import resourceApi from "@/api/system/resourceApi.js";
 
   const settingsStore = useSettingsStore()
 
   const columns = [
     {
-      title: '姓名',
-      dataIndex: 'tokenDevice',
-      align: 'center',
-      resizable: true,
-      width: 100
-    },
-    {
       title: '登录设备',
       dataIndex: 'tokenDevice',
       align: "center",
       resizable: true,
+      width: 80
+    },
+    {
+      title: '令牌',
+      dataIndex: 'tokenValue',
+      align: "center",
+      resizable: true,
+      ellipsis: true,
       width: 150
     },
     {
@@ -80,12 +86,10 @@
       width: 150
     },
     {
-      title: '令牌',
-      dataIndex: 'tokenValue',
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150
+      title: '令牌创建时间',
+      dataIndex: 'createTime',
+      align: 'center',
+      width: 160
     },
   ]
 
@@ -115,8 +119,8 @@
   })
 
   // 打开抽屉
-  const onOpen = (record) => {
-    record.value = record;
+  const onOpen = (row) => {
+    record.value = row;
     // 加载数据
     loadTableData()
     visible.value = true
