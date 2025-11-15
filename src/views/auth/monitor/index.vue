@@ -3,13 +3,8 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="8">
-          <a-form-item name="name" label="名称">
-            <a-input v-model:value="queryFormData.name" placeholder="搜索名称" allowClear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item label="状态" name="status">
-            <a-select v-model:value="queryFormData.status" placeholder="请选择状态" :options="statusOptions" allowClear />
+          <a-form-item name="searchKey" label="账号">
+            <a-input v-model:value="queryFormData.searchKey" placeholder="搜索账号" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -28,36 +23,44 @@
             :columns="columns"
             :loadData="loadData"
             :row-key="(row) => row.id"
-            showRowSelection
             @selectedChange="onSelectedChange"
     >
       <template #operator>
-        <a-space wrap style="margin-bottom: 6px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增角色</a-button>
-          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="deleteBatchRole">
-            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
-              批量删除
-            </a-button>
-          </a-popconfirm>
-        </a-space>
+        <a-form ref="queryFormRef" :model="queryFormData">
+          <a-row :gutter="24" style="margin-bottom: 6px">
+            <a-col :span="8">
+              <a-form-item name="searchKey">
+                <a-input v-model:value="queryFormData.searchKey" placeholder="搜索账号" allowClear />
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item>
+                <a-flex gap="small">
+                  <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
+                  <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+                </a-flex>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-form>
       </template>
       <template #bodyCell="{ column, record, index, text }">
-        <template v-if="column.dataIndex === 'name'">
+        <template v-if="column.dataIndex === 'index'">
+          <span>{{ index + 1 }}</span>
+        </template>
+        <template v-if="column.dataIndex === 'sessionId'">
           <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <a-tag>{{ text }}</a-tag>
+          </a-tooltip>
+        </template>
+        <template v-if="column.dataIndex === 'account'">
           <a-tooltip :title="text" placement="topLeft">
             <span>{{ text }}</span>
           </a-tooltip>
         </template>
-        <template v-if="column.dataIndex === 'code'">
-          <a-tooltip :title="text" placement="topLeft">
-            <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'status'">
-          <a-tag v-if="record.status === 0" color="green">正常</a-tag>
-          <a-tag v-else>已停用</a-tag>
-        </template>
-        <template v-if="column.dataIndex === 'remark'">
+        <template v-if="column.dataIndex === 'name'">
+          <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
             <span>{{ text }}</span>
           </a-tooltip>
@@ -67,18 +70,12 @@
             <template #split>
               <a-divider type="vertical" />
             </template>
-            <a-tooltip title="分配权限">
-              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)"><DeploymentUnitOutlined /></a>
+            <a-tooltip title="已登录令牌列表">
+              <a style="color:#1980FF;" @click="roleUserRef.onOpen(record)">令牌列表</a>
             </a-tooltip>
-            <a-tooltip title="分配用户">
-              <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UserAddOutlined /></a>
-            </a-tooltip>
-            <a-tooltip title="编辑">
-              <a @click="formRef.onOpen(record)"><FormOutlined /></a>
-            </a-tooltip>
-            <a-tooltip title="删除">
-              <a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
-                <a style="color:#FF4D4F;"><DeleteOutlined/></a>
+            <a-tooltip title="强制退出">
+              <a-popconfirm title="确定要强制退出此用户的所有登录吗？" placement="topLeft" @confirm="deleteRole(record)">
+                <a style="color:#FF4D4F;">强退</a>
               </a-popconfirm>
             </a-tooltip>
           </a-space>
@@ -86,25 +83,37 @@
       </template>
     </MTable>
   </a-card>
-  <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
-  <Form ref="formRef" @successful="tableRef.refresh()" />
-  <RoleUser ref="roleUserRef" />
+  <RoleUser ref="roleUserRef" @successful="tableRef.refresh()"/>
 </template>
 
 <script setup>
   import roleApi from '@/api/system/roleApi'
+  import monitorApi from "@/api/auth/monitorApi.js";
 
   import { h, ref } from "vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import Form from "./form.vue"
   import MTable from "@/components/MTable/index.vue"
-  import GrantMenuForm from "./grantMenuForm.vue"
   import RoleUser from "./roleUser.vue"
 
   const columns = [
+    // 不需要序号可以删掉
     {
-      title: '角色名称',
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
+    },
+    {
+      title: '账号',
+      dataIndex: 'account',
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 200
+    },
+    {
+      title: '姓名',
       dataIndex: 'name',
       align: "center",
       resizable: true,
@@ -112,59 +121,42 @@
       width: 150
     },
     {
-      title: '唯一编码',
-      dataIndex: 'code',
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 200
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      align: 'center',
-      resizable: true,
-      width: 100
-    },
-    {
-      title: "排序顺序",
-      dataIndex: "sortNum",
-      align: "center",
-      resizable: true,
-      width: 100,
-    },
-    {
-      title: "备注",
-      dataIndex: "remark",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
+      title: '会话创建时间',
+      dataIndex: 'sessionCreateTime',
       align: 'center',
       width: 160
+    },
+    {
+      title: '最新登录时间',
+      dataIndex: 'latestLoginTime',
+      align: 'center',
+      width: 160
+    },
+    {
+      title: '剩余有效期',
+      dataIndex: 'sessionTimeout',
+      align: 'center',
+      width: 160
+    },
+    {
+      title: "令牌数",
+      dataIndex: "tokenCount",
+      align: "center",
+      resizable: true,
+      width: 80,
     },
     {
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      width: 200
+      width: 160
     }
   ]
   const selectedRowKeys = ref([])
-  // 使用状态options（0正常 1停用）
-  const statusOptions = [
-    { label: "正常", value: 0 },
-    { label: "已停用", value: 1 }
-  ]
 
   // 定义tableDOM
   const tableRef = ref()
   const formRef = ref()
-  const grantMenuFormRef = ref()
   const roleUserRef = ref()
   const queryFormRef = ref()
   const queryFormData = ref({})
@@ -172,7 +164,7 @@
   // 表格查询 返回 Promise 对象
   const loadData = (parameter) => {
     let param = Object.assign(parameter, queryFormData.value)
-    return roleApi.rolePage(param).then((res) => {
+    return monitorApi.sessionPage(param).then((res) => {
       return res.data
     })
   }
