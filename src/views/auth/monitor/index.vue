@@ -65,6 +65,11 @@
             <span>{{ text }}</span>
           </a-tooltip>
         </template>
+        <template v-if="column.dataIndex === 'sessionTimeout'">
+          <span v-if="record.sessionTimeout <= 0">永不过期</span>
+          <a-statistic-countdown v-else :value="record.deadline" format="D 天 H 时 m 分 s 秒" :valueStyle="{fontSize:'14px'}" />
+        </template>
+
         <template v-if="column.dataIndex === 'action'">
           <a-space>
             <template #split>
