@@ -71,7 +71,7 @@
               <a-divider type="vertical" />
             </template>
             <a-tooltip title="已登录令牌列表">
-              <a style="color:#1980FF;" @click="roleUserRef.onOpen(record)">令牌列表</a>
+              <a style="color:#1980FF;" @click="tokenListRef.onOpen(record)">令牌列表</a>
             </a-tooltip>
             <a-tooltip title="强制退出">
               <a-popconfirm title="确定要强制退出此用户的所有登录吗？" placement="topLeft" @confirm="deleteRole(record)">
@@ -83,7 +83,7 @@
       </template>
     </MTable>
   </a-card>
-  <RoleUser ref="roleUserRef" @successful="tableRef.refresh()"/>
+  <TokenList ref="tokenListRef" @successful="tableRef.refresh()"/>
 </template>
 
 <script setup>
@@ -94,7 +94,7 @@
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import MTable from "@/components/MTable/index.vue"
-  import RoleUser from "./roleUser.vue"
+  import TokenList from "./tokenList.vue"
 
   const columns = [
     // 不需要序号可以删掉
@@ -157,7 +157,7 @@
   // 定义tableDOM
   const tableRef = ref()
   const formRef = ref()
-  const roleUserRef = ref()
+  const tokenListRef = ref()
   const queryFormRef = ref()
   const queryFormData = ref({})
 
