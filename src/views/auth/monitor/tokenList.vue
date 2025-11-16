@@ -61,11 +61,11 @@
                 <a-statistic-countdown v-else :value="record.deadline" format="D 天 H 时 m 分 s 秒" :valueStyle="{fontSize:'14px', color:'#fff'}" />
               </template>
               <a-progress v-if="record.tokenTimeoutPercent * 100 > 80"
-                          :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="success"/>
+                          status="success" :percent="record.tokenTimeoutPercent * 100" :show-info="false"/>
               <a-progress v-if="record.tokenTimeoutPercent * 100 > 20 && record.tokenTimeoutPercent * 100 < 80"
-                  :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="active"/>
+                          status="active" :percent="record.tokenTimeoutPercent * 100" :show-info="false"/>
               <a-progress v-if="record.tokenTimeoutPercent * 100 < 20"
-                  :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="exception"/>
+                          status="exception" :percent="record.tokenTimeoutPercent * 100" :show-info="false"/>
             </a-tooltip>
           </template>
         </template>
