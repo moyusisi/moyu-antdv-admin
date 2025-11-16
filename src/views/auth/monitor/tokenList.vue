@@ -16,7 +16,7 @@
       <!-- 上方操作 -->
       <a-space wrap style="margin-bottom: 8px">
         <a-popconfirm :title=" '确定要批量强退这 ' + selectedRowKeys.length + ' 个令牌吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
-          <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
+          <a-button danger :icon="h(DeleteOutlined)" :loading="submitLoading" :disabled="selectedRowKeys.length < 1">
             批量强退
           </a-button>
         </a-popconfirm>
@@ -31,6 +31,9 @@
                :scroll="{ x: tableWidth }"
                bordered>
         <template #bodyCell="{ column, record, index, text }">
+          <template v-if="column.dataIndex === 'index'">
+            <span>{{ index + 1 }}</span>
+          </template>
           <template v-if="column.dataIndex === 'tokenDevice'">
             <a-tag v-if="record.tokenDevice === 'PC'" color="blue">
               {{ text }}
@@ -68,7 +71,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/system/roleApi'
+  import monitorApi from "@/api/auth/monitorApi.js";
 
   import { message } from "ant-design-vue";
   import { h } from "vue";
@@ -78,6 +81,13 @@
   const settingsStore = useSettingsStore()
 
   const columns = ref([
+    // 不需要序号可以删掉
+    {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
+    },
     {
       title: '登录设备',
       dataIndex: 'tokenDevice',
@@ -111,7 +121,6 @@
   const visible = ref(false)
   const record = ref()
   const emit = defineEmits({ successful: null })
-  const searchFormData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
   // table数据
@@ -149,8 +158,6 @@
   }
   // 关闭抽屉
   const onClose = () => {
-    // 表单清空
-    searchFormData.value = {}
     // table数据清空
     tableData.value = []
     selectedRowKeys.value = []
@@ -164,9 +171,24 @@
       message.warning('请选择一条或多条数据')
       return
     }
-    let data = { code: role.value.code, codeSet: selectedRowKeys.value }
-    roleApi.roleDeleteUser(data).then((res) => {
+    submitLoading.value = true
+    let data = { codes: selectedRowKeys.value }
+    monitorApi.deleteToken(data).then((res) => {
       message.success(res.message)
+      selectedRowKeys.value = []
+      // 移除表格中删除的rows
+      console.log(tableData.value)
+      tableData.value.forEach((item, index, array) => {
+        data.codes.forEach((code) => {
+          if (item.tokenValue === code) {
+            delete array[index]
+          }
+        })
+      })
+      console.log(tableData.value)
+      emit('successful')
+    }).finally(() => {
+      submitLoading.value = false
     })
   }
   // 可伸缩列

@@ -74,7 +74,7 @@
               <a style="color:#1980FF;" @click="tokenListRef.onOpen(record)">令牌列表</a>
             </a-tooltip>
             <a-tooltip title="强制退出">
-              <a-popconfirm title="确定要强制退出此用户的所有登录吗？" placement="topLeft" @confirm="deleteRole(record)">
+              <a-popconfirm title="确定要强制退出此用户的所有登录吗？" placement="topLeft" @confirm="deleteSession(record)">
                 <a style="color:#FF4D4F;">强退</a>
               </a-popconfirm>
             </a-tooltip>
@@ -87,7 +87,6 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/system/roleApi'
   import monitorApi from "@/api/auth/monitorApi.js";
 
   import { h, ref } from "vue"
@@ -183,17 +182,9 @@
     // console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
   // 删除
-  const deleteRole = (record) => {
-    let data = { ids: [record.id] }
-    roleApi.deleteRole(data).then((res) => {
-      message.success(res.message)
-      tableRef.value.refresh(true)
-    })
-  }
-  // 批量删除
-  const deleteBatchRole = (params) => {
-    let data = { ids: selectedRowKeys.value }
-    roleApi.deleteRole(data).then((res) => {
+  const deleteSession = (record) => {
+    let data = { codes: [record.account] }
+    monitorApi.deleteSession(data).then((res) => {
       message.success(res.message)
       tableRef.value.refresh(true)
     })

@@ -5,4 +5,12 @@ export default {
   sessionPage(data) {
     return service.postJson('/api/auth/session/page', data)
   },
+  // 删除所有配置
+  deleteSession(data) {
+    return service.postJson('/api/auth/session/delete', data)
+  },
+  // 删除所有配置
+  deleteToken(data) {
+    return service.postJson('/api/auth/session/deleteToken', data)
+  },
 }
