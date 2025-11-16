@@ -1,23 +1,48 @@
 <template>
-  <a-card size="small">
-    <a-form ref="queryFormRef" :model="queryFormData">
-      <a-row :gutter="24">
-        <a-col :span="8">
-          <a-form-item name="searchKey" label="账号">
-            <a-input v-model:value="queryFormData.searchKey" placeholder="搜索账号" allowClear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item>
-            <a-flex gap="small">
-              <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
-              <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
-            </a-flex>
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-form>
-  </a-card>
+  <!-- 统计数据 -->
+  <a-row :gutter="8">
+    <a-col :span="6">
+      <a-card size="small" class="analyse-card">
+        <template #cover>
+          <TeamOutlined style="color: #69c0ff;" class="analyse-card-icon" />
+          <div class="analyse-card-title">
+							<span>当前会话数：</span><span>{{ analyseData.sessionTotalCount }}</span>
+          </div>
+        </template>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card size="small" class="analyse-card">
+        <template #cover>
+          <VerifiedOutlined style="color: #3f8600;" class="analyse-card-icon" />
+          <div class="analyse-card-title">
+            <span>当前令牌数：</span><span>{{ analyseData.tokenTotalCount }}</span>
+          </div>
+        </template>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card size="small" class="analyse-card">
+        <template #cover>
+          <InsuranceOutlined style="color: #5cdbd3;" class="analyse-card-icon" />
+          <div class="analyse-card-title">
+            <span>最大签发令牌：</span><span>{{ analyseData.maxTokenCount }}</span>
+          </div>
+        </template>
+      </a-card>
+    </a-col>
+    <a-col :span="6">
+      <a-card size="small" class="analyse-card">
+        <template #cover>
+          <RiseOutlined style="color: #ff9c6e;" class="analyse-card-icon" />
+          <div class="analyse-card-title">
+            <span>今日新增：</span><span>{{ analyseData.todayTokenCount }}</span>
+          </div>
+        </template>
+      </a-card>
+    </a-col>
+  </a-row>
+  <!-- 表格数据 -->
   <a-card size="small">
     <MTable ref="tableRef"
             :columns="columns"
@@ -95,7 +120,7 @@
   import monitorApi from "@/api/auth/monitorApi.js";
 
   import { h, ref } from "vue"
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { TeamOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import MTable from "@/components/MTable/index.vue"
   import TokenList from "./tokenList.vue"
@@ -164,6 +189,14 @@
   const tokenListRef = ref()
   const queryFormRef = ref()
   const queryFormData = ref({})
+  const analyseData = ref({})
+
+  // 加载完毕调用
+  onMounted(() => {
+    monitorApi.analyse().then((res) => {
+      analyseData.value = res.data
+    })
+  })
 
   // 表格查询 返回 Promise 对象
   const loadData = (parameter) => {
@@ -201,8 +234,23 @@
   .ant-card .ant-form {
     margin-bottom: -12px !important;
   }
-  .ant-form-item {
+  .ant-card .ant-form-item {
     margin-bottom: 12px !important;
   }
 
+  .analyse-card {
+    height: 100px;
+    margin-top: 6px;
+    margin-bottom: 8px;
+  }
+  .analyse-card-icon {
+    font-size: 30px;
+    padding-top: 18px;
+    padding-bottom: 5px;
+  }
+  .analyse-card-title {
+    display: flex;
+    justify-content: center;
+    font-size: 16px;
+  }
 </style>
