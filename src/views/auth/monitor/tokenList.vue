@@ -57,7 +57,7 @@
           <template v-if="column.dataIndex === 'tokenTimeout'">
             <a-tooltip>
               <template #title>
-                <span v-if="record.sessionTimeout <= 0">永不过期</span>
+                <span v-if="record.sessionTimeout <= 0">永久有效</span>
                 <a-statistic-countdown v-else :value="record.deadline" format="D 天 H 时 m 分 s 秒" :valueStyle="{fontSize:'14px', color:'#fff'}" />
               </template>
               <a-progress v-if="record.tokenTimeoutPercent * 100 > 80"
@@ -144,11 +144,12 @@
   });
 
   const drawerWidth = computed(() => {
-    return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
+    return 750
+    // return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
   // 计算属性 表格宽度 超过宽度则会出现x轴上的scroll
   const tableWidth = computed(() => {
-    return settingsStore.menuCollapsed ? `calc(100% - 80px -24px)` : `calc(100% - 210px -24px)`
+    return `calc(100%)`
   })
 
   // 打开抽屉

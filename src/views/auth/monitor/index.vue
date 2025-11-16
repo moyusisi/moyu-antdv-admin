@@ -66,7 +66,7 @@
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'sessionTimeout'">
-          <span v-if="record.sessionTimeout <= 0">永不过期</span>
+          <span v-if="record.sessionTimeout <= 0">永久有效</span>
           <a-statistic-countdown v-else :value="record.deadline" format="D 天 H 时 m 分 s 秒" :valueStyle="{fontSize:'14px'}" />
         </template>
 
@@ -137,7 +137,7 @@
       width: 160
     },
     {
-      title: '剩余有效期',
+      title: '有效期',
       dataIndex: 'sessionTimeout',
       align: 'center',
       width: 160
