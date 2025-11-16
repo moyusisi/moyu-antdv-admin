@@ -27,24 +27,39 @@
                :data-source="tableData"
                :row-key="(record) => record.tokenValue"
                :row-selection="rowSelection"
+               @resizeColumn="onResizeColumn"
+               :scroll="{ x: tableWidth }"
                bordered>
         <template #bodyCell="{ column, record, index, text }">
+          <template v-if="column.dataIndex === 'tokenDevice'">
+            <a-tag v-if="record.tokenDevice === 'PC'" color="blue">
+              {{ text }}
+            </a-tag>
+            <a-tag v-if="record.tokenDevice === 'DEF'" color="green">
+              {{ text }}
+            </a-tag>
+            <a-tag v-if="record.tokenDevice === 'APP'" color="purple">
+              {{ text }}
+            </a-tag>
+            <a-tag v-if="record.tokenDevice === 'MINI'" color="orange">
+              {{ text }}
+            </a-tag>
+          </template>
           <template v-if="column.dataIndex === 'tokenValue'">
             <!-- 长文本省略提示 -->
             <a-tooltip :title="text" placement="topLeft">
               <span>{{ text }}</span>
             </a-tooltip>
           </template>
-          <template v-if="column.dataIndex === 'gender'">
-            <a-tag v-if="record.gender === 1" color="blue">男</a-tag>
-            <a-tag v-else-if="record.gender === 2" color="pink">女</a-tag>
-            <a-tag v-else>未知</a-tag>
-          </template>
-          <template v-if="column.dataIndex === 'status'">
-            <a-tag v-if="record.status === 0" color="green">正常</a-tag>
-            <a-tag v-else>已停用</a-tag>
-          </template>
-          <template v-if="column.dataIndex === 'action'">
+          <template v-if="column.dataIndex === 'tokenTimeout'">
+            <a-tooltip :title="record.tokenTimeout" >
+              <a-progress v-if="record.tokenTimeoutPercent * 100 > 80"
+                          :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="success"/>
+              <a-progress v-if="record.tokenTimeoutPercent * 100 > 20 && record.tokenTimeoutPercent * 100 < 80"
+                  :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="active"/>
+              <a-progress v-if="record.tokenTimeoutPercent * 100 < 20"
+                  :percent="record.tokenTimeoutPercent * 100" :show-info="false" status="exception"/>
+            </a-tooltip>
           </template>
         </template>
       </a-table>
@@ -62,12 +77,11 @@
 
   const settingsStore = useSettingsStore()
 
-  const columns = [
+  const columns = ref([
     {
       title: '登录设备',
       dataIndex: 'tokenDevice',
       align: "center",
-      resizable: true,
       width: 80
     },
     {
@@ -83,7 +97,7 @@
       dataIndex: 'tokenTimeout',
       align: "center",
       resizable: true,
-      width: 150
+      width: 100
     },
     {
       title: '令牌创建时间',
@@ -91,13 +105,15 @@
       align: 'center',
       width: 160
     },
-  ]
+  ])
 
   // 默认是关闭状态
   const visible = ref(false)
   const record = ref()
   const emit = defineEmits({ successful: null })
   const searchFormData = ref({})
+  const dataLoading = ref(false)
+  const submitLoading = ref(false)
   // table数据
   const tableRef = ref()
   // 表格中的数据(loadTableData中会更新)
@@ -117,12 +133,18 @@
   const drawerWidth = computed(() => {
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
+  // 计算属性 表格宽度 超过宽度则会出现x轴上的scroll
+  const tableWidth = computed(() => {
+    return settingsStore.menuCollapsed ? `calc(100% - 80px -24px)` : `calc(100% - 210px -24px)`
+  })
 
   // 打开抽屉
   const onOpen = (row) => {
+    dataLoading.value = true
     record.value = row;
-    // 加载数据
-    loadTableData()
+    selectedRowKeys.value = []
+    tableData.value = record.value.tokenList
+    // 数据就绪之后显示
     visible.value = true
   }
   // 关闭抽屉
@@ -136,11 +158,6 @@
     visible.value = false
   }
 
-  // 表格查询
-  const loadTableData = async () => {
-    selectedRowKeys.value = []
-    tableData.value = record.value.tokenList
-  }
   // 批量强退
   const batchDelete = () => {
     if (selectedRowKeys.value.length < 1) {
@@ -150,9 +167,12 @@
     let data = { code: role.value.code, codeSet: selectedRowKeys.value }
     roleApi.roleDeleteUser(data).then((res) => {
       message.success(res.message)
-      // 删掉之后重新加载数据
-      loadTableData()
     })
+  }
+  // 可伸缩列
+  const onResizeColumn = (w, column) => {
+    console.log("onResizeColumn...", column.width)
+    column.width = w
   }
   // 调用这个函数将子组件的一些数据和方法暴露出去
   defineExpose({
