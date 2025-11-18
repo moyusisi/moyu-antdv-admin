@@ -1,7 +1,7 @@
 <template>
   <a-drawer
       :open="visible"
-      title="资源权限详情"
+      title="应用模块详情"
       :width="drawerWidth"
       :closable="false"
       :destroy-on-close="true"
@@ -14,7 +14,7 @@
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
-        <a-card title="基本信息" size="small">
+        <a-card title="基本信息">
           <a-row :gutter="24">
             <a-col :span="8">
               <a-form-item name="icon" label="图标" tooltip="">
@@ -121,7 +121,7 @@
   const loadData = (row) => {
     dataLoading.value = true
     // 组装请求参数
-    let param = { id: row.id }
+    let param = { id: row.id, code: row.code }
     resourceApi.resourceDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {

@@ -184,17 +184,17 @@
 
   // 挂载前初始化参数
   onBeforeMount(() => {
-    if (route.query.id) {
-      queryFormData.value.id = route.query.id
-    } else if (route.query.id || history.state.id) {
-      queryFormData.value.id = history.state.id
+    if (route.query.code) {
+      queryFormData.value.code = route.query.code
+    } else if (route.query.code || history.state.code) {
+      queryFormData.value.code = history.state.code
     }
   })
 
   // 挂载后处理
   onMounted(() => {
-    if (route.query.id || history.state.id) {
-      const row = { id: route.query.id || history.state.id }
+    if (route.query.code || history.state.code) {
+      const row = { code: route.query.code || history.state.code }
       detailRef.value.onOpen(row)
     }
   })
