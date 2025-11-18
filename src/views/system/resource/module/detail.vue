@@ -14,84 +14,56 @@
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
-        <a-card title="基本信息">
+        <a-card title="基本信息" size="small">
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="parentCode" label="父编码" tooltip="父编码" >
-                <span>{{ formData.parentCode }}</span>
+              <a-form-item name="icon" label="图标" tooltip="">
+                <span v-if="formData.icon && formData.icon !== '#'">
+                  <component :is="formData.icon"/>
+                </span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="name" label="名称" tooltip="名称" >
+              <a-form-item name="name" label="名称" tooltip="" >
                 <span>{{ formData.name }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="code" label="编码" tooltip="编码" >
+              <a-form-item name="code" label="唯一编码" tooltip="" >
                 <span>{{ formData.code }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="resourceType" label="资源类型（字" tooltip="资源类型（字典 1模块 2目录 3菜单 4内链 5外链 6按钮）" >
-                <span>{{ formData.resourceType }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="path" label="路由地址" tooltip="路由地址" >
+              <a-form-item name="path" label="路由地址" tooltip="" >
                 <span>{{ formData.path }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="component" label="组件地址" tooltip="组件地址" >
+              <a-form-item name="component" label="组件" tooltip="应用所采用的布局组件" >
                 <span>{{ formData.component }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="permission" label="权限标识" tooltip="权限标识" >
-                <span>{{ formData.permission }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="link" label="链接地址" tooltip="链接地址" >
+              <a-form-item name="link" label="模块主页" tooltip="" >
                 <span>{{ formData.link }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="icon" label="图标" tooltip="图标" >
-                <span>{{ formData.icon }}</span>
+              <a-form-item name="visible" label="是否可见" tooltip="不可见时将会在菜单栏隐藏" >
+                <span>
+                  <a-tag v-if="formData.visible === 1" color="green">可见</a-tag>
+                  <a-tag v-else>不可见</a-tag>
+                </span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="visible" label="是否可见（0" tooltip="是否可见（0不可见 1可见）" >
-                <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" disabled>
-                  <a-radio :value="1">选项1</a-radio>
-                  <a-radio :value="2">选项2</a-radio>
-                </a-radio-group>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="module" label="归属模块" tooltip="归属模块" >
-                <span>{{ formData.module }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" >
-                <span>{{ formData.sortNum }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="extJson" label="扩展信息" tooltip="扩展信息" >
+              <a-form-item name="extJson" label="扩展信息" tooltip="" >
                 <span>{{ formData.extJson }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="remark" label="备注" tooltip="备注" >
-                <span>{{ formData.remark }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="createTime" label="创建时间" tooltip="创建时间" >
-                <span>{{ formData.createTime }}</span>
+              <a-form-item name="remark" label="备注" tooltip="" >
+                <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
               </a-form-item>
             </a-col>
           </a-row>
