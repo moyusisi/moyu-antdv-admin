@@ -17,10 +17,8 @@
         <a-card title="基本信息">
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="icon" label="图标" tooltip="">
-                <span v-if="formData.icon && formData.icon !== '#'">
-                  <component :is="formData.icon"/>
-                </span>
+              <a-form-item name="parentCode" label="上级菜单" tooltip="">
+                <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" disabled/>
               </a-form-item>
             </a-col>
             <a-col :span="8">
@@ -30,30 +28,27 @@
             </a-col>
             <a-col :span="8">
               <a-form-item name="code" label="唯一编码" tooltip="" >
-                <span>{{ formData.code }}</span>
+                <span><a>{{ formData.code }}</a></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="path" label="路由地址" tooltip="" >
+              <a-form-item name="resourceType" label="资源类型" tooltip="">
+                <a-tag v-if="formData.resourceType === 1" color="orange">模块</a-tag>
+                <a-tag v-if="formData.resourceType === 2" color="cyan">目录</a-tag>
+                <a-tag v-if="formData.resourceType === 3" color="blue">菜单</a-tag>
+                <a-tag v-if="formData.resourceType === 4" color="gold">内链</a-tag>
+                <a-tag v-if="formData.resourceType === 5" color="green">链接</a-tag>
+                <a-tag v-if="formData.resourceType === 6" color="purple">按钮</a-tag>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="path" label="接口地址" tooltip="" >
                 <span>{{ formData.path }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="component" label="组件" tooltip="应用所采用的布局组件" >
-                <span>{{ formData.component }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="link" label="模块主页" tooltip="" >
-                <span>{{ formData.link }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="visible" label="是否可见" tooltip="不可见时将会在菜单栏隐藏" >
-                <span>
-                  <a-tag v-if="formData.visible === 1" color="green">可见</a-tag>
-                  <a-tag v-else>不可见</a-tag>
-                </span>
+              <a-form-item name="permission" label="权限标识" tooltip="访问后端接口所必需的权限标识" >
+                <span><a-tag>{{ formData.permission }}</a-tag></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
@@ -64,6 +59,26 @@
             <a-col :span="8">
               <a-form-item name="remark" label="备注" tooltip="" >
                 <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="createTime" label="创建时间" tooltip="" >
+                <span>{{ formData.createTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="createBy" label="创建者" tooltip="" >
+                <span>{{ formData.createBy }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateTime" label="更新时间" tooltip="" >
+                <span>{{ formData.updateTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateBy" label="更新者" tooltip="" >
+                <span>{{ formData.updateBy }}</span>
               </a-form-item>
             </a-col>
           </a-row>
@@ -82,6 +97,7 @@
   import resourceApi from '@/api/system/resourceApi.js'
 
   import { useSettingsStore } from "@/store"
+  import MenuTreeSelect from "@/views/system/components/menuTreeSelect.vue";
 
   // store
   const settingsStore = useSettingsStore()

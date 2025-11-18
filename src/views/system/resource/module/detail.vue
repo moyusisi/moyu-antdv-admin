@@ -30,7 +30,7 @@
             </a-col>
             <a-col :span="8">
               <a-form-item name="code" label="唯一编码" tooltip="" >
-                <span>{{ formData.code }}</span>
+                <span><a>{{ formData.code }}</a></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
