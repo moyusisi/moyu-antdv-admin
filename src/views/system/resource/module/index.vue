@@ -198,6 +198,7 @@
       detailRef.value.onOpen(row)
     }
   })
+
   // 提交查询
   const querySubmit = () => {
         tableRef.value.refresh(true)
