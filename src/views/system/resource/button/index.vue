@@ -113,15 +113,13 @@
 
   import { h, ref } from "vue"
   import { useRoute, useRouter } from "vue-router";
-  import { useSettingsStore } from "@/store/index.js";
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, UpOutlined, DownOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
+  import MTable from "@/components/MTable/index.vue"
   import Form from "./form.vue"
   import Detail from "./detail.vue"
-  import MTable from "@/components/MTable/index.vue"
 
   // store
-  const settingsStore = useSettingsStore()
   const route = useRoute();
   const router = useRouter();
 

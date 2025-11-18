@@ -49,7 +49,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="visible" label="是否可见" tooltip="不可见时将会在菜单栏隐藏" >
+              <a-form-item name="visible" label="是否可见" tooltip="不可见会在菜单中隐藏" >
                 <span>
                   <a-tag v-if="formData.visible === 1" color="green">可见</a-tag>
                   <a-tag v-else>不可见</a-tag>
@@ -57,13 +57,13 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="extJson" label="扩展信息" tooltip="" >
-                <span>{{ formData.extJson }}</span>
+              <a-form-item name="remark" label="备注" tooltip="" >
+                <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="remark" label="备注" tooltip="" >
-                <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
+              <a-form-item name="extJson" label="扩展信息" tooltip="" >
+                <span>{{ formData.extJson }}</span>
               </a-form-item>
             </a-col>
           </a-row>
