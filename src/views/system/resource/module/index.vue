@@ -152,13 +152,6 @@
       width: 150,
     },
     {
-      title: "模块主页",
-      dataIndex: "link",
-      align: "center",
-      resizable: true,
-      width: 200,
-    },
-    {
       title: "排序顺序",
       dataIndex: "sortNum",
       align: "center",
@@ -172,6 +165,12 @@
       resizable: true,
       ellipsis: true,
       width: 150,
+    },
+    {
+      title: '变更时间',
+      dataIndex: 'updateTime',
+      align: 'center',
+      width: 160
     },
     {
       title: '操作',
