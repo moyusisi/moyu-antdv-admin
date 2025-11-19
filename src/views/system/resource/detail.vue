@@ -42,7 +42,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="path" label="路径地址" tooltip="" >
+              <a-form-item name="path" label="路由地址" tooltip="" >
                 <span>{{ formData.path }}</span>
               </a-form-item>
             </a-col>
