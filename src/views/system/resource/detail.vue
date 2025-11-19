@@ -18,12 +18,12 @@
           <a-row :gutter="24">
             <a-col :span="8">
               <a-form-item name="resourceType" label="资源类型" tooltip="">
-                <a-tag v-if="formData.resourceType === 1" color="green">模块</a-tag>
+                <a-tag v-if="formData.resourceType === 1" color="orange">模块/应用</a-tag>
                 <a-tag v-if="formData.resourceType === 2" color="cyan">目录</a-tag>
                 <a-tag v-if="formData.resourceType === 3" color="blue">菜单</a-tag>
                 <a-tag v-if="formData.resourceType === 4" color="gold">内链</a-tag>
-                <a-tag v-if="formData.resourceType === 5" color="orange">链接</a-tag>
-                <a-tag v-if="formData.resourceType === 6" color="purple">按钮</a-tag>
+                <a-tag v-if="formData.resourceType === 5" color="green">链接</a-tag>
+                <a-tag v-if="formData.resourceType === 6" color="purple">按钮/接口</a-tag>
               </a-form-item>
             </a-col>
             <a-col :span="8">
