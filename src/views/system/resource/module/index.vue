@@ -105,7 +105,7 @@
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from "@/views/system/resource/module/form.vue"
-  import Detail from "@/views/system/resource/module/detail.vue"
+  import Detail from "@/views/system/resource/detail.vue"
   import MTable from "@/components/MTable/index.vue"
 
   // store

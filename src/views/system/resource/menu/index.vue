@@ -35,11 +35,11 @@
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'resourceType'">
-          <a-tag v-if="node.resourceType === 1" color="orange">模块</a-tag>
+          <a-tag v-if="node.resourceType === 1" color="green">模块</a-tag>
           <a-tag v-if="node.resourceType === 2" color="cyan">目录</a-tag>
           <a-tag v-if="node.resourceType === 3" color="blue">菜单</a-tag>
           <a-tag v-if="node.resourceType === 4" color="gold">内链</a-tag>
-          <a-tag v-if="node.resourceType === 5" color="green">链接</a-tag>
+          <a-tag v-if="node.resourceType === 5" color="orange">链接</a-tag>
           <a-tag v-if="node.resourceType === 6" color="purple">按钮</a-tag>
         </template>
         <template v-if="column.dataIndex === 'code'">
@@ -116,7 +116,8 @@
   import Form from './form.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import MTable from "@/components/MTable/index.vue"
-  import Detail from "./detail.vue"
+  import Detail from "@/views/system/resource/detail.vue"
+
 
   // store
   const route = useRoute();
