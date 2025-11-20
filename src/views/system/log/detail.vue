@@ -52,6 +52,26 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
+              <a-form-item name="createBy" label="用户IP" tooltip="" >
+                {{ formData.opIp }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="opBrowser" label="浏览器" tooltip="" >
+                {{ formData.opBrowser }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="opPlatform" label="平台" tooltip="" >
+                {{ formData.opPlatform }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="opOs" label="操作系统" tooltip="" >
+                {{ formData.opOs }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
               <a-form-item name="startTime" label="开始时间" tooltip="" >
                 {{ formData.startTime }}
               </a-form-item>
@@ -78,11 +98,6 @@
             <a-col :span="8">
               <a-form-item name="executionTime" label="执行耗时" tooltip="" >
                 {{ formData.executionTime }}ms
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="createBy" label="操作人ID" tooltip="" >
-                {{ formData.createBy }}
               </a-form-item>
             </a-col>
           </a-row>
