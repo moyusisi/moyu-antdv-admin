@@ -88,16 +88,11 @@
             </a-col>
           </a-row>
         </a-card>
-        <a-card title="数据参数">
+        <a-card title="请求信息">
           <a-row :gutter="24">
-            <a-col :span="8">
-              <a-form-item name="requestUrl" label="请求地址" tooltip="" >
+            <a-col :span="24">
+              <a-form-item name="requestUrl" label="请求地址" tooltip="" :label-col="{span: 2}" >
                 <a-tag :bordered="false">{{ formData.requestUrl }}</a-tag>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="executionTime" label="执行耗时" tooltip="" >
-                {{ formData.executionTime }}ms
               </a-form-item>
             </a-col>
           </a-row>
