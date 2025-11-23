@@ -159,8 +159,8 @@ export const useMenuStore = defineStore('menuStore', () => {
     } else {
     }
     if (!component) {
-      // 如果没有组件，则将组件设置为 EmptyLayout
-      item = EmptyLayout;
+      // 如果没有组件，则将组件设置为 undefined 防止错误加载
+      item = undefined;
     } else if (component?.toString() === "Layout") {
       item = Layout
     } else {
