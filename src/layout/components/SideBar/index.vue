@@ -32,6 +32,7 @@ import { useRoute, useRouter } from "vue-router";
 import MenuItem from "@/layout/components/SideBar/MenuItem.vue";
 import Hamburger from "@/layout/components/NavBar/Hamburger/index.vue";
 import SettingBar from "@/layout/components/NavBar/SettingBar/index.vue";
+import { constRoutes } from '@/router'
 
 const settingsStore = useSettingsStore()
 const menuStore = useMenuStore()
@@ -42,8 +43,8 @@ const openKeys = ref([])
 const selectedKeys = ref([])
 
 const menuList = computed(() => {
-  // 这里使用的是所有路由(静态+动态), 若使用menuStore.menuList.value.children则只有动态菜单
-  return menuStore.routes
+  // 这里使用的是静态+动态路由, 若使用menuStore.menuList则只有动态菜单
+  return [...constRoutes, ...menuStore.menuList]
 })
 
 const menuCollapsed = computed(() => {

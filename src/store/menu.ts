@@ -68,7 +68,7 @@ export const useMenuStore = defineStore('menuStore', () => {
       module.value = moduleList.value[0].code
     }
     // @ts-ignore
-    const moduleItem = moduleList.value.filter((item) => item.code === module.value)
+    const moduleItem = moduleList.value.find((item) => item.code === module.value)
     // @ts-ignore
     menuList.value = moduleItem.children
   }
@@ -76,7 +76,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   /**
    * 清空菜单及路由数据
    */
-  const switchModule = async (moduleCode: string) => {
+  const switchModule = (moduleCode: string) => {
     if (module.value === moduleCode) {
       console.log("module未发生变化...")
       return
@@ -244,6 +244,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     dynamicRouter,
     moduleList,
     module,
+    menuList,
     clear,
     generateRoutes,
     reloadRoutes
