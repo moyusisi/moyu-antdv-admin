@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useStorage } from "@vueuse/core"
 import { useSearchStore } from '@/store/search'
 import userCenterApi from '@/api/system/userCenterApi'
 import router, { constRoutes } from '@/router'
@@ -22,8 +23,9 @@ export const useMenuStore = defineStore('menuStore', () => {
   // 所有module的所有menu,用于保存后端返回的原始数据
   const moduleList = ref([])
   // 当前使用的module
-  const module = ref("")
-  // 当前module的菜单
+  // 侧边栏菜单是否排他展开
+  const module = useStorage("MODULE_ID", "");
+  // 当前module的菜单(即module的子节点)
   const menuList = ref([])
 
   // actions
@@ -36,7 +38,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     let localMenu = JSON.parse(menu as string)
     if (localMenu) {
       moduleList.value = localMenu
-      module.value = localMenu[0].code
+      initMenuList()
     } else {
       // 本地无则从api获取
       await refreshModuleMenu()
@@ -54,8 +56,42 @@ export const useMenuStore = defineStore('menuStore', () => {
     }
     localStorage.setItem('MENU', JSON.stringify(res.data))
     moduleList.value = res.data
-    module.value = res.data[0].code
+    initMenuList()
   };
+
+  /**
+   * 初始化module对应的菜单menuList
+   */
+  function initMenuList() {
+    if (!module.value) {
+      // @ts-ignore
+      module.value = moduleList.value[0].code
+    }
+    // @ts-ignore
+    const moduleItem = moduleList.value.filter((item) => item.code === module.value)
+    // @ts-ignore
+    menuList.value = moduleItem.children
+  }
+
+  /**
+   * 清空菜单及路由数据
+   */
+  const switchModule = async (moduleCode: string) => {
+    if (module.value === moduleCode) {
+      console.log("module未发生变化...")
+      return
+    }
+    // @ts-ignore
+    const moduleItem = moduleList.value.filter((item) => item.code === moduleCode)
+    if (!moduleItem) {
+      console.log("未找到到要切换的module...", moduleCode)
+      return
+    }
+    // module赋值
+    module.value = moduleCode
+    // 加载module的菜单
+    initMenuList()
+  }
 
   /**
    * 清空菜单及路由数据
@@ -189,6 +225,8 @@ export const useMenuStore = defineStore('menuStore', () => {
         route.meta = {}
       }
       titleList.push({
+        "name": route.name,
+        "path": route.path,
         "title": route.meta?.title,
         "redirect": route.redirect,
       })
