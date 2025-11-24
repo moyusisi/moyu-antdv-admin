@@ -1,6 +1,6 @@
 <template>
   <!-- 左侧侧边栏 -->
-  <a-layout-sider class="side-menu" :collapsed="menuCollapsed" :theme="sideTheme" collapsible width="210" @collapse="onCollapse">
+  <a-layout-sider class="side-menu" :collapsed="menuCollapsed" :theme="sideTheme" :trigger="null" collapsible width="210" @collapse="onCollapse">
     <!-- 侧边栏logo标题 -->
     <a-layout-header class="side-menu-header">
         <img class="logo" :src="defaultSettings.logo"/>
@@ -13,6 +13,7 @@
         <MenuItem v-for="route in menuList" :key="route.path" :item="route"/>
       </a-menu>
     </div>
+    <!--  侧边栏footer  -->
     <template #trigger>
       <div class="side-menu-footer">
         <SettingBar/>
@@ -204,8 +205,9 @@ const traverse = (array, key) => {
 }
 
 .side-menu-body {
-  /** 高度为 页面100% - header高度 - trigger(footer)高度 */
-  height: calc(100vh - 50px - 48px);
+  /** 高度为 页面100% - header高度 - trigger(footer)高度
+  height: calc(100vh - 50px - 48px); */
+  height: calc(100vh - 50px);
   /** scroll在body中,注释掉则出现在side-menu，即header也会滑动 */
   overflow: auto;
 }
