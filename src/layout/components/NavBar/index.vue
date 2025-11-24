@@ -4,6 +4,7 @@
     <div class="left-panel">
       <!-- 汉堡包 -->
       <Hamburger/>
+      <ModuleMenu/>
       <!-- 面包屑 -->
       <Breadcrumb/>
     </div>
@@ -22,6 +23,7 @@
 <script setup>
   import Breadcrumb from '@/layout/components/Breadcrumb/index.vue'
   import Hamburger from "@/layout/components/NavBar/Hamburger/index.vue"
+  import ModuleMenu from "@/layout/components/NavBar/ModuleMenu/index.vue"
   import SearchBar from "@/layout/components/NavBar/SearchBar/index.vue"
   import UserBar from "@/layout/components/NavBar/UserBar/index.vue"
   import screenFull from "screenfull";

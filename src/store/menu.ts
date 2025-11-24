@@ -19,7 +19,11 @@ export const useMenuStore = defineStore('menuStore', () => {
   // 所有路由(静态路由 + 动态路由)
   const routes = ref<RouteRecordRaw[]>([]);
   const dynamicRouter = ref<boolean>(false)
-  // 所有模块的menu,用于保存后端返回的原始数据
+  // 所有module的所有menu,用于保存后端返回的原始数据
+  const moduleList = ref([])
+  // 当前使用的module
+  const module = ref("")
+  // 当前module的菜单
   const menuList = ref([])
 
   // actions
@@ -31,7 +35,8 @@ export const useMenuStore = defineStore('menuStore', () => {
     const menu = localStorage.getItem('MENU')
     let localMenu = JSON.parse(menu as string)
     if (localMenu) {
-      menuList.value = localMenu
+      moduleList.value = localMenu
+      module.value = localMenu[0].code
     } else {
       // 本地无则从api获取
       await refreshModuleMenu()
@@ -48,14 +53,15 @@ export const useMenuStore = defineStore('menuStore', () => {
       res.data = []
     }
     localStorage.setItem('MENU', JSON.stringify(res.data))
-    menuList.value = res.data
+    moduleList.value = res.data
+    module.value = res.data[0].code
   };
 
   /**
    * 清空菜单及路由数据
    */
   const clear = async () => {
-    menuList.value = []
+    moduleList.value = []
     routes.value = []
     dynamicRouter.value = false
     localStorage.removeItem('MENU')
@@ -68,7 +74,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 加载菜单数据(优先本地，其次接口)
     await initModuleMenu()
     // 生成动态路由
-    const asyncRoutes: RouteRecordRaw[] = parseAsyncRoutes(menuList.value);
+    const asyncRoutes: RouteRecordRaw[] = parseAsyncRoutes(moduleList.value);
     // 设置routes
     routes.value = [...constRoutes, ...asyncRoutes];
     // 添加到路由组件中
@@ -198,6 +204,8 @@ export const useMenuStore = defineStore('menuStore', () => {
   return {
     routes,
     dynamicRouter,
+    moduleList,
+    module,
     clear,
     generateRoutes,
     reloadRoutes
