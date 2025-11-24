@@ -63,7 +63,6 @@ router.beforeEach(async (to, from) => {
     // 生成动态路由
     await menuStore.generateRoutes();
     console.log("动态加载异步路由...")
-    // console.log(asyncRoutes)
     // console.log(router.getRoutes())
     // 由于新增加了路由，所以重新导航
     console.log("重新导航...", to)
