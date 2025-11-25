@@ -66,16 +66,16 @@ const sideTheme = computed(() => {
 // 首次加载会调用onMounted但route不会改变
 onMounted(() => {
   // 首次加载时，只有当前菜单的目录为openKeys
-  showThisRoute()
+  showThisMenuItem()
 })
 
 // 非首次加载则不再调用onMounted，但route会改变。任何地方改变路由时都会被监听到
 watch(route, (to) => {
-  showThisRoute()
+  showThisMenuItem()
 })
 
 // 监听路由处理需要展示的内容，如高亮选中、菜单展开等
-const showThisRoute = () => {
+const showThisMenuItem = () => {
   // 从根路由到当前路径的完整路由层级结构
   let matched = route.matched
   // 每一层级的路径列表
@@ -112,7 +112,7 @@ const showThisRoute = () => {
 const onCollapse = (collapsed, type) => {
   // console.log("onCollapse", collapsed)
   // 处理选中菜单及打开菜单所在目录
-  showThisRoute()
+  showThisMenuItem()
 }
 
 // 当设置trigger="null"时@collapse会不生效，通过监听状态变更达到@collapse事件的效果
