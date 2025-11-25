@@ -59,9 +59,9 @@
     if (!moduleHome) {
       moduleHome = "/index"
     }
-    router.push({ path: moduleHome })
     // 路由到模块的首页
     menuStore.switchModule(code)
+    router.push({ path: moduleHome })
   }
 
 </script>
