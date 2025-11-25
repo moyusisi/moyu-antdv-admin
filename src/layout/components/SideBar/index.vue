@@ -122,8 +122,8 @@ const showThisMenuItem = () => {
         // 非排他打开时，即将新open的keys要加入到原来的openKey中去
         let newKeys = pathList.filter(e => !openKeys.value.includes(e));
         openKeys.value = openKeys.value.concat(newKeys);
-        // console.log('openKeys', openKeys.value)
       }
+      // console.log('openKeys', openKeys.value)
     })
   }
 }
