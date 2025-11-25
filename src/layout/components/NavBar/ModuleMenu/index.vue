@@ -30,13 +30,17 @@
   const route = useRoute()
   const router = useRouter()
 
-  // module菜单是否打开
-  const moduleOpen = ref(true)
   // 缓存页面集合, 直接解构store中的同名字段
   const { moduleList, module } = toRefs(menuStore);
+  // module菜单是否打开
+  const moduleOpen = ref(true)
   // 选中的module
-  const selectedKeys = ref([module.value])
+  const selectedKeys = ref([])
 
+  onMounted(() => {
+    // 选中模块
+    selectedKeys.value = [module.value]
+  })
 
   // 切换模块
   const switchModule = (code) => {
@@ -44,11 +48,22 @@
     if (module.value === code) {
       return
     }
-    // 依靠面包屑获取当前路由的顶层模块
-    const tracePath = route.meta.tracePath
-    console.log(tracePath)
+    // 路由到模块首页
+    let moduleHome
+    menuStore.moduleList.filter((item) => {
+      if (item.code === code) {
+        moduleHome = item.redirect
+      }
+    })
+    // 模块首页
+    if (!moduleHome) {
+      moduleHome = "/index"
+    }
+    router.push({ path: moduleHome })
+    // 路由到模块的首页
     menuStore.switchModule(code)
   }
+
 </script>
 
 <style scoped>

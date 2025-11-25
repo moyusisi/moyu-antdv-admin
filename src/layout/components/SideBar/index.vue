@@ -44,8 +44,8 @@ const selectedKeys = ref([])
 
 const menuList = computed(() => {
   // 这里使用的是静态+动态路由, 若使用menuStore.menuList则只有动态菜单
-  // return [...constRoutes, ...menuStore.menuList]
-  return [...menuStore.menuList]
+  return [...constRoutes, ...menuStore.menuList]
+  // return [...menuStore.menuList]
 })
 
 const menuCollapsed = computed(() => {
@@ -65,6 +65,8 @@ const sideTheme = computed(() => {
 
 // 首次加载会调用onMounted但route不会改变
 onMounted(() => {
+  // 模块菜单
+  showModuleMenu()
   // 首次加载时，只有当前菜单的目录为openKeys
   showThisMenuItem()
 })
@@ -73,6 +75,24 @@ onMounted(() => {
 watch(route, (to) => {
   showThisMenuItem()
 })
+
+// 根据当前路由判断显示哪个module的menu
+function showModuleMenu() {
+  // 依靠面包屑获取当前路由的顶层模块
+  const moduleItem = route.meta.breadcrumb ? route.meta.breadcrumb[0] : {}
+  // 路由到模块首页
+  let moduleCode = null
+  menuStore.moduleList.filter((item) => {
+    if (item.path === moduleItem.path) {
+      moduleCode = item.code
+    }
+  })
+  // 有moduleCode则切换，否则保持原样
+  if (moduleCode) {
+    // 路由到模块的首页
+    menuStore.switchModule(moduleCode)
+  }
+}
 
 // 监听路由处理需要展示的内容，如高亮选中、菜单展开等
 const showThisMenuItem = () => {
