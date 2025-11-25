@@ -44,7 +44,8 @@ const selectedKeys = ref([])
 
 const menuList = computed(() => {
   // 这里使用的是静态+动态路由, 若使用menuStore.menuList则只有动态菜单
-  return [...constRoutes, ...menuStore.menuList]
+  // return [...constRoutes, ...menuStore.menuList]
+  return [...menuStore.menuList]
 })
 
 const menuCollapsed = computed(() => {
@@ -60,6 +61,17 @@ const theme = computed(() => {
 })
 const sideTheme = computed(() => {
   return theme.value
+})
+
+// 首次加载会调用onMounted但route不会改变
+onMounted(() => {
+  // 首次加载时，只有当前菜单的目录为openKeys
+  showThisRoute()
+})
+
+// 非首次加载则不再调用onMounted，但route会改变。任何地方改变路由时都会被监听到
+watch(route, (to) => {
+  showThisRoute()
 })
 
 // 监听路由处理需要展示的内容，如高亮选中、菜单展开等
@@ -95,17 +107,6 @@ const showThisRoute = () => {
     })
   }
 }
-
-// 首次加载会调用onMounted但route不会改变
-onMounted(() => {
-  // 首次加载时，只有当前菜单的目录为openKeys
-  showThisRoute()
-})
-
-// 非首次加载则不再调用onMounted，但route会改变。任何地方改变路由时都会被监听到
-watch(route, (to) => {
-  showThisRoute()
-})
 
 // 展开-收起时的回调函数
 const onCollapse = (collapsed, type) => {
