@@ -117,7 +117,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     addToRouter(asyncRoutes)
     dynamicRouter.value = true
     // 初始化面包屑
-    initTitlePath(routes.value)
+    initBreadcrumb(routes.value)
     // 初始化搜索
     const searchStore = useSearchStore()
     searchStore.init(routes.value)
@@ -214,9 +214,9 @@ export const useMenuStore = defineStore('menuStore', () => {
   }
 
   /**
-   * 根据当前routes生成title组成的层级列表(主要用于搜索时显示菜单路径)
+   * 根据当前routes生成title组成的层级路径(主要用于搜索时显示菜单路径和面包屑)
    */
-  const initTitlePath = (routes: RouteRecordRaw[], titlePath:object[] = []) => {
+  const initBreadcrumb = (routes: RouteRecordRaw[], titlePath:object[] = []) => {
     routes.forEach((route) => {
       // 生成当前route的titleList
       const titleList = [...titlePath]
@@ -231,10 +231,10 @@ export const useMenuStore = defineStore('menuStore', () => {
         "redirect": route.redirect,
       })
       // 设置在route的meta中
-      route.meta.fullTitlePath = titleList
+      route.meta.breadcrumb = titleList
       // 若有子路由则递归设置子路由
       if (route.children) {
-        initTitlePath(route.children, titleList)
+        initBreadcrumb(route.children, titleList)
       }
     })
   }
@@ -246,6 +246,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     module,
     menuList,
     clear,
+    switchModule,
     generateRoutes,
     reloadRoutes
   }

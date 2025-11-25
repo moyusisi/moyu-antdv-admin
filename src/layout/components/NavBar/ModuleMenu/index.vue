@@ -23,9 +23,13 @@
 </template>
 <script setup>
   import { h, toRefs } from 'vue'
+  import { useRoute, useRouter } from "vue-router";
   import { useMenuStore } from '@/store/index.js'
 
   const menuStore = useMenuStore()
+  const route = useRoute()
+  const router = useRouter()
+
   // module菜单是否打开
   const moduleOpen = ref(true)
   // 缓存页面集合, 直接解构store中的同名字段
@@ -36,8 +40,14 @@
 
   // 切换模块
   const switchModule = (code) => {
-    // 将此模块的唯一值加入缓存
-    // menuStore.setModule(code)
+    // 未变化不切换
+    if (module.value === code) {
+      return
+    }
+    // 依靠面包屑获取当前路由的顶层模块
+    const tracePath = route.meta.tracePath
+    console.log(tracePath)
+    menuStore.switchModule(code)
   }
 </script>
 

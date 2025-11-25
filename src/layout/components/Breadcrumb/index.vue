@@ -35,7 +35,7 @@
 
 	// 获取面包屑
 	const getBreadcrumb = () => {
-    breadList.value = route.meta.fullTitlePath
+    breadList.value = route.meta.breadcrumb
 		// 下面的面包屑是route匹配的形式，得到的是route的列表
     // let matched = route.matched.filter(
 		// 	(item) => item.meta && item.meta.title
