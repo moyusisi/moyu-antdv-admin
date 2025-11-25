@@ -214,7 +214,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   }
 
   /**
-   * 根据当前routes生成title组成的层级路径(主要用于搜索时显示菜单路径和面包屑)
+   * 根据当前routes初始化面包屑(面包屑、搜索、模块菜单等组件均要使用)
    */
   const initBreadcrumb = (routes: RouteRecordRaw[], titlePath:object[] = []) => {
     routes.forEach((route) => {
