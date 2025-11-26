@@ -15,6 +15,9 @@
     </div>
     <a-divider/>
     <a-form ref="formRef" class="text-right">
+      <a-form-item label="模块坞">
+        <a-switch :checked="moduleOpen" @change="toggleState('moduleOpen')"/>
+      </a-form-item>
       <a-form-item label="面包屑">
         <a-switch :checked="breadcrumbView" @change="toggleState('breadcrumbView')"/>
       </a-form-item>
@@ -55,9 +58,12 @@
 	const theme = computed(() => {
 		return settingsStore.theme
 	})
-	const breadcrumbView = computed(() => {
-		return settingsStore.breadcrumbView
-	})
+  const moduleOpen = computed(() => {
+    return settingsStore.moduleOpen
+  })
+  const breadcrumbView = computed(() => {
+    return settingsStore.breadcrumbView
+  })
 	const tagsView = computed(() => {
 		return settingsStore.tagsView
 	})
