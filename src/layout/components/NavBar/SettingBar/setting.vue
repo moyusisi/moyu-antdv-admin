@@ -41,51 +41,52 @@
   </div>
 </template>
 <script setup>
-	import { useSettingsStore } from '@/store'
-	const settingsStore = useSettingsStore()
-	const sideStyleList = ref([
-		{
-			tips: '暗色主题风格',
-			value: 'dark',
-			style: 'setting-checkbox-item-dark'
-		},
-		{
-			tips: '亮色主题风格',
-			value: 'light',
-			style: 'setting-checkbox-item-light'
-		}
-	])
-	const theme = computed(() => {
-		return settingsStore.theme
-	})
+  import { useSettingsStore } from '@/store'
+
+  const settingsStore = useSettingsStore()
+  const sideStyleList = ref([
+    {
+      tips: '暗色主题风格',
+      value: 'dark',
+      style: 'setting-checkbox-item-dark'
+    },
+    {
+      tips: '亮色主题风格',
+      value: 'light',
+      style: 'setting-checkbox-item-light'
+    }
+  ])
+  const theme = computed(() => {
+    return settingsStore.theme
+  })
   const moduleOpen = computed(() => {
     return settingsStore.moduleOpen
   })
   const breadcrumbView = computed(() => {
     return settingsStore.breadcrumbView
   })
-	const tagsView = computed(() => {
-		return settingsStore.tagsView
-	})
-	const menuCollapsed = computed(() => {
-		return settingsStore.menuCollapsed
-	})
-	const sideUniqueOpen = computed(() => {
-		return settingsStore.sideUniqueOpen
-	})
-	const watermarkEnabled = computed(() => {
-		return settingsStore.watermarkEnabled
-	})
-	const toggleState = (stateName) => {
-		settingsStore.toggleConfig(stateName)
-	}
-	// 设置整体风格主题
-	const setSideStyle = (value) => {
-		settingsStore.setTheme(value)
-	}
+  const tagsView = computed(() => {
+    return settingsStore.tagsView
+  })
+  const menuCollapsed = computed(() => {
+    return settingsStore.menuCollapsed
+  })
+  const sideUniqueOpen = computed(() => {
+    return settingsStore.sideUniqueOpen
+  })
+  const watermarkEnabled = computed(() => {
+    return settingsStore.watermarkEnabled
+  })
+  const toggleState = (stateName) => {
+    settingsStore.toggleConfig(stateName)
+  }
+  // 设置整体风格主题
+  const setSideStyle = (value) => {
+    settingsStore.setTheme(value)
+  }
 
-	onMounted(() => {
-	})
+  onMounted(() => {
+  })
 </script>
 
 <style scoped>
