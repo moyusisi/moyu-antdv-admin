@@ -70,7 +70,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     // @ts-ignore
     const moduleItem = moduleList.value.find((item) => item.code === module.value)
     // @ts-ignore
-    menuList.value = moduleItem.children
+    menuList.value = moduleItem?.children
   }
 
   /**
@@ -216,7 +216,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   /**
    * 根据当前routes初始化面包屑(面包屑、搜索、模块菜单等组件均要使用)
    */
-  const initBreadcrumb = (routes: RouteRecordRaw[], titlePath:object[] = []) => {
+  const initBreadcrumb = (routes: RouteRecordRaw[], titlePath: object[] = []) => {
     routes.forEach((route) => {
       // 生成当前route的titleList
       const titleList = [...titlePath]
