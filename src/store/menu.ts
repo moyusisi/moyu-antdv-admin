@@ -70,7 +70,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     // @ts-ignore
     const moduleItem = moduleList.value.find((item) => item.code === module.value)
     // @ts-ignore
-    menuList.value = moduleItem?.children
+    menuList.value = moduleItem ? moduleItem.children : []
   }
 
   /**
