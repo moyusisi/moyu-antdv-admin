@@ -274,7 +274,7 @@ export default [
 								{
 									"code": "6921c13293123a2d0d7131f0",
 									"parentCode": "biz_module",
-									"weight": 99,
+									"weight": 5003,
 									"name": "子应用菜单",
 									"path": "/subApp1/ops/sys/log",
 									"component": "log",
