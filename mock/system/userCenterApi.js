@@ -271,6 +271,18 @@ export default [
                     "keepAlive": true
                   }
                 },
+								{
+									"code": "6921c13293123a2d0d7131f0",
+									"parentCode": "biz_module",
+									"weight": 99,
+									"name": "子应用菜单",
+									"path": "/subApp1/ops/sys/log",
+									"component": "log",
+									"meta": {
+										"title": "子应用菜单",
+										"type": "menu"
+									}
+								}
               ]
             }
           ]
