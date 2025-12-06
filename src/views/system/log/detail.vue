@@ -14,7 +14,10 @@
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
-        <a-card title="基本信息">
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
+          </template>
           <a-row :gutter="24">
             <a-col :span="8">
               <a-form-item name="module" label="系统/模块" tooltip="系统/模块" >
@@ -88,7 +91,10 @@
             </a-col>
           </a-row>
         </a-card>
-        <a-card title="请求信息">
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/>请求信息</span>
+          </template>
           <a-row :gutter="24">
             <a-col :span="24">
               <a-form-item name="requestUrl" label="请求地址" tooltip="" :label-col="{span: 2}" >
