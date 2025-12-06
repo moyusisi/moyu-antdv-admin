@@ -16,7 +16,7 @@
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
         <a-card>
           <template #title>
-            <span><RightSquareFilled style="color: dodgerblue;"/>请求信息</span>
+            <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
@@ -37,7 +37,6 @@
                 </span>
               </a-form-item>
             </a-col>
-
             <a-col :span="8">
               <a-form-item name="remark" label="备注" tooltip="" >
                 <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
@@ -81,67 +80,67 @@
   </a-drawer>
 </template>
 <script setup>
-import roleApi from '@/api/system/roleApi'
+  import roleApi from '@/api/system/roleApi'
 
-import { useSettingsStore } from "@/store"
+  import { useSettingsStore } from "@/store"
 
-// store
-const settingsStore = useSettingsStore()
+  // store
+  const settingsStore = useSettingsStore()
 
-const emit = defineEmits({ successful: null })
-// 默认是关闭状态
-const visible = ref(false)
-// 计算属性 抽屉宽度
-const drawerWidth = computed(() => {
-  return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
-})
-
-// 表单数据
-const formRef = ref()
-const formData = ref({})
-const dataLoading = ref(false)
-const submitLoading = ref(false)
-// 下拉框选项
-const exampleOptions = [
-  { label: "选项一", value: 1 },
-  { label: "选项二", value: 2 }
-]
-
-// 打开抽屉
-const onOpen = (row) => {
-  if (row) {
-    // 表单数据赋值
-    loadData(row)
-  }
-}
-// 关闭抽屉
-const onClose = () => {
-  formRef.value.resetFields()
-  visible.value = false
-}
-// 加载数据
-const loadData = (row) => {
-  dataLoading.value = true
-  // 组装请求参数
-  let param = { id: row.id }
-  roleApi.roleDetail(param).then((res) => {
-    formData.value = res.data
-  }).finally(() => {
-    dataLoading.value = false
-    // 数据就绪之后显示
-    visible.value = true
+  const emit = defineEmits({ successful: null })
+  // 默认是关闭状态
+  const visible = ref(false)
+  // 计算属性 抽屉宽度
+  const drawerWidth = computed(() => {
+    return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
-}
 
-// 调用这个函数将子组件的一些数据和方法暴露出去
-defineExpose({
-  onOpen
-})
+  // 表单数据
+  const formRef = ref()
+  const formData = ref({})
+  const dataLoading = ref(false)
+  const submitLoading = ref(false)
+  // 下拉框选项
+  const exampleOptions = [
+    { label: "选项一", value: 1 },
+    { label: "选项二", value: 2 }
+  ]
+
+  // 打开抽屉
+  const onOpen = (row) => {
+    if (row) {
+      // 表单数据赋值
+      loadData(row)
+    }
+  }
+  // 关闭抽屉
+  const onClose = () => {
+    formRef.value.resetFields()
+    visible.value = false
+  }
+  // 加载数据
+  const loadData = (row) => {
+    dataLoading.value = true
+    // 组装请求参数
+    let param = { code: row.code }
+    roleApi.roleDetail(param).then((res) => {
+      formData.value = res.data
+    }).finally(() => {
+      dataLoading.value = false
+      // 数据就绪之后显示
+      visible.value = true
+    })
+  }
+
+  // 调用这个函数将子组件的一些数据和方法暴露出去
+  defineExpose({
+    onOpen
+  })
 </script>
 
 <style scoped>
-/** 后代选择器 **/
-.ant-card .ant-form-item {
-  margin-bottom: 12px !important;
-}
+  /** 后代选择器 **/
+  .ant-card .ant-form-item {
+    margin-bottom: 12px !important;
+  }
 </style>
