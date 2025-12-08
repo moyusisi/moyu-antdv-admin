@@ -4,6 +4,7 @@
       title="资源详情"
       :width="drawerWidth"
       :closable="false"
+      :maskClosable="false"
       :destroy-on-close="true"
       @close="onClose"
   >

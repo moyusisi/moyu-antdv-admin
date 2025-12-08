@@ -4,6 +4,7 @@
       title="系统日志详情"
       :width="drawerWidth"
       :closable="false"
+      :maskClosable="false"
       :destroy-on-close="true"
       @close="onClose"
   >
