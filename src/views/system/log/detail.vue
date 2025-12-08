@@ -113,7 +113,7 @@
           <a-row :gutter="24">
             <a-col :span="24">
               <a-form-item name="responseContent" label="返回结果" tooltip="" :label-col="{span: 2}" >
-                <highlightjs v-if="formData.responseContent" autodetect :code="formData.requestContent" />
+                <highlightjs v-if="formData.responseContent" autodetect :code="formData.responseContent" />
               </a-form-item>
             </a-col>
           </a-row>
