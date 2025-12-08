@@ -169,6 +169,12 @@
     let param = { id: row.id }
     logApi.logDetail(param).then((res) => {
       formData.value = res.data
+      try {
+        // json 格式化 设置tab为两个空格
+        formData.value.requestContent = JSON.stringify(JSON.parse(formData.value.requestContent), null, 2)
+        formData.value.responseContent = JSON.stringify(JSON.parse(formData.value.responseContent), null, 2)
+      } catch (e) {
+      }
     }).finally(() => {
       dataLoading.value = false
       // 数据就绪之后显示
