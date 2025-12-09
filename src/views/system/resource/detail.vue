@@ -70,7 +70,7 @@
             </a-col>
             <a-col :span="8" v-if="formData.resourceType !== 6">
               <a-form-item name="icon" label="图标" tooltip="">
-                <span><a-tag>{{ formData.icon }}</a-tag></span>
+                <span v-if="formData.icon"><a-tag>{{ formData.icon }}</a-tag></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
