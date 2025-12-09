@@ -92,8 +92,8 @@
         <template v-if="column.dataIndex === 'id'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
-            <!--<a style="text-decoration: underline;" @click="detailRef.onOpen(record)">{{ text }}</a>-->
-            <a @click="detailRef.onOpen(record)">{{ text }}</a>
+            <!--<a style="text-decoration: underline;" @click="openDetail(record)">{{ text }}</a>-->
+            <a @click="openDetail(record)">{{ text }}</a>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'requestUrl'">
@@ -349,7 +349,7 @@
   onMounted(() => {
     if (route.query.id || history.state.id) {
       const row = { id: route.query.id || history.state.id }
-      detailRef.value.onOpen(row)
+      openDetail(row)
     }
   })
 
@@ -400,6 +400,10 @@
     })
   }
 
+  // 打开详情页
+  const openDetail = (row) => {
+    detailRef.value.onOpen(row)
+  }
 </script>
 
 <style scoped>
