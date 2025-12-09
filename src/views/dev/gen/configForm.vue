@@ -41,7 +41,7 @@
             </a-row>
             <a-row :gutter="24">
               <a-col :span="12">
-                <a-form-item label="包名" name="packageName" :rules="[required('请输入包名')]">
+                <a-form-item label="包名" name="packageName" tooltip="最终的包名会拼接上模块、业务" :rules="[required('请输入包名')]">
                   <a-input v-model:value="configFormData.packageName" placeholder="如:com.moyu.boot"/>
                 </a-form-item>
               </a-col>

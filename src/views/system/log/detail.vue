@@ -21,6 +21,11 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
+              <a-form-item name="id" label="日志ID" tooltip="" >
+                <span><a>{{ formData.id }}</a></span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
               <a-form-item name="module" label="系统/模块" tooltip="系统/模块" >
                 {{ formData.module }}
               </a-form-item>
@@ -132,9 +137,12 @@
   import logApi from '@/api/system/logApi.js'
 
   import { useSettingsStore } from "@/store"
+  import { useRoute, useRouter } from "vue-router";
 
   // store
   const settingsStore = useSettingsStore()
+  const route = useRoute();
+  const router = useRouter();
 
   const emit = defineEmits({ successful: null })
   // 默认是关闭状态
@@ -149,6 +157,14 @@
   const formData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
+
+  // 挂载后处理
+  // onMounted(() => {
+  //   if (route.query.id || history.state.id) {
+  //     const row = { id: route.query.id || history.state.id }
+  //     loadData(row)
+  //   }
+  // })
 
   // 打开抽屉
   const onOpen = (row) => {

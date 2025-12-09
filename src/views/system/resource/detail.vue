@@ -61,10 +61,10 @@
               </a-form-item>
             </a-col>
             <a-col :span="8" v-if="formData.resourceType !== 6">
-              <a-form-item name="visible" label="是否可见" tooltip="不可见会在菜单中隐藏" >
+              <a-form-item name="visible" label="是否可见" tooltip="隐藏时不会出现在菜单中" >
                 <span>
                   <a-tag v-if="formData.visible === 1" color="green">可见</a-tag>
-                  <a-tag v-else>不可见</a-tag>
+                  <a-tag v-else>隐藏</a-tag>
                 </span>
               </a-form-item>
             </a-col>
