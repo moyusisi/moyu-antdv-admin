@@ -13,8 +13,11 @@
     </template>
     <a-tabs v-model:activeKey="activeTab" type="card" centered>
       <a-tab-pane key="1" tab="基本配置">
-        <a-card>
-          <a-form ref="tableFormRef" :model="configFormData" :label-col="{span: 4}">
+        <a-form ref="tableFormRef" :model="configFormData" :label-col="{span: 6}">
+          <a-card>
+            <template #title>
+              <span><RightSquareFilled style="color: dodgerblue;"/>表信息</span>
+            </template>
             <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="表名" name="tableName" :rules="[required('请输入表名')]">
@@ -26,34 +29,35 @@
                   <a-input v-model:value="configFormData.tableComment" placeholder="如:用户" disabled/>
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row :gutter="24">
               <a-col :span="12">
                 <a-form-item label="实体名" name="entityName" :rules="[required('请输入实体名')]">
                   <a-input v-model:value="configFormData.entityName" placeholder="如:User"/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="实体描述" name="entityDesc" :rules="[required('请输入描述')]">
-                  <a-input v-model:value="configFormData.entityDesc" placeholder="如:用户"/>
+                <a-form-item label="作者" name="author">
+                  <a-input v-model:value="configFormData.author" placeholder="如:moyusisi"/>
                 </a-form-item>
               </a-col>
             </a-row>
+          </a-card>
+          <a-card>
+            <template #title>
+              <span><RightSquareFilled style="color: dodgerblue;"/>生成信息</span>
+            </template>
             <a-row :gutter="24">
               <a-col :span="12">
-                <a-form-item label="包名" name="packageName" tooltip="最终的包名会拼接上模块、业务" :rules="[required('请输入包名')]">
+                <a-form-item label="包名" name="packageName" tooltip="后端包前缀，最终路径为:包名.模块" :rules="[required('请输入包名')]">
                   <a-input v-model:value="configFormData.packageName" placeholder="如:com.moyu.boot"/>
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="模块名" name="moduleName" :rules="[required('请输入模块名')]">
+                <a-form-item label="模块名" name="moduleName" tooltip="后端的子包名/前端的组件目录" :rules="[required('请输入模块名')]">
                   <a-input v-model:value="configFormData.moduleName" placeholder="如:system"/>
                 </a-form-item>
               </a-col>
-            </a-row>
-            <a-row :gutter="24">
               <a-col :span="12">
-                <a-form-item label="上级菜单" name="parentCode">
+                <a-form-item label="上级菜单" name="parentCode" tooltip="用于生成菜单资源的sql脚本">
                   <a-tree-select
                       v-model:value="configFormData.parentMenuCode"
                       v-model:treeExpandedKeys="defaultExpandedKeys"
@@ -68,13 +72,13 @@
                 </a-form-item>
               </a-col>
               <a-col :span="12">
-                <a-form-item label="作者" name="author">
-                  <a-input v-model:value="configFormData.author" placeholder="如:moyusisi"/>
+                <a-form-item label="详情页打开方式" name="detailOpenType" tooltip="独立页面打开时，必须配置菜单及路由地址，否则无法访问页面">
+                  <a-select v-model:value="configFormData.detailOpenType" :options="detailOpenTypeOptions" placeholder="请选择"/>
                 </a-form-item>
               </a-col>
             </a-row>
-          </a-form>
-        </a-card>
+          </a-card>
+        </a-form>
       </a-tab-pane>
       <a-tab-pane key="2" tab="字段配置">
         <a-card>
@@ -155,7 +159,6 @@ import { message, TreeSelect } from 'ant-design-vue'
 import { required } from "@/utils/formRules.js";
 import { useSettingsStore } from "@/store/index.js";
 import resourceApi from "@/api/system/resourceApi.js";
-import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue";
 
 const settingsStore = useSettingsStore()
 
@@ -338,6 +341,11 @@ const formTypeOptions = ref([
     label: '时间选择',
     value: 'DATE_TIME'
   },
+])
+// 详情页打开方式
+const detailOpenTypeOptions = ref([
+  { label: "页内打开", value: 0 },
+  { label: "独立页面打开", value: 1 },
 ])
 
 // 抽屉宽度
