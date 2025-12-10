@@ -219,12 +219,6 @@ const columns = [
     ellipsis: true
   },
   {
-    title: '查询条件',
-    align: 'center',
-    dataIndex: 'showInQuery',
-    width: 50
-  },
-  {
     title: '列表显示',
     align: 'center',
     dataIndex: 'showInList',
@@ -249,10 +243,10 @@ const columns = [
     width: 50
   },
   {
-    title: '表单类型',
+    title: '查询条件',
     align: 'center',
-    dataIndex: 'formType',
-    width: 130
+    dataIndex: 'showInQuery',
+    width: 50
   },
   {
     title: '查询方式',
@@ -261,10 +255,10 @@ const columns = [
     width: 130
   },
   {
-    title: '字典类型',
+    title: '表单类型',
     align: 'center',
-    dataIndex: 'dictType',
-    width: 140
+    dataIndex: 'formType',
+    width: 130
   },
 ]
 
