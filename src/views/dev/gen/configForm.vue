@@ -86,7 +86,7 @@
                    :row-key="(record) => record.id"
                    :pagination="false"
                    bordered>
-            <template #bodyCell="{ column, record }">
+            <template #bodyCell="{ column, record, index, text }">
               <template v-if="column.dataIndex === 'code'">
                 <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
               </template>
@@ -106,15 +106,18 @@
                 <a-checkbox v-model:checked="record.showInList"/>
               </template>
               <template v-if="column.dataIndex === 'ellipsis'">
-                <a-checkbox v-model:checked="record.ellipsis"/>
+                <span v-if="record.showInList" >
+                  <a-checkbox v-model:checked="record.ellipsis"/>
+                </span>
+                <span v-else>-</span>
               </template>
               <template v-if="column.dataIndex === 'showInForm'">
                 <a-checkbox v-model:checked="record.showInForm"/>
               </template>
               <template v-if="column.dataIndex === 'required'">
-              <span v-if="record.showInForm" >
-                <a-checkbox v-model:checked="record.required"/>
-              </span>
+                <span v-if="record.showInForm" >
+                  <a-checkbox v-model:checked="record.required"/>
+                </span>
                 <span v-else>-</span>
               </template>
               <template v-if="column.dataIndex === 'queryType'">
