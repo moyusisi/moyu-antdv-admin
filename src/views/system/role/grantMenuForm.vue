@@ -104,7 +104,6 @@
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store/settings";
 
-
   // store
   const settingsStore = useSettingsStore()
   const userStore = useUserStore()
