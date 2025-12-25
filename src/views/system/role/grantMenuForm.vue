@@ -28,26 +28,49 @@
                :pagination="false"
                :defaultExpandedRowKeys="defaultExpandedRowKeys"
                bordered>
-        <template #bodyCell="{ column, record }">
+        <template #bodyCell="{ column, record, index, text }">
           <template v-if="column.dataIndex === 'name'">
-            <span v-if="record.resourceType === 1">
-              <a-tag color="orange">模块</a-tag>{{ record.name }}
+            <!-- 长文本省略提示 -->
+            <a-tooltip :title="text" placement="top">
+              <span v-if="record.resourceType === 1">
+                <a-tag color="orange">模块</a-tag>{{ record.name }}
+              </span>
+              <span v-if="record.resourceType === 2">
+                <a-tag color="cyan">目录</a-tag>{{ record.name }}
+              </span>
+              <span v-if="record.resourceType === 3">
+                <a-tag color="blue">菜单</a-tag>{{ record.name }}
+              </span>
+              <span v-if="record.resourceType === 4">
+                <a-tag color="gold">内链</a-tag>{{ record.name }}
+              </span>
+              <span v-if="record.resourceType === 5">
+                <a-tag color="green">链接</a-tag>{{ record.name }}
+              </span>
+              <span v-if="record.resourceType === 6">
+                <a-tag color="purple">按钮</a-tag>{{ record.name }}
+              </span>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'resourceType'">
+            <a-tag v-if="record.resourceType === 1" color="orange">模块</a-tag>
+            <a-tag v-if="record.resourceType === 2" color="cyan">目录</a-tag>
+            <a-tag v-if="record.resourceType === 3" color="blue">菜单</a-tag>
+            <a-tag v-if="record.resourceType === 4" color="gold">内链</a-tag>
+            <a-tag v-if="record.resourceType === 5" color="green">链接</a-tag>
+            <a-tag v-if="record.resourceType === 6" color="purple">按钮</a-tag>
+          </template>
+          <template v-if="column.dataIndex === 'icon'">
+            <span v-if="record.icon && record.icon !== '#'" >
+              <component :is="record.icon"/>
             </span>
-            <span v-if="record.resourceType === 2">
-              <a-tag color="cyan">目录</a-tag>{{ record.name }}
-            </span>
-            <span v-if="record.resourceType === 3">
-              <a-tag color="blue">菜单</a-tag>{{ record.name }}
-            </span>
-            <span v-if="record.resourceType === 4">
-              <a-tag color="gold">内链</a-tag>{{ record.name }}
-            </span>
-            <span v-if="record.resourceType === 5">
-              <a-tag color="green">链接</a-tag>{{ record.name }}
-            </span>
-            <span v-if="record.resourceType === 6">
-              <a-tag color="purple">按钮</a-tag>{{ record.name }}
-            </span>
+            <span v-else />
+          </template>
+          <template v-if="column.dataIndex === 'code'">
+            <!-- 唯一键点击查看详情 -->
+            <a-tooltip :title="text" placement="topLeft">
+              <a @click="null">{{ text }}</a>
+            </a-tooltip>
           </template>
           <template v-if="column.dataIndex === 'buttonList'">
             <a-space v-if="record.allButtonList">
@@ -95,12 +118,11 @@
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
 
-  const spinningLoading = ref(false)
-  const submitLoading = ref(false)
-
   // 表单数据
   const roleCode = ref('')
   const moduleId = ref('')
+  const spinningLoading = ref(false)
+  const submitLoading = ref(false)
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
@@ -134,7 +156,7 @@
       dataIndex: 'name',
       resizable: true,
       ellipsis: true,
-      width: 300
+      width: 200
     },
     {
       title: '按钮权限',
