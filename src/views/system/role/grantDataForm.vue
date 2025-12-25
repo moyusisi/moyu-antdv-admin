@@ -241,6 +241,7 @@
     submitLoading.value = true
     roleApi.roleGrantData(param).then((res) => {
       message.success(res.message)
+      loadData()
       refreshCache()
     }).finally(() => {
       submitLoading.value = false
