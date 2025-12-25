@@ -67,11 +67,14 @@
             <template #split>
               <a-divider type="vertical" />
             </template>
-            <a-tooltip title="分配权限">
-              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)"><DeploymentUnitOutlined /></a>
-            </a-tooltip>
             <a-tooltip title="分配用户">
               <a style="color:#53C61D;" @click="roleUserRef.onOpen(record)"><UserAddOutlined /></a>
+            </a-tooltip>
+            <a-tooltip title="功能权限">
+              <a style="color:#1980FF;" @click="grantMenuFormRef.onOpen(record)"><PicLeftOutlined /></a>
+            </a-tooltip>
+            <a-tooltip title="数据权限">
+              <a style="color:#fa541c;" @click="grantDataFormRef.onOpen(record)"><ApiOutlined /></a>
             </a-tooltip>
             <a-tooltip title="编辑">
               <a @click="formRef.onOpen(record)"><FormOutlined /></a>
@@ -86,7 +89,8 @@
       </template>
     </MTable>
   </a-card>
-  <grant-menu-form ref="grantMenuFormRef" @successful="tableRef.refresh()" />
+  <GrantMenuForm ref="grantMenuFormRef" @successful="tableRef.refresh()" />
+  <GrantDataForm ref="grantDataFormRef" />
   <Form ref="formRef" @successful="tableRef.refresh()" />
   <Detail ref="detailRef"/>
   <RoleUser ref="roleUserRef" />
@@ -103,6 +107,7 @@
   import Form from "./form.vue"
   import Detail from "./detail.vue"
   import GrantMenuForm from "./grantMenuForm.vue"
+  import GrantDataForm from "./grantDataForm.vue"
   import RoleUser from "./roleUser.vue"
 
   // 查询表单相关对象
@@ -113,6 +118,7 @@
   const formRef = ref()
   const detailRef = ref()
   const grantMenuFormRef = ref()
+  const grantDataFormRef = ref()
   const roleUserRef = ref()
 
   /***** 表格相关对象 start *****/
