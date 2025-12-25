@@ -14,7 +14,7 @@
     <a-spin :spinning="spinningLoading">
       <a-space style="margin-bottom: 10px;">
         <a-radio-group v-model:value="moduleId" button-style="solid">
-          <a-radio-button v-for="module in moduleDataList" :key="module.code" :value="module.code" @click="moduleClock(module.code)">
+          <a-radio-button v-for="module in moduleDataList" :key="module.code" :value="module.code" @click="moduleChange(module.code)">
             <component :is="module.icon" /> {{ module.name }}
           </a-radio-button>
         </a-radio-group>
@@ -192,7 +192,7 @@
   }
 
   // 通过应用分菜单
-  const moduleClock = (value) => {
+  const moduleChange = (value) => {
     moduleId.value = value
     loadData()
   }
