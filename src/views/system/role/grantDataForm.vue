@@ -11,62 +11,89 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
-    <a-space style="margin-bottom: 10px;">
-      <a-radio-group v-model:value="moduleId" button-style="solid">
-        <a-radio-button v-for="module in moduleList" :key="module.code" :value="module.code" @click="moduleChange(module.code)">
-          <component :is="module.icon" /> {{ module.name }}
-        </a-radio-button>
-      </a-radio-group>
-    </a-space>
+    <!-- 上方模块选择 -->
+    <a-card size="small">
+      <a-form ref="queryFormRef" :model="queryFormData">
+        <a-row :gutter="24">
+          <a-col :span="6">
+            <a-form-item name="module" label="所属模块">
+              <a-select v-model:value="moduleId" @change="onModuleChange" placeholder="请选择模块">
+                <a-select-option v-for="item in moduleList" :key="item.code" :value="item.code">{{item.name}}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item name="name" label="接口名称">
+              <a-input v-model:value="queryFormData.name" placeholder="搜索接口名称" allowClear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item name="searchKey" label="接口地址">
+              <a-input v-model:value="queryFormData.searchKey" placeholder="搜索接口地址" allowClear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="6">
+            <a-form-item>
+              <a-flex gap="small">
+                <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
+                <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+              </a-flex>
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-card>
     <!-- 菜单权限授权表格 -->
-    <a-table size="small" ref="tableRef"
-             :columns="columns"
-             :data-source="tableData"
-             :loading="dataLoading"
-             :row-key="(record) => record.code"
-             :pagination="false"
-             bordered>
-      <template #bodyCell="{ column, record, index, text }">
-        <template v-if="column.dataIndex === 'index'">
-          <span>{{ index + 1 }}</span>
+    <a-card size="small">
+      <a-table size="small" ref="tableRef"
+               :columns="columns"
+               :data-source="tableData"
+               :loading="dataLoading"
+               :row-key="(record) => record.code"
+               :pagination="false"
+               bordered>
+        <template #bodyCell="{ column, record, index, text }">
+          <template v-if="column.dataIndex === 'index'">
+            <span>{{ index + 1 }}</span>
+          </template>
+          <template v-if="column.dataIndex === 'name'">
+            <!-- 长文本省略提示 -->
+            <a-tooltip :title="text" placement="topLeft">
+              <span>{{ text }}</span>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'code'">
+            <!-- 唯一键点击查看详情 -->
+            <a-tooltip :title="text" placement="topLeft">
+              <a-tag v-if="text" :bordered="false">{{ text }}</a-tag>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'path'">
+            <a-tooltip :title="text" placement="topLeft">
+              <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'permission'">
+            <a-tooltip :title="text" placement="topLeft">
+              <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'dataScope'">
+            <a-flex vertical>
+              <a-radio-group v-model:value="record.dataScope" option-type="button" button-style="solid">
+                <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
+                <a-radio-button :value="0">不限制</a-radio-button>
+                <a-radio-button :value="1">仅本人</a-radio-button>
+                <a-radio-button :value="2">仅本机构</a-radio-button>
+                <a-radio-button :value="3">本机构及以下</a-radio-button>
+                <a-radio-button :value="4">自定义</a-radio-button>
+              </a-radio-group>
+              <OrgTreeSelect v-if="record.dataScope === 4" :tree-data="treeData" :defaultValue="record.scopeList" multiSelect @onChange="(value) => onScopeChange(value, record)"/>
+            </a-flex>
+          </template>
         </template>
-        <template v-if="column.dataIndex === 'name'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'code'">
-          <!-- 唯一键点击查看详情 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <a-tag v-if="text" :bordered="false">{{ text }}</a-tag>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'path'">
-          <a-tooltip :title="text" placement="topLeft">
-            <a-tag v-if="record.path" :bordered="false">{{ record.path }}</a-tag>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'permission'">
-          <a-tooltip :title="text" placement="topLeft">
-            <a-tag v-if="record.permission" :bordered="false">{{ record.permission }}</a-tag>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'dataScope'">
-          <a-flex vertical>
-            <a-radio-group v-model:value="record.dataScope" option-type="button" button-style="solid">
-              <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
-              <a-radio-button :value="0">不限制</a-radio-button>
-              <a-radio-button :value="1">仅本人</a-radio-button>
-              <a-radio-button :value="2">仅本机构</a-radio-button>
-              <a-radio-button :value="3">本机构及以下</a-radio-button>
-              <a-radio-button :value="4">自定义</a-radio-button>
-            </a-radio-group>
-            <OrgTreeSelect v-if="record.dataScope === 4" :tree-data="treeData" :defaultValue="record.scopeList" multiSelect @onChange="(value) => onScopeChange(value, record)"/>
-          </a-flex>
-        </template>
-      </template>
-    </a-table>
+      </a-table>
+    </a-card>
     <template #footer>
       <a-flex gap="small" justify="flex-end">
         <a-button @click="onClose">关闭</a-button>
@@ -79,9 +106,9 @@
 <script setup>
   import resourceApi from "@/api/system/resourceApi.js";
   import roleApi from '@/api/system/roleApi'
-  import { ref } from "vue";
+  import { h, ref } from "vue";
   import { message } from "ant-design-vue";
-  import { CloseOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { CloseOutlined, DownOutlined, RedoOutlined, SearchOutlined, UpOutlined } from "@ant-design/icons-vue"
   import { useMenuStore } from '@/store/menu'
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store/settings";
@@ -103,14 +130,20 @@
 
   // 表单数据
   const roleCode = ref('')
-  const moduleId = ref('')
   const dataLoading = ref(false)
   const submitLoading = ref(false)
 
+  // 查询表单相关对象
+  const queryFormRef = ref()
+  // resourceType=6表示按钮
+  const queryFormData = ref({ resourceType: 6 })
+  // 模块列表
+  const moduleList = ref([])
+  // 当前选中模块id
+  const moduleId = ref()
+
   /***** 表格相关对象 start *****/
   const tableRef = ref()
-  // 所有模块列表
-  const moduleList = ref([])
   // 表格中的数据(loadData中会更新)
   const tableData = ref([])
   // 组织树
@@ -169,6 +202,15 @@
     loadData()
   }
 
+  // 提交查询
+  const querySubmit = () => {
+    loadData()
+  }
+  // 重置
+  const reset = () => {
+    queryFormRef.value.resetFields()
+  }
+
   // 初始化
   const initModuleList = async () => {
     if (!moduleId.value) {
@@ -191,30 +233,33 @@
 
   // 加载数据
   const loadData = async (parameter) => {
-    // 已有数据不重复查询
-    if (moduleId.value) {
-      // 菜单权限树
-      dataLoading.value = true
-      const res = await roleApi.dataScopeForGrant({ code: roleCode.value, module: moduleId.value })
-      if(res.data) {
-        res.data.forEach((record) => {
-          if (record.scopeSet) {
-            record.scopeList = record.scopeSet.split(',')
-          } else {
-            record.scopeList = []
-          }
-        })
-      }
-      tableData.value = res.data
-      dataLoading.value = false
+    if (!moduleId.value) {
+      await initModuleList()
     }
+    // 查询参数
+    let param = { ...queryFormData.value, code: roleCode.value, module: moduleId.value }
+    // 查询数据权限列表
+    dataLoading.value = true
+    const res = await roleApi.dataScopeForGrant(param)
+    if(res.data) {
+      res.data.forEach((record) => {
+        if (record.scopeSet) {
+          record.scopeList = record.scopeSet.split(',')
+        } else {
+          record.scopeList = []
+        }
+      })
+    }
+    tableData.value = res.data
+    dataLoading.value = false
   }
 
-  // 通过应用分菜单
-  const moduleChange = (value) => {
-    moduleId.value = value
+  // 模块发生变更
+  const onModuleChange = (value) => {
+    queryFormData.value.module = value
     loadData()
   }
+
   // 自定义数据范围变更
   const onScopeChange = (value, record) => {
     record.scopeList = value
@@ -268,5 +313,12 @@
 </script>
 
 <style scoped>
+  /** 后代选择器 **/
+  .ant-card .ant-form {
+    margin-bottom: -12px !important;
+  }
 
+  .ant-form-item {
+    margin-bottom: 12px !important;
+  }
 </style>

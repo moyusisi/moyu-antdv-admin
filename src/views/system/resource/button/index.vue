@@ -239,22 +239,16 @@
     tableRef.value.refresh(true)
   }
   const loadData = async (parameter) => {
-    // 分页参数
-    let param = Object.assign(parameter, queryFormData.value)
     if (!moduleId.value) {
       await init()
-      param.module = moduleId.value
-      return resourceApi.resourcePage(param).then((res) => {
-        // res.data 为 {total, records}
-        return res.data
-      })
-    } else {
-      param.module = moduleId.value
-      return resourceApi.resourcePage(param).then((res) => {
-        // res.data 为 {total, records}
-        return res.data
-      })
     }
+    // 分页参数
+    let param = Object.assign(parameter, queryFormData.value)
+    param.module = moduleId.value
+    return resourceApi.resourcePage(param).then((res) => {
+      // res.data 为 {total, records}
+      return res.data
+    })
   }
   // 选中行发生变化
   const onSelectedChange = (selectedKeys, selectedRows) => {
