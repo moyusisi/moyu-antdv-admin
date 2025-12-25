@@ -3,7 +3,8 @@
     title="角色授权-功能权限"
     :open="visible"
     :width="drawerWidth"
-    :footerStyle="{'display': 'flex', 'justify-content': 'flex-end' }"
+    :closable="false"
+    :maskClosable="false"
     :destroy-on-close="true"
     @close="onClose"
   >
@@ -63,21 +64,23 @@
       </a-table>
     </a-spin>
     <template #footer>
-      <a-space>
+      <a-flex gap="small" justify="flex-end">
         <a-button @click="onClose">关闭</a-button>
         <a-button type="primary" :loading="submitLoading" @click="onSubmit">保存</a-button>
-      </a-space>
+      </a-flex>
     </template>
   </a-drawer>
 </template>
 
 <script setup>
   import roleApi from '@/api/system/roleApi'
+  import { ref } from "vue";
+  import { message } from "ant-design-vue";
+  import { CloseOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { useMenuStore } from '@/store/menu'
   import { useUserStore } from '@/store/user'
-  import { useSettingsStore } from "@/store";
-  import { message } from "ant-design-vue";
-  import { ref } from "vue";
+  import { useSettingsStore } from "@/store/settings";
+
 
   // store
   const settingsStore = useSettingsStore()
