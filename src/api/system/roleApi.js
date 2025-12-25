@@ -41,8 +41,8 @@ export default {
 		return service.postJson('/api/sys/role/grantMenu', data)
 	},
 	// 给角色授权数据权限
-	roleGrantDataScope(data) {
-		return service.postJson('/api/sys/role/grantDataScope', data)
+	roleGrantData(data) {
+		return service.postJson('/api/sys/role/grantData', data)
 	},
 	// 角色用户列表
 	roleUserList(data) {

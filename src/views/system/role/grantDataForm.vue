@@ -236,10 +236,10 @@
     })
     const param = {
       code: roleCode.value,
-      grantDataScopeList: [...dataScopeList]
+      grantDataList: [...dataScopeList]
     }
     submitLoading.value = true
-    roleApi.roleGrantDataScope(param).then((res) => {
+    roleApi.roleGrantData(param).then((res) => {
       message.success(res.message)
       refreshCache()
     }).finally(() => {
