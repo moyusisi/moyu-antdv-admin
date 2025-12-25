@@ -27,6 +27,9 @@
              :pagination="false"
              bordered>
       <template #bodyCell="{ column, record, index, text }">
+        <template v-if="column.dataIndex === 'index'">
+          <span>{{ index + 1 }}</span>
+        </template>
         <template v-if="column.dataIndex === 'name'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
@@ -36,7 +39,7 @@
         <template v-if="column.dataIndex === 'code'">
           <!-- 唯一键点击查看详情 -->
           <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
+            <a-tag v-if="text" :bordered="false">{{ text }}</a-tag>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'path'">
@@ -78,7 +81,7 @@
   import roleApi from '@/api/system/roleApi'
   import { ref } from "vue";
   import { message } from "ant-design-vue";
-  import { CloseOutlined, DeleteOutlined } from "@ant-design/icons-vue"
+  import { CloseOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { useMenuStore } from '@/store/menu'
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store/settings";
@@ -110,7 +113,6 @@
   const moduleList = ref([])
   // 表格中的数据(loadData中会更新)
   const tableData = ref([])
-  const scopeList = ref([])
   // 组织树
   const treeData = ref([])
   // 已选中的菜单(loadData中会更新)
@@ -119,6 +121,13 @@
   const defaultExpandedRowKeys = ref([])
   // 表格列配置
   const columns = [
+    // 不需要序号可以删掉
+    {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
+    },
     {
       title: "接口名称",
       dataIndex: "name",
