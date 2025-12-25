@@ -19,14 +19,14 @@
         </a-radio-group>
       </a-space>
       <!-- 菜单权限授权表格 -->
-      <a-table size="small"
-           :columns="columns"
-           :data-source="tableData"
-           :row-key="(record) => record.code"
-           :row-selection="rowSelection"
-           :pagination="paginationRef"
-           :defaultExpandedRowKeys="defaultExpandedRowKeys"
-           bordered>
+      <a-table size="small" ref="tableRef"
+               :columns="columns"
+               :data-source="tableData"
+               :row-key="(record) => record.code"
+               :row-selection="rowSelection"
+               :pagination="false"
+               :defaultExpandedRowKeys="defaultExpandedRowKeys"
+               bordered>
         <template #bodyCell="{ column, record }">
           <template v-if="column.dataIndex === 'name'">
             <span v-if="record.resourceType === 1">
@@ -77,22 +77,30 @@
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store";
   import { message } from "ant-design-vue";
+  import { ref } from "vue";
 
+  // store
   const settingsStore = useSettingsStore()
   const userStore = useUserStore()
   const menuStore = useMenuStore()
 
-  const visible = ref(false)
-  const spinningLoading = ref(false)
+  // 抽屉参数
   const emit = defineEmits({ successful: null })
-  const submitLoading = ref(false)
+  const visible = ref(false)
   // 抽屉宽度
   const drawerWidth = computed(() => {
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
 
+  const spinningLoading = ref(false)
+  const submitLoading = ref(false)
+
+  // 表单数据
   const roleCode = ref('')
   const moduleId = ref('')
+
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
   // 所有模块的菜单数据(loadData中会更新)
   const moduleDataList = ref([])
   // 表格中的数据(loadData中会更新)
@@ -101,18 +109,6 @@
   const selectedRowKeys = ref([])
   // 默认展开的行(loadData中会更新)
   const defaultExpandedRowKeys = ref([])
-  const columns = [
-    {
-      title: '菜单权限',
-      dataIndex: 'name',
-      resizable: true,
-      width: 300
-    },
-    {
-      title: '按钮权限',
-      dataIndex: 'buttonList'
-    }
-  ]
   // 列表选择配置
   const rowSelection = ref({
     checkStrictly: false,
@@ -128,11 +124,22 @@
       }
     }
   });
-  // 表格的分页配置
-  const paginationRef = ref({
-    // 只有一页或没有数据时隐藏分页栏
-    hideOnSinglePage: true,
-  })
+  // 表格列配置
+  const columns = [
+    {
+      title: '菜单权限',
+      dataIndex: 'name',
+      resizable: true,
+      ellipsis: true,
+      width: 300
+    },
+    {
+      title: '按钮权限',
+      dataIndex: 'buttonList',
+      resizable: true,
+      ellipsis: true,
+    }
+  ]
 
   // 打开抽屉
   const onOpen = (record) => {
