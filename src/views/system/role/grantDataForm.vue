@@ -276,8 +276,8 @@
 
   // 验证并提交数据
   const onSubmit = () => {
-    // 数据权限列表
-    const dataScopeList = []
+    // 数据范围列表
+    const scopeList = []
     tableData.value.forEach((record) => {
       const scopeInfo = { code: record.code, dataScope: record.dataScope }
       // <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
@@ -286,11 +286,11 @@
       } else {
         scopeInfo.scopes = null;
       }
-      dataScopeList.push(scopeInfo)
+      scopeList.push(scopeInfo)
     })
     const param = {
       code: roleCode.value,
-      grantDataList: [...dataScopeList]
+      grantScopeList: [...scopeList]
     }
     submitLoading.value = true
     roleApi.roleGrantScope(param).then((res) => {
