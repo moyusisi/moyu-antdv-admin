@@ -33,16 +33,16 @@ export default {
 		return service.postJson('/api/sys/role/menuTreeForGrant', data)
 	},
 	// 获取角色授权的接口数据范围信息列表
-	dataScopeForGrant(data) {
-		return service.postJson('/api/sys/role/dataScopeForGrant', data)
+	permScopeForGrant(data) {
+		return service.postJson('/api/sys/role/permScopeForGrant', data)
 	},
 	// 给角色授权菜单
 	roleGrantMenu(data) {
 		return service.postJson('/api/sys/role/grantMenu', data)
 	},
-	// 给角色授权数据权限
-	roleGrantData(data) {
-		return service.postJson('/api/sys/role/grantData', data)
+	// 给角色授权数据范围
+	roleGrantScope(data) {
+		return service.postJson('/api/sys/role/grantScope', data)
 	},
 	// 角色用户列表
 	roleUserList(data) {

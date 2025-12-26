@@ -240,7 +240,7 @@
     let param = { ...queryFormData.value, code: roleCode.value, module: moduleId.value }
     // 查询数据权限列表
     dataLoading.value = true
-    const res = await roleApi.dataScopeForGrant(param)
+    const res = await roleApi.permScopeForGrant(param)
     if(res.data) {
       res.data.forEach((record) => {
         if (record.scopes) {
@@ -293,7 +293,7 @@
       grantDataList: [...dataScopeList]
     }
     submitLoading.value = true
-    roleApi.roleGrantData(param).then((res) => {
+    roleApi.roleGrantScope(param).then((res) => {
       message.success(res.message)
       loadData()
       refreshCache()
