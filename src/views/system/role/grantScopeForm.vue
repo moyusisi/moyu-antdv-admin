@@ -43,6 +43,7 @@
         </a-row>
       </a-form>
     </a-card>
+    <a-alert message="已授权且有数据权限的接口才可设置数据范围。" type="error" />
     <!-- 菜单权限授权表格 -->
     <a-card size="small">
       <a-table size="small" ref="tableRef"
@@ -148,10 +149,6 @@
   const tableData = ref([])
   // 组织树
   const treeData = ref([])
-  // 已选中的菜单(loadData中会更新)
-  const selectedRowKeys = ref([])
-  // 默认展开的行(loadData中会更新)
-  const defaultExpandedRowKeys = ref([])
   // 表格列配置
   const columns = [
     // 不需要序号可以删掉
@@ -159,7 +156,7 @@
       title: '序号',
       dataIndex: 'index',
       align: 'center',
-      width: 50,
+      width: 40,
     },
     {
       title: "接口名称",
@@ -167,7 +164,7 @@
       align: "center",
       resizable: true,
       ellipsis: true,
-      width: 150,
+      width: 120,
     },
     {
       title: "接口地址",
