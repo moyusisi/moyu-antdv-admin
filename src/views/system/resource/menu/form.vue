@@ -149,6 +149,11 @@
   const submitLoading = ref(false)
   const treeData = ref([])
   const iconSelector = ref()
+  // 是否可见options
+  const visibleOptions = [
+    { label: "可见", value: 1 },
+    { label: "隐藏", value: 0 }
+  ]
 
   // 打开抽屉
   const onOpen = (node, module, resourceType, parentCode) => {
@@ -209,11 +214,6 @@
     }
     formData.value.icon = value
   }
-  // 是否可见options
-  const visibleOptions = [
-    { label: "可见", value: 1 },
-    { label: "隐藏", value: 0 }
-  ]
   // 验证并提交数据
   const onSubmit = () => {
     formRef.value.validate().then(() => {
