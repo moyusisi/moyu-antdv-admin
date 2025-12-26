@@ -243,8 +243,8 @@
     const res = await roleApi.dataScopeForGrant(param)
     if(res.data) {
       res.data.forEach((record) => {
-        if (record.scopeSet) {
-          record.scopeList = record.scopeSet.split(',')
+        if (record.scopes) {
+          record.scopeList = record.scopes.split(',')
         } else {
           record.scopeList = []
         }
@@ -282,9 +282,9 @@
       const scopeInfo = { code: record.code, dataScope: record.dataScope }
       // <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
       if (record.dataScope === 4 && record.scopeList) {
-        scopeInfo.scopeSet = record.scopeList.join(',');
+        scopeInfo.scopes = record.scopeList.join(',');
       } else {
-        scopeInfo.scopeSet = null;
+        scopeInfo.scopes = null;
       }
       dataScopeList.push(scopeInfo)
     })
