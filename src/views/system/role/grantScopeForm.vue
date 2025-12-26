@@ -11,6 +11,7 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
+    <a-alert message="已授权且有数据权限的接口才可设置数据范围。" type="error" />
     <!-- 上方模块选择 -->
     <a-card size="small">
       <a-form ref="queryFormRef" :model="queryFormData">
@@ -43,7 +44,6 @@
         </a-row>
       </a-form>
     </a-card>
-    <a-alert message="已授权且有数据权限的接口才可设置数据范围。" type="error" />
     <!-- 菜单权限授权表格 -->
     <a-card size="small">
       <a-table size="small" ref="tableRef"
@@ -109,7 +109,7 @@
   import roleApi from '@/api/system/roleApi'
   import { h, ref } from "vue";
   import { message } from "ant-design-vue";
-  import { CloseOutlined, DownOutlined, RedoOutlined, SearchOutlined, UpOutlined } from "@ant-design/icons-vue"
+  import { CloseOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import { useMenuStore } from '@/store/menu'
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store/settings";
