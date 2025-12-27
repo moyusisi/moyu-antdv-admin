@@ -293,15 +293,9 @@
     roleApi.roleGrantScope(param).then((res) => {
       message.success(res.message)
       loadData()
-      refreshCache()
     }).finally(() => {
       submitLoading.value = false
     })
-  }
-  // 刷新缓存
-  const refreshCache = () => {
-    userStore.refreshUserInfo()
-    menuStore.reloadRoutes()
   }
   // 调用这个函数将子组件的一些数据和方法暴露出去
   defineExpose({
