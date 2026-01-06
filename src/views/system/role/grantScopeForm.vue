@@ -82,14 +82,15 @@
           <template v-if="column.dataIndex === 'dataScope'">
             <a-flex vertical>
               <a-radio-group v-model:value="record.dataScope" option-type="button" button-style="solid">
-                <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
+                <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4本公司及以下 5自定义) -->
                 <a-radio-button :value="0">不限制</a-radio-button>
                 <a-radio-button :value="1">仅本人</a-radio-button>
                 <a-radio-button :value="2">仅本机构</a-radio-button>
                 <a-radio-button :value="3">本机构及以下</a-radio-button>
-                <a-radio-button :value="4">自定义</a-radio-button>
+                <a-radio-button :value="4">本公司及以下</a-radio-button>
+                <a-radio-button :value="5">自定义</a-radio-button>
               </a-radio-group>
-              <OrgTreeSelect v-if="record.dataScope === 4" :tree-data="treeData" :defaultValue="record.scopeList" multiSelect @onChange="(value) => onScopeChange(value, record)"/>
+              <OrgTreeSelect v-if="record.dataScope === 5" :tree-data="treeData" :defaultValue="record.scopeList" multiSelect @onChange="(value) => onScopeChange(value, record)"/>
             </a-flex>
           </template>
         </template>
@@ -277,8 +278,8 @@
     const scopeList = []
     tableData.value.forEach((record) => {
       const scopeInfo = { code: record.code, dataScope: record.dataScope }
-      // <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4自定义) -->
-      if (record.dataScope === 4 && record.scopeList) {
+      // <!-- 数据范围(字典 1本人 2本机构 3本机构及以下 4本公司及以下 5自定义) -->
+      if (record.dataScope === 5 && record.scopeList) {
         scopeInfo.scopes = record.scopeList.join(',');
       } else {
         scopeInfo.scopes = null;
