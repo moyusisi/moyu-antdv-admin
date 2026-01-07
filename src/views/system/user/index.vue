@@ -84,7 +84,7 @@
                 <a-divider type="vertical" />
                 <a-tooltip title="重置密码">
                   <a-popconfirm title="确定要重置吗？" @confirm="resetPassword(record)">
-                  <a style="color:darkorange;"><LockOutlined/></a>
+                  <a style="color:darkorange;"><KeyOutlined/></a>
                   </a-popconfirm>
                 </a-tooltip>
               </a-space>
