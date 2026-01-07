@@ -46,9 +46,9 @@
           </template>
           <template #bodyCell="{ column, record, index, text }">
             <template v-if="column.dataIndex === 'account'">
-              <!-- 长文本省略提示 -->
+              <!-- 唯一键点击查看详情 -->
               <a-tooltip :title="text" placement="topLeft">
-                <a-tag v-if="record.account" :bordered="false">{{ record.account }}</a-tag>
+                <a @click="openDetail(record)">{{ text }}</a>
               </a-tooltip>
             </template>
             <template v-if="column.dataIndex === 'name'">
@@ -95,6 +95,7 @@
     </a-col>
   </a-row>
   <Form ref="formRef" @successful="tableRef.refresh()" />
+  <Detail ref="detailRef"/>
 </template>
 
 <script setup>
@@ -108,6 +109,7 @@
   import OrgTree from "../components/orgTree.vue"
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
+  import Detail from "./detail.vue"
 
   // 查询表单相关对象
   const queryFormRef = ref()
@@ -120,6 +122,7 @@
 
   // 其他页面操作
   const formRef = ref()
+  const detailRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
@@ -250,6 +253,12 @@
       message.success(res.message)
       tableRef.value.refresh()
     })
+  }
+  // 打开详情页
+  const openDetail = (row) => {
+    detailRef.value.onOpen(row)
+    // 独立页面打开(与抽屉打开二选一)
+    // router.push({ path: "/system/sysUser/detail", query: { id: row.id } })
   }
   // 批量导出
   const batchExport = (params) => {

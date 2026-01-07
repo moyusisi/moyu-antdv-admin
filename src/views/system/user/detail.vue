@@ -36,14 +36,14 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="orgCode" label="直属组织机构" tooltip="">
+              <a-form-item name="orgCode" label="直属组织" tooltip="">
                 <OrgTreeSelect :defaultValue="formData.orgCode" disabled/>
               </a-form-item>
             </a-col>
             <a-col :span="8">
               <a-form-item name="gender" label="性别 " tooltip="" >
                 <span>
-                  <a-tag v-if="formData.gender === 1" color="green">男</a-tag>
+                  <a-tag v-if="formData.gender === 1" color="blue">男</a-tag>
                   <a-tag v-else-if="formData.gender === 2" color="pink">女</a-tag>
                   <a-tag v-else>未知</a-tag>
                 </span>
