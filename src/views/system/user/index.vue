@@ -72,8 +72,8 @@
             </template>
             <template v-if="column.dataIndex === 'action'">
               <a-space>
-                <a-tooltip title="角色透视">
-                  <a style="color:#1980FF;" @click="userRoleRef.onOpen(record)"><DeploymentUnitOutlined /></a>
+                <a-tooltip title="岗位透视">
+                  <a style="color:#1980FF;" @click="userGroupRef.onOpen(record)"><TeamOutlined /></a>
                 </a-tooltip>
                 <a-divider type="vertical" />
                 <a-tooltip title="编辑">
@@ -100,7 +100,7 @@
   </a-row>
   <Form ref="formRef" @successful="tableRef.refresh()" />
   <Detail ref="detailRef"/>
-  <UserRole ref="userRoleRef"/>
+  <UserGroup ref="userGroupRef"/>
 </template>
 
 <script setup>
@@ -115,7 +115,7 @@
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
   import Detail from "./detail.vue"
-  import UserRole from './userRole.vue'
+  import UserGroup from './userGroup.vue'
 
   // 查询表单相关对象
   const queryFormRef = ref()
@@ -129,7 +129,7 @@
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()
-  const userRoleRef = ref()
+  const userGroupRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()

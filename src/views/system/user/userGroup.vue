@@ -1,7 +1,7 @@
 <template>
   <a-drawer
       :open="visible"
-      title="用户角色列表"
+      title="用户岗位列表"
       :width="drawerWidth"
       :closable="false"
       :maskClosable="false"
