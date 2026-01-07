@@ -20,7 +20,7 @@
             <a-row :gutter="16">
               <a-col :span="8">
                 <a-form-item name="searchKey">
-                  <a-input v-model:value="searchFormData.searchKey" placeholder="搜索角色名称" allowClear />
+                  <a-input v-model:value="searchFormData.searchKey" placeholder="搜索岗位名称" allowClear />
                 </a-form-item>
               </a-col>
               <a-col :span="8">
@@ -37,20 +37,27 @@
                :columns="columns"
                :data-source="tableData"
                :row-key="(record) => record.code"
-               :row-selection="rowSelection"
                :pagination="false"
                bordered>
-            <template #bodyCell="{ column, record }">
+            <template #bodyCell="{ column, record, index, text }">
+              <template v-if="column.dataIndex === 'index'">
+                <span>{{ index + 1 }}</span>
+              </template>
+              <template v-if="column.dataIndex === 'name'">
+                <!-- 长文本省略提示 -->
+                <a-tooltip :title="text" placement="topLeft">
+                  <span>{{ text }}</span>
+                </a-tooltip>
+              </template>
               <template v-if="column.dataIndex === 'code'">
-                <a-tag v-if="record.code" :bordered="false">{{ record.code }}</a-tag>
+                <a-tooltip :title="text" placement="topLeft">
+                  <a>{{ record.code }}</a>
+                </a-tooltip>
               </template>
-              <template v-if="column.dataIndex === 'status'">
-                <a-tag v-if="record.status === 0" color="green">正常</a-tag>
-                <a-tag v-else>已停用</a-tag>
-              </template>
-              <template v-if="column.dataIndex === 'action'">
-                <a-space>
-                </a-space>
+              <template v-if="column.dataIndex === 'orgName'">
+                <a-tooltip :title="text" placement="topLeft">
+                  <span>{{ text }}</span>
+                </a-tooltip>
               </template>
             </template>
           </a-table>
@@ -67,46 +74,39 @@
   import { useSettingsStore } from "@/store";
   import { h } from "vue";
   import { RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
-  import { message } from "ant-design-vue";
 
   const settingsStore = useSettingsStore()
   const columns = [
+    // 不需要序号可以删掉
     {
-      title: '角色名称',
-      dataIndex: 'name',
-      resizable: true,
-      width: 100
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
     },
     {
-      title: '唯一编码',
-      dataIndex: 'code',
+      title: '岗位名称',
+      dataIndex: 'name',
+      align: "center",
       resizable: true,
+      ellipsis: true,
       width: 200
     },
     {
-      title: '状态',
-      dataIndex: 'status',
-      align: 'center',
+      title: '岗位编码',
+      dataIndex: 'code',
+      align: "center",
+      resizable: true,
+      ellipsis: true,
       width: 100
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      align: 'center',
-      width: 160
-    },
-    {
-      title: '更新时间',
-      dataIndex: 'updateTime',
-      align: 'center',
-      width: 160
-    },
-    {
-      title: '操作',
-      dataIndex: 'action',
-      align: 'center',
+      title: "所属组织机构",
+      dataIndex: "orgName",
+      align: "center",
       resizable: true,
-      width: 150
+      ellipsis: true,
+      width: 200,
     }
   ]
 
@@ -121,17 +121,6 @@
   const tableRef = ref()
   // 表格中的数据(loadTableData中会更新)
   const tableData = ref([])
-  // 已选中的菜单(loadTableData中会更新)
-  const selectedRowKeys = ref([])
-  // 列表选择配置
-  const rowSelection = ref({
-    checkStrictly: false,
-    selectedRowKeys: selectedRowKeys,
-    onChange: (selectedKeys, selectedRows) => {
-      selectedRowKeys.value = selectedKeys
-      console.log('onChange,selectedKeys:', selectedKeys);
-    }
-  });
 
   // 抽屉宽度
   const drawerWidth = computed(() => {
@@ -151,16 +140,14 @@
     searchFormData.value = {}
     // table数据清空
     tableData.value = []
-    selectedRowKeys.value = []
     // 关闭
     visible.value = false
   }
 
   // 表格查询
   const loadTableData = async () => {
-    selectedRowKeys.value = []
-    let param = Object.assign({ "code": user.value.account }, searchFormData.value)
-    const res = await groupApi.groupRoleList(param)
+    let param = Object.assign({ "userCode": user.value.account }, searchFormData.value)
+    const res = await groupApi.userGroupList(param)
     tableData.value = res.data
   }
   // 重置
