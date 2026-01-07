@@ -72,6 +72,10 @@
             </template>
             <template v-if="column.dataIndex === 'action'">
               <a-space>
+                <a-tooltip title="角色透视">
+                  <a style="color:#1980FF;" @click="userRoleRef.onOpen(record)"><DeploymentUnitOutlined /></a>
+                </a-tooltip>
+                <a-divider type="vertical" />
                 <a-tooltip title="编辑">
                   <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
                 </a-tooltip>
@@ -96,6 +100,7 @@
   </a-row>
   <Form ref="formRef" @successful="tableRef.refresh()" />
   <Detail ref="detailRef"/>
+  <UserRole ref="userRoleRef"/>
 </template>
 
 <script setup>
@@ -110,6 +115,7 @@
   import BatchDeleteButton from "@/components/BatchDeleteButton/index.vue"
   import MTable from "@/components/MTable/index.vue"
   import Detail from "./detail.vue"
+  import UserRole from './userRole.vue'
 
   // 查询表单相关对象
   const queryFormRef = ref()
@@ -123,6 +129,7 @@
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()
+  const userRoleRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
@@ -177,7 +184,7 @@
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      width: 150
+      width: 200
     }
   ])
   /***** 表格相关对象 end *****/
