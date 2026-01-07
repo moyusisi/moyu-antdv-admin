@@ -94,7 +94,6 @@
   // store
   const settingsStore = useSettingsStore()
 
-  const emit = defineEmits({ successful: null })
   // 默认是关闭状态
   const visible = ref(false)
   // 计算属性 抽屉宽度
