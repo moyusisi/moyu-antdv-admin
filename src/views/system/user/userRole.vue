@@ -66,7 +66,7 @@
 
   import { useSettingsStore } from "@/store";
   import { h } from "vue";
-  import { PlusOutlined, MinusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
+  import { RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
   import { message } from "ant-design-vue";
 
   const settingsStore = useSettingsStore()
@@ -112,9 +112,8 @@
 
   // 默认是关闭状态
   const visible = ref(false)
-  const group = ref()
-  const emit = defineEmits({ successful: null })
-  const groupAddRoleRef = ref()
+  const user = ref()
+
   // 表单数据
   const searchFormRef = ref()
   const searchFormData = ref({})
@@ -141,7 +140,7 @@
 
   // 打开抽屉
   const onOpen = (record) => {
-    group.value = record;
+    user.value = record;
     // 加载数据
     loadTableData()
     visible.value = true
@@ -160,7 +159,7 @@
   // 表格查询
   const loadTableData = async () => {
     selectedRowKeys.value = []
-    let param = Object.assign({ "code": group.value.code }, searchFormData.value)
+    let param = Object.assign({ "code": user.value.account }, searchFormData.value)
     const res = await groupApi.groupRoleList(param)
     tableData.value = res.data
   }
@@ -169,23 +168,7 @@
     searchFormData.value = {}
     loadTableData()
   }
-  // 删减记录
-  const delRows = () => {
-    if (selectedRowKeys.value.length < 1) {
-      message.warning('请选择一条或多条数据')
-      return
-    }
-    let data = { code: group.value.code, codeSet: selectedRowKeys.value }
-    groupApi.groupDeleteRole(data).then((res) => {
-      message.success(res.message)
-      // 删掉之后重新加载数据
-      loadTableData()
-    })
-  }
-  // 成功回调
-  const handleSuccess = () => {
-    loadTableData()
-  }
+
   // 调用这个函数将子组件的一些数据和方法暴露出去
   defineExpose({
     onOpen
