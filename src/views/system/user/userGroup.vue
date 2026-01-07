@@ -146,7 +146,7 @@
 
   // 表格查询
   const loadTableData = async () => {
-    let param = Object.assign({ "userCode": user.value.account }, searchFormData.value)
+    let param = Object.assign({ "username": user.value.account }, searchFormData.value)
     const res = await groupApi.userGroupList(param)
     tableData.value = res.data
   }
