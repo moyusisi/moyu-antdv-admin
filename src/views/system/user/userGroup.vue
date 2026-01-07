@@ -20,7 +20,7 @@
             <a-row :gutter="16">
               <a-col :span="8">
                 <a-form-item name="searchKey">
-                  <a-input v-model:value="searchFormData.searchKey" placeholder="搜索岗位名称" allowClear />
+                  <a-input v-model:value="searchFormData.name" placeholder="搜索岗位名称" allowClear />
                 </a-form-item>
               </a-col>
               <a-col :span="8">

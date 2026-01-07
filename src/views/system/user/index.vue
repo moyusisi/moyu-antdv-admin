@@ -72,10 +72,6 @@
             </template>
             <template v-if="column.dataIndex === 'action'">
               <a-space>
-                <a-tooltip title="岗位透视">
-                  <a style="color:#1980FF;" @click="userGroupRef.onOpen(record)"><TeamOutlined /></a>
-                </a-tooltip>
-                <a-divider type="vertical" />
                 <a-tooltip title="编辑">
                   <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
                 </a-tooltip>
@@ -84,6 +80,10 @@
                   <a-popconfirm title="确定要删除吗？" @confirm="deleteUser(record)">
                     <a style="color:#FF4D4F;"><DeleteOutlined/></a>
                   </a-popconfirm>
+                </a-tooltip>
+                <a-divider type="vertical" />
+                <a-tooltip title="岗位透视">
+                  <a style="color:#1980FF;" @click="userGroupRef.onOpen(record)"><TeamOutlined /></a>
                 </a-tooltip>
                 <a-divider type="vertical" />
                 <a-tooltip title="重置密码">
