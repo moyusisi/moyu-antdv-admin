@@ -109,6 +109,7 @@
 
 <script setup>
   import resourceApi from "@/api/system/resourceApi.js";
+  import orgApi from "@/api/system/orgApi.js";
   import roleApi from '@/api/system/roleApi'
   import { h, ref } from "vue";
   import { message } from "ant-design-vue";
@@ -117,7 +118,6 @@
   import { useUserStore } from '@/store/user'
   import { useSettingsStore } from "@/store/settings";
   import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue";
-  import userCenterApi from "@/api/system/userCenterApi.js";
 
   // store
   const settingsStore = useSettingsStore()
@@ -235,10 +235,10 @@
     }
   }
 
-  // 加载左侧的树
+  // 加载组织机构树，用于自定义数据范围
   const loadTreeData = async () => {
     // 获取当前登陆者的orgTree 获取所有组织机构可使用orgApi.orgTree
-    userCenterApi.loginUserOrgTree().then((res) => {
+    orgApi.orgTree().then((res) => {
       if (res.data !== null) {
         treeData.value = res.data
       }
