@@ -1,7 +1,7 @@
 <template>
   <a-drawer
       :open="visible"
-      title="组织机构信息详情"
+      title="组织机构详情"
       :width="drawerWidth"
       :closable="false"
       :maskClosable="false"
@@ -49,7 +49,7 @@
                 </span>
               </a-form-item>
             </a-col>
-            <a-col :span="12" v-if="formData.orgType === 1">
+            <a-col :span="8" v-if="formData.orgType === 1">
               <a-form-item name="orgLevel" label="公司层级" tooltip="">
                 <span>
                   <a-tag v-if="formData.orgLevel === 1" color="blue">总部</a-tag>
@@ -116,15 +116,12 @@
   </a-drawer>
 </template>
 <script setup>
-  import userApi from '@/api/system/userApi.js'
+  import orgApi from "@/api/system/orgApi.js";
 
   import { useSettingsStore } from "@/store"
-  import { useRoute, useRouter } from "vue-router";
   import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue";
 
   // store
-  const route = useRoute();
-  const router = useRouter();
   const settingsStore = useSettingsStore()
 
   // 默认是关闭状态
@@ -139,9 +136,13 @@
   const formData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
+  // 组织树
+  const treeData = ref([])
 
   // 打开抽屉
-  const onOpen = (row) => {
+  const onOpen = (row, tree) => {
+    // 组织树赋值并展开顶级节点
+    treeData.value = tree
     if (row) {
       // 表单数据赋值
       loadData(row)
@@ -157,7 +158,7 @@
     dataLoading.value = true
     // 组装请求参数
     let param = { id: row.id }
-    userApi.userDetail(param).then((res) => {
+    orgApi.orgDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
