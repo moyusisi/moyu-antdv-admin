@@ -51,6 +51,7 @@
                :data-source="tableData"
                :loading="dataLoading"
                :row-key="(record) => record.code"
+               @resizeColumn="onResizeColumn"
                :pagination="false"
                bordered>
         <template #bodyCell="{ column, record, index, text }">
@@ -151,12 +152,13 @@
   // 组织树
   const treeData = ref([])
   // 表格列配置
-  const columns = [
+  const columns = ref([
     // 不需要序号可以删掉
     {
       title: '序号',
       dataIndex: 'index',
-      align: 'center',
+      align: "center",
+      resizable: true,
       width: 40,
     },
     {
@@ -186,9 +188,9 @@
       dataIndex: "dataScope",
       resizable: true,
       ellipsis: true,
-      width: 400,
+      width: 550,
     },
-  ]
+  ]);
 
   // 打开抽屉
   const onOpen = async (record) => {
@@ -250,6 +252,11 @@
     }
     tableData.value = res.data
     dataLoading.value = false
+  }
+
+  // 可伸缩列
+  const onResizeColumn = (w, col) => {
+    col.width = w
   }
 
   // 模块发生变更
