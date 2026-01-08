@@ -52,6 +52,7 @@
                :loading="dataLoading"
                :row-key="(record) => record.code"
                @resizeColumn="onResizeColumn"
+               :scroll="{ x: tableWidth }"
                :pagination="false"
                bordered>
         <template #bodyCell="{ column, record, index, text }">
@@ -67,7 +68,7 @@
           <template v-if="column.dataIndex === 'code'">
             <!-- 唯一键点击查看详情 -->
             <a-tooltip :title="text" placement="topLeft">
-              <a-tag v-if="text" :bordered="false">{{ text }}</a-tag>
+              <a>{{ text }}</a>
             </a-tooltip>
           </template>
           <template v-if="column.dataIndex === 'path'">
@@ -131,6 +132,11 @@
     return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
   })
 
+  // 计算属性 表格宽度 超过宽度则会出现x轴上的scroll
+  const tableWidth = computed(() => {
+    return settingsStore.menuCollapsed ? `calc(100% - 80px -24px)` : `calc(100% - 210px - 50px - 25px)`
+  })
+
   // 表单数据
   const roleCode = ref('')
   const dataLoading = ref(false)
@@ -159,7 +165,7 @@
       dataIndex: 'index',
       align: "center",
       resizable: true,
-      width: 40,
+      width: 50,
     },
     {
       title: "接口名称",
@@ -168,6 +174,14 @@
       resizable: true,
       ellipsis: true,
       width: 120,
+    },
+    {
+      title: '唯一编码',
+      dataIndex: 'code',
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 150
     },
     {
       title: "接口地址",
