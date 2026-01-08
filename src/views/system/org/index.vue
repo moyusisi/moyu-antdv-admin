@@ -128,7 +128,7 @@
       align: "center",
       resizable: true,
       ellipsis: true,
-      width: 150
+      width: 120
     },
     {
       title: '组织名称',
