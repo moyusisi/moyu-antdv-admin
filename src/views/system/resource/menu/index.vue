@@ -15,7 +15,7 @@
     <MTable ref="tableRef"
             :columns="columns"
             :loadData="loadData"
-            :row-key="(row) => row.id"
+            :row-key="(row) => row.code"
             :pagination="false"
             showRowSelection
             @selectedChange="onSelectedChange"
