@@ -118,7 +118,6 @@
   import MTable from "@/components/MTable/index.vue"
   import Detail from "@/views/system/resource/detail.vue"
 
-
   // store
   const route = useRoute();
   const router = useRouter();
