@@ -32,6 +32,8 @@
           <a-form-item name="sendTime1" label="起始时间">
             <a-date-picker v-model:value="queryFormData.sendTime1" placeholder="起始时间" :showTime="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" valueFormat="YYYY-MM-DD HH:mm:ss"/>
           </a-form-item>
+        </a-col>
+        <a-col :span="6" v-if="showMore">
           <a-form-item name="sendTime2" label="截止时间">
             <a-date-picker v-model:value="queryFormData.sendTime2" placeholder="截止时间" :showTime="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" valueFormat="YYYY-MM-DD HH:mm:ss"/>
           </a-form-item>
@@ -51,7 +53,7 @@
       <!--  表格上方左侧操作区  -->
       <template #operator>
         <a-space wrap style="margin-bottom: 8px">
-          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增</a-button>
+          <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">发送站内信</a-button>
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
             <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
               批量删除
@@ -73,13 +75,13 @@
         <template v-if="column.dataIndex === 'code'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
+            <a @click="openDetail(record)">{{ text }}</a>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'title'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
+            <a @click="openDetail(record)">{{ text }}</a>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'content'">
@@ -90,9 +92,6 @@
         </template>
         <template v-if="column.dataIndex === 'action'">
           <a-space>
-            <a-tooltip title="编辑">
-              <a @click="formRef.onOpen(record)">编辑</a>
-            </a-tooltip>
             <a-tooltip title="删除">
               <a-popconfirm title="确定要删除吗？" @confirm="deleteMessage(record)">
                 <a style="color:#FF4D4F;">删除</a>
@@ -150,20 +149,12 @@
       width: 50,
     },
     {
-      title: "唯一编码",
-      dataIndex: "code",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
       title: "标题",
       dataIndex: "title",
       align: "center",
       resizable: true,
       ellipsis: true,
-      width: 150,
+      width: 250,
     },
     {
       title: "内容",
@@ -171,7 +162,7 @@
       align: "center",
       resizable: true,
       ellipsis: true,
-      width: 150,
+      width: 300,
     },
     {
       title: "发送时间",
@@ -190,7 +181,7 @@
       title: '操作',
       dataIndex: 'action',
       align: 'center',
-      width: 100,
+      width: 80,
     },
   ])
   /***** 表格相关对象 end *****/

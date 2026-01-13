@@ -20,34 +20,34 @@
             <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
           </template>
           <a-row :gutter="24">
-            <a-col :span="8">
-              <a-form-item name="code" label="唯一编码" tooltip="唯一编码" >
+            <a-col :span="12">
+              <a-form-item name="code" label="唯一编码" tooltip="" >
                 <span>{{ formData.code }}</span>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item name="messageType" label="消息类型" tooltip="消息类型" >
+            <a-col :span="12">
+              <a-form-item name="messageType" label="消息类型" tooltip="" >
                 <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="exampleOptions" disabled allowClear />
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item name="title" label="标题" tooltip="标题" required>
+            <a-col :span="12">
+              <a-form-item name="title" label="标题" tooltip="" required>
                 <span>{{ formData.title }}</span>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item name="content" label="内容" tooltip="内容" required>
+            <a-col :span="12">
+              <a-form-item name="content" label="内容" tooltip="" required>
                 <span>{{ formData.content }}</span>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item name="sendBy" label="发送人" tooltip="发送人" >
-                <span>{{ formData.sendBy }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
+            <a-col :span="12">
               <a-form-item name="expireTime" label="过期时间" tooltip="过期时间" >
                 <span>{{ formData.expireTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item name="sendBy" label="接收人" tooltip="接收人" >
+                <span>{{ formData.sendBy }}</span>
               </a-form-item>
             </a-col>
           </a-row>

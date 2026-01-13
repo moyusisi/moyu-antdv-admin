@@ -15,36 +15,31 @@
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
-        <a-card title="基本信息">
+        <a-card title="">
           <a-row :gutter="24">
             <a-col :span="12">
-              <a-form-item name="code" label="唯一编码" tooltip="唯一编码" >
-                <a-input v-model:value="formData.code" placeholder="唯一编码" allowClear />
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-item name="messageType" label="消息类型" tooltip="消息类型" >
-                <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="exampleOptions" allowClear />
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-item name="title" label="标题" tooltip="标题" required>
+              <a-form-item name="title" label="标题" tooltip="" required>
                 <a-input v-model:value="formData.title" placeholder="标题" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="content" label="内容" tooltip="内容" required>
+              <a-form-item name="messageType" label="消息类型" tooltip="" >
+                <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="exampleOptions" allowClear />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
+              <a-form-item name="content" label="内容" tooltip="" required>
                 <a-textarea v-model:value="formData.content" placeholder="内容" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="sendBy" label="发送人" tooltip="发送人" >
-                <a-input v-model:value="formData.sendBy" placeholder="发送人" allowClear />
+              <a-form-item name="expireTime" label="过期时间" tooltip="一般无需填写" >
+                <a-date-picker v-model:value="formData.expireTime" valueFormat="YYYY-MM-DD HH:mm:ss" show-time/>
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="expireTime" label="过期时间" tooltip="过期时间" >
-                <a-date-picker v-model:value="formData.expireTime" valueFormat="YYYY-MM-DD HH:mm:ss" show-time/>
+              <a-form-item name="sendBy" label="接收人" tooltip="" >
+                <a-input v-model:value="formData.sendBy" placeholder="接收人" allowClear />
               </a-form-item>
             </a-col>
           </a-row>
@@ -101,7 +96,7 @@
       loadData(row)
     } else {
       edit.value = false
-      title.value = "新增站内消息"
+      title.value = "发送站内消息"
       // 数据就绪之后显示
       visible.value = true
     }

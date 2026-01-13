@@ -20,10 +20,6 @@ export default {
   addMessage(data) {
     return service.postJson('/api/dev/message/add', data)
   },
-  // 编辑站内消息
-  editMessage(data) {
-    return service.postJson('/api/dev/message/edit', data)
-  },
   // 删除站内消息，通过ids删除
   deleteMessage(data) {
     return service.postJson('/api/dev/message/delete', data)
