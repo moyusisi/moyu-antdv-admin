@@ -115,7 +115,7 @@
   import { message } from "ant-design-vue"
   import MTable from "@/components/MTable/index.vue"
   import Form from "./form.vue"
-  import Detail from "./detail.vue"
+  import Detail from "./show.vue"
 
   // store
   const route = useRoute();

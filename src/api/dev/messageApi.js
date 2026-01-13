@@ -20,6 +20,10 @@ export default {
   addMessage(data) {
     return service.postJson('/api/dev/message/add', data)
   },
+  // 阅读站内消息详情(更新为已阅读)
+  readMessage(data) {
+    return service.postJson('/api/dev/message/read', data)
+  },
   // 删除站内消息，通过ids删除
   deleteMessage(data) {
     return service.postJson('/api/dev/message/delete', data)
