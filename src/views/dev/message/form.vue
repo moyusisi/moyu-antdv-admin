@@ -38,7 +38,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="24">
-              <a-form-item name="sendBy" label="接收人" >
+              <a-form-item name="userList" label="接收人" required>
                 <UserSelector v-model:userList="formData.userList" @selectChanged="onSelectChanged" />
               </a-form-item>
             </a-col>
@@ -132,7 +132,11 @@
   const onSubmit = () => {
     formRef.value.validate().then(() => {
       submitLoading.value = true
-      formData.value.receiveUserList = []
+      const userIdList = [];
+      formData.value.userList.forEach((item) => {
+        userIdList.push(item.account)
+      })
+      formData.value.receiveUserList = userIdList
 
       // formData.value 加工处理 add/edit
       let fun = messageApi.addMessage
