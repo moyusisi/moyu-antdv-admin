@@ -217,7 +217,7 @@
     // 加载数据
     loadData()
     if (props.userList) {
-      props.userList = props.userList
+      selectTableData.value = props.userList
     }
     visible.value = true
   }
