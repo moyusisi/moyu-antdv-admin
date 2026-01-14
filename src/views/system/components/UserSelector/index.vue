@@ -1,4 +1,18 @@
 <template>
+  <!-- 用户选择器的展示样式 -->
+  <a-flex wrap="wrap" v-if="props.show">
+    <template v-for="(user, index) in props.userList" :key="user.account">
+      <a-tooltip :title="user.account">
+        <a-tag closable @close="delRows(user)">{{ user.name }}</a-tag>
+      </a-tooltip>
+    </template>
+    <a-tag v-if="addShow">
+      <a @click="onOpen"><PlusOutlined/> 添加</a>
+    </a-tag>
+    <slot name="button"></slot>
+  </a-flex>
+
+  <!-- 打开选择框 -->
   <a-drawer
       v-model:open="visible"
       title="用户选择"
@@ -64,13 +78,13 @@
         <a-table size="small"
                  ref="tableRef"
                  :columns="columns"
-                 :data-source="selectTableData"
+                 :data-source="props.userList"
                  :row-key="(record) => record.account"
                  bordered>
           <template #title>
             <a-row :gutter="16" align="middle">
               <a-col :span="12">
-                <span>已选择: {{ selectTableData.length }}</span>
+                <span>已选择: {{ props.userList.length }}</span>
               </a-col>
               <a-col :span="12" style="text-align: right">
                 <a-button danger @click="delRows">全部清除</a-button>
@@ -116,32 +130,39 @@
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
   import OrgTree from "@/views/system/components/orgTree.vue";
 
+  const props = defineProps({
+    // 分野查询用户的api(本组件中会查询orgCode、name及分页参数)
+    userPageApi: {
+      type: Function
+    },
+    userList: {
+      type: Array,
+      default: () => []
+    },
+    // 是否展示此选择器
+    show: {
+      type: Boolean,
+      default: () => true
+    },
+    // 展示选择器时，是否展示添加按钮
+    addShow: {
+      type: Boolean,
+      default: () => true
+    }
+  })
+
   const settingsStore = useSettingsStore()
 
-  const columns = [
-    {
-      title: '操作',
-      dataIndex: 'action',
-      align: 'center',
-      width: 50
-    },
-    {
-      title: '姓名',
-      dataIndex: 'name',
-      align: 'center',
-      ellipsis: true
-    },
-    {
-      title: '账号',
-      dataIndex: 'account',
-      align: 'center',
-      ellipsis: true
-    },
-  ]
+  // 抽屉宽度
+  const drawerWidth = computed(() => {
+    return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
+  })
 
   // 默认是关闭状态
   const visible = ref(false)
-  const emit = defineEmits({ successful: null })
+  // 头像上是否显示删除
+  const deleteShow = ref(false)
+  const emit = defineEmits({ selectChanged: null })
   // 定义treeRef
   const treeRef = ref()
   // 表单数据
@@ -169,15 +190,35 @@
       paginationRef.value.pageSize = pageSize
     },
   })
-  // 抽屉宽度
-  const drawerWidth = computed(() => {
-    return settingsStore.menuCollapsed ? `calc(100% - 80px)` : `calc(100% - 210px)`
-  })
+
+  const columns = [
+    {
+      title: '操作',
+      dataIndex: 'action',
+      align: 'center',
+      width: 50
+    },
+    {
+      title: '姓名',
+      dataIndex: 'name',
+      align: 'center',
+      ellipsis: true
+    },
+    {
+      title: '账号',
+      dataIndex: 'account',
+      align: 'center',
+      ellipsis: true
+    },
+  ]
 
   // 打开抽屉
-  const onOpen = (record) => {
+  const onOpen = () => {
     // 加载数据
     loadData()
+    if (props.userList) {
+      props.userList = props.userList
+    }
     visible.value = true
   }
   // 关闭抽屉
@@ -186,6 +227,7 @@
   }
   // 点击确定确定
   const onOk = () => {
+    emit('selectChanged', props.userList)
     visible.value = false
   }
   // 点击树查询
@@ -222,9 +264,9 @@
   const addRows = (record) => {
     if (record && record.account) {
       // 添加单行
-      const selectedRecord = selectTableData.value.filter((item) => item.account === record.account)
+      const selectedRecord = props.userList.filter((item) => item.account === record.account)
       if (selectedRecord.length === 0) {
-        selectTableData.value.push(record)
+        props.userList.push(record)
       } else {
         message.warning('该记录已存在')
       }
@@ -232,7 +274,7 @@
       // 添加本页数据
       let newArray = []
       tableData.value.forEach((row) => {
-        const index = selectTableData.value.findIndex(item => item.account === row.account);
+        const index = props.userList.findIndex(item => item.account === row.account);
         if (index === -1) {
           newArray.push(row)
         }
@@ -240,7 +282,7 @@
       if (newArray.length === 0) {
         message.warning('这些记录已存在')
       } else {
-        selectTableData.value.push(...newArray)
+        props.userList.push(...newArray)
       }
     }
   }
@@ -249,14 +291,14 @@
     if (record && record.account) {
       // 删除单行
       // 1. 按唯一属性找索引
-      const index = selectTableData.value.findIndex(item => item.account === record.account);
+      const index = props.userList.findIndex(item => item.account === record.account);
       // 2. 删除该对象
       if (index !== -1) {
-        selectTableData.value.splice(index, 1);
+        props.userList.splice(index, 1);
       }
     } else {
       // 全删除
-      selectTableData.value.length = 0
+      props.userList.length = 0
     }
   }
   // 调用这个函数将子组件的一些数据和方法暴露出去

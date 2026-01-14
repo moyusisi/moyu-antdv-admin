@@ -39,7 +39,7 @@
             </a-col>
             <a-col :span="24">
               <a-form-item name="sendBy" label="接收人" >
-                <UserSelector />
+                <UserSelector v-model:userList="formData.userList" @selectChanged="onSelectChanged" />
               </a-form-item>
             </a-col>
           </a-row>
@@ -78,7 +78,9 @@
   const edit = ref(false)
   // 表单数据
   const formRef = ref()
-  const formData = ref({})
+  const formData = ref({
+    userList:[]
+  })
   const dataLoading = ref(false)
   const submitLoading = ref(false)
   // 下拉框选项
@@ -120,10 +122,18 @@
     })
   }
 
+  // 用户选择器点击确定返回。如果用 v-model:value 来关联，则不需要再赋值
+  const onSelectChanged= (selectedList) => {
+    // formData.value.userList = selectedList
+    // console.log(formData.value.userList)
+  }
+
   // 验证并提交数据
   const onSubmit = () => {
     formRef.value.validate().then(() => {
       submitLoading.value = true
+      formData.value.receiveUserList = []
+
       // formData.value 加工处理 add/edit
       let fun = messageApi.addMessage
       if (edit.value) {
