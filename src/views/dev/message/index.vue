@@ -65,13 +65,6 @@
         <template v-if="column.dataIndex === 'index'">
           <span>{{ index + 1 }}</span>
         </template>
-        <template v-if="column.dataIndex === 'id'">
-          <!-- 唯一键点击查看详情 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <!--<a style="text-decoration: underline;" @click="openDetail(record)">{{ text }}</a>-->
-            <a @click="openDetail(record)">{{ text }}</a>
-          </a-tooltip>
-        </template>
         <template v-if="column.dataIndex === 'code'">
           <!-- 长文本省略提示 -->
           <a-tooltip :title="text" placement="topLeft">
@@ -115,7 +108,7 @@
   import { message } from "ant-design-vue"
   import MTable from "@/components/MTable/index.vue"
   import Form from "./form.vue"
-  import Detail from "./show.vue"
+  import Detail from "./detail.vue"
 
   // store
   const route = useRoute();
@@ -126,11 +119,6 @@
   const queryFormData = ref({})
   // 是否展示更多搜索条件
   const showMore = ref(false)
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()

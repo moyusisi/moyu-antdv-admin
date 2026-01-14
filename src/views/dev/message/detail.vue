@@ -17,7 +17,7 @@
       <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
         <a-card>
           <template #title>
-            <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
+            <span><RightSquareFilled style="color: dodgerblue;"/> 基本信息</span>
           </template>
           <a-row :gutter="24">
             <a-col :span="12">
@@ -26,8 +26,8 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="messageType" label="消息类型" tooltip="" >
-                <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="exampleOptions" disabled allowClear />
+              <a-form-item name="expireTime" label="过期时间" tooltip="过期时间" >
+                <span>{{ formData.expireTime }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="12">
@@ -40,20 +40,47 @@
                 <span>{{ formData.content }}</span>
               </a-form-item>
             </a-col>
-            <a-col :span="12">
-              <a-form-item name="expireTime" label="过期时间" tooltip="过期时间" >
-                <span>{{ formData.expireTime }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-item name="sendBy" label="接收人" tooltip="接收人" >
-                <span>{{ formData.sendBy }}</span>
-              </a-form-item>
-            </a-col>
           </a-row>
         </a-card>
       </a-form>
     </a-spin>
+    <a-card>
+      <template #title>
+        <span><RightSquareFilled style="color: dodgerblue;"/> 触达列表</span>
+      </template>
+      <!--  表格数据区  -->
+      <MTable ref="tableRef"
+              :columns="columns"
+              :loadData="loadTableData"
+              :row-key="(row) => row.id"
+      >
+        <template #operator>
+          <a-space wrap style="margin-bottom: 6px">
+            <a-radio-group v-model:value="queryFormData.hasRead" button-style="solid">
+              <!-- 字典 0未读 1已读 -->
+              <a-radio-button :value="null" @click="hasReadChange(null)">全部</a-radio-button>
+              <a-radio-button :value="0" @click="hasReadChange(0)">未读</a-radio-button>
+              <a-radio-button :value="1" @click="hasReadChange(1)">已读</a-radio-button>
+            </a-radio-group>
+          </a-space>
+        </template>
+        <template #bodyCell="{ column, record, index, text }">
+          <template v-if="column.dataIndex === 'index'">
+            <span>{{ index + 1 }}</span>
+          </template>
+          <template v-if="column.dataIndex === 'name'">
+            <!-- 长文本省略提示 -->
+            <a-tooltip :title="text" placement="topLeft">
+              <span>{{ text }}</span>
+            </a-tooltip>
+          </template>
+          <template v-if="column.dataIndex === 'hasRead'">
+            <a-tag v-if="record.hasRead === 0">未读</a-tag>
+            <a-tag v-if="record.hasRead === 1" color="green">已读</a-tag>
+          </template>
+        </template>
+      </MTable>
+    </a-card>
     <!--  底部操作区  -->
     <template #footer>
       <a-flex gap="small" justify="flex-end">
@@ -67,6 +94,7 @@
 
   import { useSettingsStore } from "@/store"
   import { useRoute, useRouter } from "vue-router";
+  import MTable from "@/components/MTable/index.vue"
 
   // store
   const route = useRoute();
@@ -90,6 +118,49 @@
     { label: "选项一", value: 1 },
     { label: "选项二", value: 2 }
   ]
+  // 消息触达列表查询
+  const queryFormData = ref({})
+  /***** 表格相关对象 start *****/
+  const tableRef = ref()
+  // 已选中的行
+  const selectedRowKeys = ref([])
+  // 表格列配置
+  const columns = ref([
+    // 不需要序号可以删掉
+    {
+      title: '序号',
+      dataIndex: 'index',
+      align: 'center',
+      width: 50,
+    },
+    {
+      title: "用户名",
+      dataIndex: "name",
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 150,
+    },
+    {
+      title: "是否已读",
+      dataIndex: "hasRead",
+      align: "center",
+      resizable: true,
+      width: 100,
+    },
+    {
+      title: "接收时间",
+      dataIndex: "createTime",
+      align: "center",
+      width: 160,
+    },
+    {
+      title: "已读时间",
+      dataIndex: "readTime",
+      align: "center",
+      width: 160,
+    },
+  ])
 
   // 打开抽屉
   const onOpen = (row) => {
@@ -116,6 +187,23 @@
       // 数据就绪之后显示
       visible.value = true
     })
+  }
+
+  // 加载表格数据
+  const loadTableData = (parameter) => {
+    // 分页参数
+    let param = Object.assign(parameter, queryFormData.value)
+    return messageApi.userMessagePage(param).then((res) => {
+      // res.data 为 {total, records}
+      return res.data
+    }).catch((err) => {
+      console.error(err)
+    })
+  }
+  // 加载表格数据
+  const hasReadChange = (hasRead) => {
+    queryFormData.value.hasRead = hasRead
+    tableRef.value.refresh(true)
   }
 
   // 调用这个函数将子组件的一些数据和方法暴露出去

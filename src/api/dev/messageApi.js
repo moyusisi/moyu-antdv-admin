@@ -27,6 +27,9 @@ export default {
   // 删除站内消息，通过ids删除
   deleteMessage(data) {
     return service.postJson('/api/dev/message/delete', data)
-  }
-
+  },
+  // 用户触达记录
+  userMessagePage(data) {
+    return service.postJson('/api/dev/message/userMessagePage', data)
+  },
 }
