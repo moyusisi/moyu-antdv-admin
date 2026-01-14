@@ -42,7 +42,7 @@
           <template #title>
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-input v-model:value="searchFormData.name" placeholder="搜索用户名" allowClear />
+                <a-input v-model:value="queryFormData.name" placeholder="搜索用户名" allowClear />
               </a-col>
               <a-col :span="8">
                 <a-space>
@@ -166,7 +166,7 @@
   // 定义treeRef
   const treeRef = ref()
   // 表单数据
-  const searchFormData = ref({})
+  const queryFormData = ref({})
   // table数据
   const tableRef = ref()
   // 表格中的数据(loadData中会更新)
@@ -233,30 +233,30 @@
   // 点击树查询
   const treeSelect = (selectedKeys) => {
     if (selectedKeys.length > 0) {
-      searchFormData.value.orgCode = selectedKeys.toString()
+      queryFormData.value.orgCode = selectedKeys.toString()
     } else {
-      delete searchFormData.value.orgCode
+      delete queryFormData.value.orgCode
     }
     loadData()
   }
   // 表格查询
   const loadData = async () => {
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    const res = await userApi.userPage(Object.assign(param, searchFormData.value))
+    const res = await userApi.userPage(Object.assign(param, queryFormData.value))
     paginationRef.value.total = res.data.total
     tableData.value = res.data.records
   }
   // 分页、排序、筛选等操作变化时，会触发 change 事件
   const handleTableChange = (pagination, filters, sorter) => {
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
-    userApi.userPage(Object.assign(param, searchFormData.value)).then((res) => {
+    userApi.userPage(Object.assign(param, queryFormData.value)).then((res) => {
       paginationRef.value.total = res.data.total
       tableData.value = res.data.records
     })
   }
   // 重置
   const reset = () => {
-    searchFormData.value = {}
+    queryFormData.value = {}
     paginationRef.value.current = 1
     loadData()
   }
