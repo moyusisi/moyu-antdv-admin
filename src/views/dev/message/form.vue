@@ -37,9 +37,9 @@
                 <a-date-picker v-model:value="formData.expireTime" valueFormat="YYYY-MM-DD HH:mm:ss" show-time/>
               </a-form-item>
             </a-col>
-            <a-col :span="12">
-              <a-form-item name="sendBy" label="接收人" tooltip="" >
-                <a-input v-model:value="formData.sendBy" placeholder="接收人" allowClear />
+            <a-col :span="24">
+              <a-form-item name="sendBy" label="接收人" >
+                <UserSelector />
               </a-form-item>
             </a-col>
           </a-row>
@@ -58,9 +58,9 @@
 <script setup>
   import messageApi from '@/api/dev/messageApi.js'
 
-  import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
+  import UserSelector from "@/views/system/components/UserSelector/index.vue"
 
   // store
   const settingsStore = useSettingsStore()
