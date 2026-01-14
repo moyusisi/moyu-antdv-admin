@@ -42,7 +42,9 @@
           <template #title>
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-input v-model:value="queryFormData.name" placeholder="搜索用户名" allowClear />
+                <a-form-item name="name">
+                  <a-input v-model:value="queryFormData.name" placeholder="搜索用户名" allowClear />
+                </a-form-item>
               </a-col>
               <a-col :span="8">
                 <a-space>
@@ -160,8 +162,6 @@
 
   // 默认是关闭状态
   const visible = ref(false)
-  // 头像上是否显示删除
-  const deleteShow = ref(false)
   const emit = defineEmits({ selectChanged: null })
   // 定义treeRef
   const treeRef = ref()
@@ -216,9 +216,6 @@
   const onOpen = () => {
     // 加载数据
     loadData()
-    if (props.userList) {
-      selectTableData.value = props.userList
-    }
     visible.value = true
   }
   // 关闭抽屉
@@ -308,4 +305,7 @@
 </script>
 
 <style scoped>
+  .ant-form-item {
+    margin-bottom: 0 !important;
+  }
 </style>
