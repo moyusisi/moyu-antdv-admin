@@ -13,17 +13,22 @@
     <!-- 页面内容 -->
     <a-row :gutter="8">
       <!-- 左侧组织树 -->
-      <a-col :span="4">
+      <a-col :span="5">
         <OrgTree ref="treeRef" @onSelect="treeSelect"></OrgTree>
       </a-col>
       <a-col :span="10">
-        <a-card size="small">
-          <a-form ref="searchFormRef" :model="searchFormData">
+        <a-table size="small"
+                 ref="tableRef"
+                 :columns="columns"
+                 :data-source="tableData"
+                 :row-key="(record) => record.account"
+                 :pagination="paginationRef"
+                 @change="handleTableChange"
+                 bordered>
+          <template #title>
             <a-row :gutter="16">
               <a-col :span="8">
-                <a-form-item name="searchKey">
-                  <a-input v-model:value="searchFormData.searchKey" placeholder="搜索用户名" allowClear />
-                </a-form-item>
+                <a-input v-model:value="searchFormData.name" placeholder="搜索用户名" allowClear />
               </a-col>
               <a-col :span="8">
                 <a-space>
@@ -32,95 +37,83 @@
                 </a-space>
               </a-col>
               <a-col :span="8" style="text-align: right">
-                <a-button @click="addRows" style="color: #52C41AFF; border-color: #52C41AFF">添加当前数据</a-button>
+                <a-button @click="addRows" style="color: #52C41AFF; border-color: #52C41AFF">添加本页数据</a-button>
               </a-col>
             </a-row>
-          </a-form>
-          <a-table size="small"
-               ref="tableRef"
-               :columns="columns"
-               :data-source="tableData"
-               :row-key="(record) => record.account"
-               :pagination="paginationRef"
-               @change="handleTableChange"
-               bordered>
-            <template #bodyCell="{ column, record, index, text }">
-              <template v-if="column.dataIndex === 'action'">
-                <a-button type="dashed" size="small" @click="addRows(record)"><PlusOutlined /></a-button>
-              </template>
-              <template v-if="column.dataIndex === 'account'">
-                <!-- 长文本省略提示 -->
-                <a-tooltip :title="text" placement="topLeft">
-                  <span>{{ text }}</span>
-                </a-tooltip>
-              </template>
-              <template v-if="column.dataIndex === 'name'">
-                <!-- 长文本省略提示 -->
-                <a-tooltip :title="text" placement="topLeft">
-                  <span>{{ text }}</span>
-                </a-tooltip>
-              </template>
+          </template>
+          <template #bodyCell="{ column, record, index, text }">
+            <template v-if="column.dataIndex === 'action'">
+              <a-button type="dashed" size="small" @click="addRows(record)"><PlusOutlined/></a-button>
             </template>
-          </a-table>
-        </a-card>
+            <template v-if="column.dataIndex === 'account'">
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
+            <template v-if="column.dataIndex === 'name'">
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
+          </template>
+        </a-table>
       </a-col>
-      <a-col :span="10">
-        <a-card size="small">
-          <a-form ref="searchFormRef" :model="searchFormData">
-            <a-row :gutter="16">
-              <a-col :span="24" style="text-align: right">
-                <a-form-item>
-                  <a-button danger @click="delRows">全部清除</a-button>
-                </a-form-item>
+      <a-col :span="9">
+        <a-table size="small"
+                 ref="tableRef"
+                 :columns="columns"
+                 :data-source="selectTableData"
+                 :row-key="(record) => record.account"
+                 bordered>
+          <template #title>
+            <a-row :gutter="16" align="middle">
+              <a-col :span="12">
+                <span>已选择: {{ selectTableData.length }}</span>
+              </a-col>
+              <a-col :span="12" style="text-align: right">
+                <a-button danger @click="delRows">全部清除</a-button>
               </a-col>
             </a-row>
-          </a-form>
-          <a-table size="small"
-                   ref="tableRef"
-                   :columns="columns"
-                   :data-source="selectTableData"
-                   :row-key="(record) => record.account"
-                   :pagination="paginationRef"
-                   @change="handleTableChange"
-                   bordered>
-            <template #bodyCell="{ column, record, index, text }">
-              <template v-if="column.dataIndex === 'action'">
-                <a-button type="dashed" danger size="small" @click="delRows(record)"><MinusOutlined /></a-button>
-              </template>
-              <template v-if="column.dataIndex === 'account'">
-                <!-- 长文本省略提示 -->
-                <a-tooltip :title="text" placement="topLeft">
-                  <span>{{ text }}</span>
-                </a-tooltip>
-              </template>
-              <template v-if="column.dataIndex === 'name'">
-                <!-- 长文本省略提示 -->
-                <a-tooltip :title="text" placement="topLeft">
-                  <span>{{ text }}</span>
-                </a-tooltip>
-              </template>
+          </template>
+          <template #bodyCell="{ column, record, index, text }">
+            <template v-if="column.dataIndex === 'action'">
+              <a-button type="dashed" danger size="small" @click="delRows(record)"> <MinusOutlined/></a-button>
             </template>
-          </a-table>
-        </a-card>
+            <template v-if="column.dataIndex === 'account'">
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
+            <template v-if="column.dataIndex === 'name'">
+              <!-- 长文本省略提示 -->
+              <a-tooltip :title="text" placement="topLeft">
+                <span>{{ text }}</span>
+              </a-tooltip>
+            </template>
+          </template>
+        </a-table>
       </a-col>
     </a-row>
     <!-- 底部内容 -->
     <template #footer>
       <a-flex gap="small" justify="flex-end">
-        <a-button type="primary" danger @click="onClose"> 关闭</a-button>
+        <a-button @click="onClose">取消</a-button>
+        <a-button type="primary" @click="onOk"> 确定</a-button>
       </a-flex>
     </template>
   </a-drawer>
 </template>
 
 <script setup>
-  import roleApi from '@/api/system/roleApi'
+  import userApi from "@/api/system/userApi"
 
   import { useSettingsStore } from "@/store";
   import { message } from "ant-design-vue";
   import { h } from "vue";
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import userApi from "@/api/system/userApi"
   import OrgTree from "@/views/system/components/orgTree.vue";
 
   const settingsStore = useSettingsStore()
@@ -136,33 +129,28 @@
       title: '姓名',
       dataIndex: 'name',
       align: 'center',
-      width: 200
+      ellipsis: true
     },
     {
       title: '账号',
       dataIndex: 'account',
       align: 'center',
-      width: 200,
       ellipsis: true
     },
   ]
 
   // 默认是关闭状态
   const visible = ref(false)
-  const role = ref()
   const emit = defineEmits({ successful: null })
   // 定义treeRef
   const treeRef = ref()
   // 表单数据
-  const searchFormRef = ref()
   const searchFormData = ref({})
   // table数据
   const tableRef = ref()
   // 表格中的数据(loadData中会更新)
   const tableData = ref([])
   const selectTableData = ref([])
-  // 已选中的菜单
-  const selectedRowKeys = ref([])
   // 表格的分页配置
   const paginationRef = ref({
     // 当前页码
@@ -188,13 +176,16 @@
 
   // 打开抽屉
   const onOpen = (record) => {
-    role.value = record;
     // 加载数据
     loadData()
     visible.value = true
   }
   // 关闭抽屉
   const onClose = () => {
+    visible.value = false
+  }
+  // 点击确定确定
+  const onOk = () => {
     visible.value = false
   }
   // 点击树查询
@@ -208,7 +199,6 @@
   }
   // 表格查询
   const loadData = async () => {
-    selectedRowKeys.value = []
     let param = { pageNum: paginationRef.value.current, pageSize: paginationRef.value.pageSize }
     const res = await userApi.userPage(Object.assign(param, searchFormData.value))
     paginationRef.value.total = res.data.total
@@ -276,11 +266,4 @@
 </script>
 
 <style scoped>
-  .ant-form-item {
-    margin-bottom: 10px !important;
-  }
-  .selectorTree {
-    max-height: 600px;
-    overflow: auto;
-  }
 </style>
