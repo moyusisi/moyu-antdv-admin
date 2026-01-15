@@ -10,7 +10,8 @@
   >
     <!--  上方操作区  -->
     <template #closeIcon>
-        <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
+      <!-- Modal组件会 closeIcon 插槽默认关联到 cancel 事件，此处无需加@click="onClose" -->
+      <a-button type="primary" size="small"><CloseOutlined /></a-button>
     </template>
     <!--  数据区  -->
     <a-spin :spinning="dataLoading">
@@ -45,7 +46,7 @@
     }
   }
   // 关闭
-  const onClose = () => {
+  const onClose = (e) => {
     visible.value = false
     emit('successful')
   }
