@@ -178,6 +178,7 @@
     let param = { id: row.id }
     messageApi.messageDetail(param).then((res) => {
       formData.value = res.data
+      queryFormData.value.code = res.data.code
     }).finally(() => {
       dataLoading.value = false
       // 数据就绪之后显示
@@ -187,6 +188,7 @@
 
   // 加载表格数据
   const loadTableData = (parameter) => {
+    queryFormData.value.code = formData.value.code
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
     return messageApi.userMessagePage(param).then((res) => {
