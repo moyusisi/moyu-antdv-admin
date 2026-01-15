@@ -134,7 +134,7 @@
   const loadTableData = (parameter) => {
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
-    return messageApi.userMessagePage(param).then((res) => {
+    return messageApi.readPage(param).then((res) => {
       // res.data 为 {total, records}
       return res.data
     }).catch((err) => {

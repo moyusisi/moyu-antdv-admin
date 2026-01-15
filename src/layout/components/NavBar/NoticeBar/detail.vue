@@ -55,7 +55,7 @@
   const loadData = (row) => {
     dataLoading.value = true
     // 组装请求参数
-    let param = { id: row.id }
+    let param = { code: row.code }
     messageApi.readMessage(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
