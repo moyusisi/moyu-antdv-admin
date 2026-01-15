@@ -1,7 +1,7 @@
 <template>
   <a-drawer
       :open="visible"
-      title="站内消息详情"
+      title="站内信详情"
       :width="drawerWidth"
       :maskClosable="false"
       :closable="false"
@@ -93,12 +93,9 @@
   import messageApi from '@/api/dev/messageApi.js'
 
   import { useSettingsStore } from "@/store"
-  import { useRoute, useRouter } from "vue-router";
   import MTable from "@/components/MTable/index.vue"
 
   // store
-  const route = useRoute();
-  const router = useRouter();
   const settingsStore = useSettingsStore()
 
   // 默认是关闭状态
@@ -112,15 +109,12 @@
   const formRef = ref()
   const formData = ref({})
   const dataLoading = ref(false)
-  const submitLoading = ref(false)
   // 消息触达列表查询
   const queryFormData = ref({
     hasRead: null
   })
   /***** 表格相关对象 start *****/
   const tableRef = ref()
-  // 已选中的行
-  const selectedRowKeys = ref([])
   // 表格列配置
   const columns = ref([
     // 不需要序号可以删掉

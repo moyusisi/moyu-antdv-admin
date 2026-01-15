@@ -24,7 +24,7 @@
             </a-col>
             <a-col :span="12">
               <a-form-item name="messageType" label="消息类型" tooltip="" >
-                <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="exampleOptions" allowClear />
+                <a-select v-model:value="formData.messageType" placeholder="消息类型" :options="messageTypeOptions" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
@@ -84,21 +84,21 @@
   const dataLoading = ref(false)
   const submitLoading = ref(false)
   // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
+  const messageTypeOptions = [
+    { label: "系统", value: 1 },
+    { label: "业务", value: 2 }
   ]
 
   // 打开抽屉
   const onOpen = (row) => {
     if (row) {
       edit.value = true
-      title.value = "编辑站内消息"
+      title.value = "编辑站内信"
       // 表单数据赋值
       loadData(row)
     } else {
       edit.value = false
-      title.value = "发送站内消息"
+      title.value = "发送站内信"
       // 数据就绪之后显示
       visible.value = true
     }
