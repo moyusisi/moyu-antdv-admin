@@ -113,13 +113,10 @@
   const formData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
   // 消息触达列表查询
-  const queryFormData = ref({})
+  const queryFormData = ref({
+    hasRead: null
+  })
   /***** 表格相关对象 start *****/
   const tableRef = ref()
   // 已选中的行
@@ -142,7 +139,7 @@
       width: 150,
     },
     {
-      title: "是否已读",
+      title: "状态",
       dataIndex: "hasRead",
       align: "center",
       resizable: true,
@@ -171,7 +168,6 @@
   }
   // 关闭抽屉
   const onClose = () => {
-    formRef.value.resetFields()
     visible.value = false
   }
 
@@ -200,7 +196,7 @@
       console.error(err)
     })
   }
-  // 加载表格数据
+  // 切换已读/未读
   const hasReadChange = (hasRead) => {
     queryFormData.value.hasRead = hasRead
     tableRef.value.refresh(true)

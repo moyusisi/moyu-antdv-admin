@@ -24,17 +24,12 @@
         <span>{{ formData.content }} </span>
       </div>
     </a-spin>
-    <!--  底部操作区  -->
-<!--    <template #footer>-->
-<!--      <a-flex gap="small" justify="flex-end">-->
-<!--        <a-button type="primary" danger @click="onClose"> 关闭</a-button>-->
-<!--      </a-flex>-->
-<!--    </template>-->
   </a-modal>
 </template>
 <script setup>
   import messageApi from '@/api/dev/messageApi.js'
 
+  const emit = defineEmits({ successful: null })
   // 默认是关闭状态
   const visible = ref(false)
 
@@ -42,16 +37,17 @@
   const formData = ref({})
   const dataLoading = ref(false)
 
-  // 打开抽屉
+  // 打开
   const onOpen = (row) => {
     if (row) {
       // 表单数据赋值
       loadData(row)
     }
   }
-  // 关闭抽屉
+  // 关闭
   const onClose = () => {
     visible.value = false
+    emit('successful')
   }
 
   // 加载数据

@@ -123,7 +123,7 @@
 
   // 其他页面操作
   const formRef = ref()
-  const detailRef = ref()
+  const showRef = ref()
   const groupUserRef = ref()
   const groupRoleRef = ref()
 

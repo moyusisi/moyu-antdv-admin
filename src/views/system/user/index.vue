@@ -128,7 +128,7 @@
 
   // 其他页面操作
   const formRef = ref()
-  const detailRef = ref()
+  const showRef = ref()
   const userGroupRef = ref()
 
   /***** 表格相关对象 start *****/
