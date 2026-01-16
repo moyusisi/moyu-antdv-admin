@@ -117,7 +117,7 @@
   const queryFormData = ref({ resourceType: 1 })
   // 其他页面操作
   const formRef = ref()
-  const showRef = ref()
+  const detailRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()
@@ -135,14 +135,14 @@
       align: "center",
       resizable: true,
       ellipsis: true,
-      width: 100,
+      width: 150,
     },
     {
       title: "唯一编码",
       dataIndex: "code",
       align: "center",
       resizable: true,
-      width: 100,
+      width: 150,
     },
     {
       title: "路径地址",
@@ -166,25 +166,12 @@
       width: 200,
     },
     {
-      title: "排序顺序",
-      dataIndex: "sortNum",
-      align: "center",
-      resizable: true,
-      width: 100,
-    },
-    {
       title: "备注",
       dataIndex: "remark",
       align: "center",
       resizable: true,
       ellipsis: true,
       width: 150,
-    },
-    {
-      title: '变更时间',
-      dataIndex: 'updateTime',
-      align: 'center',
-      width: 160
     },
     {
       title: '操作',

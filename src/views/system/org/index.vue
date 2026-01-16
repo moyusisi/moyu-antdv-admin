@@ -112,7 +112,7 @@
   ]
   // 其他页面操作
   const formRef = ref()
-  const showRef = ref()
+  const detailRef = ref()
   // 定义treeRef
   const treeRef = ref()
 

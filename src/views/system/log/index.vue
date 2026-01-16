@@ -198,7 +198,7 @@
 
   // 其他页面操作
   const formRef = ref()
-  const showRef = ref()
+  const detailRef = ref()
 
   /***** 表格相关对象 start *****/
   const tableRef = ref()

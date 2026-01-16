@@ -116,7 +116,7 @@
 
   // 其他页面操作
   const formRef = ref()
-  const showRef = ref()
+  const detailRef = ref()
   const grantMenuFormRef = ref()
   const grantScopeFormRef = ref()
   const roleUserRef = ref()
