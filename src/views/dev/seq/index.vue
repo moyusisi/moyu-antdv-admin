@@ -45,6 +45,12 @@
             <span>{{ text }}</span>
           </a-tooltip>
         </template>
+        <template v-if="column.dataIndex === 'seq'">
+          <!-- 长文本省略提示 -->
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
+          </a-tooltip>
+        </template>
       </template>
     </a-table>
   </a-card>
@@ -95,11 +101,17 @@
       title: "序列器",
       dataIndex: "idKey",
       align: "center",
-      width: 500,
+      width: 300,
     },
     {
       title: "序列值",
       dataIndex: "idValue",
+      align: "center",
+      width: 200,
+    },
+    {
+      title: "序列号",
+      dataIndex: "seq",
       align: "center",
     },
   ])
