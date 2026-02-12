@@ -274,7 +274,7 @@
 
   // 重置用户密码
   const resetPassword = (record) => {
-    let data = { ids: [record.id] }
+    let data = { account: record.account }
     userApi.resetPassword(data).then((res) => {
       message.success(res.message)
     })
