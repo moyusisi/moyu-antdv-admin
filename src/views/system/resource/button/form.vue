@@ -120,7 +120,7 @@
   ]
 
   // 打开抽屉
-  const onOpen = (row, module) => {
+  const onOpen = (row, module, parentCode) => {
     if (row) {
       edit.value = true
       title.value = "编辑接口"
@@ -131,7 +131,7 @@
       title.value = "新增接口"
       // 菜单树默认值,无法异步赋值
       formData.value.module = module.code
-      formData.value.parentCode = module.code
+      formData.value.parentCode = parentCode ? parentCode : module.code
       // 数据就绪之后显示
       visible.value = true
     }
