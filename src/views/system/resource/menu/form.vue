@@ -120,8 +120,6 @@
 
 <script setup>
   import resourceApi from '@/api/system/resourceApi.js'
-
-  import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
   import IconSelector from '@/components/Selector/iconSelector.vue'
