@@ -11,102 +11,65 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
-    <a-card>
-      <template #title>
-        <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
-      </template>
-      <a-row :gutter="24">
-        <a-col :span="12">
-          <a-form-item name="name" label="名称" tooltip="" required>
-            <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
-            <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item name="parentCode" label="上级菜单" tooltip="" required>
-            <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" @onChange="parentChange"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item name="resourceType" label="资源类型" tooltip="" required>
-            <a-radio-group v-model:value="formData.resourceType" option-type="button" button-style="solid">
-              <!-- 字典 1模块 2目录 3菜单 4内链 5外链 6按钮 -->
-              <a-radio-button :value="6">按钮</a-radio-button>
-            </a-radio-group>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" required>
-            <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item name="remark" label="备注" tooltip="备注" >
-            <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-card>
-    <a-card>
-      <template #title>
-        <span><RightSquareFilled style="color: dodgerblue;"/>接口信息</span>
-      </template>
-      <a-row :gutter="24">
-        <!-- 按钮:接口地址 -->
-        <a-col :span="12" v-if="formData.resourceType === 6">
-          <a-form-item name="path" label="接口地址" tooltip="按钮绑定的接口地址，以反斜杠'/'开头">
-            <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
-          </a-form-item>
-        </a-col>
-        <!-- 按钮:权限标识 -->
-        <a-col :span="12" v-if="formData.resourceType === 6">
-          <a-form-item name="permission" label="权限标识" tooltip="对应接口的权限标识，如'sys:user:add'" required>
-            <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
-          </a-form-item>
-        </a-col>
-      </a-row>
-      <a-row :gutter="24">
-        <!-- 按钮:数据权限 -->
-        <a-col :span="12">
-          <!-- 按钮:有无数据范围 -->
-          <a-form-item name="visible" label="数据权限" tooltip="是否有数据权限，通常列表查询才有数据权限" required>
-            <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
-          </a-form-item>
-        </a-col>
-      </a-row>
-    </a-card>
-    <a-form ref="formRef" :model="formData" layout="vertical">
-      <a-form-item name="name" label="显示名称" tooltip="按钮名称" required>
-        <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear />
-      </a-form-item>
-      <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
-        <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
-      </a-form-item>
-      <a-form-item name="parentCode" label="上级菜单" tooltip="" required>
-        <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" @onChange="parentChange"/>
-      </a-form-item>
-      <!-- 按钮:接口地址 -->
-      <a-form-item name="path" label="接口地址" tooltip="按钮绑定的接口地址，以反斜杠'/'开头" required>
-        <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
-      </a-form-item>
-      <!-- 按钮:权限标识 -->
-      <a-form-item name="permission" label="权限标识" tooltip="对应接口的权限标识，如'sys:user:add'" required>
-        <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
-      </a-form-item>
-      <!-- 按钮:有无数据范围 -->
-      <a-form-item name="visible" label="数据权限" tooltip="是否有数据权限，通常列表查询才有数据权限" required>
-        <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
-      </a-form-item>
-      <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" required>
-        <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
-      </a-form-item>
-      <a-form-item name="remark" label="备注" tooltip="备注" >
-        <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
-      </a-form-item>
+    <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
+      <a-card>
+        <template #title>
+          <span><RightSquareFilled style="color: dodgerblue;"/>基本信息</span>
+        </template>
+        <a-row :gutter="24">
+          <a-col :span="12">
+            <a-form-item name="name" label="名称" tooltip="" required>
+              <a-input v-model:value="formData.name" placeholder="请输入名称" allow-clear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
+              <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item name="parentCode" label="上级菜单" tooltip="" required>
+              <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" @onChange="parentChange"/>
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item name="sortNum" label="排序顺序" tooltip="排序顺序" required>
+              <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-card>
+      <a-card>
+        <template #title>
+          <span><RightSquareFilled style="color: dodgerblue;"/>接口信息</span>
+        </template>
+        <a-row :gutter="24">
+          <!-- 按钮:权限标识 -->
+          <a-col :span="12" v-if="formData.resourceType === 6">
+            <a-form-item name="permission" label="权限标识" tooltip="权限标识，如'sys:user:add'" required>
+              <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
+            </a-form-item>
+          </a-col>
+          <!-- 按钮:数据权限 -->
+          <a-col :span="12">
+            <!-- 按钮:有无数据范围 -->
+            <a-form-item name="visible" label="数据权限" tooltip="是否有数据权限，通常列表查询才有数据权限" required>
+              <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
+            </a-form-item>
+          </a-col>
+          <!-- 按钮:接口地址 -->
+          <a-col :span="12" v-if="formData.resourceType === 6">
+            <a-form-item name="path" label="接口地址" tooltip="按钮关联的接口地址，以反斜杠'/'开头">
+              <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
+            </a-form-item>
+          </a-col>
+          <a-col :span="12">
+            <a-form-item name="remark" label="备注" tooltip="备注" >
+              <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-card>
     </a-form>
     <!--  底部操作区  -->
     <template #footer>
