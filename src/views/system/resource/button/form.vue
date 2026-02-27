@@ -11,7 +11,7 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
-    <a-alert message="按钮资源通过绑定接口实现相关操作" />
+    <a-alert message="接口通过按钮资源承载，按钮通过绑定接口实现相关操作" />
     <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
       <a-card>
         <template #title>
