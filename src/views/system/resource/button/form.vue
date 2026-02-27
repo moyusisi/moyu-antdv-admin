@@ -11,6 +11,7 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
+    <a-alert message="按钮资源通过绑定接口实现相关操作" />
     <a-form ref="formRef" :model="formData" :label-col="{span: 6}">
       <a-card>
         <template #title>
@@ -44,6 +45,12 @@
           <span><RightSquareFilled style="color: dodgerblue;"/>接口信息</span>
         </template>
         <a-row :gutter="24">
+          <!-- 按钮:接口地址 -->
+          <a-col :span="12" v-if="formData.resourceType === 6">
+            <a-form-item name="path" label="接口地址" tooltip="按钮关联的接口地址，以反斜杠'/'开头">
+              <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
+            </a-form-item>
+          </a-col>
           <!-- 按钮:权限标识 -->
           <a-col :span="12" v-if="formData.resourceType === 6">
             <a-form-item name="permission" label="权限标识" tooltip="权限标识，如'sys:user:add'" required>
@@ -55,12 +62,6 @@
             <!-- 按钮:有无数据范围 -->
             <a-form-item name="visible" label="数据权限" tooltip="是否有数据权限，通常列表查询才有数据权限" required>
               <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
-            </a-form-item>
-          </a-col>
-          <!-- 按钮:接口地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 6">
-            <a-form-item name="path" label="接口地址" tooltip="按钮关联的接口地址，以反斜杠'/'开头">
-              <a-input v-model:value="formData.path" placeholder="请输入接口地址" allow-clear />
             </a-form-item>
           </a-col>
           <a-col :span="12">
