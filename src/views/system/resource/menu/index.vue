@@ -87,7 +87,7 @@
               <a-divider type="vertical" />
             </a-tooltip>
             <a-tooltip v-else-if="node.resourceType === 3" title="添加按钮">
-              <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 6, node.code)"><PlusSquareOutlined /></a>
+              <a style="color:#53C61D;" @click="buttonFormRef.onOpen(null, module, node.code)"><PlusSquareOutlined /></a>
               <a-divider type="vertical" />
             </a-tooltip>
             <a-tooltip v-if="node.resourceType === 6" title="编辑">
