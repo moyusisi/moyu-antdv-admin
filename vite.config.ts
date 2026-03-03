@@ -70,6 +70,7 @@ export default defineConfig(({ mode }): UserConfig => {
         logger: true,
       }),
       viteCompression({
+        // 压缩算法，默认gizp
         algorithm: 'gzip',
         ext: '.gz',
         // 仅压缩 >10KB 文件
