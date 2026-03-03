@@ -53,6 +53,7 @@ export default defineConfig(({ mode }): UserConfig => {
     },
     plugins: [
       vue(),
+      VueJSX(),
       viteMockServe({
         // mock文件存放路径（默认是 src/mock）
         mockPath: 'mock',
@@ -61,7 +62,6 @@ export default defineConfig(({ mode }): UserConfig => {
         // 是否在控制台打印 mock 接口请求日志
         logger: true,
       }),
-      VueJSX(),
       // 使用unplugin-auto-import插件，自动导入参考：https://cloud.tencent.com/developer/article/2236166
       AutoImport({
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
