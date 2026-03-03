@@ -2,7 +2,6 @@ import { defineConfig, loadEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueJSX from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
-import vueSetupExtend from 'vite-plugin-vue-setup-extend'
 import { viteMockServe } from "vite-plugin-mock"
 import { resolve } from 'path'
 
@@ -62,7 +61,6 @@ export default defineConfig(({ mode }): UserConfig => {
         // 是否在控制台打印 mock 接口请求日志
         logger: true,
       }),
-      vueSetupExtend(),
       VueJSX(),
       // 使用unplugin-auto-import插件，自动导入参考：https://cloud.tencent.com/developer/article/2236166
       AutoImport({
