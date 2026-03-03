@@ -48,7 +48,8 @@ export default defineConfig(({ mode }): UserConfig => {
           // 按模块拆分 chunk，减小单个文件体积
           manualChunks: {
             'vue': ['vue', 'vue-router', 'pinia', 'vue-i18n', '@vueuse/core'],
-            'plugin': ['axios', 'dayjs', 'fuse.js', 'hotkeys-js', 'js-pinyin', 'nprogress'],
+            'axios': ['axios'],
+            'hotkeys': ['js-pinyin'],
             'highlight': ['highlight.js'],
             'ant-design-icons': ['@ant-design/icons-vue'],
             'ant-design-vue': ['ant-design-vue'],
