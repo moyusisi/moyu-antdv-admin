@@ -2,6 +2,7 @@ import { defineConfig, loadEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueJSX from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
+import viteCompression from 'vite-plugin-compression'
 import { viteMockServe } from "vite-plugin-mock"
 import { resolve } from 'path'
 
@@ -67,6 +68,12 @@ export default defineConfig(({ mode }): UserConfig => {
         enable: mode === 'dev',
         // 是否在控制台打印 mock 接口请求日志
         logger: true,
+      }),
+      viteCompression({
+        algorithm: 'gzip',
+        ext: '.gz',
+        // 仅压缩 >10KB 文件
+        threshold: 10240,
       }),
       // 使用unplugin-auto-import插件，自动导入参考：https://cloud.tencent.com/developer/article/2236166
       AutoImport({
