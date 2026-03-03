@@ -41,14 +41,17 @@ export default defineConfig(({ mode }): UserConfig => {
     },
     build: {
       // 调整 chunk 体积警告阈值，单位KB
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 1500,
       manifest: true,
       rollupOptions: {
         output: {
           // 按模块拆分 chunk，减小单个文件体积
           manualChunks: {
+            'vue': ['vue', 'vue-router', 'pinia', 'vue-i18n', '@vueuse/core'],
+            'plugin': ['axios', 'dayjs', 'fuse.js', 'hotkeys-js', 'js-pinyin', 'nprogress'],
+            'highlight': ['highlight.js'],
+            'ant-design-icons': ['@ant-design/icons-vue'],
             'ant-design-vue': ['ant-design-vue'],
-            vue: ['vue', 'vue-router', 'pinia', 'vue-i18n']
           }
         }
       },
