@@ -40,6 +40,7 @@ export default defineConfig(({ mode }): UserConfig => {
         }
       }
     },
+    // 构建配置选项
     build: {
       // 指定生成静态资源的存放路径,默认:assets。库模式下不能使用
       assetsDir: 'assets',
