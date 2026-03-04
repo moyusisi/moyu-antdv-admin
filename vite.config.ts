@@ -41,9 +41,10 @@ export default defineConfig(({ mode }): UserConfig => {
       }
     },
     build: {
-      // 调整 chunk 体积警告阈值，单位KB
+      // 指定生成静态资源的存放路径,默认:assets。库模式下不能使用
+      assetsDir: 'assets',
+      // 调整 chunk 体积警告阈值，默认:500 单位KB
       chunkSizeWarningLimit: 1500,
-      manifest: true,
       rollupOptions: {
         output: {
           // 按模块拆分 chunk，减小单个文件体积
@@ -57,6 +58,17 @@ export default defineConfig(({ mode }): UserConfig => {
           }
         }
       },
+      // 库模式
+      // lib: {
+      //   // 口文件 必需
+      //   entry: ['src/main.js'],
+      //   // 全局名称(umd/iife 格式必填),浏览器环境下挂载到 window 的名称
+      //   name: 'subApp',
+      //   // 输出格式（可选，默认 ['es', 'umd']）
+      //   formats: ['es', 'umd'],
+      //   // 输出的库文件名（可选，默认取 package.json 的 name）
+      //   fileName: (format, entryName) => `index.${format}.js`,
+      // },
     },
     plugins: [
       vue(),
