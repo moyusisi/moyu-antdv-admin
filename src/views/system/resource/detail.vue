@@ -63,7 +63,7 @@
             <a-col :span="8">
               <a-form-item v-if="formData.resourceType !== 6" name="visible" label="是否可见" tooltip="隐藏时不会出现在菜单中" >
                 <span>
-                  <a-tag v-if="formData.visible === 1" color="green">可见</a-tag>
+                  <a-tag v-if="formData.visible === 1" color="green">显示</a-tag>
                   <a-tag v-else>隐藏</a-tag>
                 </span>
               </a-form-item>
@@ -71,6 +71,30 @@
                 <span>
                   <a-tag v-if="formData.visible === 1" color="green">有</a-tag>
                   <a-tag v-else>无</a-tag>
+                </span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8" v-if="formData.resourceType === 2">
+              <a-form-item name="brief" label="简洁模式" tooltip="简洁模式下，当目录下只有一个菜单时，不显示目录直接显示该菜单" >
+                <span>
+                  <a-tag v-if="formData.brief === 1" color="green">是</a-tag>
+                  <a-tag v-else>否</a-tag>
+                </span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8" v-if="formData.resourceType === 3">
+              <a-form-item name="affix" label="固定显示" tooltip="" >
+                <span>
+                  <a-tag v-if="formData.affix === 1" color="green">是</a-tag>
+                  <a-tag v-else>否</a-tag>
+                </span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8" v-if="formData.resourceType === 3">
+              <a-form-item name="keepAlive" label="是否缓存" tooltip="" >
+                <span>
+                  <a-tag v-if="formData.keepAlive === 1" color="green">是</a-tag>
+                  <a-tag v-else>否</a-tag>
                 </span>
               </a-form-item>
             </a-col>
@@ -82,11 +106,6 @@
             <a-col :span="8">
               <a-form-item name="remark" label="备注" tooltip="" >
                 <span style="white-space: pre-wrap;">{{ formData.remark }}</span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="extJson" label="扩展信息" tooltip="" >
-                <span>{{ formData.extJson }}</span>
               </a-form-item>
             </a-col>
           </a-row>
@@ -150,10 +169,10 @@
   const formData = ref({})
   const dataLoading = ref(false)
   const submitLoading = ref(false)
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
+  // 是否选项
+  const yesOrNoOptions = [
+    { label: "是", value: 1 },
+    { label: "否", value: 0 }
   ]
 
   // 打开抽屉
