@@ -89,13 +89,20 @@
                 <span>{{ formData.extJson }}</span>
               </a-form-item>
             </a-col>
+          </a-row>
+        </a-card>
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/>其他信息</span>
+          </template>
+          <a-row :gutter="24">
             <a-col :span="8">
               <a-form-item name="createTime" label="创建时间" tooltip="" >
                 <span>{{ formData.createTime }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="createBy" label="创建者" tooltip="" >
+              <a-form-item name="createBy" label="创建人" tooltip="" >
                 <span>{{ formData.createBy }}</span>
               </a-form-item>
             </a-col>
@@ -105,7 +112,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="updateBy" label="更新者" tooltip="" >
+              <a-form-item name="updateBy" label="更新人" tooltip="" >
                 <span>{{ formData.updateBy }}</span>
               </a-form-item>
             </a-col>
