@@ -5,6 +5,7 @@ import Layout from '@/layout/index.vue'
  * * path 以"/"开头的绝对路径,children中的path也要写绝对路径
  * * name 唯一标识，必填
  * * meta.title      标题名称
+ * * meta.icon       图标
  * * meta.hidden     是否隐藏
  * * meta.brief     【目录】是否简洁模式(目录下只有一个菜单时，不显示目录直接显示该菜单)
  * * meta.affix     【菜单】是否固定显示(标签页)
