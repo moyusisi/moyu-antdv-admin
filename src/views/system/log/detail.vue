@@ -1,7 +1,7 @@
 <template>
   <a-drawer
       :open="visible"
-      title="系统日志详情"
+      title="日志详情"
       :width="drawerWidth"
       :closable="false"
       :maskClosable="false"
