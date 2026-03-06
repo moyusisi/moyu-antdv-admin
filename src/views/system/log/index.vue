@@ -320,13 +320,6 @@
       width: 150,
     },
     {
-      title: "结束时间",
-      dataIndex: "endTime",
-      align: "center",
-      resizable: true,
-      width: 170,
-    },
-    {
       title: "执行耗时(ms)",
       dataIndex: "executionTime",
       align: "center",
