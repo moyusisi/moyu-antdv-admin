@@ -14,8 +14,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="content" label="内容">
-            <a-input v-model:value="queryFormData.content" placeholder="搜索内容" allowClear />
+          <a-form-item name="name" label="名称">
+            <a-input v-model:value="queryFormData.name" placeholder="搜索日志名称" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -198,19 +198,19 @@
       width: 170,
     },
     {
+      title: "名称",
+      dataIndex: "name",
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 150,
+    },
+    {
       title: "用户",
       dataIndex: "createBy",
       align: "center",
       resizable: true,
       width: 100,
-    },
-    {
-      title: "内容说明",
-      dataIndex: "content",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
     },
     {
       title: "浏览器",
@@ -242,13 +242,6 @@
       align: "center",
       resizable: true,
       width: 120,
-    },
-    {
-      title: "结束时间",
-      dataIndex: "endTime",
-      align: "center",
-      resizable: true,
-      width: 170,
     },
     {
       title: "创建时间",
