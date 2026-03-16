@@ -145,8 +145,8 @@
         </template>
         <template v-if="column.dataIndex === 'browser'">
           <!-- 长文本省略提示 -->
-          <a-tooltip :title="record.browser + ' ' + (record.browserVersion??'')" placement="topLeft">
-            <span>{{ record.browser + ' ' + (record.browserVersion??'') }}</span>
+          <a-tooltip :title="text" placement="topLeft">
+            <span>{{ text }}</span>
           </a-tooltip>
         </template>
         <template v-if="column.dataIndex === 'os'">
