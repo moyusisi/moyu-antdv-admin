@@ -79,7 +79,7 @@
             <a-tooltip title="编辑">
               <a @click="formRef.onOpen(record)"><FormOutlined /></a>
             </a-tooltip>
-            <a-tooltip title="删除" v-if="hasPerm('sys:role:delete') | hasRole(['ROOT'])">
+            <a-tooltip title="删除" v-if="hasPerm('sys:role:delete') || hasRole(['ROOT'])">
               <a-popconfirm title="确定要删除吗？" @confirm="deleteRole(record)">
                 <a style="color:#FF4D4F;"><DeleteOutlined/></a>
               </a-popconfirm>
