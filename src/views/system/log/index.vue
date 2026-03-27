@@ -220,9 +220,13 @@
       type: "xlsx",
       sheetName: "sheet1",
     },
+    // 个性化信息配置项
+    customConfig: {
+      immediate: true,
+    },
     // 工具栏配置
     toolbarConfig: {
-      // 是否显示自定义列配置
+      // 是否显示个性化列配置
       custom: true,
       // 是否允许最大化显示
       zoom: true,
