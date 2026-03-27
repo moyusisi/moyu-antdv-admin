@@ -9,6 +9,14 @@ import App from './App.vue'
 import 'ant-design-vue/dist/reset.css'
 import '@/style/index.css'
 import * as antdvIcons from '@ant-design/icons-vue'
+
+import VxeUIBase, { VxeUI } from 'vxe-pc-ui'
+import 'vxe-pc-ui/es/style.css'
+import VxeUITable from 'vxe-table'
+import 'vxe-table/lib/style.css'
+import VxeUIPluginExportXLSX from '@vxe-ui/plugin-export-xlsx'
+import ExcelJS from 'exceljs'
+
 // 代码高亮风格，选择更多风格需导入 node_modules/hightlight.js/styles/ 目录下其它css文件
 import 'highlight.js/styles/github-dark.min.css'
 import 'highlight.js/lib/common'
@@ -18,6 +26,11 @@ const app = createApp(App);
 app.use(createPinia())
 app.use(router)
 app.use(Antd)
+VxeUI.use(VxeUIPluginExportXLSX, {
+  ExcelJS
+})
+app.use(VxeUIBase)
+app.use(VxeUITable)
 app.use(i18n)
 
 // 统一注册antdv图标
