@@ -17,6 +17,7 @@ function configVxe() {
       align: "center",
       // 当内容过长时显示为省略号
       showOverflow: "tooltip",
+      minHeight: 200,
       // 行配置信息
       rowConfig: {
         useKey: true,
