@@ -61,23 +61,6 @@ function configVxe() {
       ],
     },
     grid: {
-      // 工具栏配置
-      toolbarConfig: {
-        enabled: true,
-        // 是否显示个性化列配置
-        custom: true,
-        // 是否允许最大化显示
-        zoom: true,
-        // 刷新按钮配置
-        refresh: true,
-        // 导出按钮配置（需要设置 "export-config"）
-        export: true,
-        //插槽
-        slots: {
-          // 按钮列表
-          buttons: "operator",
-        },
-      },
     }
   });
 }

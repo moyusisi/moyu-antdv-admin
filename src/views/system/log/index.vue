@@ -153,6 +153,11 @@
     // 分页配置项
     pagerConfig: {
     },
+    // 导出配置
+    exportConfig: {
+      type: "xlsx",
+      sheetName: "sheet1",
+    },
     // 数据代理配置
     proxyConfig: {
       // 获取响应的值配置
