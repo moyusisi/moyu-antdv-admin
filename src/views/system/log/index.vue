@@ -236,6 +236,8 @@
 
   // 提交查询
   const querySubmit = () => {
+    // reload 返回第一页触发ajax.query
+    // query 当前页触发ajax.query
     gridRef.value?.commitProxy("reload")
   }
   // 重置
@@ -245,6 +247,7 @@
   }
   // 重置
   const refresh = () => {
+    // 返回第一页触发ajax.query
     gridRef.value?.commitProxy("reload")
   }
   // 加载数据
