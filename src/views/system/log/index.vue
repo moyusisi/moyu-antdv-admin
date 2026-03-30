@@ -150,16 +150,6 @@
   // 表格配置
   const gridRef = ref()
   const gridOptions = reactive({
-    // 当内容过长时显示为省略号
-    showOverflow: "tooltip",
-    // 行配置信息
-    rowConfig: {
-      useKey: true,
-      // 自定义行数据唯一主键的字段名
-      keyField: "id",
-      // 当鼠标点击行时，是否要高亮当前行
-      isCurrent: true,
-    },
     // 分页配置项
     pagerConfig: {
     },
@@ -178,11 +168,6 @@
           return loadData({ pageNum: page.currentPage, pageSize: page.pageSize })
         }
       }
-    },
-    // 列配置信息
-    columnConfig: {
-      // 每一列是否启用列宽拖动
-      resizable: true,
     },
     // 列字段
     columns: [
@@ -206,15 +191,6 @@
       { field: 'createTime', title: '创建时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
-    // 导出配置项
-    exportConfig: {
-      type: "xlsx",
-      sheetName: "sheet1",
-    },
-    // 个性化信息配置项
-    customConfig: {
-      immediate: true,
-    },
     // 工具栏配置
     toolbarConfig: {
       // 是否显示个性化列配置
