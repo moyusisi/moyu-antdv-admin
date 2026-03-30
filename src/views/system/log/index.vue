@@ -95,11 +95,6 @@
       <template #province="{row:record, rowIndex, column, columnIndex}">
         <span>{{ (record.province??'') + ' ' + (record.city??'') }}</span>
       </template>
-
-      <template #requestContent="{row, rowIndex, column, columnIndex}">
-        <span>{{ row.requestContent }}</span>
-      </template>
-      <!-- 字段插槽 -->
       <template #action="{row:record, rowIndex, column, columnIndex}">
         <a-space>
           <a-tooltip title="编辑">
@@ -143,8 +138,6 @@
   const detailRef = ref()
 
   /***** 表格相关对象 start *****/
-
-  // 表格配置
   const gridRef = ref()
   const gridOptions = reactive({
     // 分页配置项
@@ -186,7 +179,7 @@
       { field: 'operate', title: '操作', width: 150 },
       { field: 'content', title: '内容', width: 150 },
       { field: 'ip', title: 'IP地址', width: 100 },
-      { field: 'province', title: '地区', width: 150, slots: { default: 'province' } },
+      { field: 'province', title: '地区', width: 100, slots: { default: 'province' } },
       { field: 'browser', title: '浏览器', width: 100 },
       { field: 'os', title: '操作系统', width: 100 },
       { field: 'requestUrl', title: '接口地址', width: 150 },
@@ -265,9 +258,8 @@
   }
   // 选中行发生变化
   const onSelectedChange = (selectedKeys, selectedRows) => {
-    const ids = selectedRows.map(item => item.id)
-    selectedRowKeys.value = ids
-    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
+    selectedRowKeys.value = selectedRows.map(item => item.id)
+    // console.log('onSelectedChange,selectedRowKeys:', selectedRowKeys.value);
   }
 
   // checkbox 手动勾选全选时触发的事件
