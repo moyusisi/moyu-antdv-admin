@@ -149,6 +149,7 @@
   const gridOptions = reactive({
     // 分页配置项
     pagerConfig: {
+      enabled: true,
     },
     // 导出配置
     exportConfig: {
@@ -159,6 +160,7 @@
     proxyConfig: {
       // 获取响应的值配置
       response: {
+        list: ({ data }) => data.records,
         // 只对 pager-config 配置时有效，响应结果中获取数据列表的属性（分页场景）
         result: "records",
         // 只对 pager-config 配置时有效，响应结果中获取分页的属性（分页场景）
