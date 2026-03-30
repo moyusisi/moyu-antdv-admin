@@ -270,6 +270,7 @@
     // console.log('onSelectedChange,selectedKeys:', selectedKeys);
   }
 
+  // checkbox 手动勾选全选时触发的事件
   const selectAllEvent = ({ checked }) => {
     const $grid = gridRef.value
     if ($grid) {
@@ -278,6 +279,7 @@
       onSelectedChange([], records)
     }
   }
+  // checkbox 手动勾选并且值发生改变时触发的事件
   const selectChangeEvent = ({ checked }) => {
     const $grid = gridRef.value
     if ($grid) {
