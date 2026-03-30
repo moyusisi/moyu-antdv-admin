@@ -73,14 +73,10 @@
   </a-card>
   <a-card size="small">
     <!--  表格数据区  -->
-    <MTable ref="tableRef"
-            :columns="columns"
-            :loadData="loadData"
-            :row-key="(row) => row.id"
-            showRowSelection
-            @selectedChange="onSelectedChange"
-    >
-      <!--  表格上方左侧操作区  -->
+    <vxe-grid ref="gridRef" v-bind="gridOptions"
+              @checkbox-all="selectAllEvent"
+              @checkbox-change="selectChangeEvent">
+      <!-- 左侧操作栏 -->
       <template #operator>
         <a-space wrap style="margin-bottom: 8px">
           <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
@@ -90,98 +86,37 @@
           </a-popconfirm>
         </a-space>
       </template>
-      <template #bodyCell="{ column, record, index, text }">
-        <template v-if="column.dataIndex === 'index'">
-          <span>{{ index + 1 }}</span>
-        </template>
-        <template v-if="column.dataIndex === 'id'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <!--<a style="text-decoration: underline;" @click="openDetail(record)">{{ text }}</a>-->
-            <a @click="openDetail(record)">{{ text }}</a>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'requestUrl'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'module'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'business'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'operate'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'content'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'browser'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'os'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'requestContent'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'responseContent'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'action'">
-          <a-space>
-            <a-tooltip title="编辑">
-              <a @click="formRef.onOpen(record)">编辑</a>
-            </a-tooltip>
-            <a-tooltip title="删除">
-              <a-popconfirm title="确定要删除吗？" @confirm="deleteLog(record)">
-                <a style="color:#FF4D4F;">删除</a>
-              </a-popconfirm>
-            </a-tooltip>
-          </a-space>
-        </template>
+      <!-- 字段插槽 -->
+      <template #id="{row, rowIndex, column, columnIndex}">
+        <a-tooltip :title="row.id" placement="topLeft">
+          <a @click="openDetail(row)">{{ row.id }}</a>
+        </a-tooltip>
       </template>
-    </MTable>
+      <template #action="{row:record, rowIndex, column, columnIndex}">
+        <a-space>
+          <a-tooltip title="编辑">
+            <a @click="formRef.onOpen(record)">编辑</a>
+          </a-tooltip>
+          <a-tooltip title="删除">
+            <a-popconfirm title="确定要删除吗？" @confirm="deleteLog(record)">
+              <a style="color:#FF4D4F;">删除</a>
+            </a-popconfirm>
+          </a-tooltip>
+        </a-space>
+      </template>
+    </vxe-grid>
   </a-card>
-  <Form ref="formRef" @successful="tableRef.refresh()"/>
+  <Form ref="formRef" @successful="refresh()"/>
   <Detail ref="detailRef"/>
 </template>
 
 <script setup>
   import logApi from '@/api/system/logApi.js'
 
-  import { h, ref } from "vue"
+  import { h, reactive, ref } from "vue"
   import { useRoute, useRouter } from "vue-router"
   import { DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
-  import MTable from "@/components/MTable/index.vue"
   import Form from "./form.vue"
   import Detail from "./detail.vue"
 
@@ -203,116 +138,63 @@
   const detailRef = ref()
 
   /***** 表格相关对象 start *****/
-  const tableRef = ref()
+  const gridRef = ref()
+  const gridOptions = reactive({
+    // 分页配置项
+    pagerConfig: {
+      enabled: true,
+    },
+    // 数据代理配置
+    proxyConfig: {
+      // 获取响应的值配置
+      response: {
+        // 只对 pager-config 配置时有效，响应结果中获取数据列表的属性（分页场景）
+        result: "records",
+        // 只对 pager-config 配置时有效，响应结果中获取分页的属性（分页场景）
+        total: "total",
+      },
+      ajax: {
+        query: ({ page, sort, sorts, filters, form }) => {
+          // 默认接收 Promise<{ result: [], page: { total: 100 } }>
+          return loadData({ pageNum: page.currentPage, pageSize: page.pageSize })
+        }
+      }
+    },
+    // 列字段
+    columns: [
+      { type: 'checkbox', width: 50 },
+      { field: 'id', title: '日志ID', width: 100, slots: { default: 'id' } },
+      { field: 'startTime', title: '时间', width: 170 },
+      { field: 'name', title: '名称', width: 150 },
+      { field: 'createBy', title: '操作人', width: 100 },
+      { field: 'business', title: '业务', width: 150 },
+      { field: 'operate', title: '操作', width: 150 },
+      { field: 'browser', title: '浏览器', width: 100 },
+      { field: 'requestUrl', title: '接口地址', width: 150 },
+      { field: 'requestContent', title: '请求参数', width: 150, slots: { default: 'requestContent' } },
+      { field: 'responseContent', title: '返回结果', width: 150 },
+      { field: 'executionTime', title: '执行耗时(ms)', width: 120 },
+      { field: 'endTime', title: '结束时间', width: 170 },
+      { field: 'createTime', title: '创建时间', width: 170 },
+      { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
+    ],
+    // 工具栏配置
+    toolbarConfig: {
+      // 是否显示个性化列配置
+      custom: true,
+      // 是否允许最大化显示
+      zoom: true,
+      // 刷新按钮配置
+      refresh: true,
+      //插槽
+      slots: {
+        // 按钮列表
+        buttons: "operator",
+      },
+    },
+  })
   // 已选中的行
   const selectedRowKeys = ref([])
-  // 表格列配置
-  const columns = ref([
-    {
-      title: "日志ID",
-      dataIndex: "id",
-      align: "center",
-      width: 100,
-    },
-    {
-      title: "时间",
-      dataIndex: "startTime",
-      align: "center",
-      resizable: true,
-      width: 170,
-    },
-    {
-      title: "名称",
-      dataIndex: "name",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "操作人",
-      dataIndex: "createBy",
-      align: "center",
-      resizable: true,
-      width: 100,
-    },
-    {
-      title: "业务",
-      dataIndex: "business",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "操作",
-      dataIndex: "operate",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "浏览器",
-      dataIndex: "browser",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 100,
-    },
-    {
-      title: "接口地址",
-      dataIndex: "requestUrl",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "请求参数",
-      dataIndex: "requestContent",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "返回结果",
-      dataIndex: "responseContent",
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "执行耗时(ms)",
-      dataIndex: "executionTime",
-      align: "center",
-      resizable: true,
-      width: 120,
-    },
-    {
-      title: "结束时间",
-      dataIndex: "endTime",
-      align: "center",
-      resizable: true,
-      width: 170,
-    },
-    {
-      title: "创建时间",
-      dataIndex: "createTime",
-      align: "center",
-      resizable: true,
-      width: 170,
-    },
-    // 单行操作，不需要可以删掉
-    {
-      title: '操作',
-      dataIndex: 'action',
-      align: 'center',
-      width: 100,
-    },
-  ])
   /***** 表格相关对象 end *****/
 
   // 挂载前初始化参数
@@ -334,18 +216,27 @@
 
   // 提交查询
   const querySubmit = () => {
-    tableRef.value.refresh(true)
+    // reload 返回第一页触发ajax.query
+    // query 当前页触发ajax.query
+    gridRef.value?.commitProxy("reload")
   }
   // 重置
   const reset = () => {
     queryFormRef.value.resetFields()
-    tableRef.value.refresh(true)
+    refresh()
+  }
+  // 重置
+  const refresh = () => {
+    // 返回第一页触发ajax.query
+    gridRef.value?.commitProxy("reload")
   }
   // 加载数据
   const loadData = (parameter) => {
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
     return logApi.logPage(param).then((res) => {
+      // 重新加载后清空已选
+      selectedRowKeys.value = []
       // res.data 为 {total, records}
       return res.data
     }).catch((err) => {
@@ -354,8 +245,27 @@
   }
   // 选中行发生变化
   const onSelectedChange = (selectedKeys, selectedRows) => {
-    selectedRowKeys.value = selectedKeys
-    // console.log('onSelectedChange,selectedKeys:', selectedKeys);
+    selectedRowKeys.value = selectedRows.map(item => item.id)
+    // console.log('onSelectedChange,selectedRowKeys:', selectedRowKeys.value);
+  }
+
+  // checkbox 手动勾选全选时触发的事件
+  const selectAllEvent = ({ checked }) => {
+    const $grid = gridRef.value
+    if ($grid) {
+      const records = $grid.getCheckboxRecords()
+      // console.log(checked ? '所有勾选事件' : '所有取消事件', records)
+      onSelectedChange([], records)
+    }
+  }
+  // checkbox 手动勾选并且值发生改变时触发的事件
+  const selectChangeEvent = ({ checked }) => {
+    const $grid = gridRef.value
+    if ($grid) {
+      const records = $grid.getCheckboxRecords()
+      // console.log(checked ? '勾选事件' : '取消事件', records)
+      onSelectedChange(null, records)
+    }
   }
 
   // 删除
@@ -363,7 +273,7 @@
     let data = { ids: [record.id] }
     logApi.deleteLog(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh()
+      refresh()
     })
   }
   // 批量删除
@@ -375,7 +285,7 @@
     let data = { ids: selectedRowKeys.value }
     logApi.deleteLog(data).then((res) => {
       message.success(res.message)
-      tableRef.value.refresh()
+      refresh()
     })
   }
 
