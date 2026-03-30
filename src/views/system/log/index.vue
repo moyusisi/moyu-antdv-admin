@@ -97,10 +97,7 @@
       </template>
 
       <template #requestContent="{row, rowIndex, column, columnIndex}">
-        <!-- 长文本省略提示 -->
-        <a-tooltip :title="row.requestContent" placement="topLeft">
-          <span>{{ row.requestContent }}</span>
-        </a-tooltip>
+        <span>{{ row.requestContent }}</span>
       </template>
       <!-- 字段插槽 -->
       <template #action="{row:record, rowIndex, column, columnIndex}">
