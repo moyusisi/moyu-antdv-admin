@@ -150,9 +150,6 @@
   // 表格配置
   const gridRef = ref()
   const gridOptions = reactive({
-    border: true,
-    // 所有的列对齐方式
-    align: "center",
     // 当内容过长时显示为省略号
     showOverflow: "tooltip",
     // 行配置信息
@@ -165,12 +162,6 @@
     },
     // 分页配置项
     pagerConfig: {
-      // 是否启用，默认为true
-      enabled: true,
-      // 每页大小，默认 10
-      pageSize: 10,
-      // 每页大小选项列表
-      pageSizes: [10, 20, 50, 100],
     },
     // 数据代理配置
     proxyConfig: {
