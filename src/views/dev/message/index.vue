@@ -9,6 +9,11 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
+          <a-form-item name="content" label="内容">
+            <a-input v-model:value="queryFormData.content" placeholder="搜索内容" allowClear />
+          </a-form-item>
+        </a-col>
+        <a-col :span="6">
           <a-form-item name="sendTime1" label="起始时间">
             <a-date-picker v-model:value="queryFormData.sendTime1" placeholder="起始时间" :showTime="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" valueFormat="YYYY-MM-DD HH:mm:ss"/>
           </a-form-item>
@@ -26,11 +31,6 @@
         <a-col :span="6" v-if="showMore">
           <a-form-item name="sendTime2" label="截止时间">
             <a-date-picker v-model:value="queryFormData.sendTime2" placeholder="截止时间" :showTime="{ format: 'HH:mm:ss' }" format="YYYY-MM-DD HH:mm:ss" valueFormat="YYYY-MM-DD HH:mm:ss"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="6">
-          <a-form-item name="content" label="内容">
-            <a-input v-model:value="queryFormData.content" placeholder="搜索内容" allowClear />
           </a-form-item>
         </a-col>
       </a-row>
