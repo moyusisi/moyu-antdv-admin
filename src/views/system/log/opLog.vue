@@ -76,7 +76,7 @@
     <vxe-grid ref="gridRef" v-bind="gridOptions">
       <!-- 左侧操作栏 -->
       <template #operator>
-        <a-space wrap style="margin-bottom: 8px">
+        <a-space wrap style="margin-bottom: 6px">
           <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量删除</a-button>
         </a-space>
       </template>
