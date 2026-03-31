@@ -2,6 +2,8 @@ import { defineConfig, loadEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueJSX from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import viteCompression from 'vite-plugin-compression'
 import { viteMockServe } from "vite-plugin-mock"
 import { resolve } from 'path'
@@ -90,7 +92,19 @@ export default defineConfig(({ mode }): UserConfig => {
         imports: ["vue", "vue-router", "pinia"],
         // 配置文件生成位置(false:关闭自动生成)
         dts: "src/types/auto-imports.d.ts",
-      })
+      }),
+      // 自动注册 antdv 组件 + 图标
+      Components({
+        resolvers: [
+          AntDesignVueResolver({
+            // 不自动引入样式（如果你是全量引入就关）
+            importStyle: false,
+            // 自动导入 antdv 图标
+            resolveIcons: true,
+          }),
+        ],
+        dts: 'src/types/auto-components.d.ts', // 类型声明
+      }),
     ],
   }
 })
