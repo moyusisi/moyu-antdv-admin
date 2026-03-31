@@ -82,6 +82,7 @@
 <script setup>
   import groupApi from '@/api/system/groupApi'
   import { h, ref } from "vue"
+  import { useRoute, useRouter } from "vue-router";
   import { message } from "ant-design-vue"
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
   import Form from "./form.vue"
@@ -89,6 +90,10 @@
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
   import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"
+
+  // store
+  const route = useRoute();
+  const router = useRouter();
 
   // 查询表单相关对象
   const queryFormRef = ref()
