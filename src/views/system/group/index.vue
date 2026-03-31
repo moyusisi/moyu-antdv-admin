@@ -41,7 +41,7 @@
       </template>
       <!-- 字段插槽 -->
       <template #code="{row, rowIndex, column, columnIndex}">
-        <a @click="detailRef.onOpen(row)">{{ row.code }}</a>
+        <a @click="openDetail(row)">{{ row.code }}</a>
       </template>
       <template #permission="{row, rowIndex, column, columnIndex}">
         <a-tag v-if="row.permission" :bordered="false">{{ row.permission }}</a-tag>
@@ -50,22 +50,22 @@
         <a-tag v-if="row.status === 0" color="green">正常</a-tag>
         <a-tag v-else>已停用</a-tag>
       </template>
-      <template #action="{row:record, rowIndex, column, columnIndex}">
+      <template #action="{row, rowIndex, column, columnIndex}">
         <a-space>
           <a-tooltip title="岗位角色">
-            <a style="color:#1980FF;" @click="groupRoleRef.onOpen(record)"><DeploymentUnitOutlined /></a>
+            <a style="color:#1980FF;" @click="groupRoleRef.onOpen(row)"><DeploymentUnitOutlined /></a>
           </a-tooltip>
           <a-divider type="vertical" />
           <a-tooltip title="用户列表">
-            <a style="color:#53C61D;" @click="groupUserRef.onOpen(record, treeRef.treeData)"><UsergroupAddOutlined /></a>
+            <a style="color:#53C61D;" @click="groupUserRef.onOpen(row, treeRef.treeData)"><UsergroupAddOutlined /></a>
           </a-tooltip>
           <a-divider type="vertical" />
           <a-tooltip title="编辑">
-            <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
+            <a @click="formRef.onOpen(row, treeRef.treeData)"><FormOutlined /></a>
           </a-tooltip>
           <a-divider type="vertical" />
           <a-tooltip title="删除">
-            <a-popconfirm title="确定要删除吗？" @confirm="deleteGroup(record)">
+            <a-popconfirm title="确定要删除吗？" @confirm="deleteGroup(row)">
               <a style="color:#FF4D4F;"><DeleteOutlined/></a>
             </a-popconfirm>
           </a-tooltip>
@@ -75,17 +75,17 @@
   </a-card>
   <Form ref="formRef" @successful="refresh()" />
   <Detail ref="detailRef"/>
-  <GroupRole ref="groupRoleRef" @successful="handleSuccess()" />
-  <GroupUser ref="groupUserRef" @successful="handleSuccess()" />
+  <GroupRole ref="groupRoleRef" @successful="refresh()" />
+  <GroupUser ref="groupUserRef" @successful="refresh()" />
 </template>
 
 <script setup>
   import groupApi from '@/api/system/groupApi'
   import { h, ref } from "vue"
-  import { message } from 'ant-design-vue'
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
-  import Form from './form.vue'
-  import Detail from './detail.vue'
+  import { message } from "ant-design-vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
+  import Form from "./form.vue"
+  import Detail from "./detail.vue"
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
   import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"
@@ -104,7 +104,7 @@
 
   /***** 表格相关对象 start *****/
   const gridRef = ref()
-  const gridOptions = reactive({
+  const gridOptions = ref({
     // 分页配置项
     pagerConfig: {
       enabled: true,
@@ -199,9 +199,11 @@
       refresh()
     })
   }
-  // 成功回调
-  const handleSuccess = () => {
-    querySubmit()
+  // 打开详情页
+  const openDetail = (row) => {
+    detailRef.value.onOpen(row)
+    // 独立页面打开(与抽屉打开二选一)
+    // router.push({ path: "/system/sysGroup/detail", query: { id: row.id } })
   }
 </script>
 
@@ -210,7 +212,7 @@
   .ant-card .ant-form {
     margin-bottom: -12px !important;
   }
-  .ant-form-item {
+  .ant-card .ant-form-item {
     margin-bottom: 12px !important;
   }
 </style>
