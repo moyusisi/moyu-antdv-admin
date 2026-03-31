@@ -48,17 +48,16 @@ function configVxe() {
       perfect: true,
       // 每页大小，默认 10
       pageSize: 10,
-      pagerCount: 7,
       // 每页大小选项列表
       pageSizes: [10, 20, 50, 100],
       layouts: [
         "Total",
         "Home",
         "PrevPage",
-        "Number",
+        "Jump",
+        "PageCount",
         "NextPage",
         "End",
-        "FullJump",
         "Sizes",
       ],
     },
