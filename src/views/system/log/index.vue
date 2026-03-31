@@ -182,7 +182,7 @@
       { field: 'browser', title: '浏览器', width: 100 },
       { field: 'os', title: '操作系统', width: 100 },
       { field: 'requestUrl', title: '接口地址', width: 150 },
-      { field: 'requestContent', title: '请求参数', width: 150, slots: { default: 'requestContent' } },
+      { field: 'requestContent', title: '请求参数', width: 150 },
       { field: 'responseContent', title: '返回结果', width: 150 },
       { field: 'executionTime', title: '执行耗时(ms)', width: 120 },
       { field: 'createTime', title: '创建时间', width: 170 },
