@@ -84,10 +84,10 @@ export default defineConfig(({ mode }): UserConfig => {
         // 仅压缩 >10KB 文件
         threshold: 10240,
       }),
-      // 使用unplugin-auto-import插件，自动导入参考：https://cloud.tencent.com/developer/article/2236166
+      // 使用unplugin-auto-import插件自动导入API（如 ref、reactive 等），参考：https://cloud.tencent.com/developer/article/2236166
       AutoImport({
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
-        imports: ["vue", "vue-router", "pinia", "@vueuse/core", "vue-i18n"],
+        imports: ["vue", "vue-router", "pinia"],
         // 配置文件生成位置(false:关闭自动生成)
         dts: "src/types/auto-imports.d.ts",
       })
