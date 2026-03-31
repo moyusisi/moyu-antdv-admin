@@ -58,6 +58,7 @@ function configVxe() {
         "Number",
         "NextPage",
         "End",
+        "FullJump",
         "Sizes",
       ],
     },

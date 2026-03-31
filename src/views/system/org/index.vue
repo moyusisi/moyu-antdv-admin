@@ -220,7 +220,7 @@
     } else {
       delete queryFormData.value.parentCode
     }
-    refresh(true)
+    refresh()
   }
   // 删除
   const deleteOrg = (record) => {

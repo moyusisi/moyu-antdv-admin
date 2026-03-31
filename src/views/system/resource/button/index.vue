@@ -114,7 +114,7 @@
 
   /***** 表格相关对象 start *****/
   const gridRef = ref()
-  const gridOptions = reactive({
+  const gridOptions = ref({
     // 分页配置项
     pagerConfig: {
       enabled: true,
