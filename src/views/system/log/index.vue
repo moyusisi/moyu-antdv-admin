@@ -73,17 +73,11 @@
   </a-card>
   <a-card size="small">
     <!--  表格数据区  -->
-    <vxe-grid ref="gridRef" v-bind="gridOptions"
-              @checkbox-all="selectAllEvent"
-              @checkbox-change="selectChangeEvent">
+    <vxe-grid ref="gridRef" v-bind="gridOptions">
       <!-- 左侧操作栏 -->
       <template #operator>
         <a-space wrap style="margin-bottom: 8px">
-          <a-popconfirm :title=" '确定要删除这 ' + selectedRowKeys.length + ' 条数据吗？' " :disabled ="selectedRowKeys.length < 1" @confirm="batchDelete">
-            <a-button danger :icon="h(DeleteOutlined)" :disabled="selectedRowKeys.length < 1">
-              批量删除
-            </a-button>
-          </a-popconfirm>
+          <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量删除</a-button>
         </a-space>
       </template>
       <!-- 字段插槽 -->
@@ -164,6 +158,11 @@
         query: ({ page, sort, sorts, filters, form }) => {
           // 默认接收 Promise<{ result: [], page: { total: 100 } }>
           return loadData({ pageNum: page.currentPage, pageSize: page.pageSize })
+        },
+        delete: ({ body, form }) => {
+          // 删除已选
+          const ids = body.removeRecords.map(item => item.id);
+          return logApi.deleteLog({ ids })
         }
       }
     },
@@ -206,8 +205,6 @@
       },
     },
   })
-  // 已选中的行
-  const selectedRowKeys = ref([])
   /***** 表格相关对象 end *****/
 
   // 挂载前初始化参数
@@ -248,54 +245,16 @@
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
     return logApi.logPage(param).then((res) => {
-      // 重新加载后清空已选
-      selectedRowKeys.value = []
       // res.data 为 {total, records}
       return res.data
     }).catch((err) => {
       console.error(err)
     })
   }
-  // 选中行发生变化
-  const onSelectedChange = (selectedKeys, selectedRows) => {
-    selectedRowKeys.value = selectedRows.map(item => item.id)
-    // console.log('onSelectedChange,selectedRowKeys:', selectedRowKeys.value);
-  }
-
-  // checkbox 手动勾选全选时触发的事件
-  const selectAllEvent = ({ checked }) => {
-    const $grid = gridRef.value
-    if ($grid) {
-      const records = $grid.getCheckboxRecords()
-      // console.log(checked ? '所有勾选事件' : '所有取消事件', records)
-      onSelectedChange([], records)
-    }
-  }
-  // checkbox 手动勾选并且值发生改变时触发的事件
-  const selectChangeEvent = ({ checked }) => {
-    const $grid = gridRef.value
-    if ($grid) {
-      const records = $grid.getCheckboxRecords()
-      // console.log(checked ? '勾选事件' : '取消事件', records)
-      onSelectedChange(null, records)
-    }
-  }
 
   // 删除
   const deleteLog = (record) => {
     let data = { ids: [record.id] }
-    logApi.deleteLog(data).then((res) => {
-      message.success(res.message)
-      refresh()
-    })
-  }
-  // 批量删除
-  const batchDelete = () => {
-    if (selectedRowKeys.value.length < 1) {
-      message.warning("请至少选择一条数据")
-      return
-    }
-    let data = { ids: selectedRowKeys.value }
     logApi.deleteLog(data).then((res) => {
       message.success(res.message)
       refresh()
