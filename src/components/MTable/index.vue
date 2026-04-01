@@ -10,7 +10,7 @@
       <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-center">
         <!-- 刷新 -->
         <a-tooltip v-if="props.tool.refresh" title="刷新" @click="refresh">
-          <sync-outlined class="tool-icon" />
+          <ReloadOutlined class="tool-icon" />
         </a-tooltip>
         <!-- 列展示 -->
         <a-popover v-if="props.tool.columnSetting" trigger="click" placement="topLeft" arrow-point-at-center>
@@ -18,7 +18,7 @@
             <columnSetting :columns="props.columns" @columnChange="columnChange" />
           </template>
           <a-tooltip title="列设置">
-            <component class="tool-icon" is="setting-outlined"></component>
+            <setting-outlined class="tool-icon" />
           </a-tooltip>
         </a-popover>
         <!-- 表格密度 -->
@@ -31,7 +31,7 @@
             </a-menu>
           </template>
           <a-tooltip title="表格密度">
-            <component class="tool-icon" is="column-height-outlined"></component>
+            <column-height-outlined class="tool-icon" />
           </a-tooltip>
         </a-dropdown>
       </a-flex>
@@ -57,7 +57,6 @@
 <script setup lang="ts">
 import { ref, onMounted, useSlots, h } from 'vue'
 import { tableProps } from 'ant-design-vue/es/table/Table.js'
-import { DeleteOutlined, PlusOutlined, SyncOutlined } from "@ant-design/icons-vue"
 import { useSettingsStore } from "@/store"
 import columnSetting from "@/components/MTable/columnSetting.vue"
 
