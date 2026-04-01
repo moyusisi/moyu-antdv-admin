@@ -10,7 +10,9 @@
       <a-flex gap="small" class="tool-area" justify="flex-end" align="flex-center">
         <!-- 刷新 -->
         <a-tooltip v-if="props.tool.refresh" title="刷新" @click="refresh">
-          <ReloadOutlined class="tool-icon" />
+          <a-button shape="circle">
+            <ReloadOutlined  class="tool-icon"/>
+          </a-button>
         </a-tooltip>
         <!-- 列展示 -->
         <a-popover v-if="props.tool.columnSetting" trigger="click" placement="topLeft" arrow-point-at-center>
@@ -18,7 +20,9 @@
             <columnSetting :columns="props.columns" @columnChange="columnChange" />
           </template>
           <a-tooltip title="列设置">
-            <setting-outlined class="tool-icon" />
+            <a-button shape="circle">
+              <setting-outlined class="tool-icon" />
+            </a-button>
           </a-tooltip>
         </a-popover>
         <!-- 表格密度 -->
@@ -31,7 +35,9 @@
             </a-menu>
           </template>
           <a-tooltip title="表格密度">
-            <column-height-outlined class="tool-icon" />
+            <a-button shape="circle">
+              <column-height-outlined class="tool-icon" />
+            </a-button>
           </a-tooltip>
         </a-dropdown>
       </a-flex>
@@ -97,8 +103,8 @@ const props = defineProps(
         type: Object,
         default: () => ({
           refresh: true,
-          height: true,
-          columnSetting: true
+          height: false,
+          columnSetting: false
         })
       }
     })
