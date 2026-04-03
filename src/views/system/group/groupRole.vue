@@ -59,6 +59,13 @@
                 <a-space>
                 </a-space>
               </template>
+              <template v-if="column.dataIndex === 'action'">
+                <a-space>
+                  <a-tooltip title="菜单权限">
+                    <a @click="showMenuTree(record)">菜单透视</a>
+                  </a-tooltip>
+                </a-space>
+              </template>
             </template>
           </a-table>
         </a-card>
@@ -67,18 +74,21 @@
 
     <!-- 弹窗 -->
     <GroupAddRole ref="groupAddRoleRef" @successful="handleSuccess()" />
+    <MenuTree ref="menuTreeRef"/>
 
   </a-drawer>
 </template>
 
 <script setup>
   import groupApi from '@/api/system/groupApi'
+  import roleApi from '@/api/system/roleApi'
 
   import { useSettingsStore } from "@/store";
-  import { h } from "vue";
+  import { h, ref } from "vue";
   import { PlusOutlined, MinusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
   import { message } from "ant-design-vue";
   import GroupAddRole from './groupAddRole.vue'
+  import MenuTree from "@/views/system/components/menuTree.vue"
 
   const settingsStore = useSettingsStore()
   const columns = [
@@ -126,10 +136,14 @@
   const group = ref()
   const title = ref()
   const emit = defineEmits({ successful: null })
-  const groupAddRoleRef = ref()
   // 表单数据
   const searchFormRef = ref()
   const searchFormData = ref({})
+
+  // 其他页面操作
+  const groupAddRoleRef = ref()
+  const menuTreeRef = ref()
+
   // table数据
   const tableRef = ref()
   // 表格中的数据(loadTableData中会更新)
@@ -193,6 +207,13 @@
       message.success(res.message)
       // 删掉之后重新加载数据
       loadTableData()
+    })
+  }
+  // 菜单透视
+  const showMenuTree = (row) => {
+    let data = { code: row.code }
+    roleApi.menuTree(data).then((res) => {
+      menuTreeRef.value.onOpen(res.data)
     })
   }
   // 成功回调
