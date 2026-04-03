@@ -115,7 +115,6 @@
   const groupRoleRef = ref()
   const menuTreeRef = ref()
 
-
   /***** 表格相关对象 start *****/
   const gridRef = ref()
   const gridOptions = ref({
@@ -222,7 +221,7 @@
   // 菜单透视
   const showMenuTree = (row) => {
     let data = { code: row.code }
-    roleApi.menuTree(data).then((res) => {
+    groupApi.menuTree(data).then((res) => {
       menuTreeRef.value.onOpen(res.data)
     })
   }

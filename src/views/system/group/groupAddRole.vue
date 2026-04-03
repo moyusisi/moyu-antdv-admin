@@ -79,13 +79,13 @@
 <script setup>
   import groupApi from '@/api/system/groupApi'
   import userCenterApi from "@/api/system/userCenterApi"
+  import roleApi from "@/api/system/roleApi.js";
 
   import { useSettingsStore } from "@/store";
   import { h, ref } from "vue";
   import { PlusOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue";
   import { message } from "ant-design-vue";
   import MenuTree from "@/views/system/components/menuTree.vue";
-  import roleApi from "@/api/system/roleApi.js";
 
   const settingsStore = useSettingsStore()
   const columns = [
