@@ -52,6 +52,10 @@
       </template>
       <template #action="{row, rowIndex, column, columnIndex}">
         <a-space>
+          <a-tooltip title="菜单透视">
+            <a @click="showMenuTree(row)"><EyeOutlined /></a>
+          </a-tooltip>
+          <a-divider type="vertical" />
           <a-tooltip title="岗位角色">
             <a style="color:#1980FF;" @click="groupRoleRef.onOpen(row)"><DeploymentUnitOutlined /></a>
           </a-tooltip>
@@ -77,6 +81,7 @@
   <Detail ref="detailRef"/>
   <GroupRole ref="groupRoleRef" @successful="refresh()" />
   <GroupUser ref="groupUserRef" @successful="refresh()" />
+  <MenuTree ref="menuTreeRef"/>
 </template>
 
 <script setup>
@@ -90,6 +95,8 @@
   import GroupRole from './groupRole.vue'
   import GroupUser from './groupUser.vue'
   import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"
+  import MenuTree from "@/views/system/components/menuTree.vue";
+  import roleApi from "@/api/system/roleApi.js";
 
   // store
   const route = useRoute();
@@ -106,6 +113,8 @@
   const detailRef = ref()
   const groupUserRef = ref()
   const groupRoleRef = ref()
+  const menuTreeRef = ref()
+
 
   /***** 表格相关对象 start *****/
   const gridRef = ref()
@@ -145,7 +154,7 @@
       { field: 'sortNum', title: '排序顺序', width: 80 },
       { field: 'remark', title: '备注' },
       { field: 'updateTime', title: '修改时间', width: 170 },
-      { field: 'action', title: '操作', width: 200, slots: { default: 'action' } },
+      { field: 'action', title: '操作', width: 250, slots: { default: 'action' } },
     ],
     // 工具栏配置
     toolbarConfig: {
@@ -209,6 +218,13 @@
     detailRef.value.onOpen(row)
     // 独立页面打开(与抽屉打开二选一)
     // router.push({ path: "/system/sysGroup/detail", query: { id: row.id } })
+  }
+  // 菜单透视
+  const showMenuTree = (row) => {
+    let data = { code: row.code }
+    roleApi.menuTree(data).then((res) => {
+      menuTreeRef.value.onOpen(res.data)
+    })
   }
 </script>
 

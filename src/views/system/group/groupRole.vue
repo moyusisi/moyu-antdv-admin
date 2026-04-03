@@ -57,12 +57,8 @@
               </template>
               <template v-if="column.dataIndex === 'action'">
                 <a-space>
-                </a-space>
-              </template>
-              <template v-if="column.dataIndex === 'action'">
-                <a-space>
-                  <a-tooltip title="菜单权限">
-                    <a @click="showMenuTree(record)">菜单透视</a>
+                  <a-tooltip title="菜单透视">
+                    <a @click="showMenuTree(record)"><EyeOutlined /></a>
                   </a-tooltip>
                 </a-space>
               </template>
@@ -111,8 +107,8 @@
       width: 100
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
+      title: '维护人',
+      dataIndex: 'updateBy',
       align: 'center',
       width: 160
     },
@@ -127,7 +123,7 @@
       dataIndex: 'action',
       align: 'center',
       resizable: true,
-      width: 150
+      width: 100
     }
   ]
 
