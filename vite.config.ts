@@ -98,7 +98,7 @@ export default defineConfig(({ mode }): UserConfig => {
         resolvers: [
           // antdv自动导入
           AntDesignVueResolver({
-            // 不自动引入样式（如果你是全量引入就关）
+            // 不自动引入样式（css in js）
             importStyle: false,
             // 自动导入 antdv 图标
             resolveIcons: true,
