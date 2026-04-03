@@ -42,7 +42,9 @@
 
   // 打开抽屉
   const onOpen = (menuTreeData) => {
-    treeData.value = menuTreeData
+    if (menuTreeData) {
+      treeData.value = menuTreeData
+    }
     // 数据就绪之后显示
     visible.value = true
   }
