@@ -38,8 +38,8 @@
       </template>
       <template #icon="{row, rowIndex, column, columnIndex}">
         <span v-if="row.icon && row.icon !== '#'" >
-            <component :is="row.icon"/>
-          </span>
+          <component :is="row.icon"/>
+        </span>
         <span v-else />
       </template>
       <template #path="{row, rowIndex, column, columnIndex}">
