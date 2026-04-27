@@ -27,6 +27,14 @@ const routes = [
 				component: () => import('@/views/home/index.vue'),
 				meta: { title: '首页', icon: 'home-outlined', affix: true }
 			},
+			{
+				path: '/index2',
+				// 用于 keep-alive 功能，需要与 SFC 中自动推导或显式声明的组件名称一致
+				// 参考文档: https://cn.vuejs.org/guide/built-ins/keep-alive.html#include-exclude
+				name: 'Index2',
+				component: () => import('@/views/home/index2.vue'),
+				meta: { title: '业务首页', icon: 'home-outlined' }
+			},
 		]
 	},
 	{
