@@ -56,8 +56,8 @@
           <a @click="openDetail(row)">{{ row.id }}</a>
         </a-tooltip>
       </template>
-      <template #province="{row:record, rowIndex, column, columnIndex}">
-        <span>{{ (record.province??'') + ' ' + (record.city??'') }}</span>
+      <template #sourceArea="{row:record, rowIndex, column, columnIndex}">
+        <span>{{ (record.sourceProvince??'') + ' ' + (record.sourceCity??'') }}</span>
       </template>
       <template #action="{row:record, rowIndex, column, columnIndex}">
         <a-space>
@@ -140,11 +140,10 @@
       { field: 'id', title: '日志ID', width: 100, slots: { default: 'id' } },
       { field: 'startTime', title: '时间', width: 170 },
       { field: 'name', title: '名称', width: 150 },
-      { field: 'createBy', title: '用户', width: 100 },
-      { field: 'ip', title: 'IP地址', width: 100 },
-      { field: 'province', title: '地区', width: 100, slots: { default: 'province' } },
-      { field: 'browser', title: '浏览器', width: 100 },
-      { field: 'os', title: '操作系统', width: 100 },
+      { field: 'sourceClient', title: 'IP地址', width: 100 },
+      { field: 'sourceProvince', title: '地区', width: 100, slots: { default: 'sourceArea' } },
+      { field: 'sourceBrowser', title: '浏览器', width: 100 },
+      { field: 'sourceOs', title: '操作系统', width: 100 },
       { field: 'executionTime', title: '执行耗时(ms)', width: 120 },
       { field: 'createTime', title: '创建时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },

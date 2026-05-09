@@ -57,53 +57,40 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="requestUrl" label="请求路径地址" tooltip="" >
-                <a-tag :bordered="false">{{ formData.requestUrl }}</a-tag>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="executionTime" label="执行耗时" tooltip="" >
-                {{ formData.executionTime }}ms
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="createBy" label="用户IP" tooltip="" >
-                {{ formData.ip }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="createBy" label="地区" tooltip="" >
-                {{ (formData.province??'') + ' ' + (formData.city??'') }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="browser" label="浏览器" tooltip="" >
-                {{ formData.browser }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="platform" label="平台" tooltip="" >
-                {{ formData.platform }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="os" label="操作系统" tooltip="" >
-                {{ formData.os }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="startTime" label="开始时间" tooltip="" >
-                {{ formData.startTime }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="endTime" label="结束时间" tooltip="" >
-                {{ formData.endTime }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
               <a-form-item name="createTime" label="记录时间" tooltip="" >
                 {{ formData.createTime }}
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-card>
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/>来源信息</span>
+          </template>
+          <a-row :gutter="24">
+            <a-col :span="8">
+              <a-form-item name="sourceClient" label="来源/客户端" tooltip="" >
+                {{ formData.sourceClient }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="sourceProvince" label="来源地区" tooltip="" >
+                {{ (formData.sourceProvince??'') + ' ' + (formData.sourceCity??'') }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="sourceBrowser" label="浏览器" tooltip="" >
+                {{ formData.sourceBrowser }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="sourcePlatform" label="客户端平台" tooltip="" >
+                {{ formData.sourcePlatform }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="sourceOs" label="客户端OS" tooltip="" >
+                {{ formData.sourceOs }}
               </a-form-item>
             </a-col>
           </a-row>
@@ -116,6 +103,21 @@
             <a-col :span="24">
               <a-form-item name="requestUrl" label="请求地址" tooltip="" :label-col="{span: 2}" >
                 <a-tag :bordered="false">{{ formData.requestUrl }}</a-tag>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="executionTime" label="执行耗时" tooltip="" >
+                {{ formData.executionTime }}ms
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="startTime" label="开始时间" tooltip="" >
+                {{ formData.startTime }}
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="endTime" label="结束时间" tooltip="" >
+                {{ formData.endTime }}
               </a-form-item>
             </a-col>
           </a-row>

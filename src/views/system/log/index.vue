@@ -86,8 +86,8 @@
           <a @click="openDetail(row)">{{ row.id }}</a>
         </a-tooltip>
       </template>
-      <template #province="{row:record, rowIndex, column, columnIndex}">
-        <span>{{ (record.province??'') + ' ' + (record.city??'') }}</span>
+      <template #sourceArea="{row:record, rowIndex, column, columnIndex}">
+        <span>{{ (record.sourceProvince??'') + ' ' + (record.sourceCity??'') }}</span>
       </template>
       <template #action="{row:record, rowIndex, column, columnIndex}">
         <a-space>
@@ -177,10 +177,10 @@
       { field: 'business', title: '业务', width: 150 },
       { field: 'operate', title: '操作', width: 150 },
       { field: 'content', title: '内容', width: 150 },
-      { field: 'ip', title: 'IP地址', width: 100 },
-      { field: 'province', title: '地区', width: 100, slots: { default: 'province' } },
-      { field: 'browser', title: '浏览器', width: 100 },
-      { field: 'os', title: '操作系统', width: 100 },
+      { field: 'sourceClient', title: 'IP地址', width: 100 },
+      { field: 'sourceProvince', title: '地区', width: 100, slots: { default: 'sourceArea' } },
+      { field: 'sourceBrowser', title: '浏览器', width: 100 },
+      { field: 'sourceOs', title: '操作系统', width: 100 },
       { field: 'requestUrl', title: '接口地址', width: 150 },
       { field: 'requestContent', title: '请求参数', width: 150 },
       { field: 'responseContent', title: '返回结果', width: 150 },
