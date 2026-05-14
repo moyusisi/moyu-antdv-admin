@@ -1,6 +1,6 @@
 <template>
   <div class="admin-ui-main">
-    <a-row :gutter="8">
+    <a-row :gutter="4">
       <a-col :xs="24" :sm="24" :md="24" :lg="18" :xl="18">
         <a-card title="我的任务" :bordered="false">
           <a-row :gutter="24">

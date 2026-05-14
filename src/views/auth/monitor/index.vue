@@ -46,7 +46,7 @@
   <a-card size="small">
     <vxe-grid ref="gridRef" v-bind="gridOptions">
       <!-- 左侧操作栏 -->
-      <template #operator>
+      <template #toolbarButtons>
         <a-form ref="queryFormRef" :model="queryFormData" style="width: 100%">
           <a-row :gutter="24" style="margin-bottom: 6px">
             <a-col :span="8">
@@ -153,7 +153,7 @@
       //插槽
       slots: {
         // 按钮列表
-        buttons: "operator",
+        buttons: "toolbarButtons",
       },
     },
   })

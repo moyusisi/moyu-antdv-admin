@@ -52,7 +52,7 @@
       <!--  表格数据区  -->
       <vxe-grid ref="gridRef" v-bind="gridOptions">
         <!-- 左侧操作栏 -->
-        <template #operator>
+        <template #toolbarButtons>
           <a-space wrap style="margin-bottom: 6px">
             <a-radio-group v-model:value="queryFormData.hasRead" button-style="solid">
               <!-- 字典 0未读 1已读 -->
@@ -151,7 +151,7 @@
       //插槽
       slots: {
         // 按钮列表
-        buttons: "operator",
+        buttons: "toolbarButtons",
       },
     },
   })

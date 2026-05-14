@@ -26,7 +26,7 @@
   <a-card size="small">
     <vxe-grid ref="gridRef" v-bind="gridOptions">
       <!-- 左侧操作栏 -->
-      <template #operator>
+      <template #toolbarButtons>
         <a-space wrap style="margin-bottom: 6px">
           <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增角色</a-button>
           <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量删除</a-button>
@@ -147,7 +147,7 @@
       //插槽
       slots: {
         // 按钮列表
-        buttons: "operator",
+        buttons: "toolbarButtons",
       },
     },
   })
