@@ -22,7 +22,7 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="12">
-              <a-form-item name="keyTitle" label="配置项" tooltip="" >
+              <a-form-item name="keyTitle" label="配置项" tooltip="" required>
                 <a-input v-model:value="formData.keyTitle" placeholder="配置项" allowClear />
               </a-form-item>
             </a-col>
@@ -32,17 +32,17 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyName" label="配置Key" tooltip="" >
+              <a-form-item name="keyName" label="配置Key" tooltip="" required>
                 <a-input v-model:value="formData.keyName" placeholder="配置Key" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyValue" label="配置Value" tooltip="" >
+              <a-form-item name="keyValue" label="配置Value" tooltip="" required>
                 <a-input v-model:value="formData.keyValue" placeholder="配置Value" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="status" label="使用状态" tooltip="使用状态（0正常 1停用）" >
+              <a-form-item name="status" label="使用状态" tooltip="使用状态（0正常 1停用）" required>
                 <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid">
                   <a-radio :value="0">正常</a-radio>
                   <a-radio :value="1">停用</a-radio>
@@ -94,7 +94,9 @@
   const edit = ref(false)
   // 表单数据
   const formRef = ref()
-  const formData = ref({})
+  const formData = ref({
+    status: 0
+  })
   const dataLoading = ref(false)
   const submitLoading = ref(false)
   // 下拉框选项
