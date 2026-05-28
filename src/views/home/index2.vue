@@ -58,7 +58,7 @@
             </a-col>
           </a-row>
         </a-card>
-        <a-card title="" :bordered="false" style="margin-top: 1px;">
+        <a-card title="" :bordered="false" style="margin-top: 2px;">
           <vxe-grid ref="gridRef" v-bind="gridOptions">
             <template #toolbarButtons>
               <span class="table-title">待办事项</span>
@@ -77,7 +77,7 @@
         </a-card>
       </a-col>
       <a-col :xs="24" :sm="24" :md="24" :lg="6" :xl="6">
-        <a-card title="快捷入口" bodyStyle="margin-bottom: 20px;">
+        <a-card title="快捷入口" :bodyStyle="{ marginBottom: '20px' }">
           <a-card-grid style="width: 33%; text-align: center">
             <div class="item-icon">
               <SolutionOutlined/>
@@ -112,9 +112,6 @@
           </a-card-grid>
         </a-card>
         <a-card title="">
-<!--          <template #extra>-->
-<!--            <a class="title-more">查看更多<RightOutlined /></a>-->
-<!--          </template>-->
           <vxe-grid ref="noticeGridRef" v-bind="noticeGridOptions">
             <template #toolbarButtons>
               <span class="table-title">消息提醒</span>
@@ -176,8 +173,8 @@ const gridOptions = reactive({
   columns: [
     { field: 'id', title: '任务编号', width: 100 },
     { field: 'name', title: '标题', minWidth: 200, slots: { default: 'name' } },
-    { field: 'name', title: '业务来源', width: 150 },
-    { field: 'name', title: '所属流程', width: 150 },
+    { field: 'sourceClient', title: '业务来源', width: 150 },
+    { field: 'business', title: '所属流程', width: 150 },
     { field: 'createTime', title: '接收时间', width: 170 },
   ],
   // 工具栏配置
