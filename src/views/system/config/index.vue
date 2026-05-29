@@ -40,8 +40,11 @@
         </a-space>
       </template>
       <!-- 字段插槽 -->
-      <template #id="{row, rowIndex, column, columnIndex}">
-        <a @click="openDetail(row)">{{ row.id }}</a>
+<!--      <template #id="{row, rowIndex, column, columnIndex}">-->
+<!--        <a @click="openDetail(row)">{{ row.id }}</a>-->
+<!--      </template>-->
+      <template #keyName="{row, rowIndex, column, columnIndex}">
+        <a @click="openDetail(row)">{{ row.keyName }}</a>
       </template>
       <template #status="{row, rowIndex, column, columnIndex}">
         <a-tag v-if="row.status === 0" color="green">正常</a-tag>
@@ -123,12 +126,11 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
-      { field: 'id', title: '唯一ID', width: 150, slots: { default: 'id' } },
       { field: 'keyTitle', title: '配置项', width: 150 },
-      { field: 'keyName', title: '配置Key', width: 150 },
-      { field: 'keyValue', title: '配置Value', width: 150 },
-      { field: 'status', title: '使用状态', width: 100, slots: {default: 'status'} },
-      { field: 'remark', title: '备注', width: 150 },
+      { field: 'keyName', title: '配置Key', width: 200, slots: { default: 'keyName' } },
+      { field: 'keyValue', title: '配置Value', width: 200 },
+      { field: 'status', title: '使用状态', width: 100, slots: { default: 'status' } },
+      { field: 'remark', title: '备注' },
       { field: 'updateTime', title: '更新时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
