@@ -32,7 +32,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyName" label="配置Key" tooltip="" required>
+              <a-form-item name="keyName" label="配置Key" tooltip="全剧唯一，不可重复" required>
                 <a-input v-model:value="formData.keyName" placeholder="配置Key" allowClear />
               </a-form-item>
             </a-col>
@@ -42,7 +42,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="status" label="使用状态" tooltip="使用状态（0正常 1停用）" required>
+              <a-form-item name="status" label="使用状态" tooltip="" required>
                 <a-radio-group v-model:value="formData.status" option-type="button" button-style="solid">
                   <a-radio :value="0">正常</a-radio>
                   <a-radio :value="1">停用</a-radio>
@@ -99,11 +99,6 @@
   })
   const dataLoading = ref(false)
   const submitLoading = ref(false)
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
 
   // 打开抽屉
   const onOpen = (row) => {
