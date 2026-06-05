@@ -73,7 +73,7 @@ function configVxe() {
         zoom: true,
         // 刷新按钮配置
         refresh: true,
-        //插槽
+        // 插槽
         slots: {
           // 按钮列表
           buttons: "operator",

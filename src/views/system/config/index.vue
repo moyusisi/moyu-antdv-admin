@@ -102,6 +102,11 @@
     pagerConfig: {
       enabled: true,
     },
+    // 排序配置项
+    sortConfig: {
+      // 服务端排序
+      remote: true,
+    },
     // 数据代理配置
     proxyConfig: {
       // 获取响应的值配置
@@ -111,10 +116,19 @@
         // 只对 pager-config 配置时有效，响应结果中获取分页的属性（分页场景）
         total: "total",
       },
+      // 启用排序请求代理
+      sort: true,
       ajax: {
         query: ({ page, sort, sorts, filters, form }) => {
+          const sortItem = sorts[0] || {}
+          // console.log(sortItem)
           // 默认接收 Promise<{ result: [], page: { total: 100 } }>
-          return loadData({ pageNum: page.currentPage, pageSize: page.pageSize })
+          return loadData({
+            pageNum: page.currentPage,
+            pageSize: page.pageSize,
+            sortField: sortItem.field,
+            sortOrder: sortItem.order
+          })
         },
         delete: ({ body, form }) => {
           // 删除已选
@@ -129,9 +143,9 @@
       { field: 'keyTitle', title: '配置项', width: 150 },
       { field: 'keyName', title: '配置Key', width: 200, slots: { default: 'keyName' } },
       { field: 'keyValue', title: '配置Value', width: 200 },
-      { field: 'status', title: '使用状态', width: 100, slots: { default: 'status' } },
+      { field: 'status', title: '使用状态', width: 100, sortable: true, slots: { default: 'status' } },
       { field: 'remark', title: '备注' },
-      { field: 'updateTime', title: '更新时间', width: 170 },
+      { field: 'updateTime', title: '更新时间', width: 170, sortable: true },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
     // 工具栏配置
@@ -142,7 +156,7 @@
       zoom: true,
       // 刷新按钮配置
       refresh: true,
-      //插槽
+      // 插槽
       slots: {
         // 操作栏按钮
         buttons: "toolbarButtons",
