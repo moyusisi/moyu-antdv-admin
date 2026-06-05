@@ -111,6 +111,11 @@
     pagerConfig: {
       enabled: true,
     },
+    // 排序配置项
+    sortConfig: {
+      // 服务端排序
+      remote: true,
+    },
     // 数据代理配置
     proxyConfig: {
       // 获取响应的值配置
@@ -122,10 +127,19 @@
         // 只对 pager-config 配置时有效，响应结果中获取分页的属性（分页场景）
         total: "total",
       },
+      // 启用排序请求代理
+      sort: true,
       ajax: {
         query: ({ page, sort, sorts, filters, form }) => {
+          const sortItem = sorts[0] || {}
+          // console.log(sortItem)
           // 默认接收 Promise<{ result: [], page: { total: 100 } }>
-          return loadData({ pageNum: page.currentPage, pageSize: page.pageSize })
+          return loadData({
+            pageNum: page.currentPage,
+            pageSize: page.pageSize,
+            sortField: sortItem.field,
+            sortOrder: sortItem.order
+          })
         },
         delete: ({ body, form }) => {
           // 删除已选
@@ -144,7 +158,7 @@
       { field: 'sourceProvince', title: '地区', width: 100, slots: { default: 'sourceArea' } },
       { field: 'sourceBrowser', title: '浏览器', width: 100 },
       { field: 'sourceOs', title: '操作系统', width: 100 },
-      { field: 'executionTime', title: '执行耗时(ms)', width: 120 },
+      { field: 'executionTime', title: '执行耗时(ms)', width: 150, sortable: true },
       { field: 'createTime', title: '创建时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
