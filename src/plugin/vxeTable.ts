@@ -79,7 +79,7 @@ function configVxe() {
         // 插槽
         slots: {
           // 按钮列表
-          buttons: "operator",
+          buttons: "toolbarButtons",
         },
       },
     }
