@@ -118,6 +118,7 @@
       },
       // 启用排序请求代理
       sort: true,
+      // 代理配置
       ajax: {
         query: ({ page, sort, sorts, filters, form }) => {
           const sortItem = sorts[0] || {}

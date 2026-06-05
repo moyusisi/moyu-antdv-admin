@@ -65,6 +65,9 @@ function configVxe() {
       // 分页配置项
       pagerConfig: {
       },
+      // 排序配置项
+      sortConfig: {
+      },
       // 工具栏配置
       toolbarConfig: {
         // 是否显示个性化列配置
