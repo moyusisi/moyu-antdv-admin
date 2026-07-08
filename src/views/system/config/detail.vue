@@ -22,23 +22,23 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="keyTitle" label="配置项" tooltip="" >
-                <span>{{ formData.keyTitle }}</span>
+              <a-form-item name="configTitle" label="配置项" tooltip="" >
+                <span>{{ formData.configTitle }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="keyType" label="配置类型" tooltip="" >
-                <span>{{ formData.keyType }}</span>
+              <a-form-item name="configType" label="配置类型" tooltip="" >
+                <span>{{ formData.configType }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="keyName" label="配置Key" tooltip="" >
-                <span>{{ formData.keyName }}</span>
+              <a-form-item name="configKey" label="配置Key" tooltip="" >
+                <span>{{ formData.configKey }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="keyValue" label="配置Value" tooltip="" >
-                <span>{{ formData.keyValue }}</span>
+              <a-form-item name="configValue" label="配置Value" tooltip="" >
+                <span>{{ formData.configValue }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">

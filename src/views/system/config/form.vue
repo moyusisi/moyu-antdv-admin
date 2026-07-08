@@ -22,23 +22,23 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="12">
-              <a-form-item name="keyTitle" label="配置项" tooltip="" required>
-                <a-input v-model:value="formData.keyTitle" placeholder="配置项" allowClear />
+              <a-form-item name="configTitle" label="配置项" tooltip="" required>
+                <a-input v-model:value="formData.configTitle" placeholder="配置项" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyType" label="配置类型" tooltip="" >
-                <a-input v-model:value="formData.keyType" placeholder="配置类型" allowClear />
+              <a-form-item name="configType" label="配置类型" tooltip="" >
+                <a-input v-model:value="formData.configType" placeholder="配置类型" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyName" label="配置Key" tooltip="全剧唯一，不可重复" required>
-                <a-input v-model:value="formData.keyName" placeholder="配置Key" allowClear />
+              <a-form-item name="configKey" label="配置Key" tooltip="全剧唯一，不可重复" required>
+                <a-input v-model:value="formData.configKey" placeholder="配置Key" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="keyValue" label="配置Value" tooltip="" required>
-                <a-input v-model:value="formData.keyValue" placeholder="配置Value" allowClear />
+              <a-form-item name="configValue" label="配置Value" tooltip="" required>
+                <a-input v-model:value="formData.configValue" placeholder="配置Value" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">

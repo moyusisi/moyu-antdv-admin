@@ -4,18 +4,18 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="keyTitle" label="配置项">
-            <a-input v-model:value="queryFormData.keyTitle" placeholder="搜索配置项" allowClear />
+          <a-form-item name="configTitle" label="配置项">
+            <a-input v-model:value="queryFormData.configTitle" placeholder="搜索配置项" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="keyName" label="配置Key">
-            <a-input v-model:value="queryFormData.keyName" placeholder="搜索配置Key" allowClear />
+          <a-form-item name="configKey" label="配置Key">
+            <a-input v-model:value="queryFormData.configKey" placeholder="搜索配置Key" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="keyName" label="配置Value">
-            <a-input v-model:value="queryFormData.keyValue" placeholder="搜索配置Value" allowClear />
+          <a-form-item name="configValue" label="配置Value">
+            <a-input v-model:value="queryFormData.configValue" placeholder="搜索配置Value" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -43,8 +43,8 @@
 <!--      <template #id="{row, rowIndex, column, columnIndex}">-->
 <!--        <a @click="openDetail(row)">{{ row.id }}</a>-->
 <!--      </template>-->
-      <template #keyName="{row, rowIndex, column, columnIndex}">
-        <a @click="openDetail(row)">{{ row.keyName }}</a>
+      <template #configKey="{row, rowIndex, column, columnIndex}">
+        <a @click="openDetail(row)">{{ row.configKey }}</a>
       </template>
       <template #status="{row, rowIndex, column, columnIndex}">
         <a-tag v-if="row.status === 0" color="green">正常</a-tag>
@@ -141,9 +141,9 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
-      { field: 'keyTitle', title: '配置项', width: 150 },
-      { field: 'keyName', title: '配置Key', width: 200, slots: { default: 'keyName' } },
-      { field: 'keyValue', title: '配置Value', width: 200 },
+      { field: 'configTitle', title: '配置项', width: 150 },
+      { field: 'configKey', title: '配置Key', width: 200, slots: { default: 'configKey' } },
+      { field: 'configValue', title: '配置Value', width: 200 },
       { field: 'status', title: '使用状态', width: 100, sortable: true, slots: { default: 'status' } },
       { field: 'remark', title: '备注' },
       { field: 'updateTime', title: '更新时间', width: 170, sortable: true },
