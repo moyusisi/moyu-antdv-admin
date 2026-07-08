@@ -182,13 +182,11 @@
       { field: 'createBy', title: '操作人', width: 100 },
       { field: 'business', title: '业务', width: 150 },
       { field: 'operate', title: '操作', width: 150 },
-      { field: 'sourceBrowser', title: '浏览器', width: 100 },
       { field: 'requestUrl', title: '接口地址', width: 150 },
       { field: 'requestContent', title: '请求参数', width: 150 },
       { field: 'responseContent', title: '返回结果', width: 150 },
       { field: 'executionTime', title: '执行耗时(ms)', width: 150, sortable: true },
       { field: 'endTime', title: '结束时间', width: 170 },
-      { field: 'createTime', title: '创建时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
     // 工具栏配置

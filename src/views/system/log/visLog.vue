@@ -154,13 +154,13 @@
       { field: 'id', title: 'ID', width: 100, slots: { default: 'id' } },
       { field: 'startTime', title: '时间', width: 170 },
       { field: 'name', title: '名称', width: 150 },
+      { field: 'createBy', title: '操作人', width: 100 },
+      { field: 'requestUrl', title: '接口地址', width: 150 },
       { field: 'sourceClient', title: 'IP地址', width: 100 },
       { field: 'sourceProvince', title: '地区', width: 100, slots: { default: 'sourceArea' } },
-      { field: 'sourceBrowser', title: '浏览器', width: 100 },
-      { field: 'sourceOs', title: '操作系统', width: 100 },
       { field: 'executionTime', title: '执行耗时(ms)', width: 150, sortable: true },
-      { field: 'createTime', title: '创建时间', width: 170 },
-      { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
+      { field: 'userAgent', title: '客户端信息', width: 100 },
+      { field: 'action', title: '操作', minWidth: 100, slots: { default: 'action' } },
     ],
     // 工具栏配置
     toolbarConfig: {

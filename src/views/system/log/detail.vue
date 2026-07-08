@@ -78,19 +78,9 @@
                 {{ (formData.sourceProvince??'') + ' ' + (formData.sourceCity??'') }}
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item name="sourceBrowser" label="浏览器" tooltip="" >
-                {{ formData.sourceBrowser }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="sourcePlatform" label="客户端平台" tooltip="" >
-                {{ formData.sourcePlatform }}
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="sourceOs" label="客户端OS" tooltip="" >
-                {{ formData.sourceOs }}
+            <a-col :span="24">
+              <a-form-item name="userAgent" label="客户端信息" tooltip="" :label-col="{span: 2}" >
+                <a-tag :bordered="false">{{ formData.userAgent }}</a-tag>
               </a-form-item>
             </a-col>
           </a-row>
