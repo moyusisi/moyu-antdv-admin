@@ -37,7 +37,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="module" label="系统/模块" tooltip="系统/模块" >
+              <a-form-item name="module" label="系统" tooltip="系统/模块" >
                 {{ formData.module }}
               </a-form-item>
             </a-col>
@@ -47,7 +47,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="operate" label="操作" tooltip="操作" >
+              <a-form-item name="operate" label="操作" tooltip="操作/接口" >
                 {{ formData.operate }}
               </a-form-item>
             </a-col>

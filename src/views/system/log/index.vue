@@ -183,7 +183,7 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
-      { field: 'id', title: '日志ID', width: 100, slots: { default: 'id' } },
+      { field: 'id', title: 'ID', width: 100, slots: { default: 'id' } },
       { field: 'startTime', title: '时间', width: 170 },
       { field: 'name', title: '名称', width: 150 },
       { field: 'createBy', title: '操作人', width: 100 },
