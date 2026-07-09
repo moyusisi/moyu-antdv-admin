@@ -21,37 +21,8 @@
   </a-card>
   <a-card size="small">
     <!--  表格数据区  -->
-    <a-table size="small"
-             ref="tableRef"
-             :columns="columns"
-             :data-source="tableData"
-             :row-key="(row) => row.idKey"
-             :pagination="paginationRef"
-             bordered>
-      <template #bodyCell="{ column, record, index, text }">
-        <template v-if="column.dataIndex === 'index'">
-          <span>{{ index + 1 }}</span>
-        </template>
-        <template v-if="column.dataIndex === 'idKey'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'idValue'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-        <template v-if="column.dataIndex === 'seq'">
-          <!-- 长文本省略提示 -->
-          <a-tooltip :title="text" placement="topLeft">
-            <span>{{ text }}</span>
-          </a-tooltip>
-        </template>
-      </template>
-    </a-table>
+    <vxe-grid ref="gridRef" v-bind="gridOptions">
+    </vxe-grid>
   </a-card>
 </template>
 
@@ -59,87 +30,114 @@
   import seqApi from '@/api/dev/seqApi.js'
 
   import { h, ref } from "vue"
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, CloudOutlined } from "@ant-design/icons-vue"
+  import configApi from "@/api/system/configApi.js";
+  import { message } from "ant-design-vue";
 
   // 查询表单相关对象
   const queryFormRef = ref()
   const queryFormData = ref({})
 
+
   /***** 表格相关对象 start *****/
-  const tableRef = ref()
-  // 表格中的数据(loadTableData中会更新)
-  const tableData = ref([])
-  // 表格的分页配置
-  const paginationRef = ref({
-    // 当前页码
-    current: 1,
-    // 每页显示条数
-    pageSize: 10,
-    // 总条数，需要通过接口获取
-    total: 0,
-    // 显示总记录数
-    showTotal: (total, range) => `共 ${total} 条记录 `,
-    // 是否可改变每页显示条数
-    showSizeChanger: true,
-    onChange: (page, pageSize) => {
-      // 处理分页切换的逻辑
-      paginationRef.value.current = page
-      paginationRef.value.pageSize = pageSize
+  const gridRef = ref()
+  const gridOptions = ref({
+    // 分页配置项
+    pagerConfig: {
+      enabled: false,
+    },
+    // 排序配置项
+    sortConfig: {
+      // 服务端排序
+      remote: true,
+    },
+    // 数据代理配置
+    proxyConfig: {
+      // 获取响应的值配置
+      response: {
+        // 只对 pager-config 配置时有效，响应结果中获取数据列表的属性（分页场景）
+        result: "records",
+        // 只对 pager-config 配置时有效，响应结果中获取分页的属性（分页场景）
+        total: "total",
+      },
+      // 启用排序请求代理
+      sort: true,
+      // 代理配置
+      ajax: {
+        query: ({ page, sort, sorts, filters, form }) => {
+          const sortItem = sorts[0] || {}
+          // console.log(sortItem)
+          // 默认接收 Promise<{ result: [], page: { total: 100 } }>
+          return loadData({
+            pageNum: page.currentPage,
+            pageSize: page.pageSize,
+            sortField: sortItem.field,
+            sortOrder: sortItem.order
+          })
+        },
+        delete: ({ body, form }) => {
+          // 删除已选
+          const ids = body.removeRecords.map(item => item.id);
+          return configApi.deleteConfig({ ids })
+        }
+      }
+    },
+    // 列字段
+    columns: [
+      { type: 'seq', title: '序号', width: 50 },
+      { field: 'idKey', title: '序列器', width: 300 },
+      { field: 'idValue', title: '序列值', width: 300 },
+      { field: 'seq', title: '序列号' },
+    ],
+    // 工具栏配置
+    toolbarConfig: {
+      // 是否显示个性化列配置
+      custom: true,
+      // 是否允许最大化显示
+      zoom: true,
+      // 刷新按钮配置
+      refresh: true,
+      // 插槽
+      slots: {
+        // 操作栏按钮
+        buttons: "toolbarButtons",
+      },
     },
   })
-  // 表格列配置
-  const columns = ref([
-    // 不需要序号可以删掉
-    {
-      title: '序号',
-      dataIndex: 'index',
-      align: 'center',
-      width: 50,
-    },
-    {
-      title: "序列器",
-      dataIndex: "idKey",
-      align: "center",
-      width: 300,
-    },
-    {
-      title: "序列值",
-      dataIndex: "idValue",
-      align: "center",
-      width: 200,
-    },
-    {
-      title: "序列号",
-      dataIndex: "seq",
-      align: "center",
-    },
-  ])
   /***** 表格相关对象 end *****/
 
   // 加载完毕调用
   onMounted(() => {
-    loadTableData()
   })
 
   // 提交查询
   const querySubmit = () => {
-    // 加载数据
-    loadTableData()
-  }
-
-  // 表格查询
-  const loadTableData = async () => {
-    // 查询参数
-    let param = Object.assign(queryFormData.value)
-    const res = await seqApi.seqList(param)
-    paginationRef.value.total = res.data.total
-    tableData.value = res.data
+    // reload 返回第一页触发ajax.query
+    // query 当前页触发ajax.query
+    gridRef.value?.commitProxy("reload")
   }
   // 重置
   const reset = () => {
-    queryFormData.value = {}
-    loadTableData()
+    queryFormRef.value.resetFields()
+    refresh()
   }
+  // 重置
+  const refresh = () => {
+    // 返回第一页触发ajax.query
+    gridRef.value?.commitProxy("reload")
+  }
+  // 加载数据
+  const loadData = (parameter) => {
+    // 分页参数
+    let param = Object.assign(parameter, queryFormData.value)
+    return seqApi.seqList(param).then((res) => {
+      // res.data 为 list数组
+      return res.data
+    }).catch((err) => {
+      console.error(err)
+    })
+  }
+
 </script>
 
 <style scoped>

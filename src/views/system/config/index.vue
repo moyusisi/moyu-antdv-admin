@@ -4,7 +4,7 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="configName" label="配置项">
+          <a-form-item name="configName" label="配置名称">
             <a-input v-model:value="queryFormData.configName" placeholder="搜索配置项" allowClear />
           </a-form-item>
         </a-col>
@@ -142,7 +142,7 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
-      { field: 'configName', title: '配置项', width: 150 },
+      { field: 'configName', title: '配置名称', width: 150 },
       { field: 'configKey', title: '配置Key', width: 200, slots: { default: 'configKey' } },
       { field: 'configValue', title: '配置Value', width: 200 },
       { field: 'status', title: '使用状态', width: 100, sortable: true, slots: { default: 'status' } },

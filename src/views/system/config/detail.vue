@@ -22,7 +22,7 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="configName" label="配置项" tooltip="" >
+              <a-form-item name="configName" label="配置名称" tooltip="" >
                 <span>{{ formData.configName }}</span>
               </a-form-item>
             </a-col>

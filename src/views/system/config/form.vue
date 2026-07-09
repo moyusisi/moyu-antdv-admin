@@ -22,8 +22,8 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="12">
-              <a-form-item name="configName" label="配置项" tooltip="" required>
-                <a-input v-model:value="formData.configName" placeholder="配置项" allowClear />
+              <a-form-item name="configName" label="配置名称" tooltip="" required>
+                <a-input v-model:value="formData.configName" placeholder="配置名称" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">
