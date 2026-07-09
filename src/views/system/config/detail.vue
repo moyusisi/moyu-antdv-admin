@@ -22,8 +22,8 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="configTitle" label="配置项" tooltip="" >
-                <span>{{ formData.configTitle }}</span>
+              <a-form-item name="configName" label="配置项" tooltip="" >
+                <span>{{ formData.configName }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">

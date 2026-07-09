@@ -4,8 +4,8 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="configTitle" label="配置项">
-            <a-input v-model:value="queryFormData.configTitle" placeholder="搜索配置项" allowClear />
+          <a-form-item name="configName" label="配置项">
+            <a-input v-model:value="queryFormData.configName" placeholder="搜索配置项" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -37,6 +37,7 @@
         <a-space wrap style="margin-bottom: 6px">
           <a-button type="primary" :icon="h(PlusOutlined)" @click="formRef.onOpen()">新增</a-button>
           <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量删除</a-button>
+          <a-button type="primary" :icon="h(CloudOutlined)" @click="refreshCache()">刷新缓存</a-button>
         </a-space>
       </template>
       <!-- 字段插槽 -->
@@ -57,7 +58,7 @@
           </a-tooltip>
           <a-divider type="vertical" />
           <a-tooltip title="删除">
-            <a-popconfirm title="确定要删除吗？" @confirm="deleteSysConfig(row)">
+            <a-popconfirm title="确定要删除吗？" @confirm="deleteConfig(row)">
               <a style="color:#FF4D4F;"><DeleteOutlined/></a>
             </a-popconfirm>
           </a-tooltip>
@@ -74,7 +75,7 @@
 
   import { h, ref } from "vue"
   import { useRoute, useRouter } from "vue-router"
-  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
+  import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, CloudOutlined, DownOutlined, UpOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from "./form.vue"
   import Detail from "./detail.vue"
@@ -141,7 +142,7 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
-      { field: 'configTitle', title: '配置项', width: 150 },
+      { field: 'configName', title: '配置项', width: 150 },
       { field: 'configKey', title: '配置Key', width: 200, slots: { default: 'configKey' } },
       { field: 'configValue', title: '配置Value', width: 200 },
       { field: 'status', title: '使用状态', width: 100, sortable: true, slots: { default: 'status' } },
@@ -200,11 +201,18 @@
   }
 
   // 删除
-  const deleteSysConfig = (record) => {
+  const deleteConfig = (record) => {
     let data = { ids: [record.id] }
     configApi.deleteConfig(data).then((res) => {
       message.success(res.message)
       refresh()
+    })
+  }
+
+  // 刷新配置缓存
+  const refreshCache = () => {
+    configApi.refreshConfig().then((res) => {
+      message.success(res.message)
     })
   }
 

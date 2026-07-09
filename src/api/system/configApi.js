@@ -27,6 +27,10 @@ export default {
   // 删除系统配置，通过ids删除
   deleteConfig(data) {
     return service.postJson('/api/sys/config/delete', data)
+  },
+  // 刷新配置缓存
+  refreshConfig(data) {
+    return service.postJson('/api/sys/config/refresh', data)
   }
 
 }
