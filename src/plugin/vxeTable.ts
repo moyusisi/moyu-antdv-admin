@@ -17,7 +17,10 @@ function configVxe() {
       align: "center",
       // 当内容过长时显示为省略号
       showOverflow: "tooltip",
-      minHeight: 200,
+      // 全局最小高度，单位 px（直接写数字即可）
+      minHeight: 500,
+      // 自适应父容器
+      autoResize: true,
       // 行配置信息
       rowConfig: {
         useKey: true,
