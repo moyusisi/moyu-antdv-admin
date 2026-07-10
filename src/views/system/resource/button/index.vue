@@ -119,6 +119,11 @@
     pagerConfig: {
       enabled: true,
     },
+    // 排序配置项
+    sortConfig: {
+      // 服务端排序
+      remote: false,
+    },
     // 数据代理配置
     proxyConfig: {
       // 获取响应的值配置
@@ -144,10 +149,10 @@
     columns: [
       { type: 'checkbox', width: 50 },
       { field: 'name', title: '名称', width: 150 },
-      { field: 'code', title: '唯一编码', width: 150, slots: { default: 'code' } },
-      { field: 'path', title: '接口地址', width: 150, slots: { default: 'path' } },
+      { field: 'code', title: '唯一编码', width: 150, sortable: true, slots: { default: 'code' } },
+      { field: 'path', title: '接口地址', width: 150, sortable: true, slots: { default: 'path' } },
       { field: 'permission', title: '权限标识', width: 150, slots: { default: 'permission' } },
-      { field: 'visible', title: '数据范围', width: 80, slots: { default: 'visible' } },
+      { field: 'visible', title: '数据范围', width: 100, sortable: true, slots: { default: 'visible' } },
       { field: 'sortNum', title: '排序顺序', width: 80 },
       { field: 'remark', title: '备注' },
       { field: 'updateTime', title: '变更时间', width: 170 },
