@@ -153,7 +153,6 @@
       { field: 'path', title: '接口地址', width: 150, sortable: true, slots: { default: 'path' } },
       { field: 'permission', title: '权限标识', width: 150, slots: { default: 'permission' } },
       { field: 'visible', title: '数据范围', width: 100, sortable: true, slots: { default: 'visible' } },
-      { field: 'sortNum', title: '排序顺序', width: 80 },
       { field: 'remark', title: '备注' },
       { field: 'updateTime', title: '变更时间', width: 170 },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
