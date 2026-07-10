@@ -68,7 +68,7 @@
                   <a-tag v-else>隐藏</a-tag>
                 </span>
               </a-form-item>
-              <a-form-item  v-if="formData.resourceType === 6" name="visible" label="数据权限" tooltip="是否有数据权限" >
+              <a-form-item  v-if="formData.resourceType === 6" name="visible" label="数据范围" tooltip="是否有数据范围" >
                 <span>
                   <a-tag v-if="formData.visible === 1" color="green">有</a-tag>
                   <a-tag v-else>无</a-tag>

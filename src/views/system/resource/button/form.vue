@@ -58,10 +58,10 @@
               <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
             </a-form-item>
           </a-col>
-          <!-- 按钮:数据权限 -->
+          <!-- 按钮:数据范围 -->
           <a-col :span="12">
             <!-- 按钮:有无数据范围 -->
-            <a-form-item name="visible" label="数据权限" tooltip="是否有数据权限，通常列表查询才有数据权限" required>
+            <a-form-item name="visible" label="数据范围" tooltip="是否有数据范围控制" required>
               <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
             </a-form-item>
           </a-col>

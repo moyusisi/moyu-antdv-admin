@@ -12,7 +12,7 @@
     <template #extra>
       <a-button type="primary" size="small" @click="onClose"><CloseOutlined /></a-button>
     </template>
-    <a-alert message="已授权且有数据权限的接口才可设置数据范围。" type="error" />
+    <a-alert message="已授权且有数据范围的接口才可设置数据范围。" type="error" />
     <!-- 上方模块选择 -->
     <a-card size="small">
       <a-form ref="queryFormRef" :model="queryFormData">

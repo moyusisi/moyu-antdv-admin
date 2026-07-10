@@ -150,7 +150,7 @@
   const submitLoading = ref(false)
   const treeData = ref([])
   const iconSelector = ref()
-  // 是否有数据权限
+  // 是否有数据范围
   const scopeOptions = [
     { label: "有", value: 1 },
     { label: "无", value: 0 }
