@@ -89,20 +89,6 @@
       { field: 'idValue', title: '序列值', width: 300 },
       { field: 'seq', title: '序列号' },
     ],
-    // 工具栏配置
-    toolbarConfig: {
-      // 是否显示个性化列配置
-      custom: true,
-      // 是否允许最大化显示
-      zoom: true,
-      // 刷新按钮配置
-      refresh: true,
-      // 插槽
-      slots: {
-        // 操作栏按钮
-        buttons: "toolbarButtons",
-      },
-    },
   })
   /***** 表格相关对象 end *****/
 
