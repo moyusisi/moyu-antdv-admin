@@ -138,7 +138,7 @@
       { field: 'name', title: '姓名', width: 150 },
       { field: 'sessionCreateTime', title: '会话创建时间', width: 170 },
       { field: 'lastLoginTime', title: '上次登录时间', width: 170 },
-      { field: 'sessionTimeout', title: '有效期', slots: { default: 'sessionTimeout' } },
+      { field: 'sessionTimeout', title: '清理期限', slots: { default: 'sessionTimeout' } },
       { field: 'tokenCount', title: '令牌数', width: 100 },
       { field: 'action', title: '操作', width: 160, slots: { default: 'action' } },
     ],
