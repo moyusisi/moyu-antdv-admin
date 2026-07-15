@@ -57,6 +57,16 @@
           <a-tag v-if="row.status === 0" color="green">正常</a-tag>
           <a-tag v-else>已停用</a-tag>
         </template>
+        <template #action="{row:record, rowIndex, column, columnIndex}">
+          <a-space>
+            <template #split>
+              <a-divider type="vertical" />
+            </template>
+            <a-tooltip title="更新令牌有效期">
+              <a style="color:#1980FF;" @click="renewActiveToken(record)">续签</a>
+            </a-tooltip>
+          </a-space>
+        </template>
       </vxe-grid>
     </a-card>
   </a-drawer>
@@ -64,13 +74,10 @@
 
 <script setup>
   import monitorApi from "@/api/auth/monitorApi.js";
-
-  import { message } from "ant-design-vue";
   import { h, ref } from "vue";
-  import { CloudOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons-vue";
+  import { DeleteOutlined } from "@ant-design/icons-vue";
   import { useSettingsStore } from "@/store";
-  import configApi from "@/api/system/configApi.js";
-  import seqApi from "@/api/dev/seqApi.js";
+  import { message } from "ant-design-vue";
 
   const settingsStore = useSettingsStore()
 
@@ -107,12 +114,7 @@
           const sortItem = sorts[0] || {}
           // console.log(sortItem)
           // 默认接收 Promise<{ result: [], page: { total: 100 } }>
-          return loadData({
-            pageNum: page.currentPage,
-            pageSize: page.pageSize,
-            sortField: sortItem.field,
-            sortOrder: sortItem.order
-          })
+          return loadData({ sortField: sortItem.field, sortOrder: sortItem.order })
         },
         delete: ({ body, form }) => {
           // 删除已选
@@ -131,6 +133,7 @@
       { field: 'lastActiveTime', title: '最后活跃时间', width: 170, sortable: true },
       { field: 'createTime', title: '令牌签发时间', width: 170, sortable: true },
       { field: 'tokenTimeout', title: '清理期限', width: 150, slots: { default: 'tokenTimeout' } },
+      { field: 'action', title: '操作', width: 80, slots: { default: 'action' } },
     ],
     // 工具栏配置
     toolbarConfig: {
@@ -171,8 +174,25 @@
 
   // 加载数据
   const loadData = (parameter) => {
-    // 分页参数
-    return Promise.resolve(tableData.value)
+    let param = Object.assign(parameter, { loginId: record.value.loginId })
+    return monitorApi.tokenList(param).then((res) => {
+      return res.data
+    })
+  }
+
+  // 刷新
+  const refresh = () => {
+    // 返回第一页触发ajax.query
+    gridRef.value?.commitProxy("reload")
+  }
+
+  // 续签token[更新最后操作时间]
+  const renewActiveToken = (record) => {
+    let data = { tokenValue: record.tokenValue }
+    monitorApi.renewActive(data).then((res) => {
+      message.success(res.message)
+      refresh()
+    })
   }
 
   // 获取Drawer渲染到的dom容器。 默认body,当有vxe-grid时使用表格dom

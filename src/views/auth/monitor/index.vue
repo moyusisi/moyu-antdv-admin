@@ -134,10 +134,10 @@
     // 列字段
     columns: [
       { type: 'seq', width: 50 },
-      { field: 'account', title: '账号', width: 200 },
+      { field: 'loginId', title: '账号', width: 200 },
       { field: 'name', title: '姓名', width: 150 },
       { field: 'sessionCreateTime', title: '会话创建时间', width: 170 },
-      { field: 'latestLoginTime', title: '最新登录时间', width: 170 },
+      { field: 'lastLoginTime', title: '上次登录时间', width: 170 },
       { field: 'sessionTimeout', title: '有效期', slots: { default: 'sessionTimeout' } },
       { field: 'tokenCount', title: '令牌数', width: 100 },
       { field: 'action', title: '操作', width: 160, slots: { default: 'action' } },
@@ -192,14 +192,14 @@
     queryFormRef.value.resetFields()
     refresh()
   }
-  // 重置
+  // 刷新
   const refresh = () => {
     // 返回第一页触发ajax.query
     gridRef.value?.commitProxy("reload")
   }
   // 删除
   const deleteSession = (record) => {
-    let data = { codes: [record.account] }
+    let data = { codes: [record.loginId] }
     monitorApi.deleteSession(data).then((res) => {
       message.success(res.message)
       refresh()
