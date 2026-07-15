@@ -19,7 +19,7 @@
         <!-- 左侧操作栏 -->
         <template #toolbarButtons>
           <a-space wrap style="margin-bottom: 6px">
-            <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量强退</a-button>
+            <a-button danger :icon="h(DeleteOutlined)" @click="gridRef?.commitProxy('delete')">批量删除</a-button>
           </a-space>
         </template>
         <template #configKey="{row, rowIndex, column, columnIndex}">
