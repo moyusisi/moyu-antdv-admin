@@ -186,6 +186,13 @@
       width: 150
     },
     {
+      title: '权限标识',
+      dataIndex: 'permission',
+      resizable: true,
+      ellipsis: true,
+      width: 150
+    },
+    {
       title: '是否可见',
       dataIndex: 'visible',
       align: 'center',
