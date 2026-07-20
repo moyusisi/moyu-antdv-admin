@@ -27,7 +27,7 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="code" label="权限标识" tooltip="接口唯一标识">
+              <a-form-item name="code" label="权限标识" tooltip="权限标识/唯一标识">
                 <span>{{ formData.code }}</span>
               </a-form-item>
             </a-col>
@@ -36,7 +36,7 @@
                 <span>{{ formData.path }}</span>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="8" v-if="formData.apiType === 1">
               <a-form-item name="hasScope" label="数据范围" tooltip="是否控制数据范围" >
                 <a-tag v-if="formData.hasScope === 1" color="green">有</a-tag>
                 <a-tag v-else>无</a-tag>

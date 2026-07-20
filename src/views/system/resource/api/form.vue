@@ -27,8 +27,8 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="code" label="权限标识" tooltip="唯一标识" required>
-                <a-input v-model:value="formData.code" placeholder="接口唯一标识" allowClear />
+              <a-form-item name="code" label="权限标识" tooltip="权限标识/唯一标识" required>
+                <a-input v-model:value="formData.code" placeholder="权限标识/唯一标识" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">

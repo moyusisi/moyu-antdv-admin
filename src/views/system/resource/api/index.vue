@@ -9,8 +9,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="code" label="接口(权限)">
-            <a-input v-model:value="queryFormData.code" placeholder="搜索接口(权限)标识" allowClear />
+          <a-form-item name="code" label="唯一标识">
+            <a-input v-model:value="queryFormData.code" placeholder="搜索权限标识/唯一标识" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
