@@ -169,6 +169,21 @@
       width: 50,
     },
     {
+      title: "按钮名称",
+      dataIndex: "btnName",
+      align: "center",
+      resizable: true,
+      ellipsis: true,
+      width: 120,
+    },
+    {
+      title: "权限标识",
+      dataIndex: "permission",
+      resizable: true,
+      ellipsis: true,
+      width: 150,
+    },
+    {
       title: "接口名称",
       dataIndex: "name",
       align: "center",
@@ -177,23 +192,8 @@
       width: 120,
     },
     {
-      title: '唯一编码',
-      dataIndex: 'code',
-      align: "center",
-      resizable: true,
-      ellipsis: true,
-      width: 150
-    },
-    {
       title: "接口地址",
       dataIndex: "path",
-      resizable: true,
-      ellipsis: true,
-      width: 150,
-    },
-    {
-      title: "权限标识",
-      dataIndex: "permission",
       resizable: true,
       ellipsis: true,
       width: 150,
