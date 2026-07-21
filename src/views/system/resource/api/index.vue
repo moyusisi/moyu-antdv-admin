@@ -9,13 +9,13 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="code" label="唯一标识">
-            <a-input v-model:value="queryFormData.code" placeholder="搜索权限标识/唯一标识" allowClear />
+          <a-form-item name="path" label="接口地址">
+            <a-input v-model:value="queryFormData.path" placeholder="搜索接口地址" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="path" label="接口地址">
-            <a-input v-model:value="queryFormData.path" placeholder="搜索接口地址" allowClear />
+          <a-form-item name="code" label="接口标识">
+            <a-input v-model:value="queryFormData.code" placeholder="搜索接口标识" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -23,7 +23,14 @@
             <a-flex gap="small">
               <a-button type="primary" :icon="h(SearchOutlined)" @click="querySubmit">查询</a-button>
               <a-button :icon="h(RedoOutlined)" @click="reset">重置</a-button>
+              <a-button v-if="!showMore" type="link" @click="showMore = !showMore">更多条件<DownOutlined /></a-button>
+              <a-button v-else type="link"  @click="showMore = !showMore">收起<UpOutlined /></a-button>
             </a-flex>
+          </a-form-item>
+        </a-col>
+        <a-col :span="6" v-if="showMore">
+          <a-form-item name="apiType" label="接口类型">
+            <a-select v-model:value="queryFormData.apiType" placeholder="请选择接口类型" :options="apiTypeOptions" allowClear />
           </a-form-item>
         </a-col>
       </a-row>
@@ -89,6 +96,13 @@ const router = useRouter();
 // 查询表单相关对象
 const queryFormRef = ref()
 const queryFormData = ref({})
+// 是否展示更多搜索条件
+const showMore = ref(false)
+// 接口类型(字典 1后端接口 2三方接口)
+const apiTypeOptions = [
+  { label: "后端接口", value: 1 },
+  { label: "三方接口", value: 2 }
+]
 // 其他页面操作
 const formRef = ref()
 const detailRef = ref()
@@ -142,7 +156,7 @@ const gridOptions = ref({
     { type: 'seq', width: 50 },
     { field: 'name', title: '接口名称', width: 150, slots: { default: 'name' } },
     { field: 'path', title: '接口地址', width: 200, sortable: true, slots: { default: 'path' } },
-    { field: 'code', title: '权限标识', width: 200, slots: { default: 'code' } },
+    { field: 'code', title: '接口标识', width: 200, sortable: true, slots: { default: 'code' } },
     { field: 'hasScope', title: '数据范围', width: 100, sortable: true, slots: { default: 'hasScope' } },
     { field: 'remark', title: '备注' },
     { field: 'updateTime', title: '修改时间', width: 170 },
