@@ -22,13 +22,19 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
+              <a-form-item name="apiType" label="接口类型" tooltip="" >
+                <a-tag v-if="formData.apiType === 1" color="blue">后端接口</a-tag>
+                <a-tag v-if="formData.apiType === 2" color="cyan">三方接口</a-tag>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
               <a-form-item name="name" label="接口名称" tooltip="">
                 <span>{{ formData.name }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
               <a-form-item name="code" label="权限标识" tooltip="权限标识/唯一标识">
-                <span>{{ formData.code }}</span>
+                <span><a-tag>{{ formData.code }}</a-tag></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
@@ -43,12 +49,6 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="apiType" label="接口类型" tooltip="" >
-                <a-tag v-if="formData.apiType === 1">后端接口</a-tag>
-                <a-tag v-else-if="formData.apiType === 2">后端接口</a-tag>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
               <a-form-item name="extJson" label="扩展信息" tooltip="" >
                 <span>{{ formData.extJson }}</span>
               </a-form-item>
@@ -56,6 +56,33 @@
             <a-col :span="8">
               <a-form-item name="remark" label="备注" tooltip="" >
                 <span>{{ formData.remark }}</span>
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-card>
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/> 其他信息</span>
+          </template>
+          <a-row :gutter="24">
+            <a-col :span="8">
+              <a-form-item name="createTime" label="创建时间" tooltip="" >
+                <span>{{ formData.createTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="createBy" label="创建人" tooltip="" >
+                <span>{{ formData.createBy }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateTime" label="更新时间" tooltip="" >
+                <span>{{ formData.updateTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateBy" label="更新人" tooltip="" >
+                <span>{{ formData.updateBy }}</span>
               </a-form-item>
             </a-col>
           </a-row>
