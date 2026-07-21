@@ -75,10 +75,8 @@
           </template>
           <template v-if="column.dataIndex === 'buttonList'">
             <a-space v-if="record.allButtonList">
-              <a-checkbox-group v-model:value="record.grantButtonList"
-                        @change="(evt) => onButtonChange(evt, record)">
-                <a-checkbox v-for="item in record.allButtonList" :checked="item.checked"
-                      :key="item.code" :value="item.code">
+              <a-checkbox-group v-model:value="record.grantButtonList" @change="(evt) => onButtonChange(evt, record)">
+                <a-checkbox v-for="item in record.allButtonList" :checked="item.checked" :key="item.code" :value="item.code">
                   {{ item.name }}
                 </a-checkbox>
               </a-checkbox-group>
