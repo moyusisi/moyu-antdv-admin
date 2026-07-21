@@ -37,18 +37,18 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
-              <a-form-item name="hasScope" label="数据范围" tooltip="是否控制数据范围" >
-                <a-radio-group v-model:value="formData.hasScope" option-type="button" button-style="solid">
-                  <a-radio :value="0">无</a-radio>
-                  <a-radio :value="1">有</a-radio>
-                </a-radio-group>
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
               <a-form-item name="apiType" label="接口类型" tooltip="" >
                 <a-radio-group v-model:value="formData.apiType" option-type="button" button-style="solid">
                   <a-radio :value="1">后端接口</a-radio>
                   <a-radio :value="2">三方接口</a-radio>
+                </a-radio-group>
+              </a-form-item>
+            </a-col>
+            <a-col :span="12" v-if="formData.apiType === 1">
+              <a-form-item name="hasScope" label="数据范围" tooltip="是否控制数据范围" >
+                <a-radio-group v-model:value="formData.hasScope" option-type="button" button-style="solid">
+                  <a-radio :value="0">无</a-radio>
+                  <a-radio :value="1">有</a-radio>
                 </a-radio-group>
               </a-form-item>
             </a-col>
