@@ -18,16 +18,13 @@
         <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear/>
       </a-form-item>
       <a-form-item name="code" label="唯一编码" tooltip="创建后不可更改" required>
-        <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
+        <a-input v-model:value="formData.code" placeholder="唯一编码，创建后不可更改" :disabled="edit" allowClear/>
       </a-form-item>
-      <a-form-item name="path" label="路径地址" tooltip="以反斜杠'/'开头">
+      <a-form-item name="path" label="模块主页" tooltip="以反斜杠'/'开头">
         <a-input v-model:value="formData.path" placeholder="请输入模块路径地址" allow-clear />
       </a-form-item>
-      <a-form-item name="component" label="组件地址" tooltip="">
+      <a-form-item name="component" label="布局组件" tooltip="本模块所有页面的布局，请填写'Layout'">
         <a-input v-model:value="formData.component" placeholder="请输入组件:Layout" allow-clear/>
-      </a-form-item>
-      <a-form-item name="link" label="模块主页" tooltip="内部链接以反斜杠'/'开头，外部链接以反斜杠'http(s)'开头">
-        <a-input v-model:value="formData.link" placeholder="请输入模块主页地址" allow-clear />
       </a-form-item>
       <a-form-item name="icon" label="图标">
         <a-input v-model:value="formData.icon" placeholder="请选择图标" style="width: calc(100% - 70px)" allow-clear disabled />
@@ -80,6 +77,7 @@
     resourceType: 1,
     visible: 1,
     sortNum: 99,
+    component: 'Layout'
   })
   const dataLoading = ref(false)
   const submitLoading = ref(false)

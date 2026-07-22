@@ -197,12 +197,12 @@
       align: 'center',
       width: 80
     },
-    // {
-    //   title: '排序',
-    //   dataIndex: 'sortNum',
-    //   align: 'center',
-    //   width: 80
-    // },
+    {
+      title: '排序',
+      dataIndex: 'sortNum',
+      align: 'center',
+      width: 80
+    },
     {
       title: '操作',
       dataIndex: 'action',

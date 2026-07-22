@@ -45,8 +45,8 @@
       <template #path="{row, rowIndex, column, columnIndex}">
         <a-tag v-if="row.path" :bordered="false">{{ row.path }}</a-tag>
       </template>
-      <template #link="{row, rowIndex, column, columnIndex}">
-        <a-tag v-if="row.link" :bordered="false">{{ row.link }}</a-tag>
+      <template #component="{row, rowIndex, column, columnIndex}">
+        <a-tag v-if="row.component" :bordered="false">{{ row.component }}</a-tag>
       </template>
       <template #action="{row:record, rowIndex, column, columnIndex}">
         <a-space>
@@ -124,9 +124,8 @@
       { field: 'icon', title: '图标', width: 50, slots: { default: 'icon' } },
       { field: 'name', title: '模块名称', width: 150 },
       { field: 'code', title: '唯一编码', width: 150, slots: { default: 'code' } },
-      { field: 'path', title: '路径地址', width: 150, slots: { default: 'path' } },
-      { field: 'component', title: '组件', width: 150 },
-      { field: 'link', title: '模块主页', width: 150, slots: { default: 'link' } },
+      { field: 'component', title: '布局组件', width: 150, slots: { default: 'component' } },
+      { field: 'path', title: '模块主页', width: 150, slots: { default: 'path' } },
       { field: 'remark', title: '备注' },
       { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
