@@ -2,7 +2,7 @@
   <template v-if="!isHidden(item)">
     <a-menu-item v-if="showMenuItem(item)" :key="menuItemRoute.path">
       <!-- 显示具有单个子路由的菜单项或没有子路由的父路由 -->
-      <template v-if="menuItemRoute.meta?.icon" #icon>
+      <template #icon v-if="menuItemRoute.meta?.icon">
         <component :is="menuItemRoute.meta.icon"/>
       </template>
       <!--  如果是超链接 新窗口打开  -->
