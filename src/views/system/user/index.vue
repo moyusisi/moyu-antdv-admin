@@ -67,20 +67,20 @@
           </template>
           <template #action="{row:record, rowIndex, column, columnIndex}">
             <a-space>
+              <template #split>
+                <a-divider type="vertical" />
+              </template>
               <a-tooltip title="编辑">
                 <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
               </a-tooltip>
-              <a-divider type="vertical" />
               <a-tooltip title="删除">
                 <a-popconfirm title="确定要删除吗？" @confirm="deleteUser(record)">
                   <a style="color:#FF4D4F;"><DeleteOutlined/></a>
                 </a-popconfirm>
               </a-tooltip>
-              <a-divider type="vertical" />
               <a-tooltip title="用户岗位">
                 <a style="color:#1980FF;" @click="userGroupRef.onOpen(record)"><TeamOutlined /></a>
               </a-tooltip>
-              <a-divider type="vertical" />
               <a-tooltip title="重置密码">
                 <a-popconfirm title="确定要重置吗？" @confirm="resetPassword(record)">
                   <a style="color:darkorange;"><KeyOutlined/></a>

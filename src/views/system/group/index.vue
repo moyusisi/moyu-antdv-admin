@@ -52,22 +52,21 @@
       </template>
       <template #action="{row, rowIndex, column, columnIndex}">
         <a-space>
+          <template #split>
+            <a-divider type="vertical" />
+          </template>
           <a-tooltip title="菜单透视">
             <a @click="showMenuTree(row)"><EyeOutlined /></a>
           </a-tooltip>
-          <a-divider type="vertical" />
           <a-tooltip title="岗位角色">
             <a style="color:#1980FF;" @click="groupRoleRef.onOpen(row)"><DeploymentUnitOutlined /></a>
           </a-tooltip>
-          <a-divider type="vertical" />
           <a-tooltip title="用户列表">
             <a style="color:#53C61D;" @click="groupUserRef.onOpen(row, treeRef.treeData)"><UsergroupAddOutlined /></a>
           </a-tooltip>
-          <a-divider type="vertical" />
           <a-tooltip title="编辑">
             <a @click="formRef.onOpen(row, treeRef.treeData)"><FormOutlined /></a>
           </a-tooltip>
-          <a-divider type="vertical" />
           <a-tooltip title="删除">
             <a-popconfirm title="确定要删除吗？" @confirm="deleteGroup(row)">
               <a style="color:#FF4D4F;"><DeleteOutlined/></a>

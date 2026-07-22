@@ -67,10 +67,12 @@
           </template>
           <template #action="{row:record, rowIndex, column, columnIndex}">
             <a-space>
+              <template #split>
+                <a-divider type="vertical" />
+              </template>
               <a-tooltip title="编辑">
                 <a @click="formRef.onOpen(record, treeRef.treeData)"><FormOutlined /></a>
               </a-tooltip>
-              <a-divider type="vertical" />
               <a-tooltip title="删除">
                 <a-popconfirm title="确定要删除吗？" @confirm="deleteOrg(record)">
                   <a style="color:#FF4D4F;"><DeleteOutlined/></a>
