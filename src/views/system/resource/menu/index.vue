@@ -120,7 +120,7 @@
   import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from './form.vue'
-  import ButtonForm from '../button/form.vue'
+  import ButtonForm from './btnForm.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import MTable from "@/components/MTable/index.vue"
   import Detail from "@/views/system/resource/detail.vue"
