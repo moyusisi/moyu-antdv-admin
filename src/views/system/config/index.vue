@@ -89,11 +89,6 @@
   // 查询表单相关对象
   const queryFormRef = ref()
   const queryFormData = ref({})
-  // 下拉框选项
-  const exampleOptions = [
-    { label: "选项一", value: 1 },
-    { label: "选项二", value: 2 }
-  ]
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()
@@ -144,6 +139,7 @@
     // 列字段
     columns: [
       { type: 'checkbox', width: 50 },
+      { type: 'seq', width: 50 },
       { field: 'configName', title: '配置名称', width: 150 },
       { field: 'configKey', title: '配置Key', width: 200, slots: { default: 'configKey' } },
       { field: 'configValue', title: '配置Value', width: 200 },

@@ -46,7 +46,7 @@
                 <MenuTreeSelect :moduleCode="formData.module" :defaultValue="formData.parentCode" disabled/>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
+            <a-col :span="8" v-if="formData.resourceType !== 6">
               <a-form-item name="path" label="路由地址" tooltip="" >
                 <span>{{ formData.path }}</span>
               </a-form-item>
@@ -61,17 +61,11 @@
                 <span><a-tag>{{ formData.permission }}</a-tag></span>
               </a-form-item>
             </a-col>
-            <a-col :span="8">
-              <a-form-item v-if="formData.resourceType !== 6" name="visible" label="是否可见" tooltip="隐藏时不会出现在菜单中" >
+            <a-col :span="8" v-if="formData.resourceType !== 6">
+              <a-form-item name="visible" label="是否可见" tooltip="隐藏时不会出现在菜单中" >
                 <span>
                   <a-tag v-if="formData.visible === 1" color="green">显示</a-tag>
                   <a-tag v-else>隐藏</a-tag>
-                </span>
-              </a-form-item>
-              <a-form-item  v-if="formData.resourceType === 6" name="visible" label="数据范围" tooltip="是否有数据范围" >
-                <span>
-                  <a-tag v-if="formData.visible === 1" color="green">有</a-tag>
-                  <a-tag v-else>无</a-tag>
                 </span>
               </a-form-item>
             </a-col>
