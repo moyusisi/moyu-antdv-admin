@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   // 每行最多字符数量，超出换行(默认80)
   printWidth: 120,
   // 缩进空格数，默认2个空格
