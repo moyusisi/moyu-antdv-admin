@@ -17,7 +17,7 @@
       <a-form-item name="name" label="模块名称" tooltip="模块或应用名称" required>
         <a-input v-model:value="formData.name" placeholder="请输入显示名称" allow-clear/>
       </a-form-item>
-      <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
+      <a-form-item name="code" label="唯一编码" tooltip="创建后不可更改" required>
         <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
       </a-form-item>
       <a-form-item name="path" label="路径地址" tooltip="以反斜杠'/'开头">
