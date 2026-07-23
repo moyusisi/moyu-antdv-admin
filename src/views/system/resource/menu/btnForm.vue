@@ -25,7 +25,7 @@
           </a-col>
           <a-col :span="12">
             <a-form-item name="code" label="唯一编码" tooltip="不填将自动生成，创建后不可更改">
-              <a-input v-model:value="formData.code" placeholder="唯一编码，不填将自动生成，创建后不可更改" :disabled="edit" allowClear/>
+              <a-input v-model:value="formData.code" placeholder="如:btn_sys_user_edit" :disabled="edit" allowClear/>
             </a-form-item>
           </a-col>
           <a-col :span="12">
@@ -100,12 +100,6 @@
   const dataLoading = ref(false)
   const submitLoading = ref(false)
   const treeData = ref([])
-
-  // 有无数据范围options
-  const visibleOptions = [
-    { label: "有", value: 1 },
-    { label: "无", value: 0 }
-  ]
 
   // 打开抽屉
   const onOpen = (row, module, parentCode) => {
