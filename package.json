@@ -18,7 +18,7 @@
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
     "@highlightjs/vue-plugin": "^2.1.0",
-    "@vxe-ui/plugin-export-xlsx": "^4.5.3",
+    "@vxe-ui/plugin-export-xlsx": "^4.5.4",
     "@vxe-ui/plugin-render-antd": "^4.4.0",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.18.1",
@@ -46,7 +46,7 @@
     "@typescript-eslint/parser": "^8.65.0",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
-    "@vue/tsconfig": "^0.9.0",
+    "@vue/tsconfig": "^0.9.1",
     "@vueuse/core": "^14.3.0",
     "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
