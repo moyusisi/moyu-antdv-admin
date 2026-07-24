@@ -2,8 +2,12 @@ import Layout from '@/layout/index.vue'
 
 /**
  * 静态路由
- * * path 以"/"开头的绝对路径,children中的path也要写绝对路径
- * * name 唯一标识，必填
+ * * name            路由唯一标识，必填
+ * * path            路由地址，必填，以"/"开头的绝对路径,children中的path也要写绝对路径
+ * * component       路由的页面组件
+ * * redirect        重定向地址，非必填
+ * * children        子路由
+ *
  * * meta.title      标题名称
  * * meta.icon       图标
  * * meta.type       菜单类型 dir|menu|iframe|link 等
