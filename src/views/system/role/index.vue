@@ -3,7 +3,7 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="code" label="唯一编码">
+          <a-form-item name="code" label="角色编码">
             <a-input v-model:value="queryFormData.code" placeholder="请输入编码" allowClear />
           </a-form-item>
         </a-col>
@@ -130,7 +130,7 @@
       { type: 'checkbox', width: 50 },
       { type: 'seq', width: 50 },
       { field: 'name', title: '角色名称', width: 200 },
-      { field: 'code', title: '唯一编码', width: 200, slots: { default: 'code' } },
+      { field: 'code', title: '角色编码', width: 200, slots: { default: 'code' } },
       { field: 'status', title: '状态', width: 100, slots: { default: 'status' } },
       { field: 'sortNum', title: '排序顺序', width: 100 },
       { field: 'remark', title: '备注' },

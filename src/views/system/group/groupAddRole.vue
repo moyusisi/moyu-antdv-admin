@@ -96,7 +96,7 @@
       width: 100
     },
     {
-      title: '唯一编码',
+      title: '角色编码',
       dataIndex: 'code',
       resizable: true,
       width: 200
