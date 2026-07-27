@@ -176,11 +176,6 @@ export const useMenuStore = defineStore('menuStore', () => {
     // 遍历所有菜单
     menus.forEach((menu) => {
       menu.meta = menu.meta ? menu.meta : {}
-      // 处理外部链接特殊路由
-      if (menu.meta.type === 'iframe') {
-        menu.meta.url = menu.path
-        menu.path = `/${menu.code}`
-      }
       // menu转路由对象
       const route: RouteRecordRaw = {
         name: menu.code,
