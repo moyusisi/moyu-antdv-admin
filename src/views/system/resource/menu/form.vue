@@ -37,11 +37,12 @@
                 <a-radio-button :value="3">菜单</a-radio-button>
                 <a-radio-button :value="4">内链</a-radio-button>
                 <a-radio-button :value="5">外链</a-radio-button>
+                <a-radio-button :value="6">按钮</a-radio-button>
               </a-radio-group>
             </a-form-item>
           </a-col>
           <!-- 目录、菜单、内链、外链:是否可见 -->
-          <a-col :span="12">
+          <a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 4 || formData.resourceType === 5">
             <a-form-item name="visible" label="是否可见" tooltip="仅目录菜单生效" required>
               <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
             </a-form-item>
@@ -60,19 +61,18 @@
               <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
             </a-form-item>
           </a-col>
+          <a-col :span="12" v-if="formData.resourceType === 6">
+            <a-form-item name="remark" label="备注" tooltip="" >
+              <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
+            </a-form-item>
+          </a-col>
         </a-row>
       </a-card>
       <a-card title="菜单信息">
         <!-- 路由、组件、权限、图标、可见、排序 -->
         <a-row :gutter="24">
-          <!-- 目录:路由地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 2">
-            <a-form-item name="path" label="路由地址" tooltip="菜单路由必须以反斜杠'/'开头">
-              <a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
-            </a-form-item>
-          </a-col>
           <!-- 菜单:路由地址 -->
-          <a-col :span="12" v-else-if="formData.resourceType === 3">
+          <a-col :span="12" v-if="formData.resourceType === 3">
             <a-form-item name="path" label="路由地址" tooltip="菜单路由必须以反斜杠'/'开头" required>
               <a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
             </a-form-item>
@@ -102,6 +102,12 @@
           <a-col :span="12" v-if="formData.resourceType === 3">
             <a-form-item name="keepAlive" label="是否缓存" tooltip="" >
               <a-radio-group v-model:value="formData.keepAlive" option-type="button" button-style="solid" :options="yesOrNoOptions"/>
+            </a-form-item>
+          </a-col>
+          <!-- 按钮:权限标识 -->
+          <a-col :span="12" v-if="formData.resourceType === 6">
+            <a-form-item name="permission" label="权限标识" tooltip="权限标识，如'sys:user:add'" required>
+              <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
             </a-form-item>
           </a-col>
         </a-row>
@@ -150,11 +156,6 @@
   const submitLoading = ref(false)
   const treeData = ref([])
   const iconSelector = ref()
-  // 是否有数据范围
-  const scopeOptions = [
-    { label: "有", value: 1 },
-    { label: "无", value: 0 }
-  ]
   // 是否可见options
   const visibleOptions = [
     { label: "显示", value: 1 },

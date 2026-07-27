@@ -89,10 +89,10 @@
               <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 3, node.code)"><PlusSquareOutlined /></a>
             </a-tooltip>
             <a-tooltip v-else-if="node.resourceType === 3" title="添加按钮">
-              <a style="color:#53C61D;" @click="buttonFormRef.onOpen(null, module, node.code)"><PlusSquareOutlined /></a>
+              <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 6, node.code)"><PlusSquareOutlined /></a>
             </a-tooltip>
             <a-tooltip v-if="node.resourceType === 6" title="编辑">
-              <a @click="buttonFormRef.onOpen(node, module)"><FormOutlined /></a>
+              <a @click="formRef.onOpen(node, module)"><FormOutlined /></a>
             </a-tooltip>
             <a-tooltip v-else title="编辑">
               <a @click="formRef.onOpen(node, module)"><FormOutlined /></a>
@@ -108,7 +108,6 @@
     </MTable>
   </a-card>
   <Form ref="formRef" @successful="handleSuccess" />
-  <ButtonForm ref="buttonFormRef" @successful="handleSuccess" />
   <Detail ref="detailRef"/>
 </template>
 
@@ -120,7 +119,6 @@
   import { PlusOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import Form from './form.vue'
-  import ButtonForm from './btnForm.vue'
   import BatchDeleteButton from '@/components/BatchDeleteButton/index.vue'
   import MTable from "@/components/MTable/index.vue"
   import Detail from "@/views/system/resource/detail.vue"
@@ -135,7 +133,6 @@
   const moduleId = ref()
   // 其他页面操作
   const formRef = ref()
-  const buttonFormRef = ref()
   const detailRef = ref()
 
   /***** 表格相关对象 start *****/
