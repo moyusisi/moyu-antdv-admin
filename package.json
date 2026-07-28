@@ -37,7 +37,7 @@
     "vuedraggable-es": "4.1.1",
     "vxe-pc-ui": "~4.16.22",
     "vxe-table": "~4.20.8",
-    "wujie-vue3": "^1.0.29",
+    "wujie-vue3": "^2.1.0",
     "xe-utils": "^4.0.11"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "prettier": "^3.9.6",
     "typescript": "~5.9.3",
     "unplugin-auto-import": "^21.0.0",
-    "unplugin-vue-components": "^31.0.0",
+    "unplugin-vue-components": "^32.1.0",
     "vite": "^7.3.1",
     "vite-plugin-compression": "0.5.1",
     "vite-plugin-mock": "^3.0.2",
