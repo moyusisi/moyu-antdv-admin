@@ -71,6 +71,12 @@
       <a-card title="菜单信息">
         <!-- 路由、组件、权限、图标、可见、排序 -->
         <a-row :gutter="24">
+          <!-- 目录:路由地址 -->
+          <a-col :span="12" v-if="formData.resourceType === 2">
+            <a-form-item name="path" label="路由地址" tooltip="可以为空或以反斜杠'/'开头">
+              <a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
+            </a-form-item>
+          </a-col>
           <!-- 菜单:路由地址 -->
           <a-col :span="12" v-if="formData.resourceType === 3">
             <a-form-item name="path" label="路由地址" tooltip="菜单路由必须以反斜杠'/'开头" required>
