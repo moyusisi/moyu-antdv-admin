@@ -4,7 +4,6 @@ import VueJSX from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import viteCompression from 'vite-plugin-compression'
 import { viteMockServe } from "vite-plugin-mock"
 import { resolve } from 'path'
 
@@ -44,26 +43,60 @@ export default defineConfig(({ mode }): UserConfig => {
     },
     // 构建配置选项
     build: {
+      // 指定输出路径（相对于根目录),默认:dist。
+      outDir: 'dist',
       // 指定生成静态资源的存放路径,默认:assets。库模式下不能使用
       assetsDir: 'assets',
-      // 调整 chunk 体积警告阈值，默认:500 单位KB
+      // 规定触发警告的 chunk 大小，单位KB。默认:500
       chunkSizeWarningLimit: 1500,
-      rollupOptions: {
+      // 启用/禁用 gzip 压缩大小报告。默认:true
+      reportCompressedSize: true,
+      // 压缩器,控制生产构建是否压缩JS、CSS代码，类型: boolean | 'oxc' | 'terser' | 'esbuild'.默认'oxc',比 terser 快 30~90 倍
+      minify: 'oxc',
+      // 单独配置CSS的压缩方式，取值:boolean | 'lightningcss' | 'esbuild'。默认:'lightningcss'
+      cssMinify: 'lightningcss',
+      rolldownOptions: {
         output: {
           // 入口文件，默认 [name].js
           entryFileNames: '[name].js',
           // 静态资源名，默认 assets/[name]-[hash][extname]
           assetFileNames: 'assets/static/[name]-[hash].[ext]',
           // 代码分割chunk包，默认 [name]-[hash].js
-          chunkFileNames: 'assets/js/[name]-[hash].js',
+          chunkFileNames: 'assets/chunks/[name]-[hash].js',
           // 按模块拆分 chunk，减小单个文件体积
-          manualChunks: {
-            'vendor-vue': ['vue', 'vue-router', 'pinia', 'vue-i18n'],
-            'vendor-vxe': ['vxe-pc-ui', 'vxe-table', 'xe-utils'],
-            // 工具类库（axios、lodash、dayjs）单独拆分
-            'vendor-utils': ['axios', 'lodash', 'dayjs', 'nprogress', 'fuse.js', 'js-pinyin', 'highlight.js'],
-            'antd-icons': ['@ant-design/icons-vue'],
-            'antd-vue': ['ant-design-vue'],
+          codeSplitting: {
+            // 模块至少被几个入口chunk同时共享，才抽离公共chunk
+            // minShareCount: 2,
+            // 控制【单个模块】参与分组的最小阈值。可过滤微型工具库
+            // minModuleSize: 10 * 1024, // 10KB
+            // 控制【产物 chunk 文件】的最小体积。避免碎文件
+            minSize: 1000 * 1000, // 1000KB
+            // 控制【产物 chunk 文件】的最大体积。避文件过大
+            maxSize: 2000 * 1000, // 2000KB
+            // 分包规则
+            groups: [
+              {
+                name: 'vendor-vue',
+                test: /^(vue|vue-router|pinia|vue-i18n)$/,
+                priority: 20,
+              },
+              {
+                name: 'vendor-vxe',
+                test: /^(vxe|xe-utils)/,
+                priority: 15,
+              },
+              {
+                name: 'antd-vue',
+                test: /ant-design-vue/,
+                priority: 10,
+              },
+              {
+                name: 'antd-icons',
+                test: /@ant-design[\\/]icons-vue/,
+                priority: 10,
+              },
+
+            ],
           },
         }
       },
@@ -78,13 +111,6 @@ export default defineConfig(({ mode }): UserConfig => {
         enable: mode === 'dev',
         // 是否在控制台打印 mock 接口请求日志
         logger: true,
-      }),
-      viteCompression({
-        // 压缩算法，默认gizp
-        algorithm: 'gzip',
-        ext: '.gz',
-        // 仅压缩 >10KB 文件
-        threshold: 10240,
       }),
       // 使用unplugin-auto-import插件自动导入API（如 ref、reactive 等），参考：https://cloud.tencent.com/developer/article/2236166
       AutoImport({
