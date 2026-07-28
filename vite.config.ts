@@ -65,14 +65,12 @@ export default defineConfig(({ mode }): UserConfig => {
           chunkFileNames: 'assets/chunks/[name]-[hash].js',
           // 按模块拆分 chunk，减小单个文件体积
           codeSplitting: {
-            // 模块至少被几个入口chunk同时共享，才抽离公共chunk
-            // minShareCount: 2,
-            // 控制【单个模块】参与分组的最小阈值。可过滤微型工具库
-            // minModuleSize: 10 * 1024, // 10KB
-            // 控制【产物 chunk 文件】的最小体积。避免碎文件
+            // 模块至少被几处引用才抽离公共chunk，避免只在一个页面使用也强行分包
+            minShareCount: 2,
+            // 控制【单个模块】达到阈值才允许进入分组。可过滤零散微型库
+            minModuleSize: 10 * 1024, // 10KB
+            // 控制【分组产出 chunk文件】的最小体积。避免大量极小碎片
             minSize: 1000 * 1024, // 1000KB
-            // 控制【产物 chunk 文件】的最大体积。避文件过大
-            maxSize: 3000 * 1024, // 3000KB
             // 分包规则
             groups: [
               {
