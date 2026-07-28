@@ -66,9 +66,9 @@ export default defineConfig(({ mode }): UserConfig => {
           // 按模块拆分 chunk，减小单个文件体积
           codeSplitting: {
             // 模块至少被几处引用才抽离公共chunk，避免只在一个页面使用也强行分包
-            minShareCount: 2,
+            // minShareCount: 2,
             // 控制【单个模块】达到阈值才允许进入分组。可过滤零散微型库
-            minModuleSize: 10 * 1024, // 10KB
+            // minModuleSize: 2 * 1024, // 10KB
             // 控制【分组产出 chunk文件】的最小体积。避免大量极小碎片
             minSize: 1000 * 1024, // 1000KB
             // 分包规则
@@ -85,12 +85,12 @@ export default defineConfig(({ mode }): UserConfig => {
               },
               {
                 name: 'antd-vue',
-                test: /ant-design-vue/,
+                test: /node_modules[\\/]ant-design-vue/,
                 priority: 10,
               },
               {
                 name: 'antd-icons',
-                test: /@ant-design[\\/]icons-vue/,
+                test: /node_modules[\\/]@ant-design/,
                 priority: 10,
               },
 
