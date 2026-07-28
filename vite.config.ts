@@ -70,19 +70,19 @@ export default defineConfig(({ mode }): UserConfig => {
             // 控制【单个模块】参与分组的最小阈值。可过滤微型工具库
             // minModuleSize: 10 * 1024, // 10KB
             // 控制【产物 chunk 文件】的最小体积。避免碎文件
-            minSize: 1000 * 1000, // 1000KB
+            minSize: 1000 * 1024, // 1000KB
             // 控制【产物 chunk 文件】的最大体积。避文件过大
-            maxSize: 2000 * 1000, // 2000KB
+            maxSize: 3000 * 1024, // 3000KB
             // 分包规则
             groups: [
               {
                 name: 'vendor-vue',
-                test: /^(vue|vue-router|pinia|vue-i18n)$/,
+                test: /node_modules[\\/](vue|vue-router|pinia|vue-i18n)/,
                 priority: 20,
               },
               {
                 name: 'vendor-vxe',
-                test: /^(vxe|xe-utils)/,
+                test: /node_modules[\\/](vxe|xe-utils)/,
                 priority: 15,
               },
               {
