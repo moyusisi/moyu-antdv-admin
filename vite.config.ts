@@ -130,7 +130,9 @@ export default defineConfig(({ mode }): UserConfig => {
                   .sort((a, b) => b.bytes - a.bytes)
 
                 entries.forEach(item => {
-                  console.log(`[${item.singleKb} KB] ${item.moduleId}`)
+                  // 简化路径，剔除本地项目目录
+                  const shortPath = item.moduleId.replace(resolve(__dirname), '')
+                  console.log(`[${item.singleKb} KB] ${shortPath}`)
                 })
               }
             }
