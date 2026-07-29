@@ -95,8 +95,7 @@
 </template>
 
 <script setup>
-  import roleApi from '@/api/system/roleApi'
-  import { ref } from "vue";
+  import roleApi from '@/api/system/roleApi';
   import { message } from "ant-design-vue";
   import { CloseOutlined, DeleteOutlined } from "@ant-design/icons-vue"
   import { useMenuStore } from '@/store/menu'
@@ -159,7 +158,6 @@
     {
       title: '按钮权限',
       dataIndex: 'buttonList',
-      resizable: true,
       ellipsis: true,
     }
   ]
