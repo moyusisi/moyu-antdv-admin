@@ -131,7 +131,6 @@
 <script setup>
 import userApi from '@/api/system/userApi'
 
-import { required } from '@/utils/formRules'
 import { message } from "ant-design-vue"
 import { useSettingsStore } from "@/store"
 import OrgTreeSelect from "@/views/system/components/orgTreeSelect.vue"

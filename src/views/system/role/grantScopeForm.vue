@@ -111,7 +111,8 @@
 <script setup>
   import resourceApi from "@/api/system/resourceApi.js";
   import orgApi from "@/api/system/orgApi.js";
-  import roleApi from '@/api/system/roleApi'
+  import roleApi from '@/api/system/roleApi';
+
   import { h, ref } from "vue";
   import { message } from "ant-design-vue";
   import { CloseOutlined, RedoOutlined, SearchOutlined } from "@ant-design/icons-vue"

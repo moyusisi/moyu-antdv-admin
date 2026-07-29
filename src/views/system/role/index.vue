@@ -76,7 +76,7 @@
 <script setup>
   import roleApi from '@/api/system/roleApi'
 
-  import { h, ref } from "vue"
+  import { h, ref } from "vue";
   import { PlusOutlined, DeleteOutlined, RedoOutlined, SearchOutlined, UserAddOutlined, PicLeftOutlined, ApiOutlined, FormOutlined } from "@ant-design/icons-vue"
   import { message } from "ant-design-vue"
   import { hasPerm, hasRole } from "@/utils/permission"
