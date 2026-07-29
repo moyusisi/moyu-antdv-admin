@@ -70,17 +70,17 @@ export default defineConfig(({ mode }): UserConfig => {
             // 控制【单个模块】达到阈值才允许进入分组。可过滤零散微型库
             // minModuleSize: 2 * 1024, // 10KB
             // 控制【分组产出 chunk文件】的最小体积。避免大量极小碎片
-            minSize: 1000 * 1024, // 1000KB
+            minSize: 100 * 1024, // 100KB
             // 分包规则
             groups: [
               {
                 name: 'vendor-vue',
-                test: /node_modules[\\/](vue|vue-router|pinia|vue-i18n)/,
+                test: /node_modules[\\/](vue|vue-router|pinia|vue-i18n|@vueuse|axios|fuse)/,
                 priority: 20,
               },
               {
                 name: 'vendor-vxe',
-                test: /node_modules[\\/](vxe|xe-utils)/,
+                test: /node_modules[\\/](vxe|xe-utils|@vxe-ui)/,
                 priority: 15,
               },
               {
@@ -93,9 +93,46 @@ export default defineConfig(({ mode }): UserConfig => {
                 test: /node_modules[\\/]@ant-design/,
                 priority: 10,
               },
-
+              {
+                name: 'vendor-exceljs',
+                test: /node_modules[\\/](exceljs)/,
+                priority: 5,
+              },
+              {
+                name: 'vendor-other',
+                test: /node_modules[\\/](highlight|@highlightjs|js-pinyin)/,
+                priority: 5,
+              },
             ],
           },
+          // Rolldown output 钩子
+          plugins: [
+            {
+              name: 'debug-module-size',
+              generateBundle(_outputOptions, bundle) {
+                for (const [fileName, chunk] of Object.entries(bundle)) {
+                  // 只看 index 主包
+                  if (!fileName.startsWith('index.')) continue
+                  console.log(`\n==================== ${fileName} ====================`)
+                  if (!chunk.modules) continue
+
+                  // 遍历每一个独立模块，拿到单个模块大小
+                  const entries = Object.entries(chunk.modules)
+                    .map(([moduleId, moduleInfo]) => ({
+                      moduleId,
+                      singleKb: (moduleInfo.renderedLength / 1024).toFixed(2),
+                      bytes: moduleInfo.renderedLength
+                    }))
+                    // 模块尺寸从大到小排序
+                    .sort((a, b) => b.bytes - a.bytes)
+
+                  entries.forEach(item => {
+                    console.log(`[${item.singleKb} KB] ${item.moduleId}`)
+                  })
+                }
+              }
+            }
+          ]
         }
       },
     },
@@ -114,6 +151,8 @@ export default defineConfig(({ mode }): UserConfig => {
       AutoImport({
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等
         imports: ["vue", "vue-router", "pinia"],
+        // 自动导入模板，可在template中使用(否则只能在setup中使用)
+        vueTemplate: true,
         // 配置文件生成位置(false:关闭自动生成)
         dts: "src/types/auto-imports.d.ts",
       }),
