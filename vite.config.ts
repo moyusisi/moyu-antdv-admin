@@ -69,8 +69,8 @@ export default defineConfig(({ mode }): UserConfig => {
             // minShareCount: 2,
             // 控制【单个模块】达到阈值才允许进入分组。可过滤零散微型库
             // minModuleSize: 2 * 1024, // 10KB
-            // 控制【分组产出 chunk文件】的最小体积。避免大量极小碎片
-            minSize: 100 * 1024, // 100KB
+            // 控制【分组产出 chunk文件】的最小体积。分组原体积超过此值就打包
+            minSize: 10 * 1024, // 10KB
             // 分包规则
             groups: [
               {
@@ -113,7 +113,7 @@ export default defineConfig(({ mode }): UserConfig => {
             name: 'debug-module-size',
             generateBundle(_outputOptions, bundle) {
               for (const [fileName, chunk] of Object.entries(bundle)) {
-                // 只看 index 主包
+                // 只看 index 主包(index、assets/chunks/xxx)
                 if (!fileName.startsWith('index.')) continue
 
                 console.log(`\n==================== ${fileName} ====================`)
