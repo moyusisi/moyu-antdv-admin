@@ -105,35 +105,37 @@ export default defineConfig(({ mode }): UserConfig => {
               },
             ],
           },
-          // Rolldown output 钩子
-          plugins: [
-            {
-              name: 'debug-module-size',
-              generateBundle(_outputOptions, bundle) {
-                for (const [fileName, chunk] of Object.entries(bundle)) {
-                  // 只看 index 主包
-                  if (!fileName.startsWith('index.')) continue
-                  console.log(`\n==================== ${fileName} ====================`)
-                  if (!chunk.modules) continue
+        },
+        // Rolldown output 钩子(便于查看代码拆分，可以删掉)
+        plugins: [
+          {
+            // 便于查看代码拆分，可以删掉
+            name: 'debug-module-size',
+            generateBundle(_outputOptions, bundle) {
+              for (const [fileName, chunk] of Object.entries(bundle)) {
+                // 只看 index 主包
+                if (!fileName.startsWith('index.')) continue
 
-                  // 遍历每一个独立模块，拿到单个模块大小
-                  const entries = Object.entries(chunk.modules)
-                    .map(([moduleId, moduleInfo]) => ({
-                      moduleId,
-                      singleKb: (moduleInfo.renderedLength / 1024).toFixed(2),
-                      bytes: moduleInfo.renderedLength
-                    }))
-                    // 模块尺寸从大到小排序
-                    .sort((a, b) => b.bytes - a.bytes)
+                console.log(`\n==================== ${fileName} ====================`)
+                if (!chunk.modules) continue
 
-                  entries.forEach(item => {
-                    console.log(`[${item.singleKb} KB] ${item.moduleId}`)
-                  })
-                }
+                // 遍历每一个独立模块，拿到单个模块大小
+                const entries = Object.entries(chunk.modules)
+                  .map(([moduleId, moduleInfo]) => ({
+                    moduleId,
+                    singleKb: (moduleInfo.renderedLength / 1024).toFixed(2),
+                    bytes: moduleInfo.renderedLength
+                  }))
+                  // 模块尺寸从大到小排序
+                  .sort((a, b) => b.bytes - a.bytes)
+
+                entries.forEach(item => {
+                  console.log(`[${item.singleKb} KB] ${item.moduleId}`)
+                })
               }
             }
-          ]
-        }
+          }
+        ]
       },
     },
     plugins: [
