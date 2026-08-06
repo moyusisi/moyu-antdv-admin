@@ -53,7 +53,7 @@
             </a-col>
             <a-col :span="24">
               <a-form-item name="url" label="接口URL" tooltip="" :label-col="{span: 2}">
-                <span>{{ formData.url }}</span>
+                <a-tag :bordered="false">{{ formData.url }}</a-tag>
               </a-form-item>
             </a-col>
           </a-row>
@@ -63,11 +63,6 @@
             <span><RightSquareFilled style="color: dodgerblue;"/> 调试信息</span>
           </template>
           <a-row :gutter="24">
-            <a-col :span="24">
-              <a-form-item name="url" label="请求地址" tooltip="" :label-col="{span: 2}" >
-                <a-tag :bordered="false">{{ formData.url }}</a-tag>
-              </a-form-item>
-            </a-col>
             <a-col :span="24">
               <a-form-item name="id" label="调试状态" tooltip="" :label-col="{span: 2}">
                 <a-tag :bordered="false" v-if="formData.debugStatus === 1" color="green">已调试</a-tag>
