@@ -183,16 +183,19 @@
   onBeforeMount(() => {
     if (route.query.id) {
       queryFormData.value.id = route.query.id
-    } else if (route.query.id || history.state.id) {
+    } else if (history.state?.id) {
       queryFormData.value.id = history.state.id
     }
   })
 
   // 挂载后处理
   onMounted(() => {
-    if (route.query.id || history.state.id) {
+    if (route.query.id || history.state?.id) {
       const row = { id: route.query.id || history.state.id }
-      openDetail(row)
+      // 打开详情页
+      if (route.query.detail === "1") {
+        openDetail(row)
+      }
     }
   })
 

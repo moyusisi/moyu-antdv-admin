@@ -73,6 +73,9 @@
           <a-tooltip title="调试">
             <a style="color:#53C61D;" @click="debugRef.onOpen(row)"><ApiOutlined /></a>
           </a-tooltip>
+          <a-tooltip title="调用记录">
+            <a style="color:grey" @click="openLog(row)"><HistoryOutlined /></a>
+          </a-tooltip>
           <a-tooltip title="编辑">
             <a @click="formRef.onOpen(row)"><FormOutlined /></a>
           </a-tooltip>
@@ -171,11 +174,11 @@
       { field: 'name', title: '接口名称', width: 150 },
       { field: 'url', title: '接口URL', width: 200, slots: { default: 'url' } },
       { field: 'requestMethod', title: '请求方式', width: 80, slots: { default: 'requestMethod' } },
-      { field: 'debugStatus', title: '调试状态', width: 100, slots: { default: 'debugStatus' } },
+      { field: 'debugStatus', title: '调试状态', width: 80, slots: { default: 'debugStatus' } },
       { field: 'statusCode', title: 'HTTP状态码', width: 120, sortable: true, slots: { default: 'statusCode' } },
       { field: 'remark', title: '备注' },
       // { field: 'updateTime', title: '修改时间', width: 170 },
-      { field: 'action', title: '操作', width: 150, slots: { default: 'action' } },
+      { field: 'action', title: '操作', width: 180, slots: { default: 'action' } },
     ],
     // 工具栏配置
     toolbarConfig: {
@@ -241,6 +244,12 @@
     detailRef.value.onOpen(row)
     // 独立页面打开(与抽屉打开二选一)
     // router.push({ path: "/dev/thirdPartyApi/detail", query: { id: row.id } })
+  }
+
+  // 打开调用日志
+  const openLog = (row) => {
+    // 独立页面打开(query显示传参，state隐式传参)
+    router.push({ path: "/ops/log/thirdlog", query: { requestUrl: row.url } })
   }
 </script>
 

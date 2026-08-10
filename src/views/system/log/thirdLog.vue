@@ -195,18 +195,21 @@
 
   // 挂载前初始化参数
   onBeforeMount(() => {
-    if (route.query.id) {
-      queryFormData.value.id = route.query.id
-    } else if (route.query.id || history.state.id) {
-      queryFormData.value.id = history.state.id
+    if (route.query.requestUrl) {
+      queryFormData.value.requestUrl = route.query.requestUrl
+    } else if (history.state?.requestUrl) {
+      queryFormData.value.requestUrl = history.state.requestUrl
     }
   })
 
   // 挂载后处理
   onMounted(() => {
-    if (route.query.id || history.state.id) {
-      const row = { id: route.query.id || history.state.id }
-      openDetail(row)
+    if (route.query.id || history.state?.id) {
+      const row = { id: route.query.id || history.state?.id }
+      // 打开详情页
+      if (route.query.detail === "1") {
+        openDetail(row)
+      }
     }
   })
 
