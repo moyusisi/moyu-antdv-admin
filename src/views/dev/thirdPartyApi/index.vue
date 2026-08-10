@@ -29,8 +29,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="6" v-if="showMore">
-          <a-form-item name="thirdAppName" label="三方系统名称">
-            <a-input v-model:value="queryFormData.thirdAppName" placeholder="搜索三方系统名称" allowClear />
+          <a-form-item name="debugStatus" label="调试状态">
+            <a-select v-model:value="queryFormData.debugStatus" placeholder="消息类型" :options="debugStatusOptions" allowClear />
           </a-form-item>
         </a-col>
       </a-row>
@@ -57,8 +57,8 @@
         <a-tag color="blue">{{ row.requestMethod }}</a-tag>
       </template>
       <template #debugStatus="{row, rowIndex, column, columnIndex}">
-        <a-tag :bordered="false" v-if="row.debugStatus === 1" color="green">已调试</a-tag>
-        <a-tag :bordered="false" v-else>未调试</a-tag>
+        <a-tag :bordered="false" v-if="row.debugStatus === 1" color="green">已调通</a-tag>
+        <a-tag :bordered="false" v-else>未调通</a-tag>
       </template>
       <template #statusCode="{row, rowIndex, column, columnIndex}">
         <a-tag :bordered="false" v-if="row.statusCode === '200'" color="green">{{ row.statusCode }}</a-tag>
@@ -71,7 +71,7 @@
             <a-divider type="vertical" />
           </template>
           <a-tooltip title="调试">
-            <a style="color:#53C61D;"><ApiOutlined /></a>
+            <a style="color:#53C61D;" @click="debugRef.onOpen(row)"><ApiOutlined /></a>
           </a-tooltip>
           <a-tooltip title="编辑">
             <a @click="formRef.onOpen(row)"><FormOutlined /></a>
@@ -87,6 +87,7 @@
   </a-card>
   <Form ref="formRef" @successful="refresh()"/>
   <Detail ref="detailRef"/>
+  <Debug ref="debugRef" @successful="refresh()"/>
 </template>
 
 <script setup>
@@ -98,6 +99,7 @@
   import { message } from "ant-design-vue"
   import Form from "./form.vue"
   import Detail from "./detail.vue"
+  import Debug from "./debug.vue"
 
   // store
   const route = useRoute();
@@ -111,6 +113,12 @@
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()
+  const debugRef = ref()
+  // 调试状态选项
+  const debugStatusOptions = [
+    { label: "未调通", value: 0 },
+    { label: "已调通", value: 1 }
+  ]
 
   /***** 表格相关对象 start *****/
   const gridRef = ref()
@@ -159,15 +167,14 @@
     columns: [
       { type: 'checkbox', width: 50 },
       { type: 'seq', width: 50 },
-      { field: 'code', title: '唯一标识', width: 150, sortable: true, slots: { default: 'code' } },
+      { field: 'code', title: '唯一标识', width: 150, slots: { default: 'code' } },
       { field: 'name', title: '接口名称', width: 150 },
       { field: 'url', title: '接口URL', width: 200, slots: { default: 'url' } },
-      { field: 'requestMethod', title: '请求方式', width: 100, slots: { default: 'requestMethod' } },
-      { field: 'thirdAppName', title: '三方系统名称', width: 150 },
+      { field: 'requestMethod', title: '请求方式', width: 80, slots: { default: 'requestMethod' } },
       { field: 'debugStatus', title: '调试状态', width: 100, slots: { default: 'debugStatus' } },
-      { field: 'statusCode', title: 'HTTP状态码', width: 150, sortable: true, slots: { default: 'statusCode' } },
-      { field: 'remark', title: '备注', width: 150 },
-      { field: 'updateTime', title: '修改时间', width: 170 },
+      { field: 'statusCode', title: 'HTTP状态码', width: 120, sortable: true, slots: { default: 'statusCode' } },
+      { field: 'remark', title: '备注' },
+      // { field: 'updateTime', title: '修改时间', width: 170 },
       { field: 'action', title: '操作', width: 150, slots: { default: 'action' } },
     ],
     // 工具栏配置
@@ -233,7 +240,7 @@
   const openDetail = (row) => {
     detailRef.value.onOpen(row)
     // 独立页面打开(与抽屉打开二选一)
-    // router.push({ path: "/thirdPartyApi/thirdPartyApi/detail", query: { id: row.id } })
+    // router.push({ path: "/dev/thirdPartyApi/detail", query: { id: row.id } })
   }
 </script>
 

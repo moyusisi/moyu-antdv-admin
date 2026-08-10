@@ -38,17 +38,10 @@
             </a-col>
             <a-col :span="12">
               <a-form-item name="requestMethod" label="请求方式" tooltip="" required>
-                <a-select v-model:value="formData.requestMethod" placeholder="请求方式 GET/POST/PUT等" allowClear>
+                <a-select v-model:value="formData.requestMethod" placeholder="请求方式 GET/POST" allowClear>
                   <a-select-option value="GET">GET</a-select-option>
                   <a-select-option value="POST">POST</a-select-option>
-                  <a-select-option value="PUT">PUT</a-select-option>
-                  <a-select-option value="HEAD">HEAD</a-select-option>
                 </a-select>
-              </a-form-item>
-            </a-col>
-            <a-col :span="12">
-              <a-form-item name="thirdAppName" label="三方系统名称" tooltip="" required>
-                <a-input v-model:value="formData.thirdAppName" placeholder="三方系统名称" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">

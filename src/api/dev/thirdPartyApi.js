@@ -23,6 +23,11 @@ export default {
   // 删除三方集成接口，通过ids删除
   deleteThirdPartyApi(data) {
     return service.postJson('/api/dev/thirdPartyApi/delete', data)
+  },
+
+  // 调试接口
+  debugApi(data) {
+    return service.postJson('/api/dev/thirdPartyApi/debugApi', data)
   }
 
 }
