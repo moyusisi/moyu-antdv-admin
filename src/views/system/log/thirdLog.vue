@@ -195,10 +195,8 @@
 
   // 挂载前初始化参数
   onBeforeMount(() => {
-    if (route.query.requestUrl) {
-      queryFormData.value.requestUrl = route.query.requestUrl
-    } else if (history.state?.requestUrl) {
-      queryFormData.value.requestUrl = history.state.requestUrl
+    if (route.query.requestUrl || history.state?.requestUrl) {
+      queryFormData.value.requestUrl = route.query.requestUrl || history.state?.requestUrl
     }
   })
 

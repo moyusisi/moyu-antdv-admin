@@ -222,10 +222,8 @@
 
   // 挂载前初始化参数
   onBeforeMount(() => {
-    if (route.query.id) {
-      queryFormData.value.id = route.query.id
-    } else if (history.state?.id) {
-      queryFormData.value.id = history.state.id
+    if (route.query.id || history.state?.id) {
+      queryFormData.value.id = route.query.id || history.state?.id
     }
   })
 
