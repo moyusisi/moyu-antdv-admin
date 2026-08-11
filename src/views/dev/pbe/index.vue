@@ -65,7 +65,7 @@
   // 查询表单相关对象
   const formRef = ref()
   const formData = ref({
-    algorithm: 'PBEWithMD5AndDES',
+    algorithm: 'PBEWithHmacSHA512AndAES_256',
     plainText: '',
     encryptedText: ''
   })
