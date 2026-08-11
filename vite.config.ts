@@ -117,13 +117,16 @@ export default defineConfig(({ mode }): UserConfig => {
                 if (!fileName.startsWith('index.')) continue
 
                 console.log(`\n==================== ${fileName} ====================`)
+                // @ts-ignore
                 if (!chunk.modules) continue
 
-                // 遍历每一个独立模块，拿到单个模块大小
+                // @ts-ignore 遍历每一个独立模块，拿到单个模块大小
                 const entries = Object.entries(chunk.modules)
                   .map(([moduleId, moduleInfo]) => ({
                     moduleId,
+                    // @ts-ignore
                     singleKb: (moduleInfo.renderedLength / 1024).toFixed(2),
+                    // @ts-ignore
                     bytes: moduleInfo.renderedLength
                   }))
                   // 模块尺寸从大到小排序
