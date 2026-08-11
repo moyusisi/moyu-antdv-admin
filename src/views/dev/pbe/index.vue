@@ -80,13 +80,16 @@
       message.error("要加密的内容不能为空！")
       return
     }
-    let param = Object.assign({}, formData.value)
-    pbeApi.encrypt(param).then((res) => {
-      if (res.data) {
-        formData.value.encryptedText = res.data
-      }
-    }).catch((err) => {
-      console.error(err)
+    formRef.value.validate().then(() => {
+      let param = Object.assign({}, formData.value)
+      pbeApi.encrypt(param).then((res) => {
+        if (res.data) {
+          formData.value.encryptedText = res.data
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    }).catch(() => {
     })
   }
   // 解密
@@ -95,13 +98,16 @@
       message.error("要解密的内容不能为空！")
       return
     }
-    let param = Object.assign({}, formData.value)
-    pbeApi.decrypt(param).then((res) => {
-      if (res.data) {
-        formData.value.plainText = res.data
-      }
-    }).catch((err) => {
-      console.error(err)
+    formRef.value.validate().then(() => {
+      let param = Object.assign({}, formData.value)
+      pbeApi.decrypt(param).then((res) => {
+        if (res.data) {
+          formData.value.plainText = res.data
+        }
+      }).catch((err) => {
+        console.error(err)
+      })
+    }).catch(() => {
     })
   }
 
