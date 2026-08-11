@@ -37,7 +37,7 @@ onMounted(() => {
 })
 // 新版检测
 const updateVersion = () => {
-  const updateVersionOpen = true
+  const updateVersionOpen = import.meta.env.VITE_VERSION_UPDATE
   if (updateVersionOpen) {
     setTimeout(async () => {
       // 本地
