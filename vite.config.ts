@@ -58,11 +58,11 @@ export default defineConfig(({ mode }): UserConfig => {
       rolldownOptions: {
         output: {
           // 入口文件，默认 [name].js
-          entryFileNames: '[name].js',
+          entryFileNames: '[name].[hash].js',
           // 静态资源名，默认 assets/[name]-[hash][extname]
-          assetFileNames: 'assets/static/[name]-[hash].[ext]',
+          assetFileNames: 'assets/static/[name].[hash].[ext]',
           // 代码分割chunk包，默认 [name]-[hash].js
-          chunkFileNames: 'assets/chunks/[name]-[hash].js',
+          chunkFileNames: 'assets/chunks/[name].[hash].js',
           // 按模块拆分 chunk，减小单个文件体积
           codeSplitting: {
             // 模块至少被几处引用才抽离公共chunk，避免只在一个页面使用也强行分包
