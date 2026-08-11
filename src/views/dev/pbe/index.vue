@@ -32,12 +32,12 @@
         </a-col>
         <a-col :span="12">
           <a-form-item>
-            <a-button type="primary" :icon="h(LockOutlined)" @click="encrypt">加密</a-button>
+            <a-button type="primary" :icon="h(LockOutlined)" :loading="submitLoading" @click="encrypt">加密</a-button>
           </a-form-item>
         </a-col>
         <a-col :span="12">
           <a-form-item>
-            <a-button type="primary" :icon="h(KeyOutlined)" @click="decrypt">解密</a-button>
+            <a-button type="primary" :icon="h(KeyOutlined)" :loading="submitLoading" @click="decrypt">解密</a-button>
           </a-form-item>
         </a-col>
         <a-col :span="12">
@@ -69,6 +69,7 @@
     plainText: '',
     encryptedText: ''
   })
+  const submitLoading = ref(false)
 
   // 加载完毕调用
   onMounted(() => {
@@ -99,6 +100,7 @@
       return
     }
     formRef.value.validate().then(() => {
+      submitLoading.value = true
       let param = Object.assign({}, formData.value)
       pbeApi.decrypt(param).then((res) => {
         if (res.data) {
@@ -106,6 +108,8 @@
         }
       }).catch((err) => {
         console.error(err)
+      }).finally(() => {
+        submitLoading.value = false
       })
     }).catch(() => {
     })
