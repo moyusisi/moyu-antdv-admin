@@ -83,9 +83,9 @@
   const route = useRoute();
   const router = useRouter();
 
-  // resourceType=1标识模块
+  // menuType=1标识模块
   const queryFormRef = ref()
-  const queryFormData = ref({ resourceType: 1 })
+  const queryFormData = ref({ menuType: 1 })
   // 其他页面操作
   const formRef = ref()
   const detailRef = ref()

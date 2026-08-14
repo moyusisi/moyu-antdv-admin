@@ -146,8 +146,8 @@
 
   // 查询表单相关对象
   const queryFormRef = ref()
-  // resourceType=6表示按钮
-  const queryFormData = ref({ resourceType: 6 })
+  // menuTypeType=6表示按钮
+  const queryFormData = ref({ menuTypeType: 6 })
   // 模块列表
   const moduleList = ref([])
   // 当前选中模块id

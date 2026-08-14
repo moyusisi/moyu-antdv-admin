@@ -34,13 +34,13 @@
             <span>{{ text }}</span>
           </a-tooltip>
         </template>
-        <template v-if="column.dataIndex === 'resourceType'">
-          <a-tag v-if="node.resourceType === 1" color="orange">模块</a-tag>
-          <a-tag v-if="node.resourceType === 2" color="cyan">目录</a-tag>
-          <a-tag v-if="node.resourceType === 3" color="blue">菜单</a-tag>
-          <a-tag v-if="node.resourceType === 4" color="gold">内链</a-tag>
-          <a-tag v-if="node.resourceType === 5" color="green">链接</a-tag>
-          <a-tag v-if="node.resourceType === 6" color="purple">按钮</a-tag>
+        <template v-if="column.dataIndex === 'menuType'">
+          <a-tag v-if="node.menuType === 1" color="orange">模块</a-tag>
+          <a-tag v-if="node.menuType === 2" color="cyan">目录</a-tag>
+          <a-tag v-if="node.menuType === 3" color="blue">菜单</a-tag>
+          <a-tag v-if="node.menuType === 4" color="gold">内链</a-tag>
+          <a-tag v-if="node.menuType === 5" color="green">链接</a-tag>
+          <a-tag v-if="node.menuType === 6" color="purple">按钮</a-tag>
         </template>
         <template v-if="column.dataIndex === 'code'">
           <!-- 唯一键点击查看详情 -->
@@ -74,7 +74,7 @@
           <span v-else />
         </template>
         <template v-if="column.dataIndex === 'visible'">
-          <span v-if="node.resourceType !== 6" >
+          <span v-if="node.menuType !== 6" >
             <a-tag v-if="node.visible === 1" color="green">显示</a-tag>
             <a-tag v-else>隐藏</a-tag>
           </span>
@@ -85,13 +85,13 @@
             <template #split>
               <a-divider type="vertical" />
             </template>
-            <a-tooltip v-if="node.resourceType === 2" title="添加菜单">
+            <a-tooltip v-if="node.menuType === 2" title="添加菜单">
               <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 3, node.code)"><PlusSquareOutlined /></a>
             </a-tooltip>
-            <a-tooltip v-else-if="node.resourceType === 3" title="添加按钮">
+            <a-tooltip v-else-if="node.menuType === 3" title="添加按钮">
               <a style="color:#53C61D;" @click="formRef.onOpen(null, module, 6, node.code)"><PlusSquareOutlined /></a>
             </a-tooltip>
-            <a-tooltip v-if="node.resourceType === 6" title="编辑">
+            <a-tooltip v-if="node.menuType === 6" title="编辑">
               <a @click="formRef.onOpen(node, module)"><FormOutlined /></a>
             </a-tooltip>
             <a-tooltip v-else title="编辑">
@@ -150,7 +150,7 @@
     },
     {
       title: '类型',
-      dataIndex: 'resourceType',
+      dataIndex: 'menuType',
       align: 'center',
       width: 80
     },

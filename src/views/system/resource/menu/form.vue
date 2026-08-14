@@ -30,8 +30,8 @@
             </a-form-item>
           </a-col>
           <a-col :span="12">
-            <a-form-item name="resourceType" label="菜单类型" tooltip="" required>
-              <a-radio-group v-model:value="formData.resourceType" option-type="button" button-style="solid">
+            <a-form-item name="menuType" label="菜单类型" tooltip="" required>
+              <a-radio-group v-model:value="formData.menuType" option-type="button" button-style="solid">
                 <!-- 字典 1模块 2目录 3菜单 4内链 5外链 6按钮 -->
                 <a-radio-button :value="2">目录</a-radio-button>
                 <a-radio-button :value="3">菜单</a-radio-button>
@@ -42,13 +42,13 @@
             </a-form-item>
           </a-col>
           <!-- 目录、菜单、内链、外链:是否可见 -->
-          <a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 4 || formData.resourceType === 5">
+          <a-col :span="12" v-if="formData.menuType === 2 || formData.menuType === 3 || formData.menuType === 4 || formData.menuType === 5">
             <a-form-item name="visible" label="是否可见" tooltip="仅目录菜单生效" required>
               <a-radio-group v-model:value="formData.visible" option-type="button" button-style="solid" :options="visibleOptions"/>
             </a-form-item>
           </a-col>
           <!-- 目录、菜单、内链、外链:图标 -->
-          <a-col :span="12" v-if="formData.resourceType === 2 || formData.resourceType === 3 || formData.resourceType === 4 || formData.resourceType === 5">
+          <a-col :span="12" v-if="formData.menuType === 2 || formData.menuType === 3 || formData.menuType === 4 || formData.menuType === 5">
             <a-form-item name="icon" label="图标">
               <a-space-compact style="width: 100%">
                 <a-input v-model:value="formData.icon" placeholder="请选择前端根目录" disabled/>
@@ -61,7 +61,7 @@
               <a-input-number v-model:value="formData.sortNum" style="width: 100%"/>
             </a-form-item>
           </a-col>
-          <a-col :span="12" v-if="formData.resourceType === 6">
+          <a-col :span="12" v-if="formData.menuType === 6">
             <a-form-item name="remark" label="备注" tooltip="" >
               <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear showCount :maxlength="100" />
             </a-form-item>
@@ -72,46 +72,46 @@
         <!-- 路由、组件、权限、图标、可见、排序 -->
         <a-row :gutter="24">
           <!-- 目录:路由地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 2">
+          <a-col :span="12" v-if="formData.menuType === 2">
             <a-form-item name="path" label="路由地址" tooltip="可以为空或以反斜杠'/'开头">
               <a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
             </a-form-item>
           </a-col>
           <!-- 菜单:路由地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 3">
+          <a-col :span="12" v-if="formData.menuType === 3">
             <a-form-item name="path" label="路由地址" tooltip="菜单路由必须以反斜杠'/'开头" required>
               <a-input v-model:value="formData.path" placeholder="请输入路由地址" allow-clear />
             </a-form-item>
           </a-col>
           <!-- 内链、外链:链接地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 4 || formData.resourceType === 5">
+          <a-col :span="12" v-if="formData.menuType === 4 || formData.menuType === 5">
             <a-form-item name="path" label="链接地址" tooltip="链接必须以http(s)开头" required>
               <a-input v-model:value="formData.path" placeholder="请输入http(s)链接地址" allow-clear />
             </a-form-item>
           </a-col>
           <!-- 菜单:组件地址 -->
-          <a-col :span="12" v-if="formData.resourceType === 3">
+          <a-col :span="12" v-if="formData.menuType === 3">
             <a-form-item name="component" label="组件地址" tooltip="前端组件(不带.vue)" required>
               <a-input v-model:value="formData.component" addon-before="src/views/" addon-after=".vue" placeholder="请输入组件地址" allow-clear/>
             </a-form-item>
           </a-col>
-          <a-col :span="12" v-if="formData.resourceType === 2">
+          <a-col :span="12" v-if="formData.menuType === 2">
             <a-form-item name="brief" label="简洁模式" tooltip="简洁模式下，当目录下只有一个菜单时，不显示目录直接显示该菜单" >
               <a-radio-group v-model:value="formData.brief" option-type="button" button-style="solid" :options="yesOrNoOptions"/>
             </a-form-item>
           </a-col>
-          <a-col :span="12" v-if="formData.resourceType === 3">
+          <a-col :span="12" v-if="formData.menuType === 3">
             <a-form-item name="affix" label="固定显示" tooltip="" >
               <a-radio-group v-model:value="formData.affix" option-type="button" button-style="solid" :options="yesOrNoOptions"/>
             </a-form-item>
           </a-col>
-          <a-col :span="12" v-if="formData.resourceType === 3">
+          <a-col :span="12" v-if="formData.menuType === 3">
             <a-form-item name="keepAlive" label="是否缓存" tooltip="" >
               <a-radio-group v-model:value="formData.keepAlive" option-type="button" button-style="solid" :options="yesOrNoOptions"/>
             </a-form-item>
           </a-col>
           <!-- 按钮:权限标识 -->
-          <a-col :span="12" v-if="formData.resourceType === 6">
+          <a-col :span="12" v-if="formData.menuType === 6">
             <a-form-item name="permission" label="权限标识" tooltip="权限标识，如'sys:user:add'" required>
               <a-input v-model:value="formData.permission" placeholder="请输入权限标识" allow-clear/>
             </a-form-item>
@@ -154,7 +154,7 @@
   // 表单数据
   const formRef = ref()
   const formData = ref({
-    resourceType: 3,
+    menuType: 3,
     sortNum: 99,
     visible: 1
   })
@@ -174,7 +174,7 @@
   ]
 
   // 打开抽屉
-  const onOpen = (node, module, resourceType, parentCode) => {
+  const onOpen = (node, module, menuType, parentCode) => {
     if (node) {
       edit.value = true
       title.value = "编辑菜单"
@@ -187,10 +187,10 @@
       formData.value.module = module.code
       // parentCode赋值
       formData.value.parentCode = parentCode
-      // 若指定了resourceType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
-      if (resourceType) {
-        formData.value.resourceType = resourceType
-        if (resourceType === 6) {
+      // 若指定了menuType则赋值  1模块 2目录 3菜单 4内链 5外链 6按钮
+      if (menuType) {
+        formData.value.menuType = menuType
+        if (menuType === 6) {
           formData.value.visible = 0
         } else {
           formData.value.visible = 1

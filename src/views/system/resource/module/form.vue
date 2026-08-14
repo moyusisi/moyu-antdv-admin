@@ -74,7 +74,7 @@
   // 表单数据
   const formRef = ref()
   const formData = ref({
-    resourceType: 1,
+    menuType: 1,
     visible: 1,
     sortNum: 99,
     component: 'Layout'

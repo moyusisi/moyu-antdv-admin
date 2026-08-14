@@ -11,8 +11,8 @@
           </a-form-item>
         </a-col>
         <a-col :span="6">
-          <a-form-item name="resourceType" label="资源类型">
-            <a-select v-model:value="queryFormData.resourceType" placeholder="请选择资源类型" :options="resourceTypeOptions" allowClear />
+          <a-form-item name="menuType" label="资源类型">
+            <a-select v-model:value="queryFormData.menuType" placeholder="请选择资源类型" :options="menuTypeOptions" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -69,13 +69,13 @@
         </span>
         <span v-else />
       </template>
-      <template #resourceType="{row, rowIndex, column, columnIndex}">
-        <a-tag v-if="row.resourceType === 1" color="orange">模块</a-tag>
-        <a-tag v-if="row.resourceType === 2" color="cyan">目录</a-tag>
-        <a-tag v-if="row.resourceType === 3" color="blue">菜单</a-tag>
-        <a-tag v-if="row.resourceType === 4" color="gold">内链</a-tag>
-        <a-tag v-if="row.resourceType === 5" color="green">链接</a-tag>
-        <a-tag v-if="row.resourceType === 6" color="purple">按钮</a-tag>
+      <template #menuType="{row, rowIndex, column, columnIndex}">
+        <a-tag v-if="row.menuType === 1" color="orange">模块</a-tag>
+        <a-tag v-if="row.menuType === 2" color="cyan">目录</a-tag>
+        <a-tag v-if="row.menuType === 3" color="blue">菜单</a-tag>
+        <a-tag v-if="row.menuType === 4" color="gold">内链</a-tag>
+        <a-tag v-if="row.menuType === 5" color="green">链接</a-tag>
+        <a-tag v-if="row.menuType === 6" color="purple">按钮</a-tag>
       </template>
       <template #code="{row, rowIndex, column, columnIndex}">
         <a @click="openDetail(row)">{{ row.code }}</a>
@@ -93,7 +93,7 @@
         <span v-else>-</span>
       </template>
       <template #visible="{row, rowIndex, column, columnIndex}">
-        <span v-if="row.resourceType !== 6" >
+        <span v-if="row.menuType !== 6" >
             <a-tag v-if="row.visible === 1" color="green">显示</a-tag>
             <a-tag v-else>隐藏</a-tag>
           </span>
@@ -133,7 +133,7 @@
   // 是否展示更多搜索条件
   const showMore = ref(false)
   // 下拉框选项
-  const resourceTypeOptions = [
+  const menuTypeOptions = [
     { label: "模块", value: 1 },
     { label: "目录", value: 2 },
     { label: "菜单", value: 3 },
@@ -194,7 +194,7 @@
       { type: 'seq', width: 50 },
       { field: 'icon', title: '图标', width: 50, slots: { default: 'icon' } },
       { field: 'name', title: '名称', width: 150 },
-      { field: 'resourceType', title: '资源类型', width: 80, slots: { default: 'resourceType' } },
+      { field: 'menuType', title: '资源类型', width: 80, slots: { default: 'menuType' } },
       { field: 'code', title: '唯一编码', width: 150, sortable: true, slots: { default: 'code' } },
       { field: 'path', title: '路径地址', width: 150, sortable: true, slots: { default: 'path' } },
       { field: 'component', title: '组件地址', width: 150, sortable: true, slots: { default: 'component' } },
