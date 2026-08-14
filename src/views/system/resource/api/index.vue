@@ -47,14 +47,11 @@
         </a-space>
       </template>
       <!-- 字段插槽 -->
-      <template #name="{row, rowIndex, column, columnIndex}">
-        <a @click="detailRef.onOpen(row)">{{ row.name }}</a>
+      <template #code="{row, rowIndex, column, columnIndex}">
+        <a @click="detailRef.onOpen(row)">{{ row.code }}</a>
       </template>
       <template #path="{row, rowIndex, column, columnIndex}">
         <a-tag v-if="row.path" :bordered="false">{{ row.path }}</a-tag>
-      </template>
-      <template #code="{row, rowIndex, column, columnIndex}">
-        <a-tag v-if="row.code" :bordered="false">{{ row.code }}</a-tag>
       </template>
       <template #hasScope="{row, rowIndex, column, columnIndex}">
           <a-tag v-if="row.hasScope === 1" color="green">有</a-tag>
@@ -156,9 +153,9 @@ const gridOptions = ref({
   columns: [
     { type: 'checkbox', width: 50 },
     { type: 'seq', width: 50 },
-    { field: 'name', title: '接口名称', width: 150, slots: { default: 'name' } },
+    { field: 'code', title: '唯一标识', width: 200, sortable: true, slots: { default: 'code' } },
+    { field: 'name', title: '接口名称', width: 150 },
     { field: 'path', title: '接口地址', width: 200, sortable: true, slots: { default: 'path' } },
-    { field: 'code', title: '接口标识', width: 200, sortable: true, slots: { default: 'code' } },
     { field: 'hasScope', title: '数据范围', width: 100, sortable: true, slots: { default: 'hasScope' } },
     { field: 'remark', title: '备注' },
     { field: 'updateTime', title: '修改时间', width: 170 },
