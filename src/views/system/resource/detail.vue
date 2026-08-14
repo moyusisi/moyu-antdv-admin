@@ -187,7 +187,7 @@
     dataLoading.value = true
     // 组装请求参数
     let param = { id: row.id, code: row.code }
-    menuApi.resourceDetail(param).then((res) => {
+    menuApi.menuDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false

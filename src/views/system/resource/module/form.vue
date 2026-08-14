@@ -108,7 +108,7 @@
     // 组装请求参数
     let param = { id: row.id }
     // 获取模块信息
-    menuApi.resourceDetail(param).then((res) => {
+    menuApi.menuDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
@@ -129,9 +129,9 @@
     formRef.value.validate().then(() => {
       submitLoading.value = true
       // formData.value 加工处理 add/edit
-      let fun = menuApi.addResource
+      let fun = menuApi.addMenu
       if (edit.value) {
-        fun = menuApi.editResource
+        fun = menuApi.editMenu
       }
       // add/edit 发送不同请求
       fun(formData.value).then((res) => {

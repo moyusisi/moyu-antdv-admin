@@ -218,7 +218,7 @@
     // 组装请求参数
     let param = { code: node.code }
     // 获取模块信息
-    menuApi.resourceDetail(param).then((res) => {
+    menuApi.menuDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
@@ -243,9 +243,9 @@
       const param = buildParam(formData.value)
       submitLoading.value = true
       // formData.value 加工处理 add/edit
-      let fun = menuApi.addResource
+      let fun = menuApi.addMenu
       if (edit.value) {
-        fun = menuApi.editResource
+        fun = menuApi.editMenu
       }
       // add/edit 发送不同请求
       fun(param).then((res) => {

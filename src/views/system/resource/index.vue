@@ -185,7 +185,7 @@
         delete: ({ body, form }) => {
           // 删除已选
           const ids = body.removeRecords.map(item => item.id);
-          return menuApi.deleteResource({ ids })
+          return menuApi.deleteMenu({ ids })
         }
       }
     },
@@ -249,19 +249,11 @@
   const loadData = (parameter) => {
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
-    return menuApi.resourcePage(param).then((res) => {
+    return menuApi.menuPage(param).then((res) => {
       // res.data 为 {total, records}
       return res.data
     }).catch((err) => {
       console.error(err)
-    })
-  }
-  // 删除
-  const deleteResource = (record) => {
-    let data = { ids: [record.id] }
-    menuApi.deleteResource(data).then((res) => {
-      message.success(res.message)
-      refresh()
     })
   }
 
