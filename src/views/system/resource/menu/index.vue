@@ -112,7 +112,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/system/resourceApi.js'
+  import menuApi from '@/api/system/menuApi.js'
 
   import { h, ref } from "vue"
   import { useRoute, useRouter } from "vue-router";
@@ -213,7 +213,7 @@
   const init = async () => {
     if (!moduleId.value) {
       // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-      const moduleRes = await resourceApi.moduleList()
+      const moduleRes = await menuApi.moduleList()
       moduleList.value = moduleRes.data
       module.value = moduleRes.data.length > 0 ? moduleRes.data[0] : null
       moduleId.value = module.value.code
@@ -226,12 +226,12 @@
     if (!moduleId.value) {
       await init()
       param.module = moduleId.value
-      const treeRes = await resourceApi.menuTree(param)
+      const treeRes = await menuApi.menuTree(param)
       return treeRes.data ? treeRes.data : []
     } else {
       param.module = moduleId.value
       // menuTree获取到的data中的id和parentId均为code
-      const treeRes = await resourceApi.menuTree(param)
+      const treeRes = await menuApi.menuTree(param)
       return treeRes.data ? treeRes.data : []
     }
   }
@@ -249,7 +249,7 @@
   // 单个删除
   const deleteMenu = (node) => {
     let data = { codes: [node.code] }
-    resourceApi.deleteMenuTree(data).then((res) => {
+    menuApi.deleteMenuTree(data).then((res) => {
       message.success(res.message)
       tableRef.value.refresh()
     })
@@ -261,7 +261,7 @@
       return
     }
     let data = { codes: selectedRowKeys.value }
-    resourceApi.deleteMenuTree(data).then((res) => {
+    menuApi.deleteMenuTree(data).then((res) => {
       message.success(res.message)
       tableRef.value.refresh()
     })

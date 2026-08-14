@@ -113,7 +113,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/system/resourceApi.js'
+  import menuApi from '@/api/system/menuApi.js'
 
   import { h, ref } from "vue"
   import { useRoute, useRouter } from "vue-router"
@@ -185,7 +185,7 @@
         delete: ({ body, form }) => {
           // 删除已选
           const ids = body.removeRecords.map(item => item.id);
-          return resourceApi.deleteResource({ ids })
+          return menuApi.deleteResource({ ids })
         }
       }
     },
@@ -224,7 +224,7 @@
 
   // 加载完毕调用
   onMounted(() => {
-    resourceApi.moduleList().then((res) => {
+    menuApi.moduleList().then((res) => {
       moduleList.value = res.data
     })
   })
@@ -249,7 +249,7 @@
   const loadData = (parameter) => {
     // 分页参数
     let param = Object.assign(parameter, queryFormData.value)
-    return resourceApi.resourcePage(param).then((res) => {
+    return menuApi.resourcePage(param).then((res) => {
       // res.data 为 {total, records}
       return res.data
     }).catch((err) => {
@@ -259,7 +259,7 @@
   // 删除
   const deleteResource = (record) => {
     let data = { ids: [record.id] }
-    resourceApi.deleteResource(data).then((res) => {
+    menuApi.deleteResource(data).then((res) => {
       message.success(res.message)
       refresh()
     })

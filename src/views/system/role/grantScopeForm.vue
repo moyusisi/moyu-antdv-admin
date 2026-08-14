@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-  import resourceApi from "@/api/system/resourceApi.js";
+  import menuApi from "@/api/system/menuApi.js";
   import orgApi from "@/api/system/orgApi.js";
   import roleApi from '@/api/system/roleApi';
 
@@ -231,7 +231,7 @@
   const initModuleList = async () => {
     if (!moduleId.value) {
       // 若无moduleId, 则查询module列表第一个module的code作为默认moduleId
-      const moduleRes = await resourceApi.moduleList()
+      const moduleRes = await menuApi.moduleList()
       moduleList.value = moduleRes.data
       moduleId.value = moduleList.value[0]?.code
     }

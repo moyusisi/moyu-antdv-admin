@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/system/resourceApi.js'
+  import menuApi from '@/api/system/menuApi.js'
 
   import { required } from '@/utils/formRules'
   import { message } from "ant-design-vue"
@@ -108,7 +108,7 @@
     // 组装请求参数
     let param = { id: row.id }
     // 获取模块信息
-    resourceApi.resourceDetail(param).then((res) => {
+    menuApi.resourceDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
@@ -129,9 +129,9 @@
     formRef.value.validate().then(() => {
       submitLoading.value = true
       // formData.value 加工处理 add/edit
-      let fun = resourceApi.addResource
+      let fun = menuApi.addResource
       if (edit.value) {
-        fun = resourceApi.editResource
+        fun = menuApi.editResource
       }
       // add/edit 发送不同请求
       fun(formData.value).then((res) => {

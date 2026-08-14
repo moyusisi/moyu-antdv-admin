@@ -131,7 +131,7 @@
 </template>
 
 <script setup>
-  import resourceApi from '@/api/system/resourceApi.js'
+  import menuApi from '@/api/system/menuApi.js'
   import { message } from "ant-design-vue"
   import { useSettingsStore } from "@/store"
   import IconSelector from '@/components/Selector/iconSelector.vue'
@@ -200,7 +200,7 @@
       visible.value = true
     }
     // 获取菜单树并加入顶级节点
-    const moduleRes = resourceApi.menuTreeSelector({ module: module.code })
+    const moduleRes = menuApi.menuTreeSelector({ module: module.code })
     treeData.value = [{
       code: module.code,
       name: module.name,
@@ -218,7 +218,7 @@
     // 组装请求参数
     let param = { code: node.code }
     // 获取模块信息
-    resourceApi.resourceDetail(param).then((res) => {
+    menuApi.resourceDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
@@ -243,9 +243,9 @@
       const param = buildParam(formData.value)
       submitLoading.value = true
       // formData.value 加工处理 add/edit
-      let fun = resourceApi.addResource
+      let fun = menuApi.addResource
       if (edit.value) {
-        fun = resourceApi.editResource
+        fun = menuApi.editResource
       }
       // add/edit 发送不同请求
       fun(param).then((res) => {

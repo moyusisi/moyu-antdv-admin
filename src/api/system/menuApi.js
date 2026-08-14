@@ -8,9 +8,9 @@ export default {
 	resourceList(data) {
 		return service.postJson('/api/sys/resource/list', data)
 	},
-	// 查询模块列表(resourceType=1)
+	// 查询模块列表(menuType=1)
 	moduleList(data) {
-		return service.postJson('/api/sys/resource/list', { "resourceType": 1 })
+		return service.postJson('/api/sys/resource/list', { "menuType": 1 })
 	},
 	// 分页查询资源列表(模块、按钮列表)
 	resourcePage(data) {

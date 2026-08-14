@@ -143,7 +143,7 @@
   </a-drawer>
 </template>
 <script setup>
-  import resourceApi from '@/api/system/resourceApi.js'
+  import menuApi from '@/api/system/menuApi.js'
 
   import { useSettingsStore } from "@/store"
   import MenuTreeSelect from "@/views/system/components/menuTreeSelect.vue";
@@ -187,7 +187,7 @@
     dataLoading.value = true
     // 组装请求参数
     let param = { id: row.id, code: row.code }
-    resourceApi.resourceDetail(param).then((res) => {
+    menuApi.resourceDetail(param).then((res) => {
       formData.value = res.data
     }).finally(() => {
       dataLoading.value = false
