@@ -22,8 +22,8 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="id" label="主键ID" tooltip="" >
-                <span><a>{{ formData.id }}</a></span>
+              <a-form-item name="code" label="唯一标识" tooltip="">
+                <span><a>{{ formData.code }}</a></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
@@ -32,23 +32,23 @@
               </a-form-item>
             </a-col>
             <a-col :span="8">
-              <a-form-item name="code" label="唯一标识" tooltip="">
-                <span><a>{{ formData.code }}</a></span>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
               <a-form-item name="requestMethod" label="请求方式" tooltip="">
                 <a-tag :bordered="false" color="blue">{{ formData.requestMethod }}</a-tag>
-              </a-form-item>
-            </a-col>
-            <a-col :span="8">
-              <a-form-item name="remark" label="备注" tooltip="">
-                <span>{{ formData.remark }}</span>
               </a-form-item>
             </a-col>
             <a-col :span="24">
               <a-form-item name="url" label="接口URL" tooltip="" :label-col="{span: 2}">
                 <a-tag :bordered="false">{{ formData.url }}</a-tag>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="extJson" label="扩展信息" tooltip="" >
+                <span>{{ formData.extJson }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="remark" label="备注" tooltip="">
+                <span>{{ formData.remark }}</span>
               </a-form-item>
             </a-col>
           </a-row>

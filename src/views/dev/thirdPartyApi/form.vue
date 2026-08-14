@@ -45,6 +45,11 @@
               </a-form-item>
             </a-col>
             <a-col :span="12">
+              <a-form-item name="extJson" label="扩展信息" tooltip="" >
+                <a-textarea v-model:value="formData.extJson" placeholder="扩展信息" allowClear />
+              </a-form-item>
+            </a-col>
+            <a-col :span="12">
               <a-form-item name="remark" label="备注" tooltip="" >
                 <a-textarea v-model:value="formData.remark" placeholder="备注" allowClear />
               </a-form-item>

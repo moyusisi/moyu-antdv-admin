@@ -41,6 +41,16 @@
                 <a-tag :bordered="false">{{ formData.url }}</a-tag>
               </a-form-item>
             </a-col>
+            <a-col :span="8">
+              <a-form-item name="extJson" label="扩展信息" tooltip="" >
+                <span>{{ formData.extJson }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="remark" label="备注" tooltip="">
+                <span>{{ formData.remark }}</span>
+              </a-form-item>
+            </a-col>
           </a-row>
         </a-card>
         <a-card>
@@ -84,6 +94,33 @@
             <a-col :span="24">
               <a-form-item name="responseBody" label="响应结果" tooltip="" :label-col="{span: 3}" >
                 <highlightjs v-if="formData.responseBody" autodetect :code="formData.responseBody" />
+              </a-form-item>
+            </a-col>
+          </a-row>
+        </a-card>
+        <a-card>
+          <template #title>
+            <span><RightSquareFilled style="color: dodgerblue;"/> 其他信息</span>
+          </template>
+          <a-row :gutter="24">
+            <a-col :span="8">
+              <a-form-item name="createBy" label="创建人" tooltip="" >
+                <span>{{ formData.createBy }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="createTime" label="创建时间" tooltip="" >
+                <span>{{ formData.createTime }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateBy" label="更新人" tooltip="" >
+                <span>{{ formData.updateBy }}</span>
+              </a-form-item>
+            </a-col>
+            <a-col :span="8">
+              <a-form-item name="updateTime" label="更新时间" tooltip="" >
+                <span>{{ formData.updateTime }}</span>
               </a-form-item>
             </a-col>
           </a-row>
