@@ -143,7 +143,7 @@
     columns: [
       { type: 'checkbox', width: 50 },
       { type: 'seq', width: 50 },
-      { field: 'appKey', title: '应用标识', width: 150, titleSuffix:{ content: "唯一标识" }, slots: { default: 'appKey' } },
+      { field: 'appKey', title: '应用标识', width: 150, slots: { default: 'appKey' } },
       { field: 'appName', title: '应用名称', width: 150 },
       { field: 'digestAlgo', title: '签名算法', width: 150, slots: { default: 'digestAlgo' } },
       { field: 'remark', title: '备注' },
