@@ -4,8 +4,8 @@
     <a-form ref="queryFormRef" :model="queryFormData">
       <a-row :gutter="24">
         <a-col :span="6">
-          <a-form-item name="appKey" label="应用标识">
-            <a-input v-model:value="queryFormData.appKey" placeholder="搜索应用标识" allowClear />
+          <a-form-item name="appCode" label="应用标识">
+            <a-input v-model:value="queryFormData.appCode" placeholder="搜索应用标识" allowClear />
           </a-form-item>
         </a-col>
         <a-col :span="6">
@@ -40,8 +40,8 @@
         </a-space>
       </template>
       <!-- 字段插槽 -->
-      <template #appKey="{row, rowIndex, column, columnIndex}">
-        <a @click="openDetail(row)">{{ row.appKey }}</a>
+      <template #appCode="{row, rowIndex, column, columnIndex}">
+        <a @click="openDetail(row)">{{ row.appCode }}</a>
       </template>
       <template #digestAlgo="{row, rowIndex, column, columnIndex}">
         <a-tag color="blue">{{ row.digestAlgo }}</a-tag>
@@ -143,7 +143,7 @@
     columns: [
       { type: 'checkbox', width: 50 },
       { type: 'seq', width: 50 },
-      { field: 'appKey', title: '应用标识', width: 150, slots: { default: 'appKey' } },
+      { field: 'appCode', title: '应用标识', width: 150, slots: { default: 'appCode' } },
       { field: 'appName', title: '应用名称', width: 150 },
       { field: 'digestAlgo', title: '签名算法', width: 150, slots: { default: 'digestAlgo' } },
       { field: 'remark', title: '备注' },

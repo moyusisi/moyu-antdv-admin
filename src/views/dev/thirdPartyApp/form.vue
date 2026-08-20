@@ -22,8 +22,8 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="12">
-              <a-form-item name="appKey" label="应用标识" tooltip="" required>
-                <a-input v-model:value="formData.appKey" placeholder="应用标识" allowClear />
+              <a-form-item name="appCode" label="应用标识" tooltip="" required>
+                <a-input v-model:value="formData.appCode" placeholder="应用标识" allowClear />
               </a-form-item>
             </a-col>
             <a-col :span="12">

@@ -22,8 +22,8 @@
           </template>
           <a-row :gutter="24">
             <a-col :span="8">
-              <a-form-item name="appKey" label="应用标识" tooltip="">
-                <span><a>{{ formData.appKey }}</a></span>
+              <a-form-item name="appCode" label="应用标识" tooltip="">
+                <span><a>{{ formData.appCode }}</a></span>
               </a-form-item>
             </a-col>
             <a-col :span="8">
