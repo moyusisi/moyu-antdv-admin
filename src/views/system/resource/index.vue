@@ -201,7 +201,7 @@
       { field: 'permission', title: '权限标识', width: 150, sortable: true, slots: { default: 'permission' } },
       { field: 'visible', title: '是否可见', width: 100, sortable: true, slots: { default: 'visible' } },
       { field: 'remark', title: '备注', minWidth: 150 },
-      { field: 'updateTime', title: '修改时间', width: 170, sortable: true, },
+      { field: 'updateTime', title: '更新时间', width: 170, sortable: true, },
       // { field: 'updateBy', title: '修改人', width: 150 },
       // { field: 'action', title: '操作', width: 100, slots: { default: 'action' } },
     ],
