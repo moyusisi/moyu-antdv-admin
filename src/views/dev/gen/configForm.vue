@@ -232,12 +232,6 @@ const columns = [
     width: 50
   },
   {
-    title: '省略提示',
-    align: 'center',
-    dataIndex: 'ellipsis',
-    width: 50
-  },
-  {
     title: '表单填写',
     align: 'center',
     dataIndex: 'showInForm',
