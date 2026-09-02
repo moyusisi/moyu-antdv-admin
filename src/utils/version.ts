@@ -38,3 +38,17 @@ export const getOnlineVersion = () => {
 			})
 	})
 }
+
+// 新版检测更新
+export const versionUpdate = async () => {
+	// 本地
+	let localVersion = getLocalVersion()
+	// 线上
+	let onlineVersion = await getOnlineVersion()
+	// 如果有新版本且不一样，提示更新
+	if (onlineVersion && localVersion !== onlineVersion) {
+		console.log("资源加载失败，检测到新版本，正在重新加载...")
+		// @ts-ignore 强制不走缓存刷新，H5标准中已废弃 true 参数
+		location.reload(true)
+	}
+}
