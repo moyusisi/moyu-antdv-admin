@@ -56,7 +56,7 @@
             <a-divider type="vertical" />
           </template>
           <a-tooltip title="菜单透视">
-            <a @click="showMenuTree(row)"><EyeOutlined /></a>
+            <a @click="showMenuTree(row)"><SearchOutlined /></a>
           </a-tooltip>
           <a-tooltip title="岗位角色">
             <a style="color:#1980FF;" @click="groupRoleRef.onOpen(row)"><DeploymentUnitOutlined /></a>

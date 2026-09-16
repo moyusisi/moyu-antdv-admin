@@ -58,7 +58,7 @@
               <template v-if="column.dataIndex === 'action'">
                 <a-space>
                   <a-tooltip title="菜单透视">
-                    <a @click="showMenuTree(record)"><EyeOutlined /></a>
+                    <a @click="showMenuTree(record)"><SearchOutlined /></a>
                   </a-tooltip>
                 </a-space>
               </template>
