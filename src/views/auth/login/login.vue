@@ -17,7 +17,7 @@
 					</div>
 					<a-tabs v-model:activeKey="activeKey">
 						<a-tab-pane key="userAccount" tab="账号密码">
-							<a-form ref="loginForm" :model="formData">
+							<a-form ref="loginForm" :model="formData" :rules="rules">
 								<a-form-item name="account">
 									<a-input v-model:value="formData.account" placeholder="请输入账号" size="large" @keyup.enter="login">
 										<template #prefix>
@@ -60,6 +60,7 @@
 </template>
 <script setup>
   import loginApi from '@/api/auth/loginApi.js'
+  import { required } from "@/utils/formRules.js"
 
 	import settings from '@/config/settings'
   import { useUserStore } from "@/store"
@@ -84,6 +85,12 @@
 
 	//登陆
 	const loginForm = ref()
+
+  const rules = reactive({
+    account: [required("登陆账号不能为空", 'blur')],
+    password: [required("密码不能为空", 'blur')],
+    captchaCode: [required("验证码不能为空", 'blur')]
+  })
   const login = async () => {
     loginForm.value.validate().then(async () => {
       loading.value = true
