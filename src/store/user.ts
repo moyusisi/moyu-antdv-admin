@@ -10,9 +10,9 @@ export const useUserStore = defineStore('userStore', () => {
 
   // 定义action
   // 登录
-  const login = async ({ account, password }) => {
+  const login = async ({ account, password, captchaId, captchaCode }) => {
     // 获取token
-    const res = await loginApi.login({ account, password })
+    const res = await loginApi.login({ account, password, captchaId, captchaCode })
     if (!res.data) {
       // 这等价于 Promise.reject(new Error("Rejected value"))
       throw new Error("登录失败");
