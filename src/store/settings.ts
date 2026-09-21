@@ -21,15 +21,10 @@ export const useSettingsStore = defineStore('settings', () => {
 	const watermarkEnabled = useStorage("watermarkEnabled", config.watermarkEnabled);
 	// 主题 light|dark
 	const theme = useStorage("theme", config.theme);
-	// 主题颜色
-	const themeColor = useStorage("themeColor", config.themeColor);
 
 	// actions
 	const setTheme = (value) => {
 		theme.value = value
-	}
-	const setThemeColor = (value) => {
-		themeColor.value = value
 	}
 
 	// 值为bool类型的配置组成的开关map
@@ -60,9 +55,7 @@ export const useSettingsStore = defineStore('settings', () => {
 		tagsView,
 		watermarkEnabled,
 		theme,
-		themeColor,
 		setTheme,
-		setThemeColor,
 		toggleConfig
 	};
 });
