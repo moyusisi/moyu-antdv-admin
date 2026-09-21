@@ -26,7 +26,7 @@ export const useMenuStore = defineStore('menuStore', () => {
   const moduleList = useStorage("MENU", []);
   // 当前使用的module
   // 侧边栏菜单是否排他展开
-  const module = useStorage("MODULE_ID", "");
+  const moduleId = useStorage("MODULE_ID", "");
   // 当前module的菜单(即module的子节点)
   const menuList = ref([])
 
@@ -60,12 +60,12 @@ export const useMenuStore = defineStore('menuStore', () => {
    * 初始化module对应的菜单menuList
    */
   function initMenuList() {
-    if (!module.value) {
+    if (!moduleId.value) {
       // @ts-ignore
-      module.value = moduleList.value[0]?.code
+      moduleId.value = moduleList.value[0]?.code
     }
     // @ts-ignore
-    const moduleItem = moduleList.value.find((item) => item.code === module.value)
+    const moduleItem = moduleList.value.find((item) => item.code === moduleId.value)
     // @ts-ignore
     menuList.value = moduleItem ? moduleItem.children : []
   }
@@ -74,7 +74,7 @@ export const useMenuStore = defineStore('menuStore', () => {
    * 清空菜单及路由数据
    */
   const switchModule = (moduleCode: string) => {
-    if (module.value === moduleCode) {
+    if (moduleId.value === moduleCode) {
       console.log("module未发生变化...")
       return
     }
@@ -85,7 +85,7 @@ export const useMenuStore = defineStore('menuStore', () => {
       return
     }
     // module赋值
-    module.value = moduleCode
+    moduleId.value = moduleCode
     // 加载module的菜单
     initMenuList()
   }
@@ -233,7 +233,7 @@ export const useMenuStore = defineStore('menuStore', () => {
     routes,
     dynamicRouter,
     moduleList,
-    module,
+    moduleId,
     menuList,
     clear,
     switchModule,
