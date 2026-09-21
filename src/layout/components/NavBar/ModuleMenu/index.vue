@@ -9,7 +9,7 @@
             :key="item.code"
             class="module-menu-item"
             @click="switchModule(item.code)"
-            :class="{ 'ant-menu-item-select': item.code === module }"
+            :class="{ 'ant-menu-item-select': item.code === moduleId }"
         >
           <template #icon>
             <component :is="item.meta.icon" />
@@ -28,7 +28,7 @@
                 :key="item.code"
                 class="module-menu-item"
                 @click="switchModule(item.code)"
-                :class="{ 'ant-menu-item-select': item.code === module }"
+                :class="{ 'ant-menu-item-select': item.code === moduleId }"
             >
               <template #icon>
                 <component :is="item.meta.icon" />
@@ -57,20 +57,20 @@
   const router = useRouter()
 
   // 缓存页面集合, 直接解构store中的同名字段
-  const { moduleList, module } = toRefs(menuStore);
+  const { moduleList, moduleId } = toRefs(menuStore);
   // module菜单是否打开
   const moduleOpen = computed(() => {
     return settingsStore.moduleOpen
   })
   // 选中的module
   const selectedKeys = computed(() => {
-    return [module.value]
+    return [moduleId.value]
   })
 
   // 切换模块
   const switchModule = (code) => {
     // 未变化不切换
-    if (module.value === code) {
+    if (moduleId.value === code) {
       return
     }
     // 路由到模块首页
