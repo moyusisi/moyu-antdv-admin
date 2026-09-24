@@ -63,11 +63,12 @@
   import { required } from "@/utils/formRules.js"
 
 	import settings from '@/config/settings'
-  import { useUserStore } from "@/store"
+  import { useUserStore, useMenuStore } from "@/store"
   import { useRoute, useRouter } from 'vue-router'
   import { message } from "ant-design-vue"
 
   const userStore = useUserStore()
+  const menuStore = useMenuStore()
   const route = useRoute()
   const router = useRouter()
 
@@ -106,6 +107,8 @@
         await userStore.login(loginData)
         // 初始化用户信息
         await userStore.initUserInfo()
+        // 重新加载路由
+        await menuStore.reloadRoutes()
         message.success('登录成功')
         const redirectPath = (route.query.redirect) || "/"
         await router.push(redirectPath)
